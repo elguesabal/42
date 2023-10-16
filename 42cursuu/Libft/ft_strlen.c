@@ -12,12 +12,19 @@
 
 #include <stdio.h>
 
-int	ft_strlen()
+size_t	ft_strlen(const char *str)
 {
+	int	i;
+	
+	while (str[i])
+	{
+		i++;
+	}
+	return (i);
 }
 
 int	main(void)
 {
-	ft_strlen();
+	printf("teste: %ld", ft_strlen("teste"));
 	return (0);
 }
