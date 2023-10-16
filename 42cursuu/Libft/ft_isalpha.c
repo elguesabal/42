@@ -1,22 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_point.h                                         :+:      :+:    :+:   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joseanto <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/10 17:06:07 by joseanto          #+#    #+#             */
-/*   Updated: 2023/10/10 18:50:10 by joseanto         ###   ########.fr       */
+/*   Created: 2023/10/16 11:12:11 by joseanto          #+#    #+#             */
+/*   Updated: 2023/10/16 11:25:00 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_POINT_H
-# define FT_POINT_H
+#include <stdio.h>
 
-typedef struct s_point
+int	ft_isalpha(int c)
 {
-	int	x;
-	int	y;
-}t_point;
+	// if ((c > 64 && c < 91) || (c > 96 && c < 123))
+	// {
+	//	return (1);
+	// }
+	// return (0);
+	return ((c > 64 && c < 91) || (c > 96 && c < 123));
+}
 
-#endif // FT_POINT.H
+int	main(void)
+{
+	printf("'&': %d\n", ft_isalpha('&'));
+	printf("'A': %d", ft_isalpha('A'));
+	printf("\n'a': %d", ft_isalpha('a'));
+	return (0);
+}
