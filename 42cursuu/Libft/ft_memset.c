@@ -14,8 +14,9 @@
 
 void	*ft_memset(void *str, int c, size_t size)
 {
-	unsigned char	*strP = str;
-
+	unsigned char	*strP;
+	
+	strP = str;	// REVISAR ESSA POHA
 	while (size--)
 	{
 		*strP++ = (unsigned char)c;
