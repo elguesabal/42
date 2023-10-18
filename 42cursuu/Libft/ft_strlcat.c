@@ -1,32 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joseanto <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/18 10:10:02 by joseanto          #+#    #+#             */
-/*   Updated: 2023/10/18 10:10:04 by joseanto         ###   ########.fr       */
+/*   Created: 2023/10/18 15:21:29 by joseanto          #+#    #+#             */
+/*   Updated: 2023/10/18 15:21:32 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 
-void	*ft_memset(void *str, int c, size_t size)
+size_t	ft_strlcat(char *dest, const char *src, size_t size)
 {
-	unsigned char	*strP = str;
+	size_t	i, j;
 
-	while (size--)
+	i = 0;
+	while (dest[i] && i < size)
 	{
-		*strP++ = (unsigned char)c;
+		i++;
 	}
+	j = 0;
+	while (src[j])
+	{
+		if (i < size - 1)
+		{
+			dest[i] = src[j];
+			i++;
+		}
+		j++;
+	}
+	dest[i + 1] = '\0';
+	return (i);
 }
 
 int	main(void)
 {
-	char	str[10];
+	char	str1[20] = "testando ", str2[] = "o codigo";
 
-	ft_memset(str, '*', 10);
-	printf("str: %s", str);
+	printf("Tamanho da nova string: %ld\nstr1: %s", ft_strlcat(str1, str2, sizeof(str1)), str1);
 	return (0);
 }

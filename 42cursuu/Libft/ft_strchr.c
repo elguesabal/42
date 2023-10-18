@@ -1,32 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joseanto <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/18 10:10:02 by joseanto          #+#    #+#             */
-/*   Updated: 2023/10/18 10:10:04 by joseanto         ###   ########.fr       */
+/*   Created: 2023/10/18 18:23:24 by joseanto          #+#    #+#             */
+/*   Updated: 2023/10/18 18:23:25 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 
-void	*ft_memset(void *str, int c, size_t size)
+char	*ft_strchr(const char *str, int c)
 {
-	unsigned char	*strP = str;
+	int	i;
 
-	while (size--)
+	i = 0;
+	while (str[i])
 	{
-		*strP++ = (unsigned char)c;
+		if (str[i] == c)
+		{
+//printf("%c", str[i]);
+			return ((char *)c);
+		}
+		i++;
 	}
+	return (NULL);
 }
 
 int	main(void)
 {
-	char	str[10];
-
-	ft_memset(str, '*', 10);
-	printf("str: %s", str);
+	char	str[] = "teste", c = 's';
+ft_strchr(str, c);
+	// printf("return: %c", ft_strchr(str, c));
 	return (0);
 }

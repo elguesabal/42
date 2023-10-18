@@ -1,32 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joseanto <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/18 10:10:02 by joseanto          #+#    #+#             */
-/*   Updated: 2023/10/18 10:10:04 by joseanto         ###   ########.fr       */
+/*   Created: 2023/10/18 13:02:34 by joseanto          #+#    #+#             */
+/*   Updated: 2023/10/18 13:02:36 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 
-void	*ft_memset(void *str, int c, size_t size)
+size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 {
-	unsigned char	*strP = str;
+	int	i;
 
-	while (size--)
+	i = 0;
+	while (src[i])
 	{
-		*strP++ = (unsigned char)c;
+		if (i < size)
+		{
+			dest[i] = src[i];
+		}
+		i++;
 	}
+	dest[size] = src[size];
+	return (i);
 }
 
 int	main(void)
 {
-	char	str[10];
-
-	ft_memset(str, '*', 10);
-	printf("str: %s", str);
+	char	str1[20] = "testando o codigo", str2[20];
+	
+	printf("Tamanho de str1: %ld\nstr2: %s", ft_strlcpy(str2, str1, 200), str2);
 	return (0);
 }
