@@ -18,7 +18,6 @@ int	ft_atoi(const char *str)
 
 	result = 0;
 	sign = 1;
-
 	while (*str == 32)
 	{
 		str++;

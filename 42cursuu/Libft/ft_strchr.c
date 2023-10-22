@@ -35,7 +35,7 @@ char	*ft_strchr(const char *str, int c)
 		}
 		str++;
 	}
-	if (c == '\0')
+	if (!c)
 	{
 		return ((char *)str);
 	}
@@ -45,22 +45,23 @@ char	*ft_strchr(const char *str, int c)
 int	main(void)
 {
 	char	str[] = "teste", c = 's';
-	// printf("return: %s\n\n", ft_strchr(str, c));
-
-
-
-	// CODIGO PARA RETORNAR O ENDERECO DE MEMORIA DA PRIMEIRA OCORRENIA
-	char ch = 's', string[] = "teste";
-	char *pdest;
-	int result;
 	
-	pdest = ft_strchr(string, ch );
-   	result = (int)(pdest - string + 1);
-   	if ( pdest != NULL )
-      		printf( "Result:   first %c found at position %d\n", ch, result );
-   	else
-      		printf( "Result:   %c not found\n", ch );
-      	// CODIGO PARA RETORNAR O ENDERECO DE MEMORIA DA PRIMEIRA OCORRENIA
+	printf("return: %s\n\n", ft_strchr(str, c));
+
+
+
+	// // CODIGO PARA RETORNAR O ENDERECO DE MEMORIA DA PRIMEIRA OCORRENIA
+	// char ch = 's', string[] = "teste";
+	// char *pdest;
+	// int result;
+	
+	// pdest = ft_strchr(string, ch );
+   	// result = (int)(pdest - string + 1);
+   	// if ( pdest != NULL )
+    //   		printf( "Result:   first %c found at position %d\n", ch, result );
+   	// else
+    //   		printf( "Result:   %c not found\n", ch );
+    // // CODIGO PARA RETORNAR O ENDERECO DE MEMORIA DA PRIMEIRA OCORRENIA
 	
 	
 	return (0);
