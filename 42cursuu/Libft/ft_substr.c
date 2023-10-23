@@ -14,20 +14,16 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		i = 0;
 		while (start < len)
 		{
-			*str++ = s[start];
-			i++;
+			*(str + i++) = s[start];
 			start++;
 		}
 		str[i] = '\0';
-		}
+	}
 	return (str);
 }
 
 int	main(void)
 {
-	char *str;
-
-	str = ft_substr("teste", 2, 5);
-	printf("\nstr: %s", str);
+	printf("\nreturn: %s", ft_substr("teste", 2, 5));
 	return (0);
 }

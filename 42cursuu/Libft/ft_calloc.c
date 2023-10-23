@@ -30,6 +30,11 @@ int	main(void)
 	int	*n;
 
 	n = ft_calloc(1, sizeof(int));
+n[0] = 1;
+n[1] = 0;
+n[2] = 0;
+n[3] = 0;
+
 	printf("n: %d", *n);
 	return (0);
 }

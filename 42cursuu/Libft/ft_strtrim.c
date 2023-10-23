@@ -34,8 +34,8 @@ char	*ft_strtrim(char const *s1, char const *set)
 		}
 		while (i);
 	}
-	return (str);
-}	// TERMINAR ESSA POHA AKI // ACHO Q TERMINEI MAS TEM Q CONFIRMAR PQ EU TO COM SONO
+	return (str);	// TERMINAR ESSA POHA AKI // ACHO Q TERMINEI MAS TEM Q CONFIRMAR PQ EU TO COM SONO
+}
 
 int	main(void)
 {
