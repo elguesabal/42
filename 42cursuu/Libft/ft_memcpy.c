@@ -10,29 +10,34 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+// #include <stdio.h>
+#include <stddef.h>
 
+// A função `memcpy()` em C é usada para copiar um bloco de memória de uma
+// origem para um destino. Ela copia um número específico de bytes da área de
+// memória de origem para a área de memória de destino, permitindo a cópia
+// eficiente de dados entre diferentes variáveis ou estruturas de dados.
 void	*ft_memcpy(void *dest, const void *src, size_t size)
 {
-	unsigned char	*destP;
-	unsigned const char	*srcP;
+	unsigned char		*dest_p;
+	unsigned const char	*src_p;
 
-	destP = dest;
-	srcP = src;
+	dest_p = dest;
+	src_p = src;
 	while (size--)
 	{
-		*destP++ = *srcP++;
+		*dest_p++ = *src_p++;
 	}
 }
 
-int	main(void)
-{
-	char	str1[50] = "testando o codigo", str2[50];
+// int	main(void)
+// {
+// 	char	str1[50] = "testando o codigo", str2[50];
 
-	ft_memcpy(str2, str1, 8);
-	printf("str2: %s", str2);
+// 	ft_memcpy(str2, str1, 8);
+// 	printf("str2: %s", str2);
 
-	// ft_memcpy(str1, str1 + 11, 6);
-	// printf("str1: %s", str1);
-	return (0);
-}
+// 	// ft_memcpy(str1, str1 + 11, 6);
+// 	// printf("str1: %s", str1);
+// 	return (0);
+// }

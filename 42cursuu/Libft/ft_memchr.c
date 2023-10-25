@@ -10,29 +10,33 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+// #include <stdio.h>
+#include <stddef.h>
 
+// A função `memchr()` em C é usada para encontrar a primeira ocorrência de um
+// byte específico em uma área de memória. Ela retorna um ponteiro para o
+// primeiro byte correspondente encontrado ou NULL se o byte não for encontrado.
 void	*ft_memchr(const void *ptr, int c, size_t n)
 {
-	const unsigned char *charPtr;
-	unsigned char charC;
+	const unsigned char	*char_ptr;
+	unsigned char		char_c;
 
-	charPtr = ptr;
-	charC = (unsigned char)c;
+	char_ptr = ptr;
+	char_c = (unsigned char)c;
 	while (n)
 	{
-		if (*charPtr == charC)
+		if (*char_ptr == char_c)
 		{
-			return ((void*)charPtr);
+			return ((void *)char_ptr);
 		}
-		charPtr++;
+		char_ptr++;
 		n--;
 	}
 	return (NULL);
 }
 
-int	main(void)
-{
-	printf("return: %s", (char *)ft_memchr("testando", 97, 8));
-	return (0);
-}
+// int	main(void)
+// {
+// 	printf("return: %s", (char *)ft_memchr("testando", 97, 8));
+// 	return (0);
+// }

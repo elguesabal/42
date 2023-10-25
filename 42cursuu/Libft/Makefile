@@ -1,12 +1,13 @@
 
 all:
-	cc -c -Wall -Wextra -Werror ./*.c
+	cc -c ./*.c
+## -Wall -Wextra -Werror ADICIONAR AS FLAGS AO CC
 	ar rc libft.a ./*.o
-	rm ./*.o
-## all NAO REMOVE O S .O
 
 clean:
+	rm ./*.o
 
-fclean:
+fclean:	clean
+	rm ./libft.a
 
-re:
+re:	fclean all

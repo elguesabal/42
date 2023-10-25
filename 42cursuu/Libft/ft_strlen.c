@@ -10,8 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+// #include <stdio.h>
+#include <stddef.h>
 
+// A função `strlen()` em C é usada para calcular o comprimento de uma string,
+// ou seja, o número de caracteres na string, excluindo o caractere nulo `\0`
+// de terminação.
 size_t	ft_strlen(const char *str)
 {
 	int	i;
@@ -24,8 +28,8 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
-int	main(void)
-{
-	printf("teste: %ld", ft_strlen("teste"));
-	return (0);
-}
+// int	main(void)
+// {
+// 	printf("teste: %ld", ft_strlen("teste"));
+// 	return (0);
+// }

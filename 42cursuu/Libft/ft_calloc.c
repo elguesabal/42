@@ -1,8 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joseanto <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/25 11:54:25 by joseanto          #+#    #+#             */
+/*   Updated: 2023/10/25 11:54:27 by joseanto         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-
-#include <stdio.h>
+// #include <stdio.h>
 #include <stdlib.h>
 
+// A função `calloc()` em C é usada para alocar e inicializar uma área contígua de memória para um número específico de elementos, inicializando todos os bytes com zero. É útil para alocar memória para arrays ou estruturas de dados em tempo de execução.
 void	*ft_calloc(size_t n_elements, size_t size)
 {
 	unsigned char	*ptr;
@@ -12,29 +23,21 @@ void	*ft_calloc(size_t n_elements, size_t size)
 	if (ptr)
 	{
 		i = 0;
-		while (i < n_elements * size) // PQ I VAI ATE n_elements * size E NAO ATE n_elements?
+		while (i < n_elements * size)
 		{
 			ptr[i] = 0;
 			i++;
 		}
-		// ptr[0] = 1;
-		// ptr[1] = 0;
-		// ptr[2] = 0;
-		// ptr[3] = 0;
 	}
 	return (ptr);
 }
 
-int	main(void)
-{
-	int	*n;
+// int	main(void)
+// {
+// 	int	*n;
 
-	n = ft_calloc(1, sizeof(int));
-n[0] = 1;
-n[1] = 0;
-n[2] = 0;
-n[3] = 0;
-
-	printf("n: %d", *n);
-	return (0);
-}
+// 	n = ft_calloc(1, sizeof(int));
+// 	printf("n: %d", *n);
+// 	free(n);
+// 	return (0);
+// }

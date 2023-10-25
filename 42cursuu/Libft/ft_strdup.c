@@ -1,35 +1,52 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joseanto <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/25 12:15:16 by joseanto          #+#    #+#             */
+/*   Updated: 2023/10/25 12:15:18 by joseanto         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-
-#include <stdio.h>
+// #include <stdio.h>
 #include <stdlib.h>
 
-char    *strdup(const char *str)
+// A função `strdup()` em C cria uma cópia dinamicamente alocada de uma string,
+// incluindo o caractere nulo de terminação. Ela aloca memória suficiente para
+// a nova string e copia o conteúdo da string original para a nova área
+// de memória. É responsabilidade do programador liberar essa memória usando
+//a função `free()` quando não for mais necessária.
+char	*ft_strdup(const char *str)
 {
-    char    *str2;
-	int	i;
+	char	*str2;
+	int		i;
 
 	i = 0;
 	while (str[i])
 	{
 		i++;
 	}
-    str2 = malloc(i * sizeof(char *));
+	str2 = malloc(i * sizeof(char *));
 	if (str2)
 	{
 		str2[i] = '\0';
-		do {	// NORMINETTE ACEITA DO WHILE??
+		while (i)
+		{
 			i--;
 			str2[i] = str[i];
-		} while (i);
+		}
 	}
-    return (str2);
+	return (str2);
 }
 
-int main(void)
-{
-    char    *str;
+// int	main(void)
+// {
+// 	char	*str;
 
-    str = strdup("teste");
-    printf("str: %s", str);
-    return (0);
-}
+// 	str = ft_strdup("teste");
+// 	printf("str: %s", str);
+// 	free(str);
+// 	return (0);
+// }

@@ -1,50 +1,66 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joseanto <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/25 18:20:40 by joseanto          #+#    #+#             */
+/*   Updated: 2023/10/25 18:20:42 by joseanto         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-
-#include <stdio.h>
+// #include <stdio.h>
 #include <stdlib.h>
 
-char	*ft_itoa(int n)
+static int	size_n(int n, int i)
 {
-	int	i, copy1, copy2, num;
-	char	*str, sign;
-
-	sign = 0;
-	i = 0;
-	if (n < 0)
-	{
-		sign = 1;
-		n *= -1;
-		i++;
-	}
-	copy1 = n;
-	copy2 = n;
 	while (n)
 	{
 		n = n / 10;
 		i++;
 	}
+	return (i);
+}
+
+static void	ft_sign(int *sign, int *n, int *i)
+{
+	*sign = 1;
+	*n *= -1;
+	++*i;
+}
+
+char	*ft_itoa(int n)
+{
+	int		sign;
+	int		i;
+	int		copy;
+	char	*str;
+
+	sign = 0;
+	i = 0;
+	if (n < 0)
+		ft_sign(&sign, &n, &i);
+	copy = n;
+	i = size_n(n, i);
 	str = malloc((i + sign + 1) * sizeof(char));
 	if (str)
 	{
 		str[i] = '\0';
-		while (i)
+		while (i--)
 		{
-			i--;
-			copy1 = copy1 / 10;
-			num = copy2 - copy1 * 10;
-			copy2 = copy2 / 10;
-			str[i] = 48 + num;
+			n = n / 10;
+			str[i] = 48 + copy - n * 10;
+			copy = copy / 10;
 		}
 		if (str[0] == '0')
-		{
 			str[0] = '-';
-		}
 	}
 	return (str);
 }
 
-int	main(void)
-{
-	printf("return: %s", ft_itoa(-52304));
-	return (0);
-}
+// int	main(void)
+// {
+// 	printf("return: %s", ft_itoa(-52304));
+// 	return (0);
+// }

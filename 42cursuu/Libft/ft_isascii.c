@@ -10,21 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+// #include <stdio.h>
 
+// A função isascii() em C verifica se um caractere está dentro do conjunto
+// ASCII (códigos de 0 a 127) e retorna verdadeiro (diferente de zero) se
+// estiver, e falso (zero) caso contrário.
 int	ft_isascii(int c)
 {
-	// if (c >= 0 && c <= 127)
-	// {
-	//	return (1);
-	// }
-	//return (0);
 	return (c >= 0 && c <= 127);
 }
 
-int	main(void)
-{
-	printf("'a': %d", ft_isascii('a'));
-	// printf("\n'': %d", ft_isascii(''));
-	return (0);
-}
+// int	main(void)
+// {
+// 	printf("'a': %d", ft_isascii('a'));
+// 	// printf("\n'': %d", ft_isascii(''));
+// 	return (0);
+// }

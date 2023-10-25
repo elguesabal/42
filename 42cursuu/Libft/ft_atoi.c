@@ -10,8 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+// #include <stdio.h>
 
+// A função `atoi()` em C converte uma string que representa um número inteiro em um valor inteiro correspondente. Ela retorna o valor inteiro representado pela string, ou zero se a string não puder ser convertida em um inteiro válido.
 int	ft_atoi(const char *str)
 {
 	int sign, result;
@@ -35,8 +36,8 @@ int	ft_atoi(const char *str)
 	return (result * sign);
 }
 
-int	main(void)
-{
-	printf("return: %d", ft_atoi("-12345"));
-	return (0);
-}
+// int	main(void)
+// {
+// 	printf("return: %d", ft_atoi("-12345"));
+// 	return (0);
+// }

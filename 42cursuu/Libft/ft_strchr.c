@@ -10,23 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+// #include <stdio.h>
+#include <stddef.h>
 
+// A função `strchr()` em C é usada para encontrar a primeira ocorrência de um
+// caractere em uma string. Ela retorna um ponteiro para a primeira ocorrência
+// do caractere na string ou NULL se o caractere não for encontrado.
 char	*ft_strchr(const char *str, int c)
 {
-	//int	i;
-
-	//i = 0;
-	//while (str[i])
-	//{
-	//	if (str[i] == c)
-	//	{
-	//		return ((char *)str + i);
-	//	}
-	//	i++;
-	//}
-	//return (NULL);
-
 	while (*str)
 	{
 		if (*str == c)
@@ -42,27 +33,22 @@ char	*ft_strchr(const char *str, int c)
 	return (NULL);
 }
 
-int	main(void)
-{
-	char	str[] = "teste", c = 's';
-	
-	printf("return: %s\n\n", ft_strchr(str, c));
+// int	main(void)
+// {
+// 	printf("return: %s", ft_strchr("teste", 's'));
 
+// 	// // CODIGO PARA RETORNAR O ENDERECO DE MEMORIA DA PRIMEIRA OCORRENIA
+// 	// char ch = 's', string[] = "teste";
+// 	// char *pdest;
+// 	// int result;
 
-
-	// // CODIGO PARA RETORNAR O ENDERECO DE MEMORIA DA PRIMEIRA OCORRENIA
-	// char ch = 's', string[] = "teste";
-	// char *pdest;
-	// int result;
-	
-	// pdest = ft_strchr(string, ch );
-   	// result = (int)(pdest - string + 1);
-   	// if ( pdest != NULL )
-    //   		printf( "Result:   first %c found at position %d\n", ch, result );
-   	// else
-    //   		printf( "Result:   %c not found\n", ch );
-    // // CODIGO PARA RETORNAR O ENDERECO DE MEMORIA DA PRIMEIRA OCORRENIA
-	
-	
-	return (0);
-}
+// 	// pdest = ft_strchr(string, ch );
+//    	// result = (int)(pdest - string + 1);
+//    	// if ( pdest != NULL )
+//     //   		printf( "Result:   first %c found at position %d\n",
+//					// ch, result );
+//    	// else
+//     //   		printf( "Result:   %c not found\n", ch );
+//     // // CODIGO PARA RETORNAR O ENDERECO DE MEMORIA DA PRIMEIRA OCORRENIA
+// 	return (0);
+// }
