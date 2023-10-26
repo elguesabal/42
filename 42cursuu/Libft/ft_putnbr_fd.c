@@ -33,12 +33,12 @@ void	ft_putnbr_fd(int n, int fd)
 	}
 }
 
-int	main(void)
-{
-    int fd;
+// int	main(void)
+// {
+// 	int	fd;
 
-    fd = open("texte.txt", O_WRONLY | O_APPEND | O_CREAT, 0744);
-	ft_putnbr_fd(-3245, fd);
-	close(fd);
-    return (0);
-}
+// 	fd = open("texte.txt", O_WRONLY | O_APPEND | O_CREAT, 0744);
+// 	ft_putnbr_fd(-3245, fd);
+// 	close(fd);
+// 	return (0);
+// }

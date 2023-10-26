@@ -10,29 +10,37 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+// #include <stdio.h>
+#include <stddef.h>
 
-// A função `strnstr()` em C procura por uma substring em uma string, com um limite especificado no número de caracteres a serem pesquisados. Ela retorna um ponteiro para a primeira ocorrência da substring na string ou NULL se a substring não for encontrada dentro do limite especificado.
+// A função `strnstr()` em C procura por uma substring em uma string, com um
+// limite especificado no número de caracteres a serem pesquisados. Ela retorna
+// um ponteiro para a primeira ocorrência da substring na string ou NULL se a
+// substring não for encontrada dentro do limite especificado.
 char	*ft_strnstr(const char *str1, const char *str2, size_t n)
 {
 	int	i;
 
-	if (!*str2) {
+	if (!*str2)
+	{
 		return ((char *)str1);
 	}
-    while (*str1 && n > 0) {
-        while (*str2 && str1[i] == str2[i] && n > 0) {
-            str1[i++];
-            str2[i++];
-            n--;
-        }
-        if (!str2[i]) {
-            return ((char *)str1);
-        }
-        str1++;
-        n--;
-    }
-    return (NULL);
+	while (*str1 && n > 0)
+	{
+		while (*str2 && str1[i] == str2[i] && n > 0)
+		{
+			str1[i++];
+			str2[i++];
+			n--;
+		}
+		if (!str2[i])
+		{
+			return ((char *)str1);
+		}
+		str1++;
+		n--;
+	}
+	return (NULL);
 }
 
 // int	main(void)

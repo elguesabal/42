@@ -1,10 +1,11 @@
 
 
-#include <stdio.h>
+// #include <stdio.h>
 #include <stdlib.h>
 
-static char upper(unsigned int i, char c) {	// FUNCAO DE TESTE
-	if (c >= 'a' && c <= 'z') {
+static char upper(unsigned int i, char c) {
+	if (c >= 'a' && c <= 'z')
+	{
 		return c - 32;
 	}
 	return c;
@@ -12,8 +13,8 @@ static char upper(unsigned int i, char c) {	// FUNCAO DE TESTE
 
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	int i;
-	char    *str;
+	int	i;
+	char	*str;
 
 	i = 0;
 	while (s[i])
@@ -33,8 +34,8 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	return (str);
 }
 
-int	main(void)
-{
-	printf("%s", ft_strmapi("teste", upper));
-	return (0);
-}
+// int	main(void)
+// {
+// 	printf("%s", ft_strmapi("teste", upper));
+// 	return (0);
+// }
