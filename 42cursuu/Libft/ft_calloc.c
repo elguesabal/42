@@ -20,7 +20,7 @@
 void	*ft_calloc(size_t n_elements, size_t size)
 {
 	unsigned char	*ptr;
-	int				i;
+	size_t			i;
 
 	ptr = malloc(n_elements * size);
 	if (ptr)

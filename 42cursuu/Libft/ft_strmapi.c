@@ -1,19 +1,30 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joseanto <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/27 09:10:10 by joseanto          #+#    #+#             */
+/*   Updated: 2023/10/27 09:10:11 by joseanto         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 // #include <stdio.h>
 #include <stdlib.h>
 
-static char upper(unsigned int i, char c) {
-	if (c >= 'a' && c <= 'z')
-	{
-		return c - 32;
-	}
-	return c;
-}
+// static char upper(unsigned int i, char c)
+// {
+// 	if (c >= 'a' && c <= 'z')
+// 	{
+// 		return (c - 32);
+// 	}
+// 	return c;
+// }
 
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	int	i;
+	int		i;
 	char	*str;
 
 	i = 0;

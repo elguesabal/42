@@ -10,131 +10,145 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+// #include <stdio.h>
 #include <stdlib.h>
+#include "libft.h"
 
-// CONTA QUANTOS CARACTERES TEM NA STRING
-static size_t	ft_strlen(const char *str)
+static int	amontw(char const *s, char c)
 {
-	int	i;
+	size_t	i;
+	size_t	amont;
 
 	i = 0;
-	while (str[i])
+	amont = 0;
+	while (s[i] != '\0')
 	{
+		if (s[i] == c && s[i + 1] != c)
+			amont++;
 		i++;
 	}
-	return (i);
+	return (amont + 1);
 }
 
-// CONTA QUANTOS CARACTERES SEPARADORES TEM
-static size_t	ft_character(const char *str, const char c)
+static char	**ft_mallsplit(char const *s, char **r, char c)
 {
 	int	i;
+	int	j;
+	int	len;
 
-	i = 0;
-	while (*str)
-	{
-		if (*str == c)
-		{
-			i++;
-		}
-		str++;
-	}
-	return (i);
-}
-
-// CONTA QUANTOS CARACTERES TEM NO INTERVALO DE CADA CARATER
-static int	ft_len_substr(char const *str, char c)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] != c && str[i])
-	{
-		i++;
-	}
-	return (i);
-}
-
-// ABRE ESPACO PARA CADA SUBSTRING SEPARADA
-static char	**ft_mat_malloc(int n_character, char const *s, char c)
-{
-	char	**mat;
-	int	i, j;
-
-	mat = malloc((n_character + 2) * sizeof(char *));
-	mat[n_character + 1] = NULL;
 	i = 0;
 	j = 0;
-	while (n_character >= 0)
+	len = 0;
+	while (s[i] != '\0')
 	{
-		i += ft_len_substr(s, c);
-		mat[n_character] = malloc((i - j) * sizeof(char));
-		j += ft_len_substr(s, c);
-		n_character--;
+		if (s[i] != c)
+			len++;
+		if (s[i] == c || s[i + 1] == '\0')
+		{
+			r[j] = malloc(sizeof(char) * (len + 1));
+			if (!r[j])
+				return (NULL);
+			j++;
+			len = 0;
+			while (s[i + 1] == c && s[i + 1] != '\0')
+				i++;
+		}
+		i++;
 	}
-//	if (mat)	//USEI PRA TESTES TUDO Q TA COMENTADO
-//	{
-//		printf("\n\nta retornando null\n\n");
-//	}
-//	mat[0][0] = 'q';
-//	printf("\n\nta retornando %c\n\n", mat[0][0]);
-	return (mat);
+	r[j] = 0;
+	return (r);
+}
+
+static void	ft_fillsplit(char const *s, char **r, char c)
+{
+	int	i;
+	int	j;
+	int	k;
+
+	i = 0;
+	j = 0;
+	k = 0;
+	while (s[i] != '\0')
+	{
+		if (s[i] != c)
+		{
+			r[j][k] = s[i];
+			k++;
+		}
+		if (s[i] == c || s[i + 1] == '\0')
+		{
+			r[j][k] = '\0';
+			k = 0;
+			j++;
+			while (s[i + 1] == c && s[i + 1] != '\0')
+				i++;
+		}
+		i++;
+	}
+}
+
+static void	ft_freesplit(char *aux, char c, char **r)
+{
+	int	i;
+
+	i = 0;
+	while (i < amontw(aux, c))
+	{
+		free(r[i]);
+		i++;
+	}
+	free(aux);
+	free(r);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	char	**mat;
-	int	s_len, n_character, i, j, bef_len, init_len, next_len;
+	char	**r;
+	char	set[2];
+	char	*aux;
 
-	s_len = ft_strlen(s);// CONTA QUANTOS CARACTERES TEM NA STRING
-	n_character = ft_character(s, c);// CONTA QUANTOS CARACTERES SEPARADORES TEM
-	mat = ft_mat_malloc(n_character, s, c);// ABRE ESPACO PARA CADA SUBSTRING SEPARADA
-
-	bef_len = 0;
-	//init_len = 0;
-	next_len = 0;
-	j = ft_strlen(s) - 1;
-	while (n_character >= 0)
+	if (!s)
+		return (NULL);
+	set[0] = c;
+	set[1] = '\0';
+	aux = ft_strtrim(s, set);
+	if (!aux)
+		return (NULL);
+	r = malloc(sizeof(char *) * (amontw(aux, c) + 1));
+	if (!r)
 	{
-		bef_len += ft_len_substr(s, c);
-//		init_len = bef_len - next_len;
-		i = bef_len - next_len - 1;
-		next_len += ft_len_substr(s, c);
-
-		mat[n_character][i + 1] = '\0';
-		while (i >= 0 && s[j])
-		{
-printf("%d ", j);
-			mat[n_character][i] = s[j];
-//			init_len--;
-			j--;
-			i--;
-		}
-printf("\n");
-		n_character--;
+		free(aux);
+		return (NULL);
 	}
-	return (mat);
+	if (!ft_mallsplit(aux, r, c))
+	{
+		ft_freesplit(aux, c, r);
+		return (NULL);
+	}
+	ft_fillsplit(aux, r, c);
+	free(aux);
+	return (r);
 }
 
-int	main(void) // NAO TERMINEI
-{
-	char	**mat;
-	int	i, j;
+// int	main(void)
+// {
+// 	char	**mat;
+// 	int	i;
+// 	int	j;
 
-	mat = ft_split("micro-onda", '-');	
-	i = 0;
-	while (mat[i])
-	{
-		j = 0;
-		while (mat[i][j])
-		{
-			printf("%c", mat[i][j]);
-			j++;
-		}
-		printf("\n");
-		i++;
-	}
-	free(mat);
-	return (0);
-}
+// 	mat = ft_split("micro-onda", '-');	
+// 	i = 0;
+// 	while (mat[i])
+// 	{
+// 		j = 0;
+// 		while (mat[i][j])
+// 		{
+// 			printf("%c", mat[i][j]);
+// 			j++;
+// 		}
+// 		printf("\n");
+// 		i++;
+// 	}
+// 	free(mat);
+// 	return (0);
+// }

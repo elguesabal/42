@@ -12,36 +12,38 @@
 
 // #include <stdio.h>
 #include <stdlib.h>
+#include <stddef.h>
+
+static size_t	ft_strlen(const char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		i++;
+	}
+	return (i);
+}
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*new_str;
-	int	len1;
-	int	len2;
-	int	i;
+	int		len1;
+	int		len2;
 
-	len1 = 0;
-	len2 = 0;
-	while (s1[len1])
-	{
-		len1++;
-	}
-	while (s2[len2])
-	{
-		len2++;
-	}
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
 	new_str = malloc((len1 + len2 + 1) * sizeof(char *));
 	if (new_str)
 	{
 		new_str[len1 + len2] = '\0';
-		while (len2)
+		while (len2--)
 		{
-			len2--;
 			new_str[len1 + len2] = s2[len2];
 		}
-		while (len1)
+		while (len1--)
 		{
-			len1--;
 			new_str[len1] = s1[len1];
 		}
 	}
@@ -51,5 +53,5 @@ char	*ft_strjoin(char const *s1, char const *s2)
 // int	main(void)
 // {
 // 	printf("return: %s", ft_strjoin("testando", " o codigo"));
-// 	return(0);
+// 	return (0);
 // }

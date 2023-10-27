@@ -18,13 +18,14 @@
 // ser preenchido e o número de bytes a serem preenchidos.
 void	*ft_memset(void *str, int c, size_t size)
 {
-	unsigned char	*str_p;
+	char		*str_p;
 
 	str_p = str;
 	while (size--)
 	{
-		*str_p++ = (unsigned char)c;
+		*str_p++ = (char)c;
 	}
+	return (str);
 }
 
 // int	main(void)

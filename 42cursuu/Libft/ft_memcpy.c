@@ -19,15 +19,21 @@
 // eficiente de dados entre diferentes variáveis ou estruturas de dados.
 void	*ft_memcpy(void *dest, const void *src, size_t size)
 {
-	unsigned char		*dest_p;
-	unsigned const char	*src_p;
+	size_t		i;
+	char		*d;
+	char		*s;
 
-	dest_p = dest;
-	src_p = src;
-	while (size--)
+	if (!dest && !src)
+		return (NULL);
+	i = 0;
+	d = (char *)dest;
+	s = (char *)src;
+	while (i < size)
 	{
-		*dest_p++ = *src_p++;
+		d[i] = s[i];
+		i++;
 	}
+	return (dest);
 }
 
 // int	main(void)

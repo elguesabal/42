@@ -1,37 +1,45 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joseanto <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/27 09:11:01 by joseanto          #+#    #+#             */
+/*   Updated: 2023/10/27 09:11:03 by joseanto         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+// #include <stdio.h>
 
-#include <stdio.h>
+// static void upper(unsigned int i, char *str) {	// FUNCAO DE TESTE
+// 	while (str[i])
+// 	{
+// 		if (str[i] >= 'a' && str[i] <= 'z')
+// 		{
+// 			str[i] -= 32;
+// 		}
+// 		i++;
+// 	}
+// }
 
-static void upper(unsigned int i, char *str) {	// FUNCAO DE TESTE
-	while (*str)
+void	ft_striteri(char *s, void (*f)(unsigned int, char *))
+{
+	int	i;
+
+	i = 0;
+	while (s[i] != '\0')
 	{
-printf("%c\n", *str);
-		if (*str >= 'a' && *str <= 'z')
-		{
-			//*str = *str + 'a' - 'A';
-			//*str = *str - 32;
-			//*str -= 32;
-			//*str = 'w'; // NAO ENTENDI O CORE DUMPED
-		}
-		str++;
+		f(i, (s + i));
+		i++;
 	}
 }
 
-void    ft_striteri(char *s, void (*f)(unsigned int, char*))
-{
-	f(0, s);
-	// int	i;
+// int main(void)
+// {
+// 	char	str[] = "teste";
 
-	// i = 0;
-	// while (s[i] != '\0')
-	// {
-	// 	f(i, (s + i));
-	// 	i++;
-	// }
-}
-
-int main(void)
-{
-    ft_striteri("teste", upper);
-    return (0);
-}
+//     ft_striteri(str, upper);
+// 	printf("%s", str);
+//     return (0);
+// }

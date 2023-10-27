@@ -21,7 +21,7 @@
 // ao trabalhar com strings em C.
 size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (src[i])
