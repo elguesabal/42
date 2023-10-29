@@ -10,13 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include <stdio.h>
 #include <stddef.h>
 
-// A função `strncmp()` em C compara os primeiros n caracteres de duas strings.
-// Retorna um valor menor que zero se a primeira string for menor que a segunda,
-// zero se forem iguais ou um valor maior que zero se a primeira string for
-// maior que a segunda, com base na ordem lexicográfica dos caracteres.
 int	ft_strncmp(const char *str1, const char *str2, size_t n)
 {
 	if (n == 0)
@@ -35,6 +30,8 @@ int	ft_strncmp(const char *str1, const char *str2, size_t n)
 	}
 	return (*str1 - *str2);
 }
+
+// #include <stdio.h>
 
 // int	main(void)
 // {

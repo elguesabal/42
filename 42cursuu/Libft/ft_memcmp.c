@@ -10,14 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include <stdio.h>
 #include <stddef.h>
 
-// A função `memcmp()` em C compara duas áreas de memória byte a byte.
-// Ela retorna um valor menor que zero se a primeira área de memória for menor
-// que a segunda, zero se forem iguais ou um valor maior que zero se a primeira
-// for maior que a segunda. É útil para comparar blocos de memória, como arrays
-// ou estruturas de dados, em termos de ordem lexicográfica.
 int	ft_memcmp(const void *ptr1, const void *ptr2, size_t n)
 {
 	const unsigned char	*p1;
@@ -37,6 +31,8 @@ int	ft_memcmp(const void *ptr1, const void *ptr2, size_t n)
 	}
 	return (0);
 }
+
+// #include <stdio.h>
 
 // int main(void)
 // {

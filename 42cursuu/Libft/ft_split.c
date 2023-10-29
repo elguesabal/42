@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include <stdio.h>
 #include <stdlib.h>
 #include "libft.h"
 
@@ -129,6 +128,8 @@ char	**ft_split(char const *s, char c)
 	free(aux);
 	return (r);
 }
+
+// #include <stdio.h>
 
 // int	main(void)
 // {

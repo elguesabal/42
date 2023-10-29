@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include <stdio.h>
 #include <stdlib.h>
 
 static int	check_char(char c, char const *set)
@@ -81,9 +80,10 @@ char	*ft_strtrim(char const *s1, char const *set)
 	return (r);
 }
 
+// #include <stdio.h>
+
 // int	main(void)
 // {
 // 	printf("return: %s\n", ft_strtrim("ehjjtestehje", "ejh"));
-// //printf("return: %s", strtrim("teste", "es"));
 // 	return (0);
 // }

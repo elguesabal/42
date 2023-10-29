@@ -10,12 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include <stdio.h>
-
-// A função `toupper()` em C é usada para converter um caractere minúsculo para
-// maiúsculo. Se o caractere passado como argumento for uma letra minúscula, a
-// função retorna a versão maiúscula da letra. Se o caractere não for uma letra
-// minúscula, a função retorna o mesmo caractere sem modificação.
 int	ft_toupper(int c)
 {
 	if (c > 96 && c < 123)
@@ -25,11 +19,10 @@ int	ft_toupper(int c)
 	return (c);
 }
 
+// #include <stdio.h>
+
 // int	main(void)
 // {
-// 	char	c;
-
-// 	c = 'a';
-// 	printf("%c", ft_toupper(c));
+// 	printf("%c", ft_toupper('a'));
 // 	return (0);
 // }

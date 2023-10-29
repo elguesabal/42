@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include <unistd.h>
-// #include <fcntl.h>
 
 static void	ft_putchar_fd(char c, int fd)
 {
@@ -42,6 +41,8 @@ void	ft_putnbr_fd(int n, int fd)
 		ft_putchar_fd(n + 48, fd);
 	}
 }
+
+// #include <fcntl.h>
 
 // int	main(void)
 // {

@@ -10,14 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include <stdio.h>
 #include <stdlib.h>
 
-// A função `strdup()` em C cria uma cópia dinamicamente alocada de uma string,
-// incluindo o caractere nulo de terminação. Ela aloca memória suficiente para
-// a nova string e copia o conteúdo da string original para a nova área
-// de memória. É responsabilidade do programador liberar essa memória usando
-//a função `free()` quando não for mais necessária.
 char	*ft_strdup(const char *str)
 {
 	char	*str2;
@@ -40,6 +34,8 @@ char	*ft_strdup(const char *str)
 	}
 	return (str2);
 }
+
+// #include <stdio.h>
 
 // int	main(void)
 // {

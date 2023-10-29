@@ -10,15 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include <stdio.h>
 #include <stddef.h>
 
-// A função `strlcat()` em C é usada para concatenar duas strings, garantindo
-// que o destino tenha espaço suficiente para acomodar os caracteres da
-// concatenação. Ela adiciona caracteres da string de origem ao final da string
-// de destino, limitando o número de caracteres copiados para evitar estouro de
-// buffer. A função também garante que o destino seja devidamente terminado com
-// um caractere nulo após a concatenação.
 size_t	ft_strlcat(char *dest, const char *src, size_t size)
 {
 	size_t	i;
@@ -42,6 +35,8 @@ size_t	ft_strlcat(char *dest, const char *src, size_t size)
 	dest[i + 1] = '\0';
 	return (i);
 }
+
+//#include <stdio.h>
 
 // int	main(void)
 // {

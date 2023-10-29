@@ -10,12 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include <stdio.h>
-
-// A função `tolower()` em C é usada para converter um caractere maiúsculo para
-// minúsculo. Se o caractere passado como argumento for uma letra maiúscula, a
-// função retorna a versão minúscula da letra. Se o caractere não for uma letra
-// maiúscula, a função retorna o mesmo caractere sem modificação.
 int	ft_tolower(int c)
 {
 	if (c > 64 && c < 91)
@@ -25,11 +19,10 @@ int	ft_tolower(int c)
 	return (c);
 }
 
+// #include <stdio.h>
+
 // int	main(void)
 // {
-// 	char	c;
-
-// 	c = 'A';
-// 	printf("%c", ft_tolower(c));
+// 	printf("%c", ft_tolower('A'));
 // 	return (0);
 // }

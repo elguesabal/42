@@ -10,17 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include <stdio.h>
 #include <stdlib.h>
-
-// static char upper(unsigned int i, char c)
-// {
-// 	if (c >= 'a' && c <= 'z')
-// 	{
-// 		return (c - 32);
-// 	}
-// 	return c;
-// }
 
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
@@ -44,6 +34,17 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	}
 	return (str);
 }
+
+// #include <stdio.h>
+
+// static char upper(unsigned int i, char c)
+// {
+// 	if (c >= 'a' && c <= 'z')
+// 	{
+// 		return (c - 32);
+// 	}
+// 	return c;
+// }
 
 // int	main(void)
 // {

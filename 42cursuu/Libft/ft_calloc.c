@@ -10,13 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include <stdio.h>
-#include <stdlib.h>	// TESTAR SE ESSA BIBLIOTECA DECLAR size_t
+#include <stdlib.h>
 
-// A função `calloc()` em C é usada para alocar e inicializar uma área contígua
-// de memória para um número específico de elementos, inicializando todos os
-//bytes com zero. É útil para alocar memória para arrays ou estruturas de dados
-//em tempo de execução.
 void	*ft_calloc(size_t n_elements, size_t size)
 {
 	unsigned char	*ptr;
@@ -34,6 +29,8 @@ void	*ft_calloc(size_t n_elements, size_t size)
 	}
 	return (ptr);
 }
+
+// #include <stdio.h>
 
 // int	main(void)
 // {

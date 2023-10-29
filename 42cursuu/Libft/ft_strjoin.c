@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include <stdio.h>
 #include <stdlib.h>
 #include <stddef.h>
 
@@ -49,6 +48,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	}
 	return (new_str);
 }
+
+// #include <stdio.h>
 
 // int	main(void)
 // {

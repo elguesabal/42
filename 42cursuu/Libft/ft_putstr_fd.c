@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include <unistd.h>
-// #include <fcntl.h>
 
 void	ft_putstr_fd(char *s, int fd)
 {
@@ -22,11 +21,13 @@ void	ft_putstr_fd(char *s, int fd)
 	}
 }
 
+#include <fcntl.h>
+
 // int	main(void)
 // {
 // 	int fd;
 
-//     fd = open("texte.txt", O_WRONLY | O_APPEND | O_CREAT, 0744);
+// 	fd = open("texte.txt", O_WRONLY | O_APPEND | O_CREAT, 0744);
 // 	ft_putstr_fd("ft_putstr_fd", fd);
 // 	close(fd);
 // 	return (0);

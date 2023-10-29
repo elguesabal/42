@@ -10,11 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include <stdio.h>
-
-// A função `strrchr()` em C é usada para encontrar a última ocorrência de um
-// caractere em uma string. Ela retorna um ponteiro para a última ocorrência do
-// caractere na string ou NULL se o caractere não for encontrado.
 char	*ft_strrchr(const char *str, int c)
 {
 	const char	*result;
@@ -29,6 +24,8 @@ char	*ft_strrchr(const char *str, int c)
 	}
 	return ((char *)result);
 }
+
+// #include <stdio.h>
 
 // int	main(void)
 // {

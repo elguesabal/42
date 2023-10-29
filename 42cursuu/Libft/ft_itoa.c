@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include <stdio.h>
 #include <stdlib.h>
 
 static int	size_n(int n, int i)
@@ -58,6 +57,8 @@ char	*ft_itoa(int n)
 	}
 	return (str);
 }
+
+// #include <stdio.h>
 
 // int	main(void)
 // {
