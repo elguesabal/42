@@ -21,7 +21,7 @@ void	ft_putstr_fd(char *s, int fd)
 	}
 }
 
-#include <fcntl.h>
+// #include <fcntl.h>
 
 // int	main(void)
 // {
