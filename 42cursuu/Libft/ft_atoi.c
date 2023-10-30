@@ -17,13 +17,17 @@ int	ft_atoi(const char *str)
 
 	result = 0;
 	sign = 1;
-	while (*str == 32)
+	while ((*str > 8 && *str < 14) || *str == 32)
 	{
 		str++;
 	}
 	if (*str == '-')
 	{
 		sign = -1;
+		str++;
+	}
+	else if (*str == 43)
+	{
 		str++;
 	}
 	while (*str && *str > 47 && *str < 58)
@@ -38,6 +42,6 @@ int	ft_atoi(const char *str)
 
 // int	main(void)
 // {
-// 	printf("return: %d", ft_atoi("-12345"));
+// 	printf("return: %d", ft_atoi("	12345"));
 // 	return (0);
 // }

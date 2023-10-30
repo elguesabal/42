@@ -10,25 +10,26 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include "libft.h"
 
 int	ft_strncmp(const char *str1, const char *str2, size_t n)
 {
-	if (n == 0)
+	size_t			i;
+	unsigned char	*s1;
+	unsigned char	*s2;
+
+	s1 = (unsigned char *)str1;
+	s2 = (unsigned char *)str2;
+	i = 0;
+	while (i < n && s1[i] && s2[i])
 	{
-		return (0);
+		if (s1[i] != s2[i])
+			return ((int)s1[i] - (int)s2[i]);
+		i++;
 	}
-	while (n && *str1 && *str2)
-	{
-		if (*str1 != *str2)
-		{
-			return (*str1 - *str2);
-		}
-		str1++;
-		str2++;
-		n--;
-	}
-	return (*str1 - *str2);
+	if (i < n)
+		return ((int)s1[i] - (int)s2[i]);
+	return (0);
 }
 
 // #include <stdio.h>

@@ -10,51 +10,60 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "libft.h"
 
-static int	size_n(int n, int i)
+static int	ft_size(int n)
 {
+	int	i;
+	int	sign;
+
+	i = 0;
+	sign = 0;
+	if (n < 0)
+		sign = 1;
+	if (n == 0)
+		return (1);
 	while (n)
 	{
-		n = n / 10;
 		i++;
+		n = n / 10;
 	}
-	return (i);
+	return (i + sign);
 }
 
-static void	ft_sign(int *sign, int *n, int *i)
+static int	ft_sign(int n)
 {
-	*sign = 1;
-	*n *= -1;
-	++*i;
+	if (n < 0)
+	{
+		return (n * -1);
+	}
+	return (n);
 }
 
 char	*ft_itoa(int n)
 {
-	int		sign;
-	int		i;
-	int		copy;
 	char	*str;
+	int		i;
+	int		aux;
 
-	sign = 0;
-	i = 0;
-	if (n < 0)
-		ft_sign(&sign, &n, &i);
-	copy = n;
-	i = size_n(n, i);
-	str = malloc((i + sign + 1) * sizeof(char));
-	if (str)
+	aux = n;
+	i = ft_size(n);
+	str = malloc(sizeof(char) * (i + 1));
+	if (!str)
+		return (NULL);
+	i--;
+	while (i >= 0)
 	{
-		str[i] = '\0';
-		while (i--)
+		if (i == 0 && n < 0)
+			str[i] = '-';
+		else
 		{
-			n = n / 10;
-			str[i] = 48 + copy - n * 10;
-			copy = copy / 10;
+			str[i] = ft_sign(aux % 10) + 48;
+			aux = aux / 10;
 		}
-		if (str[0] == '0')
-			str[0] = '-';
+		i--;
 	}
+	str[ft_size(n)] = '\0';
 	return (str);
 }
 
@@ -62,6 +71,6 @@ char	*ft_itoa(int n)
 
 // int	main(void)
 // {
-// 	printf("return: %s", ft_itoa(-52304));
+// 	printf("return: %s", ft_itoa(123));
 // 	return (0);
 // }

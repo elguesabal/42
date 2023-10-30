@@ -14,14 +14,13 @@
 
 void	ft_bzero(void *str, size_t size)
 {
-	unsigned char	*str_p;
+	char	*str_p;
 
 	str_p = str;
 	while (size--)
 	{
-		*str_p++ = '0';
+		*str_p++ = 0;
 	}
-	*str_p = '\0';
 }
 
 // #include <stdio.h>

@@ -10,25 +10,30 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+
 char	*ft_strrchr(const char *str, int c)
 {
-	const char	*result;
+	int	i;
 
-	while (*str)
+	i = ft_strlen(str);
+	if (!str)
+		return (NULL);
+	while (i >= 0)
 	{
-		if (*str == c)
+		if (str[i] == c)
 		{
-			result = str;
+			return ((char *)(str + i));
 		}
-		str++;
+		i--;
 	}
-	return ((char *)result);
+	return (NULL);
 }
 
 // #include <stdio.h>
 
 // int	main(void)
 // {
-// 	printf("return: %s\n\n", ft_strrchr("teste", 't'));
+// 	printf("return: %s\n\n", ft_strrchr("teste", '\0'));
 // 	return (0);
 // }

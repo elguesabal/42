@@ -12,11 +12,13 @@
 
 #include <stddef.h>
 
-void	ft_memmove(void *dest, const void *src, size_t size)
+void	*ft_memmove(void *dest, const void *src, size_t size)
 {
 	char		*dest_p;
 	const char	*src_p;
 
+	if (!dest && !src)
+		return (NULL);
 	dest_p = dest;
 	src_p = src;
 	if (dest_p < src_p)
@@ -35,6 +37,7 @@ void	ft_memmove(void *dest, const void *src, size_t size)
 			*(--dest_p) = *(--src_p);
 		}
 	}
+	return (dest_p);
 }
 
 // #include <stdio.h>
