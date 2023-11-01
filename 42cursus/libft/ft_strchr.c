@@ -1,36 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joseanto <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/27 09:12:37 by joseanto          #+#    #+#             */
-/*   Updated: 2023/10/27 09:12:39 by joseanto         ###   ########.fr       */
+/*   Created: 2023/10/18 18:23:24 by joseanto          #+#    #+#             */
+/*   Updated: 2023/10/18 18:23:25 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "libft.h"
 
-void	ft_putchar_fd(char c, int fd)
+char	*ft_strchr(const char *str, int c)
 {
-	write(fd, &c, 1);
+	while (*str)
+	{
+		if (*str == c)
+		{
+			return ((char *)str);
+		}
+		str++;
+	}
+	if (!c)
+	{
+		return ((char *)str);
+	}
+	return (NULL);
 }
 
-// #include <fcntl.h>
+// #include <stdio.h>
 
-// int main(void)
+// int	main(void)
 // {
-// 	int fd, i;
-// 	char str[] = "teste";
-
-// 	fd = open("texte.txt", O_WRONLY | O_APPEND | O_CREAT, 0744);
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		ft_putchar_fd(str[i] , fd);
-// 		i++;
-// 	}
-// 	close(fd);
+// 	printf("return: %s", ft_strchr("teste", 's'));
 // 	return (0);
 // }

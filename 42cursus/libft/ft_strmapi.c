@@ -1,43 +1,57 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joseanto <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/18 10:53:19 by joseanto          #+#    #+#             */
-/*   Updated: 2023/10/18 10:53:21 by joseanto         ###   ########.fr       */
+/*   Created: 2023/10/27 09:10:10 by joseanto          #+#    #+#             */
+/*   Updated: 2023/10/27 09:10:11 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include "libft.h"
 
-void	*ft_memcpy(void *dest, const void *src, size_t size)
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	size_t		i;
-	char		*d;
-	char		*s;
+	int		i;
+	char	*str;
 
-	if (!dest && !src)
-		return (NULL);
-	i = 0;
-	d = (char *)dest;
-	s = (char *)src;
-	while (i < size)
+	if (!s || !f)
 	{
-		d[i] = s[i];
+		return (NULL);
+	}
+	i = 0;
+	while (s[i])
+	{
 		i++;
 	}
-	return (dest);
+	str = malloc((i + 1) * sizeof(char));
+	if (str)
+	{
+		str[i] = '\0';
+		while (i)
+		{
+			i--;
+			str[i] = f(i, s[i]);
+		}
+	}
+	return (str);
 }
 
 // #include <stdio.h>
 
+// static char upper(unsigned int i, char c)
+// {
+// 	if (c >= 'a' && c <= 'z')
+// 	{
+// 		return (c - 32);
+// 	}
+// 	return c;
+// }
+
 // int	main(void)
 // {
-// 	char	str1[50] = "testando o codigo", str2[50];
-
-// 	ft_memcpy(str2, str1, 8);
-// 	printf("str2: %s", str2);
+// 	printf("%s", ft_strmapi("teste", upper));
 // 	return (0);
 // }

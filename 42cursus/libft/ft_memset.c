@@ -1,44 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joseanto <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/25 13:22:13 by joseanto          #+#    #+#             */
-/*   Updated: 2023/10/25 13:22:15 by joseanto         ###   ########.fr       */
+/*   Created: 2023/10/18 10:10:02 by joseanto          #+#    #+#             */
+/*   Updated: 2023/10/18 10:10:04 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+void	*ft_memset(void *str, int c, size_t size)
 {
-	unsigned int	i;
-	size_t			j;
-	char			*str;
+	char		*str_p;
 
-	i = 0;
-	j = 0;
-	if (!len || !s)
+	str_p = str;
+	while (size--)
 	{
-		return (NULL);
+		*str_p++ = (char)c;
 	}
-	str = malloc(sizeof(char) * (len + 1));
-	if (!str)
-	{
-		return (NULL);
-	}
-	while (s[i] != '\0')
-	{
-		if (i >= start && j < len)
-		{
-			str[j] = s[i];
-			j++;
-		}
-		i++;
-	}
-	str[j] = '\0';
 	return (str);
 }
 
@@ -46,6 +28,9 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 
 // int	main(void)
 // {
-// 	printf("\nreturn: %s", ft_substr("teste", 2, 5));
+// 	char	str[10];
+
+// 	ft_memset(str, '*', 10);
+// 	printf("str: %s", str);
 // 	return (0);
 // }

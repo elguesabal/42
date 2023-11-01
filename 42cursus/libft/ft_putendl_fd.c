@@ -1,36 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joseanto <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/18 10:10:02 by joseanto          #+#    #+#             */
-/*   Updated: 2023/10/18 10:10:04 by joseanto         ###   ########.fr       */
+/*   Created: 2023/10/27 09:15:07 by joseanto          #+#    #+#             */
+/*   Updated: 2023/10/27 09:15:08 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include "libft.h"
 
-void	*ft_memset(void *str, int c, size_t size)
+void	ft_putendl_fd(char *s, int fd)
 {
-	char		*str_p;
-
-	str_p = str;
-	while (size--)
+	if (!s || !fd)
 	{
-		*str_p++ = (char)c;
+		return ;
 	}
-	return (str);
+	while (*s)
+	{
+		write(fd, s, 1);
+		s++;
+	}
+	write(fd, "\n", 1);
 }
 
-// #include <stdio.h>
+// #include <fcntl.h>
 
 // int	main(void)
 // {
-// 	char	str[10];
+// 	int fd;
 
-// 	ft_memset(str, '*', 10);
-// 	printf("str: %s", str);
+// 	fd = open("texte.txt", O_WRONLY | O_APPEND | O_CREAT, 0744);
+// 	ft_putendl_fd("ft_putstr_fd", fd);
+// 	close(fd);
 // 	return (0);
 // }

@@ -1,39 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joseanto <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/27 09:15:07 by joseanto          #+#    #+#             */
-/*   Updated: 2023/10/27 09:15:08 by joseanto         ###   ########.fr       */
+/*   Created: 2023/10/20 15:53:26 by joseanto          #+#    #+#             */
+/*   Updated: 2023/10/20 15:53:28 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "libft.h"
 
-void	ft_putendl_fd(char *s, int fd)
+int	ft_memcmp(const void *ptr1, const void *ptr2, size_t n)
 {
-	if (!s || !fd)
+	const unsigned char	*p1;
+	const unsigned char	*p2;
+
+	p1 = ptr1;
+	p2 = ptr2;
+	while (n)
 	{
-		return ;
+		if (*p1 != *p2)
+		{
+			return (*p1 - *p2);
+		}
+		p1++;
+		p2++;
+		n--;
 	}
-	while (*s)
-	{
-		write(fd, s, 1);
-		s++;
-	}
-	write(fd, "\n", 1);
+	return (0);
 }
 
-// #include <fcntl.h>
+// #include <stdio.h>
 
-// int	main(void)
+// int main(void)
 // {
-// 	int fd;
-
-// 	fd = open("texte.txt", O_WRONLY | O_APPEND | O_CREAT, 0744);
-// 	ft_putendl_fd("ft_putstr_fd", fd);
-// 	close(fd);
-// 	return (0);
+//     printf("return: %d", ft_memcmp("a", "d", 1));
+//     return (0);
 // }

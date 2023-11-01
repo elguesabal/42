@@ -1,33 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joseanto <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/16 15:54:27 by joseanto          #+#    #+#             */
-/*   Updated: 2023/10/16 15:54:31 by joseanto         ###   ########.fr       */
+/*   Created: 2023/10/25 13:22:13 by joseanto          #+#    #+#             */
+/*   Updated: 2023/10/25 13:22:15 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include "libft.h"
 
-size_t	ft_strlen(const char *str)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	size_t	i;
+	unsigned int	i;
+	size_t			j;
+	char			*str;
 
 	i = 0;
-	while (str[i])
+	j = 0;
+	if (!len || !s)
+		return (NULL);
+	str = malloc(sizeof(char) * (len + 1));
+	if (!str)
+		return (NULL);
+	while (s[i] != '\0')
 	{
+		if (i >= start && j < len)
+		{
+			str[j] = s[i];
+			j++;
+		}
 		i++;
 	}
-	return (i);
+	str[j] = '\0';
+	return (str);
 }
 
 // #include <stdio.h>
 
 // int	main(void)
 // {
-// 	printf("teste: %ld", ft_strlen("teste"));
+// 	printf("\nreturn: %s", ft_substr("teste", 2, 5));
 // 	return (0);
 // }

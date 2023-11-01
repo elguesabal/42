@@ -1,57 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strmapi.c                                       :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joseanto <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/27 09:10:10 by joseanto          #+#    #+#             */
-/*   Updated: 2023/10/27 09:10:11 by joseanto         ###   ########.fr       */
+/*   Created: 2023/10/25 13:25:12 by joseanto          #+#    #+#             */
+/*   Updated: 2023/10/25 13:25:15 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "libft.h"
 
-char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	int		i;
-	char	*str;
+	char	*new_str;
+	int		len1;
+	int		len2;
 
-	if (!s || !f)
-	{
+	if (!s1 || !s2)
 		return (NULL);
-	}
-	i = 0;
-	while (s[i])
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	new_str = malloc((len1 + len2 + 1) * sizeof(char *));
+	if (new_str)
 	{
-		i++;
-	}
-	str = malloc((i + 1) * sizeof(char));
-	if (str)
-	{
-		str[i] = '\0';
-		while (i)
+		new_str[len1 + len2] = '\0';
+		while (len2--)
 		{
-			i--;
-			str[i] = f(i, s[i]);
+			new_str[len1 + len2] = s2[len2];
+		}
+		while (len1--)
+		{
+			new_str[len1] = s1[len1];
 		}
 	}
-	return (str);
+	return (new_str);
 }
 
 // #include <stdio.h>
 
-// static char upper(unsigned int i, char c)
-// {
-// 	if (c >= 'a' && c <= 'z')
-// 	{
-// 		return (c - 32);
-// 	}
-// 	return c;
-// }
-
 // int	main(void)
 // {
-// 	printf("%s", ft_strmapi("teste", upper));
+// 	printf("return: %s", ft_strjoin("testando", " o codigo"));
 // 	return (0);
 // }

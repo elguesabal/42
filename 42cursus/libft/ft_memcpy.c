@@ -1,41 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcmp.c                                        :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joseanto <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/20 15:53:26 by joseanto          #+#    #+#             */
-/*   Updated: 2023/10/20 15:53:28 by joseanto         ###   ########.fr       */
+/*   Created: 2023/10/18 10:53:19 by joseanto          #+#    #+#             */
+/*   Updated: 2023/10/18 10:53:21 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include "libft.h"
 
-int	ft_memcmp(const void *ptr1, const void *ptr2, size_t n)
+void	*ft_memcpy(void *dest, const void *src, size_t size)
 {
-	const unsigned char	*p1;
-	const unsigned char	*p2;
+	size_t		i;
+	char		*d;
+	char		*s;
 
-	p1 = ptr1;
-	p2 = ptr2;
-	while (n)
+	if (!dest && !src)
+		return (NULL);
+	i = 0;
+	d = (char *)dest;
+	s = (char *)src;
+	while (i < size)
 	{
-		if (*p1 != *p2)
-		{
-			return (*p1 - *p2);
-		}
-		p1++;
-		p2++;
-		n--;
+		d[i] = s[i];
+		i++;
 	}
-	return (0);
+	return (dest);
 }
 
 // #include <stdio.h>
 
-// int main(void)
+// int	main(void)
 // {
-//     printf("return: %d", ft_memcmp("a", "d", 1));
-//     return (0);
+// 	char	str1[50] = "testando o codigo", str2[50];
+
+// 	ft_memcpy(str2, str1, 8);
+// 	printf("str2: %s", str2);
+// 	return (0);
 // }

@@ -1,38 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joseanto <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/18 18:23:24 by joseanto          #+#    #+#             */
-/*   Updated: 2023/10/18 18:23:25 by joseanto         ###   ########.fr       */
+/*   Created: 2023/10/16 15:54:27 by joseanto          #+#    #+#             */
+/*   Updated: 2023/10/16 15:54:31 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include "libft.h"
 
-char	*ft_strchr(const char *str, int c)
+size_t	ft_strlen(const char *str)
 {
-	while (*str)
+	size_t	i;
+
+	i = 0;
+	while (str[i])
 	{
-		if (*str == c)
-		{
-			return ((char *)str);
-		}
-		str++;
+		i++;
 	}
-	if (!c)
-	{
-		return ((char *)str);
-	}
-	return (NULL);
+	return (i);
 }
 
 // #include <stdio.h>
 
 // int	main(void)
 // {
-// 	printf("return: %s", ft_strchr("teste", 's'));
+// 	printf("teste: %ld", ft_strlen("teste"));
 // 	return (0);
 // }
