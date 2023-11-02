@@ -63,3 +63,7 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
+
+so:
+	gcc -nostartfiles -fPIC $(FLAGS) $(FILE)
+	gcc -nostartfiles -shared -o libft.so $(OBJS)
