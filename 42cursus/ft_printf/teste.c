@@ -137,6 +137,12 @@ int main() {
     int numero = 16;
 
     decimalParaHexadecimal(numero, 'a');
-
+printf("teste");
     return 0;
 }
+
+// int main() {
+// 	char c;
+// 	int n = printf("%p", &c);
+// 	printf("\n%d", n);
+// }

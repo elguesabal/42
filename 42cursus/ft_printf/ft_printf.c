@@ -16,115 +16,184 @@
 #include <unistd.h>
 
 // CONTA QUANTOS % TEM NA STRING
-static size_t	ft_countpercent(const char *str) 	// NAO USADO AINDA
-{
-	size_t	i;
-	const char	*ptr;
+// static size_t	ft_countpercent(const char *str) 	// NAO USADO AINDA
+// {
+// 	size_t	i;
+// 	const char	*ptr;
 
-	ptr = str;
-	i = 0;
-	while (ptr = strchr(ptr, '%'))
-	{
-		ptr++;
-		i++;
-		if (*ptr == '%')
-		{
-			i--;
-		}
-	}
-printf("return: %d", i);
-	return (i);
-}
+// 	ptr = str;
+// 	i = 0;
+// 	while (ptr = strchr(ptr, '%'))
+// 	{
+// 		ptr++;
+// 		i++;
+// 		if (*ptr == '%')
+// 		{
+// 			i--;
+// 		}
+// 	}
+// printf("return: %d", i);
+// 	return (i);
+// }
 
 static int	ft_printc(const char c) {
 	return (write(1, &c, 1));
 }
 
-static void	ft_prints(char *str)	// TEMPORARIAMENTE VOID
+static int	ft_prints(char *str)	// TEMPORARIAMENTE VOID
 {
-	while (*str)
+	int	i;
+
+	i = 0;
+	while (str[i])
 	{
-		ft_printc(*str++);
+		i += ft_printc(str[i]);
+		// i++;
 	}
+//printf("\nreturn: %d\n", i);
+	return (i);
 }
 
-static void	ft_printd(int n)
+static int	ft_printd(int n)	// TEMPORARIAMENTE VOID
 {
+	int	i;
+
+	i = 0;
 	if (n == -2147483648)
 	{
-		ft_printc('-');
-		ft_printc('2');
-		ft_printd(147483648);
-		return ;
+		i += ft_printc('-');
+		i += ft_printc('2');
+		i += ft_printd(147483648);
+		return (i);
 	}
 	if (n < 0)
 	{
-		ft_printc('-');
+		i += ft_printc('-');
 		n = -n;
 	}
 	if (n >= 10)
 	{
-		ft_printd(n / 10);
-		ft_printd(n % 10);
+		i += ft_printd(n / 10);
+		i += ft_printd(n % 10);
 	}
 	else
 	{
-		ft_printc(n + 48);
+		i += ft_printc(n + 48);
 	}
+	return (i);
 }
 
-static void	ft_printu(unsigned int n)	// TEMPORARIAMENTE VOID
+static unsigned int	ft_printu(unsigned int n)	// TEMPORARIAMENTE VOID
 {
+	unsigned int	i;
+
+	i = 0;
 	if (n >= 10)
 	{
-		ft_printu(n / 10);
-		ft_printu(n % 10);
+		i += ft_printu(n / 10);
+		i += ft_printu(n % 10);
 	}
 	else
 	{
-		ft_printc(n + 48);
+		i += ft_printc(n + 48);
 	}
+	return (i);
 }
 
-static int ft_printx(unsigned int n, const char c)	// TEMPORARIAMENTE NAO RETORNANDO O LEN IMPRESSA
+static unsigned int	ft_printx(unsigned int n, const char c)	// TEMPORARIAMENTE NAO RETORNANDO O LEN IMPRESSA
 {
-    if (n == 0)
+	// // int copy = n;
+	// char hexadecimal[100]; // Um array para armazenar os digitos hexadecimais
+	// unsigned int i;
+	// unsigned int len;
+	// int rest;
+
+	// if (n == 0)
+	// {
+	// 	// write(1, "0", 1);
+	// 	return (write(1, "0", 1));
+	// }
+	// i = 0;
+	// while (n > 0)
+	// {
+	// 	// rest = n % 16;
+
+	// 	// Converte numeros de 10 a 15 para letras A-F
+	// 	if (n % 16 < 10)
+	// 	{
+	// 		hexadecimal[i] = n % 16 + '0';
+	// 	}
+	// 	else
+	// 	{
+	// 		hexadecimal[i] = n % 16 - 10 + c;
+	// 	}
+	// 	i++;
+	// 	n = n / 16;
+	// }
+
+	// // printf("Numero decimal %d em hexadecimal: ", copy);
+
+	// // Imprime os digitos hexadecimais em ordem reversa
+	// //len = i;
+	// i--;
+	// while (i >= 0)
+	// {
+	// 	write(1, &hexadecimal[i], 1);
+	// 	i--;
+	// }
+	// // printf("\n");
+	// //return (len);
+
+
+
+
+	// int numeroOriginal = n;
+	char hexadecimal[100]; // Um array para armazenar os digitos hexadecimais
+	int rest;
+	int i;
+	int j;
+
+	if (n == 0) {
+		return (write(1, "0", 1));
+	}
+	i = 0;
+	while (n > 0)
 	{
-        write(1, "0", 1);
-        return (1);
-    }
+		rest = n % 16;
 
-    int copy = n;
-    char hexaDecimal[100]; // Um array para armazenar os dígitos hexadecimais
-    int i = 0;
+		// Converte numeros de 10 a 15 para letras A-F
+		if (rest < 10)
+		{
+			hexadecimal[i] = rest + '0';
+		}
+		else
+		{
+			hexadecimal[i] = rest - 10 + c;
+		}
+		i++;
+		n = n / 16;
+	}
 
-    while (n > 0)
+	// printf("Número decimal %d em hexadecimal: ", numeroOriginal);
+
+	// Imprime os digitos hexadecimais em ordem reversa
+	// for (int j = i - 1; j >= 0; j--)
+	// {
+	// 	write(1, &hexadecimal[j], 1);
+	// }
+	j = i - 1;
+	while (j >= 0)
 	{
-        int resto = n % 16;
-
-        // Converte números de 10 a 15 para letras A-F
-        if (resto < 10) {
-            hexaDecimal[i] = resto + '0';
-        } else {
-            hexaDecimal[i] = resto - 10 + c;
-        }
-        i++;
-        n = n / 16;
-    }
-
-    printf("Número decimal %d em hexadecimal: ", copy);
-
-    // Imprime os dígitos hexadecimais em ordem reversa
-    for (int j = i - 1; j >= 0; j--)
-	{
-        write(1, &hexaDecimal[j], 1);
-    }
-    // printf("\n");
+		write(1, &hexadecimal[j], 1);
+		j--;
+	}
+	// printf("\n");
+	return (i);
 }
 
 int	ft_printf(const char *str, ...)
 {
-	int	i;
+	unsigned int	len;
 	va_list args;
 	va_start(args, str);
 
@@ -147,7 +216,8 @@ int	ft_printf(const char *str, ...)
 // 	printf("va_arg: %c\ti: %d\n", va_arg(args, int), i);
 // }
 
-	i = 0; // PQ EU CRIEI ESSE i?? TALVEZ EU USE ESSE i PRA CONTAR O TAMANHO DA NOVA STRING
+	// i = 0; // PQ EU CRIEI ESSE i?? TALVEZ EU USE ESSE i PRA CONTAR O TAMANHO DA NOVA STRING
+	len = 0;
 	while (*str)
 	{
 		if (*str == '%')
@@ -155,49 +225,49 @@ int	ft_printf(const char *str, ...)
 			str++;
 			if (*str == 'c')
 			{
-				ft_printc(va_arg(args, int));
+				len += ft_printc(va_arg(args, int));
 			}
 			else if (*str == 's')
 			{
-				ft_prints(va_arg(args, char *));
+				len += ft_prints(va_arg(args, char *));
 			}
 			else if (*str == 'p')
 			{
-				
+				// COMO VOU FZ ESSA BAGACA???
 			}
 			else if (*str == 'd')
 			{
-				ft_printd(va_arg(args, int));
+				len += ft_printd(va_arg(args, int));
 			}
 			else if (*str == 'i')
 			{
-				ft_printd(va_arg(args, int));	// TEMPORARIAMENTE USANDO ft_printd PQ AINDA NAO IDENTIFIQUEI NENHUMA DIFERENCA Q SEJA PEGA PELA MOULINETTE
+				len += ft_printd(va_arg(args, int));	// TEMPORARIAMENTE USANDO ft_printd PQ AINDA NAO IDENTIFIQUEI NENHUMA DIFERENCA Q SEJA PEGA PELA MOULINETTE
 			}
 			else if (*str == 'u')
 			{
-				ft_printu(va_arg(args, unsigned int));
+				len += ft_printu(va_arg(args, unsigned int));
 			}
 			else if (*str == 'x')
 			{
-				ft_printx(va_arg(args, unsigned int), 'a');
+				len += ft_printx(va_arg(args, unsigned int), 'a');
 			}
 			else if (*str == 'X')
 			{
-				ft_printx(va_arg(args, unsigned int), 'A');
+				len += ft_printx(va_arg(args, unsigned int), 'A');
 			}
 			else if (*str == '%')
 			{
-				ft_printc('%');
+				len += ft_printc('%');
 			}
 		}
 		else
 		{
-			ft_printc(*str);
+			len += ft_printc(*str);
 		}
 		*str++;
 	}
 	va_end(args);
-	return (1);	// RETORNAR O TAMANHO DA STRING FINAL
+	return (len);	// RETORNAR O TAMANHO DA STRING FINAL
 }
 
 int	main(void)
@@ -214,6 +284,12 @@ int	main(void)
 // ft_printf("Octal: %d\n", octal); // Imprime 42 (052 é interpretado como decimal)
 // ft_printf("Hexadecimal: %d\n", hexadecimal); // Imprime 42 (0x2A é interpretado como decimal)
 
-printf("%X", 255453);
+// printf("%X\n", 2554531241414142);
+// ft_printf("%X", 2554531241414142);
+
+	int len;
+
+	len = ft_printf("teste%%", 15);
+	printf("\n%d\n", len);
 	return (0);
 }
