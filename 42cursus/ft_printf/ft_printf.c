@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:14:28 by joseanto          #+#    #+#             */
-/*   Updated: 2023/11/02 17:07:07 by joseanto         ###   ########.fr       */
+/*   Updated: 2023/11/05 18:38:07 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int	ft_printf(const char *str, ...)
 {
-	unsigned int	len;
+	int	len;
 	va_list args;
 	va_start(args, str);
 
@@ -35,7 +35,7 @@ int	ft_printf(const char *str, ...)
 			}
 			else if (*str == 'p')
 			{
-				// COMO VOU FZ ESSA BAGACA???
+				len += ft_printp(va_arg(args, unsigned long int)); // COMO VOU FZ ESSA BAGACA???
 			}
 			else if (*str == 'd')
 			{
@@ -66,7 +66,7 @@ int	ft_printf(const char *str, ...)
 		{
 			len += ft_printc(*str);
 		}
-		*str++;
+		str++;
 	}
 	va_end(args);
 	return (len);

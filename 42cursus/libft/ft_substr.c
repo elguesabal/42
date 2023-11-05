@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joseanto <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 13:22:13 by joseanto          #+#    #+#             */
-/*   Updated: 2023/10/25 13:22:15 by joseanto         ###   ########.fr       */
+/*   Updated: 2023/11/05 12:15:02 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,28 @@
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	unsigned int	i;
-	size_t			j;
-	char			*str;
+	size_t	i;
+	size_t	j;
+	char	*str;
 
+	if (!s)
+		return (NULL);
 	i = 0;
-	j = 0;
-	if (!len || !s)
+	j = ft_strlen(s);
+	if (start > j)
+		return (ft_strdup(""));
+	else if (start + len > j)
+		len = j - start;
+	str = ft_calloc(len + 1, sizeof(char));
+	if ((!str))
 		return (NULL);
-	str = malloc(sizeof(char) * (len + 1));
-	if (!str)
-		return (NULL);
-	while (s[i] != '\0')
+	while (s[start] && i < len)
 	{
-		if (i >= start && j < len)
-		{
-			str[j] = s[i];
-			j++;
-		}
+		str[i] = s[start];
 		i++;
+		start++;
 	}
-	str[j] = '\0';
+	str[i] = '\0';
 	return (str);
 }
 

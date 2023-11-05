@@ -1,18 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printc.c                                        :+:      :+:    :+:   */
+/*   ft_printp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/05 14:35:47 by joseanto          #+#    #+#             */
-/*   Updated: 2023/11/05 14:43:09 by joseanto         ###   ########.fr       */
+/*   Created: 2023/11/05 14:38:43 by joseanto          #+#    #+#             */
+/*   Updated: 2023/11/05 18:18:11 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 
-int	ft_printc(const char c)
+int ft_printp(unsigned long int n)
 {
-	return (write(1, &c, 1));
+    int len;
+
+    len = ft_prints("0x");
+    len += ft_printx(n, 'a');
+    return (len);
 }

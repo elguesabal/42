@@ -100,49 +100,51 @@
 //     return 0;
 // }
 
-void decimalParaHexadecimal(int numero, char c) {
-    if (numero == 0) {
-        printf("0");
-        return;
-    }
+// void decimalParaHexadecimal(int numero, char c) {
+//     if (numero == 0) {
+//         printf("0");
+//         return;
+//     }
 
-    int numeroOriginal = numero;
-    char hexaDecimal[100]; // Um array para armazenar os dígitos hexadecimais
-    int indice = 0;
+//     int numeroOriginal = numero;
+//     char hexaDecimal[100]; // Um array para armazenar os dígitos hexadecimais
+//     int indice = 0;
 
-    while (numero > 0) {
-        int resto = numero % 16;
+//     while (numero > 0) {
+//         int resto = numero % 16;
 
-        // Converte números de 10 a 15 para letras A-F
-        if (resto < 10) {
-            hexaDecimal[indice] = resto + '0';
-        } else {
-            hexaDecimal[indice] = resto - 10 + c;
-        }
+//         // Converte números de 10 a 15 para letras A-F
+//         if (resto < 10) {
+//             hexaDecimal[indice] = resto + '0';
+//         } else {
+//             hexaDecimal[indice] = resto - 10 + c;
+//         }
 
-        indice++;
-        numero = numero / 16;
-    }
+//         indice++;
+//         numero = numero / 16;
+//     }
 
-    printf("Número decimal %d em hexadecimal: ", numeroOriginal);
+//     printf("Número decimal %d em hexadecimal: ", numeroOriginal);
 
-    // Imprime os dígitos hexadecimais em ordem reversa
-    for (int i = indice - 1; i >= 0; i--) {
-        printf("%c", hexaDecimal[i]);
-    }
+//     // Imprime os dígitos hexadecimais em ordem reversa
+//     for (int i = indice - 1; i >= 0; i--) {
+//         printf("%c", hexaDecimal[i]);
+//     }
 
-    printf("\n");
-}
-int main() {
-    int numero = 16;
-
-    decimalParaHexadecimal(numero, 'a');
-printf("teste");
-    return 0;
-}
-
-// int main() {
-// 	char c;
-// 	int n = printf("%p", &c);
-// 	printf("\n%d", n);
+//     printf("\n");
 // }
+// int main() {
+//     int numero = 16;
+
+//     decimalParaHexadecimal(numero, 'a');
+// printf("teste");
+//     return 0;
+// }
+
+int main() {
+	unsigned int c;
+    unsigned int *p = &c;
+	// int n = 
+    printf("%ls", p);
+	// printf("\n%d", n);
+}
