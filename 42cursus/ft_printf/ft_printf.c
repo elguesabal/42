@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "libftprintf.h"
-// #include <stdio.h>
 
 int	ft_printf(const char *str, ...)
 {
@@ -30,7 +29,7 @@ int	ft_printf(const char *str, ...)
 			else if (*str == 's')
 				len += ft_prints(va_arg(args, char *));
 			else if (*str == 'p')
-				len += ft_printp(va_arg(args, unsigned long int)); // COMO VOU FZ ESSA BAGACA???
+				len += ft_printp(va_arg(args, unsigned long int));
 			else if (*str == 'd' || *str == 'i')
 				len += ft_printd(va_arg(args, int));
 			else if (*str == 'u')
@@ -49,27 +48,3 @@ int	ft_printf(const char *str, ...)
 	va_end(args);
 	return (len);
 }
-
-// int	main(void)
-// {
-// 	// ft_printf("testando: %u", 10000);
-// // ft_prints("teste");
-// // ft_printd(-50);
-// // ft_countpercent("teste % codig%%o");
-
-// // int decimal = 42;
-// // int octal = 052; // O prefixo 0 indica um número octal (base 8)
-// // int hexadecimal = 0x2A; // O prefixo 0x ou 0X indica um número hexadecimal (base 16)
-// // ft_printf("Decimal: %d\n", decimal); // Imprime 42 em decimal
-// // ft_printf("Octal: %d\n", octal); // Imprime 42 (052 é interpretado como decimal)
-// // ft_printf("Hexadecimal: %d\n", hexadecimal); // Imprime 42 (0x2A é interpretado como decimal)
-
-// // printf("%%\n", "qwe");
-// // ft_printf("%%", "qwe");
-
-// 	// int len;
-
-// 	// len = ft_printf("teste%%", 15);
-// 	// printf("\n%d\n", len);
-// 	return (0);
-// }
