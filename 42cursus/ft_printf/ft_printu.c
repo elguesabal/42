@@ -23,8 +23,6 @@ int	ft_printu(unsigned int n)
 		i += ft_printu(n % 10);
 	}
 	else
-	{
 		i += ft_printc(n + 48);
-	}
 	return (i);
 }

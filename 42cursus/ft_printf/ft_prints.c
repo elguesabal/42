@@ -18,8 +18,6 @@ int	ft_prints(char *str)
 
 	i = 0;
 	while (str[i])
-	{
 		i += ft_printc(str[i]);
-	}
 	return (i);
 }

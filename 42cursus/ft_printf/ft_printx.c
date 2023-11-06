@@ -20,21 +20,15 @@ int	ft_printx(unsigned int n, const char c)
 	int j;
 
 	if (n == 0)
-	{
 		return (write(1, "0", 1));
-	}
 	i = 0;
 	while (n > 0)
 	{
 		rest = n % 16;
 		if (rest < 10)
-		{
 			hexadecimal[i] = rest + '0';
-		}
 		else
-		{
 			hexadecimal[i] = rest - 10 + c;
-		}
 		i++;
 		n = n / 16;
 	}

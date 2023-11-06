@@ -2,5 +2,9 @@
 #include <stdio.h>
 
 int main() {
-    ft_printf("teste");
+    char c;
+    int n;
+
+    n = ft_printf("%p\n", &c);
+    printf("%d", n);
 }

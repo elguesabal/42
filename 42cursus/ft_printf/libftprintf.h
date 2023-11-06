@@ -14,7 +14,6 @@
 # define LIBFTPRINT_H
 
 # include <stdlib.h>
-// # include <stddef.h>
 # include <unistd.h>
 # include <stdarg.h>
 

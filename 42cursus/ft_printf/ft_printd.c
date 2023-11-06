@@ -35,8 +35,6 @@ int	ft_printd(int n)
 		i += ft_printd(n % 10);
 	}
 	else
-	{
 		i += ft_printc(n + 48);
-	}
 	return (i);
 }

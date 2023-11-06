@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:14:28 by joseanto          #+#    #+#             */
-/*   Updated: 2023/11/05 18:38:07 by joseanto         ###   ########.fr       */
+/*   Updated: 2023/11/02 17:07:07 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int	ft_printf(const char *str, ...)
 {
-	int	len;
+	unsigned int	len;
 	va_list args;
 	va_start(args, str);
 
@@ -26,25 +26,47 @@ int	ft_printf(const char *str, ...)
 		{
 			str++;
 			if (*str == 'c')
+			{
 				len += ft_printc(va_arg(args, int));
+			}
 			else if (*str == 's')
+			{
 				len += ft_prints(va_arg(args, char *));
+			}
 			else if (*str == 'p')
-				len += ft_printp(va_arg(args, unsigned long int)); // COMO VOU FZ ESSA BAGACA???
-			else if (*str == 'd' || *str == 'i')
+			{
+				// COMO VOU FZ ESSA BAGACA???
+			}
+			else if (*str == 'd')
+			{
 				len += ft_printd(va_arg(args, int));
+			}
+			else if (*str == 'i')
+			{
+				len += ft_printd(va_arg(args, int));	// TEMPORARIAMENTE USANDO ft_printd PQ AINDA NAO IDENTIFIQUEI NENHUMA DIFERENCA Q SEJA PEGA PELA MOULINETTE
+			}
 			else if (*str == 'u')
+			{
 				len += ft_printu(va_arg(args, unsigned int));
+			}
 			else if (*str == 'x')
+			{
 				len += ft_printx(va_arg(args, unsigned int), 'a');
+			}
 			else if (*str == 'X')
+			{
 				len += ft_printx(va_arg(args, unsigned int), 'A');
+			}
 			else if (*str == '%')
+			{
 				len += ft_printc('%');
+			}
 		}
 		else
+		{
 			len += ft_printc(*str);
-		str++;
+		}
+		*str++;
 	}
 	va_end(args);
 	return (len);
