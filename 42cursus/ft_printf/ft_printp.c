@@ -14,9 +14,5 @@
 
 int ft_printp(unsigned long int n)
 {
-    int len;
-
-    len = ft_prints("0x");
-    len += ft_printx(n, 'a');
-    return (len);
+    return (ft_prints("0x") + ft_printx(n, 'a'));
 }
