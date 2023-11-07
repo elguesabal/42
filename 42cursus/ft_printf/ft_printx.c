@@ -6,18 +6,18 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 14:42:50 by joseanto          #+#    #+#             */
-/*   Updated: 2023/11/05 16:51:53 by joseanto         ###   ########.fr       */
+/*   Updated: 2023/11/07 11:45:39 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
-int	ft_printx(unsigned int n, const char c)
+int	ft_printx(unsigned long long n, const char c)
 {
-	char hexadecimal[100];
-	int rest;
-	int i;
-	int j;
+	char	hexadecimal[100];
+	int		rest;
+	int		i;
+	int		j;
 
 	if (n == 0)
 		return (write(1, "0", 1));

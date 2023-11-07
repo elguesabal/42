@@ -6,11 +6,11 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 14:39:00 by joseanto          #+#    #+#             */
-/*   Updated: 2023/11/05 16:49:44 by joseanto         ###   ########.fr       */
+/*   Updated: 2023/11/07 11:45:12 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
 int	ft_printd(int n)
 {
