@@ -1,0 +1,172 @@
+==588407== Invalid write of size 1
+==588407==    at 0x10931F: get_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==    by 0x109392: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==  Address 0x4a9c06a is 0 bytes after a block of size 42 alloc'd
+==588407==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588407==    by 0x10936F: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407== 
+==588407== Invalid write of size 1
+==588407==    at 0x1092EF: get_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==    by 0x109392: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==  Address 0x4a9c070 is 6 bytes after a block of size 42 alloc'd
+==588407==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588407==    by 0x10936F: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407== 
+==588407== Invalid read of size 1
+==588407==    at 0x484ED24: strlen (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588407==    by 0x48E7D30: __vfprintf_internal (vfprintf-internal.c:1517)
+==588407==    by 0x48D179E: printf (printf.c:33)
+==588407==    by 0x10927E: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==  Address 0x4a9c06a is 0 bytes after a block of size 42 alloc'd
+==588407==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588407==    by 0x10936F: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407== 
+==588407== Invalid read of size 1
+==588407==    at 0x48534C8: mempcpy (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588407==    by 0x48FEE6B: _IO_default_xsputn (genops.c:386)
+==588407==    by 0x48FEE6B: _IO_default_xsputn (genops.c:370)
+==588407==    by 0x48FC71A: _IO_new_file_xsputn (fileops.c:1264)
+==588407==    by 0x48FC71A: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1196)
+==588407==    by 0x48E800B: outstring_func (vfprintf-internal.c:239)
+==588407==    by 0x48E800B: __vfprintf_internal (vfprintf-internal.c:1517)
+==588407==    by 0x48D179E: printf (printf.c:33)
+==588407==    by 0x10927E: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==  Address 0x4a9c070 is 6 bytes after a block of size 42 alloc'd
+==588407==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588407==    by 0x10936F: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407== 
+==588407== Invalid read of size 1
+==588407==    at 0x48534D6: mempcpy (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588407==    by 0x48FEE6B: _IO_default_xsputn (genops.c:386)
+==588407==    by 0x48FEE6B: _IO_default_xsputn (genops.c:370)
+==588407==    by 0x48FC71A: _IO_new_file_xsputn (fileops.c:1264)
+==588407==    by 0x48FC71A: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1196)
+==588407==    by 0x48E800B: outstring_func (vfprintf-internal.c:239)
+==588407==    by 0x48E800B: __vfprintf_internal (vfprintf-internal.c:1517)
+==588407==    by 0x48D179E: printf (printf.c:33)
+==588407==    by 0x10927E: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==  Address 0x4a9c06e is 4 bytes after a block of size 42 alloc'd
+==588407==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588407==    by 0x10936F: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407== 
+==588407== Conditional jump or move depends on uninitialised value(s)
+==588407==    at 0x484ED28: strlen (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588407==    by 0x48E7D30: __vfprintf_internal (vfprintf-internal.c:1517)
+==588407==    by 0x48D179E: printf (printf.c:33)
+==588407==    by 0x10927E: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==  Uninitialised value was created by a heap allocation
+==588407==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588407==    by 0x10936F: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407== 
+==588407== Conditional jump or move depends on uninitialised value(s)
+==588407==    at 0x484ED19: strlen (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588407==    by 0x48E7D30: __vfprintf_internal (vfprintf-internal.c:1517)
+==588407==    by 0x48D179E: printf (printf.c:33)
+==588407==    by 0x10927E: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==  Uninitialised value was created by a heap allocation
+==588407==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588407==    by 0x10936F: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407== 
+==588407== ERROR SUMMARY: 10021 errors from 7 contexts (suppressed: 0 from 0)
+==588407== 
+==588407== 1 errors in context 1 of 7:
+==588407== Invalid write of size 1
+==588407==    at 0x1092EF: get_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==    by 0x109392: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==  Address 0x4a9c070 is 6 bytes after a block of size 42 alloc'd
+==588407==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588407==    by 0x10936F: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407== 
+==588407== 
+==588407== 3 errors in context 2 of 7:
+==588407== Invalid read of size 1
+==588407==    at 0x48534D6: mempcpy (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588407==    by 0x48FEE6B: _IO_default_xsputn (genops.c:386)
+==588407==    by 0x48FEE6B: _IO_default_xsputn (genops.c:370)
+==588407==    by 0x48FC71A: _IO_new_file_xsputn (fileops.c:1264)
+==588407==    by 0x48FC71A: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1196)
+==588407==    by 0x48E800B: outstring_func (vfprintf-internal.c:239)
+==588407==    by 0x48E800B: __vfprintf_internal (vfprintf-internal.c:1517)
+==588407==    by 0x48D179E: printf (printf.c:33)
+==588407==    by 0x10927E: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==  Address 0x4a9c06e is 4 bytes after a block of size 42 alloc'd
+==588407==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588407==    by 0x10936F: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407== 
+==588407== 
+==588407== 4 errors in context 3 of 7:
+==588407== Invalid read of size 1
+==588407==    at 0x48534C8: mempcpy (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588407==    by 0x48FEE6B: _IO_default_xsputn (genops.c:386)
+==588407==    by 0x48FEE6B: _IO_default_xsputn (genops.c:370)
+==588407==    by 0x48FC71A: _IO_new_file_xsputn (fileops.c:1264)
+==588407==    by 0x48FC71A: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1196)
+==588407==    by 0x48E800B: outstring_func (vfprintf-internal.c:239)
+==588407==    by 0x48E800B: __vfprintf_internal (vfprintf-internal.c:1517)
+==588407==    by 0x48D179E: printf (printf.c:33)
+==588407==    by 0x10927E: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==  Address 0x4a9c070 is 6 bytes after a block of size 42 alloc'd
+==588407==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588407==    by 0x10936F: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407== 
+==588407== 
+==588407== 6 errors in context 4 of 7:
+==588407== Invalid write of size 1
+==588407==    at 0x10931F: get_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==    by 0x109392: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==  Address 0x4a9c06a is 0 bytes after a block of size 42 alloc'd
+==588407==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588407==    by 0x10936F: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407== 
+==588407== 
+==588407== 8 errors in context 5 of 7:
+==588407== Invalid read of size 1
+==588407==    at 0x484ED24: strlen (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588407==    by 0x48E7D30: __vfprintf_internal (vfprintf-internal.c:1517)
+==588407==    by 0x48D179E: printf (printf.c:33)
+==588407==    by 0x10927E: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==  Address 0x4a9c06a is 0 bytes after a block of size 42 alloc'd
+==588407==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588407==    by 0x10936F: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407== 
+==588407== 
+==588407== 9 errors in context 6 of 7:
+==588407== Conditional jump or move depends on uninitialised value(s)
+==588407==    at 0x484ED28: strlen (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588407==    by 0x48E7D30: __vfprintf_internal (vfprintf-internal.c:1517)
+==588407==    by 0x48D179E: printf (printf.c:33)
+==588407==    by 0x10927E: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==  Uninitialised value was created by a heap allocation
+==588407==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588407==    by 0x10936F: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407== 
+==588407== 
+==588407== 9990 errors in context 7 of 7:
+==588407== Conditional jump or move depends on uninitialised value(s)
+==588407==    at 0x484ED19: strlen (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588407==    by 0x48E7D30: __vfprintf_internal (vfprintf-internal.c:1517)
+==588407==    by 0x48D179E: printf (printf.c:33)
+==588407==    by 0x10927E: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==  Uninitialised value was created by a heap allocation
+==588407==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588407==    by 0x10936F: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==588407== 
+==588407== ERROR SUMMARY: 10021 errors from 7 contexts (suppressed: 0 from 0)

@@ -1,0 +1,56 @@
+==588304== Invalid write of size 1
+==588304==    at 0x10931F: get_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t2.esq)
+==588304==    by 0x109392: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t2.esq)
+==588304==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t2.esq)
+==588304==  Address 0x4a9c042 is 0 bytes after a block of size 2 alloc'd
+==588304==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588304==    by 0x10936F: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t2.esq)
+==588304==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t2.esq)
+==588304== 
+
+valgrind: m_mallocfree.c:303 (get_bszB_as_is): Assertion 'bszB_lo == bszB_hi' failed.
+valgrind: Heap block lo/hi size mismatch: lo = 80, hi = 7668348591872373874.
+This is probably caused by your program erroneously writing past the
+end of a heap block and corrupting heap metadata.  If you fix any
+invalid writes reported by Memcheck, this assertion failure will
+probably go away.  Please try that before reporting this as a bug.
+
+
+host stacktrace:
+==588304==    at 0x5804284A: ??? (in /usr/libexec/valgrind/memcheck-amd64-linux)
+==588304==    by 0x58042977: ??? (in /usr/libexec/valgrind/memcheck-amd64-linux)
+==588304==    by 0x58042B1B: ??? (in /usr/libexec/valgrind/memcheck-amd64-linux)
+==588304==    by 0x5804C8CF: ??? (in /usr/libexec/valgrind/memcheck-amd64-linux)
+==588304==    by 0x5803AE9A: ??? (in /usr/libexec/valgrind/memcheck-amd64-linux)
+==588304==    by 0x580395B7: ??? (in /usr/libexec/valgrind/memcheck-amd64-linux)
+==588304==    by 0x5803DF3D: ??? (in /usr/libexec/valgrind/memcheck-amd64-linux)
+==588304==    by 0x58038868: ??? (in /usr/libexec/valgrind/memcheck-amd64-linux)
+==588304==    by 0x1008ED64A2: ???
+==588304==    by 0x1008DA9F2F: ???
+==588304==    by 0x581FCD83: ??? (in /usr/libexec/valgrind/memcheck-amd64-linux)
+==588304==    by 0x1008DA9F17: ???
+==588304==    by 0x1008DA9F2F: ???
+
+sched status:
+  running_tid=1
+
+Thread 1: status = VgTs_Runnable (lwpid 588304)
+==588304==    at 0x1092EF: get_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t2.esq)
+==588304==    by 0x109392: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t2.esq)
+==588304==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t2.esq)
+client stack range: [0x1FFEFFE000 0x1FFF000FFF] client SP: 0x1FFF0002E0
+valgrind stack range: [0x1008CAA000 0x1008DA9FFF] top usage: 18744 of 1048576
+
+
+Note: see also the FAQ in the source distribution.
+It contains workarounds to several common problems.
+In particular, if Valgrind aborted or crashed after
+identifying problems in your program, there's a good chance
+that fixing those problems will prevent Valgrind aborting or
+crashing, especially if it happened in m_mallocfree.c.
+
+If that doesn't help, please report this bug to: www.valgrind.org
+
+In the bug report, send all the above text, the valgrind
+version, and what OS and version you are using.  Thanks.
+

@@ -1,0 +1,46 @@
+==588257== Invalid read of size 1
+==588257==    at 0x484ED24: strlen (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588257==    by 0x48E7D30: __vfprintf_internal (vfprintf-internal.c:1517)
+==588257==    by 0x48D179E: printf (printf.c:33)
+==588257==    by 0x10927E: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t1.esq)
+==588257==  Address 0x4a9c041 is 0 bytes after a block of size 1 alloc'd
+==588257==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588257==    by 0x10936F: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t1.esq)
+==588257==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t1.esq)
+==588257== 
+==588257== Conditional jump or move depends on uninitialised value(s)
+==588257==    at 0x484ED19: strlen (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588257==    by 0x48E7D30: __vfprintf_internal (vfprintf-internal.c:1517)
+==588257==    by 0x48D179E: printf (printf.c:33)
+==588257==    by 0x10927E: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t1.esq)
+==588257==  Uninitialised value was created by a heap allocation
+==588257==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588257==    by 0x10936F: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t1.esq)
+==588257==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t1.esq)
+==588257== 
+==588257== ERROR SUMMARY: 10000 errors from 2 contexts (suppressed: 0 from 0)
+==588257== 
+==588257== 42 errors in context 1 of 2:
+==588257== Invalid read of size 1
+==588257==    at 0x484ED24: strlen (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588257==    by 0x48E7D30: __vfprintf_internal (vfprintf-internal.c:1517)
+==588257==    by 0x48D179E: printf (printf.c:33)
+==588257==    by 0x10927E: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t1.esq)
+==588257==  Address 0x4a9c041 is 0 bytes after a block of size 1 alloc'd
+==588257==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588257==    by 0x10936F: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t1.esq)
+==588257==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t1.esq)
+==588257== 
+==588257== 
+==588257== 9958 errors in context 2 of 2:
+==588257== Conditional jump or move depends on uninitialised value(s)
+==588257==    at 0x484ED19: strlen (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588257==    by 0x48E7D30: __vfprintf_internal (vfprintf-internal.c:1517)
+==588257==    by 0x48D179E: printf (printf.c:33)
+==588257==    by 0x10927E: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t1.esq)
+==588257==  Uninitialised value was created by a heap allocation
+==588257==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588257==    by 0x10936F: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t1.esq)
+==588257==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t1.esq)
+==588257== 
+==588257== ERROR SUMMARY: 10000 errors from 2 contexts (suppressed: 0 from 0)

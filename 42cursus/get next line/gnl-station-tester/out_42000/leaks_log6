@@ -1,0 +1,102 @@
+==588558== Conditional jump or move depends on uninitialised value(s)
+==588558==    at 0x484ED28: strlen (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588558==    by 0x48E7D30: __vfprintf_internal (vfprintf-internal.c:1517)
+==588558==    by 0x48D179E: printf (printf.c:33)
+==588558==    by 0x10927E: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42000.esq)
+==588558==  Uninitialised value was created by a heap allocation
+==588558==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588558==    by 0x10936F: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42000.esq)
+==588558==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42000.esq)
+==588558== 
+==588558== Conditional jump or move depends on uninitialised value(s)
+==588558==    at 0x484ED19: strlen (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588558==    by 0x48E7D30: __vfprintf_internal (vfprintf-internal.c:1517)
+==588558==    by 0x48D179E: printf (printf.c:33)
+==588558==    by 0x10927E: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42000.esq)
+==588558==  Uninitialised value was created by a heap allocation
+==588558==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588558==    by 0x10936F: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42000.esq)
+==588558==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42000.esq)
+==588558== 
+==588558== Syscall param write(buf) points to uninitialised byte(s)
+==588558==    at 0x4985A77: write (write.c:26)
+==588558==    by 0x48FBEEC: _IO_file_write@@GLIBC_2.2.5 (fileops.c:1180)
+==588558==    by 0x48FD9E0: new_do_write (fileops.c:448)
+==588558==    by 0x48FD9E0: _IO_new_do_write (fileops.c:425)
+==588558==    by 0x48FD9E0: _IO_do_write@@GLIBC_2.2.5 (fileops.c:422)
+==588558==    by 0x48FF9C1: _IO_flush_all_lockp (genops.c:706)
+==588558==    by 0x48FFB7D: _IO_cleanup (genops.c:866)
+==588558==    by 0x48B6541: __run_exit_handlers (exit.c:134)
+==588558==    by 0x48B660F: exit (exit.c:143)
+==588558==    by 0x489AD96: (below main) (libc_start_call_main.h:74)
+==588558==  Address 0x4aa6491 is 1 bytes inside a block of size 8,192 alloc'd
+==588558==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588558==    by 0x48EFBF4: _IO_file_doallocate (filedoalloc.c:101)
+==588558==    by 0x48FECDF: _IO_doallocbuf (genops.c:347)
+==588558==    by 0x48FDF5F: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:744)
+==588558==    by 0x48FC6D4: _IO_new_file_xsputn (fileops.c:1243)
+==588558==    by 0x48FC6D4: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1196)
+==588558==    by 0x48E800B: outstring_func (vfprintf-internal.c:239)
+==588558==    by 0x48E800B: __vfprintf_internal (vfprintf-internal.c:1517)
+==588558==    by 0x48D179E: printf (printf.c:33)
+==588558==    by 0x10927E: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42000.esq)
+==588558==  Uninitialised value was created by a heap allocation
+==588558==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588558==    by 0x10936F: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42000.esq)
+==588558==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42000.esq)
+==588558== 
+==588558== ERROR SUMMARY: 10021 errors from 3 contexts (suppressed: 0 from 0)
+==588558== 
+==588558== 1 errors in context 1 of 3:
+==588558== Syscall param write(buf) points to uninitialised byte(s)
+==588558==    at 0x4985A77: write (write.c:26)
+==588558==    by 0x48FBEEC: _IO_file_write@@GLIBC_2.2.5 (fileops.c:1180)
+==588558==    by 0x48FD9E0: new_do_write (fileops.c:448)
+==588558==    by 0x48FD9E0: _IO_new_do_write (fileops.c:425)
+==588558==    by 0x48FD9E0: _IO_do_write@@GLIBC_2.2.5 (fileops.c:422)
+==588558==    by 0x48FF9C1: _IO_flush_all_lockp (genops.c:706)
+==588558==    by 0x48FFB7D: _IO_cleanup (genops.c:866)
+==588558==    by 0x48B6541: __run_exit_handlers (exit.c:134)
+==588558==    by 0x48B660F: exit (exit.c:143)
+==588558==    by 0x489AD96: (below main) (libc_start_call_main.h:74)
+==588558==  Address 0x4aa6491 is 1 bytes inside a block of size 8,192 alloc'd
+==588558==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588558==    by 0x48EFBF4: _IO_file_doallocate (filedoalloc.c:101)
+==588558==    by 0x48FECDF: _IO_doallocbuf (genops.c:347)
+==588558==    by 0x48FDF5F: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:744)
+==588558==    by 0x48FC6D4: _IO_new_file_xsputn (fileops.c:1243)
+==588558==    by 0x48FC6D4: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1196)
+==588558==    by 0x48E800B: outstring_func (vfprintf-internal.c:239)
+==588558==    by 0x48E800B: __vfprintf_internal (vfprintf-internal.c:1517)
+==588558==    by 0x48D179E: printf (printf.c:33)
+==588558==    by 0x10927E: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42000.esq)
+==588558==  Uninitialised value was created by a heap allocation
+==588558==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588558==    by 0x10936F: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42000.esq)
+==588558==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42000.esq)
+==588558== 
+==588558== 
+==588558== 21 errors in context 2 of 3:
+==588558== Conditional jump or move depends on uninitialised value(s)
+==588558==    at 0x484ED28: strlen (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588558==    by 0x48E7D30: __vfprintf_internal (vfprintf-internal.c:1517)
+==588558==    by 0x48D179E: printf (printf.c:33)
+==588558==    by 0x10927E: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42000.esq)
+==588558==  Uninitialised value was created by a heap allocation
+==588558==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588558==    by 0x10936F: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42000.esq)
+==588558==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42000.esq)
+==588558== 
+==588558== 
+==588558== 9999 errors in context 3 of 3:
+==588558== Conditional jump or move depends on uninitialised value(s)
+==588558==    at 0x484ED19: strlen (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588558==    by 0x48E7D30: __vfprintf_internal (vfprintf-internal.c:1517)
+==588558==    by 0x48D179E: printf (printf.c:33)
+==588558==    by 0x10927E: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42000.esq)
+==588558==  Uninitialised value was created by a heap allocation
+==588558==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==588558==    by 0x10936F: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42000.esq)
+==588558==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42000.esq)
+==588558== 
+==588558== ERROR SUMMARY: 10021 errors from 3 contexts (suppressed: 0 from 0)

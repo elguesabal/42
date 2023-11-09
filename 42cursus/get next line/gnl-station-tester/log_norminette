@@ -1,0 +1,22 @@
+../get_next_line.c: Error!
+Error: WRONG_SCOPE_COMMENT  (line:  23, col:   5):	Comment is invalid in this scope
+Error: VAR_DECL_START_FUNC  (line:  24, col:   1):	Variable declaration not at start of function
+Error: MISALIGNED_VAR_DECL  (line:  25, col:   9):	Misaligned variable declaration
+Error: LINE_TOO_LONG        (line:  47, col:   1):	line too long
+Error: WRONG_SCOPE_COMMENT  (line:  47, col:   5):	Comment is invalid in this scope
+Error: LINE_TOO_LONG        (line:  47, col: 113):	line too long
+Error: VAR_DECL_START_FUNC  (line:  48, col:   1):	Variable declaration not at start of function
+Error: WRONG_SCOPE_COMMENT  (line:  49, col:   5):	Comment is invalid in this scope
+Error: EMPTY_LINE_FUNCTION  (line:  50, col:   1):	Empty line in function
+Error: WRONG_SCOPE_COMMENT  (line:  51, col:   5):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  52, col:   1):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  56, col:   5):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  57, col:   5):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  58, col:   5):	Comment is invalid in this scope
+Error: BRACE_SHOULD_EOL     (line:  61, col:   1):	Expected newline after brace
+../get_next_line.h: Error!
+Error: PREPROC_BAD_INDENT   (line:  20, col:   1):	Bad preprocessor indentation
+Error: PREPROC_BAD_INDENT   (line:  21, col:   1):	Bad preprocessor indentation
+Error: PREPROC_BAD_INDENT   (line:  22, col:   1):	Bad preprocessor indentation
+../get_next_line_utils.c: Error!
+Error: EMPTY_LINE_EOF       (line:  12, col:   1):	Empty line at end of file

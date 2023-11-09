@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/09 11:21:10 by joseanto          #+#    #+#             */
+/*   Updated: 2023/11/09 19:42:22 by joseanto         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
@@ -39,7 +49,8 @@ char	*get_next_line(int fd)
 	// ssize_t		buffer_len;
 
 	// line++;
-	line = malloc(100 * sizeof(char));
+//printf("%d\n", BUFFER_SIZE);
+	line = malloc(BUFFER_SIZE * sizeof(char));
 	if (!line)
 		return (NULL);
 	// buffer_len = get_line(fd, line);

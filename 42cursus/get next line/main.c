@@ -6,6 +6,7 @@ int	main(void)
 {
 	int	fd;
 	char	*line;
+	int	i;
 
 	fd = open("arquivo.txt", O_RDONLY);
 	if (fd < 0)
@@ -13,12 +14,13 @@ int	main(void)
 		printf("ERRO");
 		return (1);
 	}
-	line = get_next_line(fd);
-	printf("%s", line);
-	line = get_next_line(fd);
-	printf("%s", line);
-	line = get_next_line(fd);
-	printf("%s", line);
+	i = 0;
+	while (i < 3)
+	{
+		line = get_next_line(fd);
+		printf("%s", line);
+		i++;
+	}
 	free(line);
 	close(fd);
 	return (0);
