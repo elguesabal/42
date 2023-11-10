@@ -1,7 +1,6 @@
 #include "ft_printf.h"
 #include <stdio.h>
 
-// MAIN DE TESTE (TOMARA Q EU NAO ESQUECA DE APAGAR ISTO ANTES DE ENVIAR)
 int main() {
 	int return1, return2;
 
@@ -65,7 +64,4 @@ int main() {
 	return2 = printf("printf: %%\n");
 	printf("return1: %d\treturn2: %d\n\n", return1, return2);
 	// %%
-
-	// ft_printf("\n\n%p\n", 0);
-	// printf("%p\n\n", 0);
 }

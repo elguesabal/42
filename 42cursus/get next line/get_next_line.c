@@ -13,49 +13,44 @@
 #include "get_next_line.h"
 #include <stdio.h>
 
-// static int	count_line()
-// {
-
-// }
-
-static void	get_line(int fd, char *line)
+static int	get_line(int fd, char *line)
 {
-	//static int	i = 0;
 	char	c;
 	int	i;
 
 	i = 0;
-	while (read(fd, &c, 1) == 1)
+	while (i < BUFFER_SIZE && read(fd, &c, 1) == 1)
 	{
 		if (c == '\n')
 		{
 			line[i] = '\n';
-			return ;
+			return (i);
 		}
 		if (c == '\0')
 		{
 			line[i] = '\0';
-			return ;
+			return (i);
 		}
 		line[i] = c;
 		i++;
+	}
+	if (i == 0)
+		return (0);
+	else
+	{
+		line[i] = '\0';
+		return (i + 1);
 	}
 }
 
 char	*get_next_line(int fd)
 {
-	// static int	line = 0;	// SO FUNCIONA CORRETAMENTE SE A VARIAVEL FOR ATRIBUIDA JUNTO COM SUA DECLARACAO
 	char		*line;
-	// ssize_t		buffer_len;
 
-	// line++;
-//printf("%d\n", BUFFER_SIZE);
-	line = malloc(BUFFER_SIZE * sizeof(char));
+	line = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!line)
 		return (NULL);
-	// buffer_len = get_line(fd, line);
-	// if (buffer_len == -1)
-	// 	return (NULL);
-	get_line(fd, line);
+	if (!get_line(fd, line))
+		return (NULL);
 	return (line);
 }

@@ -18,7 +18,7 @@ int	main(void)
 	while (i < 3)
 	{
 		line = get_next_line(fd);
-		printf("%s", line);
+		printf("%s\n", line);
 		i++;
 	}
 	free(line);
