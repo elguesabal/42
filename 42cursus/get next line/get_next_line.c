@@ -17,22 +17,40 @@ static int	get_line(int fd, char *line)
 {
 	char	c;
 	int	i;
+	int	return_read;
 
+// while (1)
+// {
+// 	read(fd, &c, 1);	// CASO O READ CONTINUE SE REPETINDO MESMO APOR O ARQUIVO CHEGAR AO FIM ELE REPETE INFINITAMENTE O ULTIMO CARACTER
+// 	printf("%c", c);
+// }
 	i = 0;
-	while (i < BUFFER_SIZE && read(fd, &c, 1) == 1)
+	while (i < BUFFER_SIZE && (return_read = read(fd, &c, 1)) == 1)
 	{
 		if (c == '\n')
 		{
 			line[i] = '\n';
 			return (i);
 		}
-		if (c == '\0')
+		if (!return_read)	// UM ARQUIVO TXT NAO TERMINA COM '\0'
 		{
 			line[i] = '\0';
 			return (i);
 		}
 		line[i] = c;
+// printf("%d ", return_read);
 		i++;
+	}
+// printf("%d", return_read);
+	while (c != '\n' && read(fd, &c, 1) == 1) // AINDA NAO SEI SE DEVO TRATAR SE O BUFFER FOR MENOR Q A LINHA
+	{
+		// read(fd, &c, 1);
+		if (c == '\n') // DEVO COLOCAR '\n' SE O BUFFER NAO PERMITIR LER ATE O FIM DA LINA?
+		{
+			line[i] = '\n';
+			i++;
+		}
+//printf("a");	// UM ARQUIVO TXT NAO TERMINA COM '\0'
 	}
 	if (i == 0)
 		return (0);
