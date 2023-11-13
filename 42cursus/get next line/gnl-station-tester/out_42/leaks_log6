@@ -1,46 +1,6 @@
-==588419== Conditional jump or move depends on uninitialised value(s)
-==588419==    at 0x484ED28: strlen (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==588419==    by 0x48E7D30: __vfprintf_internal (vfprintf-internal.c:1517)
-==588419==    by 0x48D179E: printf (printf.c:33)
-==588419==    by 0x10927E: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
-==588419==  Uninitialised value was created by a heap allocation
-==588419==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==588419==    by 0x10936F: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
-==588419==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
-==588419== 
-==588419== Conditional jump or move depends on uninitialised value(s)
-==588419==    at 0x484ED19: strlen (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==588419==    by 0x48E7D30: __vfprintf_internal (vfprintf-internal.c:1517)
-==588419==    by 0x48D179E: printf (printf.c:33)
-==588419==    by 0x10927E: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
-==588419==  Uninitialised value was created by a heap allocation
-==588419==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==588419==    by 0x10936F: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
-==588419==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
-==588419== 
-==588419== ERROR SUMMARY: 10000 errors from 2 contexts (suppressed: 0 from 0)
-==588419== 
-==588419== 1 errors in context 1 of 2:
-==588419== Conditional jump or move depends on uninitialised value(s)
-==588419==    at 0x484ED28: strlen (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==588419==    by 0x48E7D30: __vfprintf_internal (vfprintf-internal.c:1517)
-==588419==    by 0x48D179E: printf (printf.c:33)
-==588419==    by 0x10927E: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
-==588419==  Uninitialised value was created by a heap allocation
-==588419==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==588419==    by 0x10936F: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
-==588419==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
-==588419== 
-==588419== 
-==588419== 9999 errors in context 2 of 2:
-==588419== Conditional jump or move depends on uninitialised value(s)
-==588419==    at 0x484ED19: strlen (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==588419==    by 0x48E7D30: __vfprintf_internal (vfprintf-internal.c:1517)
-==588419==    by 0x48D179E: printf (printf.c:33)
-==588419==    by 0x10927E: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
-==588419==  Uninitialised value was created by a heap allocation
-==588419==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==588419==    by 0x10936F: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
-==588419==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
-==588419== 
-==588419== ERROR SUMMARY: 10000 errors from 2 contexts (suppressed: 0 from 0)
+==104057== 43 bytes in 1 blocks are definitely lost in loss record 1 of 1
+==104057==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==104057==    by 0x1093E7: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==104057==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42.esq)
+==104057== 
+==104057== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)

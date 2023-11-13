@@ -1,56 +1,65 @@
-==588180== Invalid write of size 1
-==588180==    at 0x10931F: get_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
-==588180==    by 0x109392: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
-==588180==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
-==588180==  Address 0x4a9c040 is 0 bytes after a block of size 0 alloc'd
-==588180==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==588180==    by 0x10936F: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
-==588180==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
-==588180== 
-
-valgrind: m_mallocfree.c:303 (get_bszB_as_is): Assertion 'bszB_lo == bszB_hi' failed.
-valgrind: Heap block lo/hi size mismatch: lo = 64, hi = 3544395820347831604.
-This is probably caused by your program erroneously writing past the
-end of a heap block and corrupting heap metadata.  If you fix any
-invalid writes reported by Memcheck, this assertion failure will
-probably go away.  Please try that before reporting this as a bug.
-
-
-host stacktrace:
-==588180==    at 0x5804284A: ??? (in /usr/libexec/valgrind/memcheck-amd64-linux)
-==588180==    by 0x58042977: ??? (in /usr/libexec/valgrind/memcheck-amd64-linux)
-==588180==    by 0x58042B1B: ??? (in /usr/libexec/valgrind/memcheck-amd64-linux)
-==588180==    by 0x5804C8CF: ??? (in /usr/libexec/valgrind/memcheck-amd64-linux)
-==588180==    by 0x5803AE9A: ??? (in /usr/libexec/valgrind/memcheck-amd64-linux)
-==588180==    by 0x580395B7: ??? (in /usr/libexec/valgrind/memcheck-amd64-linux)
-==588180==    by 0x5803DF3D: ??? (in /usr/libexec/valgrind/memcheck-amd64-linux)
-==588180==    by 0x58038868: ??? (in /usr/libexec/valgrind/memcheck-amd64-linux)
-==588180==    by 0x1008ED64A2: ???
-==588180==    by 0x1008DA9F2F: ???
-==588180==    by 0x581FCD83: ??? (in /usr/libexec/valgrind/memcheck-amd64-linux)
-==588180==    by 0x1008DA9F17: ???
-==588180==    by 0x1008DA9F2F: ???
-
-sched status:
-  running_tid=1
-
-Thread 1: status = VgTs_Runnable (lwpid 588180)
-==588180==    at 0x1092EF: get_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
-==588180==    by 0x109392: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
-==588180==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
-client stack range: [0x1FFEFFE000 0x1FFF000FFF] client SP: 0x1FFF0002E0
-valgrind stack range: [0x1008CAA000 0x1008DA9FFF] top usage: 18744 of 1048576
-
-
-Note: see also the FAQ in the source distribution.
-It contains workarounds to several common problems.
-In particular, if Valgrind aborted or crashed after
-identifying problems in your program, there's a good chance
-that fixing those problems will prevent Valgrind aborting or
-crashing, especially if it happened in m_mallocfree.c.
-
-If that doesn't help, please report this bug to: www.valgrind.org
-
-In the bug report, send all the above text, the valgrind
-version, and what OS and version you are using.  Thanks.
-
+==103858== Conditional jump or move depends on uninitialised value(s)
+==103858==    at 0x109378: get_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
+==103858==    by 0x10940A: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
+==103858==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
+==103858==  Uninitialised value was created by a stack allocation
+==103858==    at 0x1092AF: get_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
+==103858== 
+==103858== Invalid write of size 1
+==103858==    at 0x1093B0: get_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
+==103858==    by 0x10940A: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
+==103858==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
+==103858==  Address 0x4a9c041 is 0 bytes after a block of size 1 alloc'd
+==103858==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==103858==    by 0x1093E7: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
+==103858==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
+==103858== 
+==103858== Invalid read of size 1
+==103858==    at 0x484ED24: strlen (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==103858==    by 0x48E7D30: __vfprintf_internal (vfprintf-internal.c:1517)
+==103858==    by 0x48D179E: printf (printf.c:33)
+==103858==    by 0x10927E: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
+==103858==  Address 0x4a9c041 is 0 bytes after a block of size 1 alloc'd
+==103858==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==103858==    by 0x1093E7: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
+==103858==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
+==103858== 
+==103858== 1 bytes in 1 blocks are definitely lost in loss record 1 of 1
+==103858==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==103858==    by 0x1093E7: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
+==103858==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
+==103858== 
+==103858== ERROR SUMMARY: 5 errors from 4 contexts (suppressed: 0 from 0)
+==103858== 
+==103858== 1 errors in context 1 of 4:
+==103858== Invalid read of size 1
+==103858==    at 0x484ED24: strlen (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==103858==    by 0x48E7D30: __vfprintf_internal (vfprintf-internal.c:1517)
+==103858==    by 0x48D179E: printf (printf.c:33)
+==103858==    by 0x10927E: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
+==103858==  Address 0x4a9c041 is 0 bytes after a block of size 1 alloc'd
+==103858==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==103858==    by 0x1093E7: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
+==103858==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
+==103858== 
+==103858== 
+==103858== 1 errors in context 2 of 4:
+==103858== Invalid write of size 1
+==103858==    at 0x1093B0: get_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
+==103858==    by 0x10940A: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
+==103858==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
+==103858==  Address 0x4a9c041 is 0 bytes after a block of size 1 alloc'd
+==103858==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==103858==    by 0x1093E7: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
+==103858==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
+==103858== 
+==103858== 
+==103858== 2 errors in context 3 of 4:
+==103858== Conditional jump or move depends on uninitialised value(s)
+==103858==    at 0x109378: get_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
+==103858==    by 0x10940A: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
+==103858==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
+==103858==  Uninitialised value was created by a stack allocation
+==103858==    at 0x1092AF: get_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t0.esq)
+==103858== 
+==103858== ERROR SUMMARY: 5 errors from 4 contexts (suppressed: 0 from 0)
