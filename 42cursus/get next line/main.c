@@ -15,7 +15,7 @@ int	main(void)
 		return (1);
 	}
 	i = 0;
-	while (i < 3)
+	while (i < 4)
 	{
 		line = get_next_line(fd);
 		printf("%s", line);

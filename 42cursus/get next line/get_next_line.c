@@ -63,18 +63,6 @@ static void move_and_remove(char *destination, char *source, size_t count)
 	}
 }
 
-// size_t	ft_strlen(const char *str)
-// {
-// 	size_t	i;
-
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		i++;
-// 	}
-// 	return (i);
-// }
-
 char	*get_next_line(int fd)
 {
 	static char	*buffer;
@@ -103,18 +91,15 @@ char	*get_next_line(int fd)
 		if (!line)
 		{
 			line = malloc((100 * sizeof(char)));
-			move_and_remove(line, buffer, search(buffer));
+			move_and_remove(line, buffer, search(buffer));	// ACHO Q O PROBLEMA DE NAO LER A ULTIMA LINHA ESTA AKI PQ NA ULTIMA LINHA A FUNCAO search() RETORNA 0
 		}
 
-		if (search(line))
+		if (search(line) || (!search(line) && size_read < BUFFER_SIZE))
 			return (line);
-		else
+		else if (!*buffer)
 		{
-			if (!*buffer)
-			{
-				size_read = read(fd, buffer, BUFFER_SIZE);
-				buffer[size_read] = '\0';
-			}
+		 	size_read = read(fd, buffer, BUFFER_SIZE);
+		 	buffer[size_read] = '\0';
 		}
 	}
 }
