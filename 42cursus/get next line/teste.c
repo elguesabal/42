@@ -1,69 +1,71 @@
-#include <unistd.h>
-#include <stdlib.h>
 #include <stdio.h>
-#include <fcntl.h>
-#include <string.h>
 
-#define BUFFER_SIZE 1024
-
-char	*get_next_line(int fd)
+static void move_and_remove(char *destination, char *source, size_t count)
 {
-	static char	buffer[BUFFER_SIZE];
-	static int	buffer_index;
-	static int	buffer_size;
-	char		*line;
-	int			line_size;
+	size_t	len;
+	size_t	i;
+	size_t	rest;
 
-	line = NULL;
-	line_size = 0;
-	while (1)
+	if (!destination || !source)
+		return;
+	len = 0;
+	while (source[len])
+		len++;
+	if (count > len)
+		return;
+	i = 0;
+	while (i < count)
 	{
-		if (buffer_index == buffer_size)
-		{
-			buffer_size = read(fd, buffer, BUFFER_SIZE);
-			if (buffer_size == 0 && line_size > 0)
-				return (line);
-			buffer_index = 0;
-		}
-		while (buffer_index < buffer_size)
-		{
-			if (buffer[buffer_index] == '\n')
-			{
-				line = realloc(line, line_size + 1);
-				line[line_size] = '\0';
-				buffer_index++;
-				return (line);
-			}
-			else
-			{
-				line = realloc(line, line_size + 1);
-				line[line_size++] = buffer[buffer_index];
-				buffer_index++;
-			}
-		}
+		destination[i] = source[i];
+		i++;
+	}
+	destination[count] = '\0';
+	rest = 0;
+	while (source[rest + count] != '\0')
+	{
+		if (source[rest + count] == '\0')
+			return;
+		rest++;
+	}
+	i = 0;
+	while (i <= rest)
+	{
+		source[i] = source[i + count];
+		i++;
 	}
 }
 
-// Exemplo de uso
+size_t	ft_strlen(const char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i])
+	{
+		i++;
+	}
+	return (i);
+}
+
+size_t	search(const char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i] && str[i] != 'a')
+	{
+		i++;
+	}
+	if (!str[i])
+		return (0);
+	i++;
+	return (i);
+}
+
 int main() {
-    int fd = open("arquivo.txt", O_RDONLY);
-    if (fd == -1) {
-        perror("Erro ao abrir o arquivo");
-        return 1;
-    }
-
-    int i = 0;
-    char *line;
-
-    // Chama a função até que ela retorne NULL, indicando o final do arquivo
-    while (i < 3) {
-        line = get_next_line(fd);
-        // Faça algo com a linha, por exemplo, imprimir no console
-        printf("%s\n", line);
-        free(line); // Não se esqueça de liberar a memória alocada para a linha
-        i++;
-    }
-
-    close(fd);
-    return 0;
+	char s1[10] = "testea", s2[10];
+	printf("antes: %d %d", ft_strlen(s1), ft_strlen(s2));
+	move_and_remove(s2, s1, search(s1));
+	printf("\n\ndepois: %d %d", ft_strlen(s1), ft_strlen(s2));
+	printf("\ndepois: %s %s", s2, s1);
 }

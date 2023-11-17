@@ -15,10 +15,10 @@ int	main(void)
 		return (1);
 	}
 	i = 0;
-	while (i < 4)
+	while (i < 1)
 	{
 		line = get_next_line(fd);
-		printf("%s", line);
+		//printf("%s", line);
 		free(line);
 		i++;
 	}
