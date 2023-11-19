@@ -41,104 +41,53 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+size_t	search(const char *str, char c)
 {
-	char	*new_str;
-	int		len1;
-	int		len2;
+	size_t	i;
 
-	if (!s1 || !s2)
-		return (NULL);
-	len1 = ft_strlen(s1);
-	len2 = ft_strlen(s2);
-	new_str = malloc((len1 + len2 + 1) * sizeof(char *));
-	if (new_str)
+	i = 0;
+	while (str[i] && str[i] != c)
 	{
-		new_str[len1 + len2] = '\0';
-		while (len2--)
-		{
-			new_str[len1 + len2] = s2[len2];
-		}
-		while (len1--)
-		{
-			new_str[len1] = s1[len1];
-		}
+		i++;
 	}
-	return (new_str);
+	if (!str[i])
+		return (0);
+	i++;
+	return (i);
 }
 
-// size_t	search(const char *str, char c)
-// {
-// 	size_t	i;
+size_t	copy_line(char *dest, const char *src, size_t size)
+{
+	size_t	i;
+	size_t	len;
 
-// 	i = 0;
-// 	while (str[i] && str[i] != c)
-// 	{
-// 		i++;
-// 	}
-// 	// if (!str[i])
-// 	// 	return (0);
-// 	i++;
-// 	return (i);
-// }
+	i = 0;
+	if (size > 0)
+	{
+		len = ft_strlen(dest);
+		while (len + i < size - 1 && src[i] && src[i] != '\n')
+		{
+			dest[len++] = src[i++];
+		}
+		if (src[i] == '\n')
+		{
+			dest[len++] = '\n';
+			dest[len] = '\0';
+		}
+		else
+			dest[len] = '\0';
+	}
+	return (i);
+}
 
-// static void move_and_remove(char *destination, char *source, size_t count)
-// {
-// 	size_t	len;
-// 	size_t	i;
-// 	size_t	rest;
+static int	write_buffer(int fd, char *buffer)
+{
+	int	size_read;
 
-// 	if (!destination || !source)
-// 		return;
-// 	len = 0;
-// 	while (source[len])
-// 		len++;
-// 	// if (count > len)
-// 	// 	return;
-// 	i = 0;
-// 	while (i < count)
-// 	{
-// 		destination[i] = source[i];
-// 		i++;
-// 	}
-// 	destination[count] = '\0';
-// 	rest = 0;
-// 	while (source[rest + count] != '\0')
-// 	{
-// 		if (source[rest + count] == '\0')
-// 			return;
-// 		rest++;
-// 	}
-// 	i = 0;
-// 	while (i <= rest)
-// 	{
-// 		source[i] = source[i + count];
-// 		i++;
-// 	}
-// }
-
-// static void	move_and_remove(char *line, char *buffer)
-// {
-// 	size_t	len_line;	// ARMAZENA O TAMANHO
-// 	size_t	line_break;	// ARMAZENA QUANTOS CARACTERES TEM ATE O '\n' OU '\0'
-// 	size_t	i;
-
-// 	if (!line || !buffer)	// VERIFICA SE FOI ALOCADO ESPACO DE MEMORIA
-// 		return;
-
-// 	len_line = ft_strlen(line);	// RETORNA O TAMANHO
-// 	line_break = search(buffer, '\n');	// RETORNA A QUANTIDADES DE CARACTERES DO COMECO ATE '\n' OU '\0'
-
-// 	i = 0;
-// 	while (*buffer && *buffer != '\n')
-// 	{
-// 		line[len_line] = *buffer;
-// 		len_line++;
-// 		buffer++;
-// 	}
-// 	line[len_line] = *buffer;
-// //printf("%s", line);
-// }
+	size_read = read(fd, buffer, BUFFER_SIZE);
+	buffer[size_read] = '\0';
+	return (size_read);
+}
 
 char	*get_next_line(int fd)
 {
@@ -146,6 +95,7 @@ char	*get_next_line(int fd)
 	static char	*backup;
 	char		*line;
 	int		size_read;
+	static size_t	copied_lines;
 
 	line = NULL;
 	if (!buffer)
@@ -154,40 +104,32 @@ char	*get_next_line(int fd)
 		if (buffer)
 		{
 			backup = buffer;	// COPIA DO ENDERECO INICIAL PRA DPS DAR FREE
-			size_read = read(fd, buffer, BUFFER_SIZE);
-			buffer[size_read] = '\0';
+			size_read = write_buffer(fd, buffer);
 		}
 	}
 
 	line = ft_calloc(100, sizeof(char));
 	if (line)
 	{
-		// move_and_remove(line, buffer, size_line(buffer));
-		// move_and_remove(line, buffer);
-		
+		//while (!search(line, '\n') && *buffer)	// TO PERDIDO QUANTO A COMO TRATAR CASOS ESPECIFICOS DE LINHA INCOMPLETA E ULTIMA LINHA
+		while (1)
+		{
+			if (search(line, '\n') || (size_read < BUFFER_SIZE && ????))
+			{
+				return (line);
+			}
+			else
+			{
+				if (copied_lines == BUFFER_SIZE)
+				{
+					size_read = write_buffer(fd, buffer);
+					copied_lines = 0;
+				}
+				if(copied_lines < BUFFER_SIZE)
+				{
+					copied_lines += copy_line(line, buffer + copied_lines, 100);
+				}
+			}
+		}
 	}
-
-	// while (1)
-	// {
-	// 	if (!*buffer)
-	// 	{
-	// 		size_read = read(fd, buffer, BUFFER_SIZE);
-	// 		buffer[size_read] = '\0';
-	// 		if (size_read && !search(line) && !*line)
-	// 		{
-	// 			move_and_remove(line, buffer, size_line(buffer));
-	// 		}
-	// 	}
-
-	// 	if (!*line || !search(line))
-	// 	{
-	// 		move_and_remove(line, buffer, size_line(buffer));	// APARENTEMENTE QUANDO CHEGA NA ULTIMA LINHA E ELA TEM SO '\n' ELA NAO RETORNA NADA
-	// 	}
-
-	// 	if (search(line) || (!search(line) && size_read < BUFFER_SIZE))
-	// 	{
-	// 		return (line);	// NA ULTIMA SE FOR APENAS UM '\n' ELA NAO RETORNA NADA
-	// 	}
-	// }
-	return (line);
 }
