@@ -1,6 +1,0 @@
-==104148== 42,001 bytes in 1 blocks are definitely lost in loss record 1 of 1
-==104148==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==104148==    by 0x1093EA: get_next_line (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42000.esq)
-==104148==    by 0x10925B: main (in /nfs/homes/joseanto/42/42cursus/get next line/gnl-station-tester/t42000.esq)
-==104148== 
-==104148== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
