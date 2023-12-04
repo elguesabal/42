@@ -1,0 +1,112 @@
+VISAO GERAL
+
+Como funciona uma maquina virtual?
+
+Diferencas entre Rocky e Debian
+
+Finalidade das maquinas virtuais
+
+Diferenca entre aptitude e aptitude
+
+Oque e AppArmor?
+
+
+
+CONFIGURACOES SIMPLES
+
+Verificar se o servico ufw foi iniciado
+sudo ufw status
+
+Verificar se o servico ssh foi iniciado
+sudo ufw status
+
+Verificar o sistema operacional instalado
+uname -a
+
+
+
+
+INSTRUCOES GERAIS
+
+Verificar assinaturas
+shasum <NOME_DO_ARQUIVO>
+
+
+
+DO UTILIZADOR
+
+Verificar se o usuario esta no grupo "sudo" e "user42"
+getent group user42
+getent group sudo
+
+Criar novo usuario
+
+Criar grupo chamado "evaluanting" e inserir o novo usuario criado anteriormente
+
+Explicacao das vantagens e desvantagens da politica de senhas
+
+
+
+NOME DE HOST E PARTICOES
+
+Verificar nome do hostname
+
+Modificar o nome do hostname
+
+Reverter a alteracao do nome do hostname
+
+Verificar particoes de disco
+
+Como funciona o LVM e do que se trata
+
+
+
+SUDO
+
+Verificar se o sudo esta instalado
+
+Atribuir o novo usuario ao grupo "sudo"
+
+Explicar o funcionamento do sudo
+
+Verificar a pasta /var/log/sudo
+
+
+
+UFW/FIREWALLD
+
+Verificar se o ufw esta instalado
+
+Verificar se esta funcionando
+
+Explicacao do que e o ufw
+
+Listar as regras ufw
+
+Adicionar uma regra na porta 8080
+
+Excluir essa nova regra
+
+
+
+SSH
+
+Verificar se o ssh esta instalado
+
+Verificar se esta funcionando
+
+Explicar o que e ssh
+
+Verificar se o servico ssh usa apenas a porta 4242
+
+Logar com o usuario recem criado
+
+
+
+MONITORAMENTO DE SCRIPT
+
+Explicar como o script funciona
+
+O que e crontab?
+
+Como configurar o crontab?
