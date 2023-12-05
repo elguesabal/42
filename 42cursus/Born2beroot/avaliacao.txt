@@ -1,14 +1,31 @@
 VISAO GERAL
 
 Como funciona uma maquina virtual?
+Uma máquina virtual (VM) é um software que simula um computador dentro de outro computador. Em termos simples, é como se você tivesse um "computador virtual" rodando dentro do seu computador físico.
 
 Diferencas entre Rocky e Debian
 
-Finalidade das maquinas virtuais
 
-Diferenca entre aptitude e aptitude
+Finalidade das maquinas virtuais
+Isolamento de Ambientes
+Desenvolvimento e Teste
+Consolidação de Servidores
+Recuperação de Desastres e Backup
+Segurança
+Teste de Compatibilidade
+Desenvolvimento Multiplataforma
+Ambientes de Produção Eficientes
+Treinamento e Educação
+
+Diferenca entre aptitude e apt
+apt e mais simples em operacoes simples
+apt foi feito para integrar com mais ferramentas
+aptitude tem interface de usuario interativa
+aptitude tem resolucao de dependencias
+aptitude possui ferramentas de instalar e remover automaticamente pacotes recomendados e sugeridos
 
 Oque e AppArmor?
+AppArmor (Mandarim de controle de acesso para aplicativos) é um framework de controle de acesso obrigatório (MAC) para Linux. Ele funciona restringindo as capacidades dos programas em execução. AppArmor pode ser usado para limitar os privilégios de execução de aplicativos, protegendo contra possíveis ameaças de segurança.
 
 
 
