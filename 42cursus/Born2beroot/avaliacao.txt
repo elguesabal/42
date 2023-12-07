@@ -57,22 +57,33 @@ getent group user42
 getent group sudo
 
 Criar novo usuario
+sudo adduser <NOME_DO_USUARIO>
 
 Criar grupo chamado "evaluanting" e inserir o novo usuario criado anteriormente
+sudo addgroup evaluanting
+sudo adduser group <NOME_DO_USUARIO> evaluanting
 
 Explicacao das vantagens e desvantagens da politica de senhas
+vantagens: reducao do risco de ataques por forca bruta, protecao contra ataques de dicionario e melhoria da seguranca geral
+desvantagens: possivel resgate de senha
 
 
 
 NOME DE HOST E PARTICOES
 
 Verificar nome do hostname
+hostanme
 
 Modificar o nome do hostname
+sudo nano /etc/hostname
+sudo reboot
 
 Reverter a alteracao do nome do hostname
+sudo nano /etc/hostname
+sudo reboot
 
 Verificar particoes de disco
+lsblk
 
 Como funciona o LVM e do que se trata
 
@@ -81,10 +92,13 @@ Como funciona o LVM e do que se trata
 SUDO
 
 Verificar se o sudo esta instalado
+sudo -V > file.txt
 
 Atribuir o novo usuario ao grupo "sudo"
+sudo adduser <NOME_DO_USUARIO> user42
 
 Explicar o funcionamento do sudo
+O sudo (Superuser Do) é um comando usado em sistemas operacionais Unix e Unix-like, como Linux, para permitir que usuários autorizados executem comandos com os privilégios de outro usuário, geralmente o superusuário (root). Ele oferece uma maneira segura de realizar tarefas administrativas sem a necessidade de efetuar login diretamente como root.
 
 Verificar a pasta /var/log/sudo
 
@@ -93,30 +107,43 @@ Verificar a pasta /var/log/sudo
 UFW/FIREWALLD
 
 Verificar se o ufw esta instalado
+sudo ufw status
 
 Verificar se esta funcionando
+sudo ufw status
 
 Explicacao do que e o ufw
 
+O Uncomplicated Firewall (ufw) é uma interface de linha de comando para gerenciar o firewall no sistema operacional Linux. O ufw foi projetado para ser fácil de usar, simplificando a configuração do iptables, que é a infraestrutura de filtragem de pacotes do Linux.
+
 Listar as regras ufw
+sudo ufw status numbered
 
 Adicionar uma regra na porta 8080
+sudo ufw allow 8080
 
 Excluir essa nova regra
+sudo ufw delete <NUMERO_DA_REGRA>
 
 
 
 SSH
 
 Verificar se o ssh esta instalado
+ssh -V
 
 Verificar se esta funcionando
+sudo service ssh status
 
 Explicar o que e ssh
+é um protocolo de rede que permite a comunicação segura entre dois sistemas. Ele é comumente usado para acessar remotamente e gerenciar servidores e outros dispositivos de forma segura por meio de uma interface de linha de comando. O SSH foi projetado para fornecer segurança nas comunicações sobre uma rede não confiável, como a Internet.
 
 Verificar se o servico ssh usa apenas a porta 4242
+sudo service ssh status
 
 Logar com o usuario recem criado
+hostname -I
+ssh <NOME_DO_USUARIO>@<IP_DO_SERVIDOR> -p <PORTA>
 
 
 
@@ -125,5 +152,7 @@ MONITORAMENTO DE SCRIPT
 Explicar como o script funciona
 
 O que e crontab?
+O crontab é uma ferramenta no sistema operacional Unix/Linux que permite aos usuários programar a execução de comandos ou scripts em intervalos regulares, conhecidos como "tarefas agendadas" ou "cron jobs". Essas tarefas podem ser executadas automaticamente em segundo plano sem a necessidade de intervenção manual. O crontab é particularmente útil para automatizar tarefas repetitivas, como backups, limpeza de logs ou execução de scripts periódicos.
 
 Como configurar o crontab?
+sudo crontab -u root -e
