@@ -152,7 +152,7 @@ MONITORAMENTO DE SCRIPT
 Explicar como o script funciona
 
 O que e crontab?
-O crontab é uma ferramenta no sistema operacional Unix/Linux que permite aos usuários programar a execução de comandos ou scripts em intervalos regulares, conhecidos como "tarefas agendadas" ou "cron jobs". Essas tarefas podem ser executadas automaticamente em segundo plano sem a necessidade de intervenção manual. O crontab é particularmente útil para automatizar tarefas repetitivas, como backups, limpeza de logs ou execução de scripts periódicos.
+O crontab é uma ferramenta no sistema operacional Unix/Linux que permite aos usuários programar a execução de comandos ou scripts em intervalos regulares, conhecidos como "tarefas agendadas" ou "cron jobs". Essas tarefas podem ser executadas automaticamente em segundo plano sem a necessidade de intervenção manual. O crontab é particularmente útil para automatizar tarefas repetitivas, como backups, limpeza de logs ou execução de scripts periódicos
 
 Como configurar o crontab?
 sudo crontab -u root -e
