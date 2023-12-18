@@ -2,16 +2,17 @@
 
 void	res(int signum)
 {
-	str_server = malloc(4 * sizeof(char));
+	// str_server = malloc(4 * sizeof(char));
 
-for(int i = 0; i < 4; i++)
-{
-	str_server[i] = 'p';
-}
+// for(int i = 0; i < 4; i++)
+// {
+// 	str_server[i] = 'p';
+// }
 
 	// printf("\n%s", str); BEM BUGADO SEM /n NO FINAL
 	// printf("%s", str); BEM BUGADO SEM /n NO FINAL
-	printf("%s\n", str_server);
+	printf("teste:%p:teste\n", str_client);
+	//free(str_client);
 }
 
 int	main(void)
