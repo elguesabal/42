@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include <stdio.h>
 
-char	*client;
-char	*server;
+char	message[60];
+int	n_signal = 0;
 
 #endif

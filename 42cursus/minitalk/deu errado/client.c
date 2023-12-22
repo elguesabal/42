@@ -73,21 +73,23 @@ void	send_signal(unsigned long long p, int pid)
 	int	i;
 	int	bi;
 
-	printf("%llu", p);
+printf("%llu\n", p);
 	while (p > 0) {
 		bi = p % 2;
 		p = p / 2;
 		if (bi)
 		{
-			// kill(SIGUSR1, pid);
-printf("%d", bi);
+			kill(SIGUSR1, pid);
+// printf("%d", bi);
 		}
 		else
 		{
-			// kill(SIGUSR2, pid);
-printf("%d", bi);
+			kill(SIGUSR2, pid);
+// printf("%d", bi);
 		}
+		usleep(500);
     }
+// printf("\n");
 }
 
 int	main(int argc, char **argv)
@@ -100,5 +102,9 @@ int	main(int argc, char **argv)
 	send_signal((unsigned long long)str, ft_atoi(argv[1]));
 //printf("%s", str);
 	// sleep(5);
+	while (1)
+	{
+		sleep(1);
+	}
 	return (0);
 }
