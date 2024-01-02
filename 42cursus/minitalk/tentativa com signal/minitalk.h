@@ -18,7 +18,7 @@
 #include <unistd.h>
 #include <stdio.h>
 
-char	*str_client;
-char	*str_server;
+char	char_bin[9];
+int	n_bin;
 
 #endif
