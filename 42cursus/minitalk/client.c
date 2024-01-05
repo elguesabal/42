@@ -19,4 +19,3 @@ int	main(int agrc, char *argv[])
 	printf("%p", str_client);
 	kill(atoi(argv[1]), SIGUSR1);
 }
-

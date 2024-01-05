@@ -47,6 +47,25 @@ size_t	ft_strlcat(char *dest, const char *src, size_t size)
 	return (len_dst + len_src);
 }
 
+void putnbr(unsigned int n)
+{
+	if (n > 9)
+	{
+		putnbr(n / 10);
+		putnbr(n % 10);
+	}
+	else
+	{
+		n += 48;
+		write(1, &n, 1);
+	}
+}
+
+void	putstr(char *str)
+{
+	write(1, str, ft_strlen(str));
+}
+
 
 
 
@@ -73,6 +92,8 @@ void	res(int	signum)
 	// else if(signum == SIGUSR2)
 	// 	printf("1\n");
 
+	char	c;
+
 	if(signum == SIGUSR1)
 		ft_strlcat(char_bin, "0", 8);
 	else if(signum == SIGUSR2)
@@ -80,7 +101,9 @@ void	res(int	signum)
 
 	if(ft_strlen(char_bin) == 8)
 	{
-		printf("%c\n", convert_char(char_bin));
+		// printf("%c\n", convert_char(char_bin));
+		c = convert_char(char_bin);
+		write(1, &c, 1);
 		ft_bzero(char_bin, 8);
 	}
 }
@@ -90,7 +113,10 @@ int	main(void)
 	signal(SIGUSR1, res);
 	signal(SIGUSR2, res);
 
-	printf("PID: %d\n", getpid());
+	ft_bzero(char_bin, 8);
+	putstr("PID: ");
+	putnbr(getpid());
+	write(1, "\n", 1);
 	while(1)
 	{
 		pause();
