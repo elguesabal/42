@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minital.h"
+#include "minitalk.h"
 
 void putnbr(unsigned int n)
 {
@@ -26,41 +26,33 @@ void putnbr(unsigned int n)
 	}
 }
 
-size_t	ft_strlen(const char *str)
+void	message_received(int signum)
 {
-	size_t	i;
+	static int	signals;
+	static char	c;
 
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
-void	putstr(char *str)
-{
-	write(1, str, ft_strlen(str));
-}
-
-void	bit(int signum)
-{
-	// static char c;
-
-	// if()
-	// {
-		
-	// }
-	// else
-	// {
-		
-	// }
-	// c++;
+	if(signum == SIGUSR2)
+	{
+		c = c << 1;
+		c = c | 1;
+	}
+	else
+		c = c << 1;
+	signals++;
+	if(signals == 8)
+	{
+		write(1, &c, 1);
+		c = 0;
+		signals = 0;
+	}
 }
 
 int	main(void)
 {
-	signal(SIGUSR1, bit);
-	signal(SIGUSR2, bit);
+	signal(SIGUSR1, message_received);
+	signal(SIGUSR2, message_received);
 
+	write(1, "PID: ", 5);
 	putnbr(getpid());
 	write(1, "\n\n", 2);
 

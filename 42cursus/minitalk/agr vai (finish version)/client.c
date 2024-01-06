@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minital.h"
+#include "minitalk.h"
 
 int	ft_atoi(const char *str)
 {
@@ -44,9 +44,9 @@ void	send_message(int pid, char c)
 	while(bit >= 0)
 	{
 		if((c >> bit) & 1)
-			kill(pid, SIGUSR1);
-		else
 			kill(pid, SIGUSR2);
+		else
+			kill(pid, SIGUSR1);
 		bit--;
 		usleep(500);
 	}
@@ -68,6 +68,6 @@ int	main(int argc, char **argv)
 		}
 	}
 	else
-		write(1, "\nFaz essa bagaca direito", 24);
+		write(1, "Faz essa bagaca direito\n", 24);
 	return (0);
 }
