@@ -12,7 +12,7 @@
 
 #include "minitalk.h"
 
-void putnbr(unsigned int n)
+static void putnbr(unsigned int n)
 {
 	if (n > 9)
 	{
@@ -26,7 +26,7 @@ void putnbr(unsigned int n)
 	}
 }
 
-void	message_received(int signum)
+static void	message_received(int signum)
 {
 	static int	signals;
 	static char	c;
@@ -49,8 +49,15 @@ void	message_received(int signum)
 
 int	main(void)
 {
-	signal(SIGUSR1, message_received);
-	signal(SIGUSR2, message_received);
+	// signal(SIGUSR1, message_received);
+	// signal(SIGUSR2, message_received);
+
+	struct sigaction info;
+
+	info.sa_handler = message_received;
+
+	sigaction(SIGUSR1, &info, NULL);
+	sigaction(SIGUSR2, &info, NULL);
 
 	write(1, "PID: ", 5);
 	putnbr(getpid());

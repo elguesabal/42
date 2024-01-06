@@ -12,7 +12,7 @@
 
 #include "minitalk.h"
 
-int	ft_atoi(const char *str)
+static int	ft_atoi(const char *str)
 {
 	int	sign;
 	int	result;
@@ -36,7 +36,7 @@ int	ft_atoi(const char *str)
 	return (result * sign);
 }
 
-void	send_message(int pid, char c)
+static void	send_message(int pid, char c)
 {
 	int	bit;
 	
@@ -57,7 +57,7 @@ int	main(int argc, char **argv)
 	int	pid;
 	int	i;
 
-	if(argc == 3)
+	if(argc == 3 && argv[2])
 	{
 		pid = ft_atoi(argv[1]);
 		i = 0;
