@@ -10,20 +10,17 @@
 #                                                                              #
 # **************************************************************************** #
 
-FILE =	client\
-	server
-OBJS = $(FILE:.c)
-NAME = libminitalk.a
-FLAGS = -Wall -Wextra -Werror -c
+FLAGS = -Wall -Wextra -Werror -o
 
-all:	$(NAME) $(OBJS)
+all:	compilation
 
-$(OBJS): $(FILE)
-	cc $(FLAGS) $(FILE) $(FILE)
+compilation: $(FILE)
+	cc $(FLAGS) server server.c 'bat signal.c'
+	cc $(FLAGS) client client.c
 
 clean:
 	rm -f server client
 
-re: fclean all
+re: clean all
 
-.PHONY: all clean fclean re 
+.PHONY: all clean re 

@@ -17,4 +17,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+void	bat_signal(void);
+
 #endif
