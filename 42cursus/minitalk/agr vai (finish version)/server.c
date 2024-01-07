@@ -41,6 +41,7 @@ int	main(void)
 	sigaction(SIGUSR1, &info, NULL);
 	sigaction(SIGUSR2, &info, NULL);
 	bat_signal();
+	write(1, "\033[1;32m", 8);
 	while(1)
 		pause();
 	return (0);

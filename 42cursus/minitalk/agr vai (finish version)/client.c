@@ -14,26 +14,17 @@
 
 static int	ft_atoi(const char *str)
 {
-	int	sign;
 	int	result;
 
 	result = 0;
-	sign = 1;
 	while ((*str > 8 && *str < 14) || *str == 32)
-		str++;
-	if (*str == '-')
-	{
-		sign = -1;
-		str++;
-	}
-	else if (*str == 43)
 		str++;
 	while (*str && *str > 47 && *str < 58)
 	{
 		result = result * 10 + *str - '0';
 		str++;
 	}
-	return (result * sign);
+	return (result);
 }
 
 static void	send_message(int pid, char c)
@@ -66,8 +57,9 @@ int	main(int argc, char **argv)
 			send_message(pid, argv[2][i]);
 			i++;
 		}
+		write(1, "\033[1;32mBat-sinal enviado!\033[0m\n", 31);
 	}
 	else
-		write(1, "Faz essa bagaca direito\n", 24);
+		write(1, "\033[1;31mAcabou a bat-energia...\033[0m\n", 36);
 	return (0);
 }
