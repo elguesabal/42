@@ -1,29 +1,48 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   server.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/03 16:55:03 by joseanto          #+#    #+#             */
+/*   Updated: 2024/01/08 09:35:47 by joseanto         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minitalk.h"
 
-void	res(int signum)
+static void	message_received(int signum)
 {
-	// str_server = malloc(4 * sizeof(char));
+	static int	signals;
+	static char	c;
 
-// for(int i = 0; i < 4; i++)
-// {
-// 	str_server[i] = 'p';
-// }
-
-	// printf("\n%s", str); BEM BUGADO SEM /n NO FINAL
-	// printf("%s", str); BEM BUGADO SEM /n NO FINAL
-	printf("teste:%p:teste\n", str_client);
-	//free(str_client);
+	if (signum == SIGUSR2)
+	{
+		c = c << 1;
+		c = c | 1;
+	}
+	else
+		c = c << 1;
+	signals++;
+	if (signals == 8)
+	{
+		write(1, &c, 1);
+		c = 0;
+		signals = 0;
+	}
 }
 
 int	main(void)
 {
-	signal(SIGUSR1, res);
+	struct sigaction	info;
 
-	// printf("PID: %d", getpid()); PQ TA BUGANDO SE NAO BOTAR /n NO FIM????
-	printf("PID: %d\n", getpid());
-
+	info.sa_handler = message_received;
+	sigaction(SIGUSR1, &info, NULL);
+	sigaction(SIGUSR2, &info, NULL);
+	bat_signal();
+	write(1, "\033[1;32m", 8);
 	while (1)
-	{
-		sleep(1);
-	}
+		pause();
+	return (0);
 }

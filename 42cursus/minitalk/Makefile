@@ -6,30 +6,33 @@
 #    By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/12 14:24:54 by joseanto          #+#    #+#              #
-#    Updated: 2023/12/12 14:25:26 by joseanto         ###   ########.fr        #
+#    Updated: 2024/01/08 12:21:09 by joseanto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-FILE =	client.c\
-	server.c
-OBJS = $(FILE:.c=.o)
-NAME = libminitalk.a
-FLAGS = -Wall -Wextra -Werror
+NAME = minitalk
+NAMEC = client
+NAMES = server
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -o
+RM = rm -rf
 
-all:	$(NAME) $(OBJS)
+all: $(NAME)
 
-$(OBJS): $(FILE)
-	cc $(FLAGS) -c $(FILE)
+$(NAME): $(NAMEC) $(NAMES)
 
-$(NAME): $(OBJS)
-	ar rcs $(NAME) $(OBJS)
+$(NAMEC):
+		$(CC) $(CFLAGS) $(NAMEC) client.c
+
+$(NAMES):
+		$(CC) $(CFLAGS) $(NAMES) server.c 'bat signal.c'
 
 clean:
-	rm -f $(OBJS)
+		$(RM) $(NAMEC) && $(RM) $(NAMES)
 
 fclean: clean
-	rm -f $(NAME)
+		clear
 
 re: fclean all
 
-.PHONY: all clean fclean re 
+.PHONY: all clean fclean re	
