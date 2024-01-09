@@ -2,8 +2,8 @@
 #define MAX_SIZE 100
 
 typedef struct {
-    int items[MAX_SIZE];
-    int top;
+    int items;
+    Stack *next;
 } Stack;
 
 // Função para inicializar a pilha

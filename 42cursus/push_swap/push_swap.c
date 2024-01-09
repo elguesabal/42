@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 11:21:35 by joseanto          #+#    #+#             */
-/*   Updated: 2024/01/08 19:08:17 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/01/09 18:48:59 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 int	putnbr(int n)
 {
-	int	i;
+	int		i;
 	char	c;
 
 	i = 0;
@@ -100,6 +100,11 @@ int	putnbr(int n)
 	
 // }
 
+void	boot(int *argc, char **argv)
+{
+	printf("%d\n%s\n%s\n%s", argc, argv[0], argv[1], argv[2]);
+}
+
 void	print_result(int size)
 {
 	// int	mat1[5] = {1, 2, 3, 4, 5};
@@ -112,9 +117,9 @@ void	print_result(int size)
 	i = 0;
 	while (i < size)
 	{
-		putnbr(mat1[i]);
+		// putnbr(mat1[i]);
 		write(1, " ", 1),
-		putnbr(mat2[i]);
+		// putnbr(mat2[i]);
 		write(1, "\n", 1);
 		i++;
 	}
@@ -123,7 +128,8 @@ void	print_result(int size)
 
 int	main(int argc, char **argv)
 {
-	print_result(argc - 1);
+	boot(argc, argv);
+	// print_result(argc - 1);
 
 	return (0);
 }
