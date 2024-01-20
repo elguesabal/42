@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 11:21:35 by joseanto          #+#    #+#             */
-/*   Updated: 2024/01/09 18:48:59 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/01/12 10:46:38 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,35 +100,37 @@ int	putnbr(int n)
 	
 // }
 
-void	boot(int *argc, char **argv)
+void	boot(int argc, char **argv)
 {
 	printf("%d\n%s\n%s\n%s", argc, argv[0], argv[1], argv[2]);
 }
 
-void	print_result(int size)
-{
-	// int	mat1[5] = {1, 2, 3, 4, 5};
-	// int	mat2[5] = {'\0', '\0', '\0', '\0', '\0'};
-	Stack	a;
-	Stack	b;
-	int	i;
+// void	print_result(int size)
+// {
+// 	// int	mat1[5] = {1, 2, 3, 4, 5};
+// 	// int	mat2[5] = {'\0', '\0', '\0', '\0', '\0'};
+// 	Stack	a;
+// 	Stack	b;
+// 	int	i;
 
-	write(1, "---------------------------------------------------------", 58);
-	i = 0;
-	while (i < size)
-	{
-		// putnbr(mat1[i]);
-		write(1, " ", 1),
-		// putnbr(mat2[i]);
-		write(1, "\n", 1);
-		i++;
-	}
-	write(1, "- -\na b\n", 9);
-}
+// 	a.n = 10;
+// 	b.n = 20;
+// 	write(1, "---------------------------------------------------------", 58);
+// 	i = 0;
+// 	while (i < size)
+// 	{
+// 		putnbr(a.n);
+// 		write(1, " ", 1),
+// 		putnbr(b.n);
+// 		write(1, "\n", 1);
+// 		i++;
+// 	}
+// 	write(1, "- -\na b\n", 9);
+// }
 
 int	main(int argc, char **argv)
 {
-	boot(argc, argv);
+	// boot(argc, argv);
 	// print_result(argc - 1);
 
 	return (0);
