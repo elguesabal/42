@@ -42,25 +42,40 @@ void	insert_penultimate(Stack **no, int n)
 void	insert_last(Stack **no, int n)
 {
 	Stack	*new;
+	Stack	*assist;
 
+	new = malloc(sizeof(Stack));
 	if(!new)
 		return ;
 	new->n = n;
+	new->next = NULL;
 	if(!*no)
 	{
-		new->next = NULL;
-		new->previous = NULL;
 		*no = new;
+		new->previous = NULL;
 	}
 	else
 	{
-		// SL OQ FZ AKI
+		assist = *no;
+		while(assist->next)
+			assist = assist->next;
+		assist->next = new;
+		new->previous = assist;
 	}
 }
 
-void	remove_first(Stack **no, int n)
+Stack	*remove_first(Stack **no)
 {
+	Stack	*remove;
 
+	if(*no)
+	{
+		remove = *no;
+		*no = remove->next;
+		if(*no)
+			(*no)->previous = NULL;
+	}
+	return (remove);
 }
 
 void	remove_second(Stack **no, int n)
@@ -73,9 +88,20 @@ void	remove_penultimate(Stack **no, int n)
 	
 }
 
-void	remove_last(Stack **no, int n)
+Stack	*remove_last(Stack **no)
 {
+	Stack	*remove;
+	Stack	*assist;
 
+	if(*no)
+	{
+		assist = *no;
+		while(assist->next)
+			assist = assist->next;
+		remove = assist;
+		assist->previous->next = NULL;
+	}
+	return (remove);
 }
 
 // void	sa()
@@ -133,6 +159,14 @@ void	remove_last(Stack **no, int n)
 	
 // }
 
+void imprimir(Stack *no) {
+	printf("Lista: ");
+	while(no) {
+		printf("%d ", no->n);
+		no = no->next;
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	Stack	*a, *b;
@@ -140,7 +174,29 @@ int	main(int argc, char **argv)
 	a = NULL;
 	b = NULL;
 	
-	first(&a, 10);
-printf("%d", a->n);
+	insert_first(&a, 10);
+	insert_first(&a, 20);
+	insert_first(&a, 30);
+	imprimir(a);
+
+	// Stack *teste = remove_first(&a);
+	// printf("\n\nPrimeiro elemento removido: %d\n\n", teste->n);
+	// free(teste);
+	// imprimir(a);
+
+	// Stack *teste = remove_last(&a);
+	// printf("\n\nUltimo elemento removido: %d\n\n", teste->n);
+	// free(teste);
+	// imprimir(a);
+
+
+
+
+
+
+
+// printf("%d\n", a->n);
+// printf("%d\n", a->next->n);
+// printf("%d\n", a->next->next->n);
 	return (0);
 }
