@@ -25,4 +25,14 @@ typedef struct stack
 
 int	ft_atoi(const char *str);
 
+void	insert_first(Stack **no, int n);
+void	insert_second(Stack **no, int n);
+void	insert_penultimate(Stack **no, int n);
+void	insert_last(Stack **no, int n);
+Stack	*remove_first(Stack **no);
+Stack	*remove_second(Stack **no);
+Stack	*remove_penultimate(Stack **no);
+Stack	*remove_last(Stack **no);
+
+
 #endif
