@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   insert_stack.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/26 14:13:23 by joseanto          #+#    #+#             */
+/*   Updated: 2024/01/26 14:13:24 by joseanto         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 void	insert_first(Stack **no, int n)
@@ -39,6 +51,7 @@ void	insert_penultimate(Stack **no, int n)
 	Stack	*new;
 	Stack	*assist;
 
+	assist = *no;
 	if(!*no || !assist->next->next)
 		insert_first(no, n);
 	else
@@ -46,7 +59,6 @@ void	insert_penultimate(Stack **no, int n)
 		new = malloc(sizeof(Stack));
 		if(!new)
 			return ;
-		assist = *no;
 		while(assist->next->next)
 			assist = assist->next;
 		new->n = n;

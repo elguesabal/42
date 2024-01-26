@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 10:49:04 by joseanto          #+#    #+#             */
-/*   Updated: 2024/01/23 13:54:27 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/01/26 15:40:43 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+# include <limits.h>
 
 typedef struct stack
 {

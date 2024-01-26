@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 11:21:35 by joseanto          #+#    #+#             */
-/*   Updated: 2024/01/23 18:27:17 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/01/26 15:42:35 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,29 +110,57 @@ void	print_stacks(Stack **a, Stack **b)
 	printf("\n- -\na b\n");
 }
 
-void imprimir(Stack *no) {
-	printf("Lista: ");
-	while(no) {
-		printf("%d ", no->n);
-		no = no->next;
-	}
-	printf("\n");
-}
+// void imprimir(Stack *no) {
+// 	printf("Lista: ");
+// 	while(no) {
+// 		printf("%d ", no->n);
+// 		no = no->next;
+// 	}
+// 	printf("\n");
+// }
 
 int	main(int argc, char **argv)
 {
-	Stack	*a, *b;
+	Stack	*a;
+	Stack	*b;
 	int		i;
-	int		n;
+	int		j;
+	long	n;
 
 	a = NULL;
 	b = NULL;
+	if(argc == 1 || (argc == 2 && !argv[1][0]))
+		return (0);
+
+
 	i = 1;
 	while(argv[i])
 	{
-		insert_last(&a, ft_atoi(argv[i])); // printf("%d", ft_atoi("1a0")); ?????
+		j = 0;
+		while(argv[i][j])
+		{
+			if((argv[i][j] < '0' || argv[i][j] > '9') && argv[i][j] != '-' && argv[i][j] != '+')
+				return (0);
+			j++;
+		}
 		i++;
 	}
+
+
+	i = 1;
+	while(argv[i])
+	{
+		n = ft_atoi(argv[i]);
+		if(n > INT_MAX || n < INT_MIN)
+			return (0);
+		insert_last(&a, n);
+		i++;
+	}
+
+
+	// FALTA VERIFICA SE EXISTE DUPLICATAS NO ARGUMENTO
+
+	
 	print_stacks(&a, &b);
 	// imprimir(a);
 
