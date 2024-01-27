@@ -13,6 +13,7 @@
 FILE =	push_swap.c\
 	insert_stack.c\
 	remove_stack.c\
+	func_assist.c\
 	utils.c
 NAME = push_swap
 CC = cc
@@ -29,4 +30,6 @@ clean:
 
 re: clean all
 
-.PHONY: all clean re	
+.PHONY: all clean re
+
+# gcc -o push_swap push_swap.c insert_stack.c remove_stack.c func_assist.c utils.c
