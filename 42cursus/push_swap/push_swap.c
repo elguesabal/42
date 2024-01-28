@@ -12,45 +12,89 @@
 
 #include "push_swap.h"
 
-// void	sa()
-// {
-	
-// }
+void	sa(Stack **a)
+{
+	Stack	*remove;
 
-// void	sb()
-// {
-	
-// }
+	if(*a && (*a)->next)
+	{
+		remove = remove_second(a);
+		insert_first(a, remove->n);
+		free(remove);
+	}
+}
 
-// void	ss()
-// {
-	
-// }
+void	sb(Stack **b)
+{
+	Stack	*remove;
 
-// void	pa()
-// {
-	
-// }
+	if(*b && (*b)->next)
+	{
+		remove = remove_second(b);
+		insert_first(b, remove->n);
+		free(remove);
+	}
+}
 
-// void	pb()
-// {
-	
-// }
+void	ss(Stack **a, Stack **b)
+{
+	sa(a);
+	sb(b);
+}
 
-// void	ra()
-// {
-	
-// }
+void	pa(Stack **a, Stack **b)
+{
+	Stack	*remove;
 
-// void	rb()
-// {
-	
-// }
+	if(*b)
+	{
+		remove = remove_first(b);
+		insert_first(a, remove->n);
+		free(remove);
+	}
+}
 
-// void	rr()
-// {
-	
-// }
+void	pb(Stack **a, Stack **b)
+{
+	Stack	*remove;
+
+	if(*a)
+	{
+		remove = remove_first(a);
+		insert_first(b, remove->n);
+		free(remove);
+	}
+}
+
+void	ra(Stack **a)
+{
+	Stack	*remove;
+
+	if(*a && (*a)->next)
+	{
+		remove = remove_first(a);
+		insert_last(a, remove->n);
+		free(remove);
+	}
+}
+
+void	rb(Stack **b)
+{
+	Stack	*remove;
+
+	if(*b && (*b)->next)
+	{
+		remove = remove_first(b);
+		insert_last(b, remove->n);
+		free(remove);
+	}
+}
+
+void	rr(Stack **a, Stack **b)
+{	// TA ERRADO
+	ra(a);
+	rb(b);
+}
 
 // void	rra()
 // {
@@ -78,9 +122,53 @@ int	main(int argc, char **argv)
 	if(verification(argc, argv, &a))
 		return (0);
 
-	print_stacks(&a, &b);
-	// imprimir(a);
+insert_last(&b, 3);
+insert_last(&b, 2);
+insert_last(&b, 1);
 
+	print_stacks(&a, &b);
+
+
+	// sa(&a);
+	// print_stacks(&a, &b);
+
+	// sb(&b);
+	// print_stacks(&a, &b);
+
+	// ss(&a, &b);
+	// print_stacks(&a, &b);
+
+	// pa(&a, &b);
+	// print_stacks(&a, &b);
+
+	// pb(&a, &b);
+	// print_stacks(&a, &b);
+
+	// ra(&a);
+	// print_stacks(&a, &b);
+
+	// rb(&b);
+	// print_stacks(&a, &b);
+
+	rr(&a, &b);	// TA ERRADO
+	print_stacks(&a, &b);
+
+
+	free_list(&a);
+	free_list(&b);
+	return (0);
+}
+
+
+
+
+
+
+
+
+
+
+			// CODIGO PRA TESTAR ALGUMAS FUNCOES
 
 	// insert_first(&a, 10);
 	// insert_first(&a, 20);
@@ -119,13 +207,13 @@ int	main(int argc, char **argv)
 	// free(teste);
 	// imprimir(a);
 
-
-	free_list(&a);
-	free_list(&b);
-	return (0);
-}
+			// CODIGO PRA TESTAR ALGUMAS FUNCOES
 
 
+
+
+
+			// CODIGO Q TALVEZ EU POSSA UTILIZAR
 
 // Stack	*search(Stack **no, int n) // PESQUISA UM NUMERO E DEVOLVE O NO DO NUMERO
 // {
@@ -149,3 +237,4 @@ int	main(int argc, char **argv)
 // 	}
 // 	printf("\n");
 // }
+			// CODIGO Q TALVEZ EU POSSA UTILIZAR
