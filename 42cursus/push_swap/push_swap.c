@@ -12,105 +12,6 @@
 
 #include "push_swap.h"
 
-void	sa(Stack **a)
-{
-	Stack	*remove;
-
-	if(*a && (*a)->next)
-	{
-		remove = remove_second(a);
-		insert_first(a, remove->n);
-		free(remove);
-	}
-}
-
-void	sb(Stack **b)
-{
-	Stack	*remove;
-
-	if(*b && (*b)->next)
-	{
-		remove = remove_second(b);
-		insert_first(b, remove->n);
-		free(remove);
-	}
-}
-
-void	ss(Stack **a, Stack **b)
-{
-	sa(a);
-	sb(b);
-}
-
-void	pa(Stack **a, Stack **b)
-{
-	Stack	*remove;
-
-	if(*b)
-	{
-		remove = remove_first(b);
-		insert_first(a, remove->n);
-		free(remove);
-	}
-}
-
-void	pb(Stack **a, Stack **b)
-{
-	Stack	*remove;
-
-	if(*a)
-	{
-		remove = remove_first(a);
-		insert_first(b, remove->n);
-		free(remove);
-	}
-}
-
-void	ra(Stack **a)
-{
-	Stack	*remove;
-
-	if(*a && (*a)->next)
-	{
-		remove = remove_first(a);
-		insert_last(a, remove->n);
-		free(remove);
-	}
-}
-
-void	rb(Stack **b)
-{
-	Stack	*remove;
-
-	if(*b && (*b)->next)
-	{
-		remove = remove_first(b);
-		insert_last(b, remove->n);
-		free(remove);
-	}
-}
-
-void	rr(Stack **a, Stack **b)
-{	// TA ERRADO
-	ra(a);
-	rb(b);
-}
-
-// void	rra()
-// {
-	
-// }
-
-// void	rrb()
-// {
-	
-// }
-
-// void	rrr()
-// {
-	
-// }
-
 int	main(int argc, char **argv)
 {
 	Stack	*a;
@@ -122,12 +23,21 @@ int	main(int argc, char **argv)
 	if(verification(argc, argv, &a))
 		return (0);
 
-insert_last(&b, 3);
-insert_last(&b, 2);
-insert_last(&b, 1);
-
 	print_stacks(&a, &b);
 
+	free_list(&a);
+	free_list(&b);
+	return (0);
+}
+
+
+
+
+
+
+
+
+			// CODIGO PRA TESTAR FUNCOES PEDIDAS PELO PDF
 
 	// sa(&a);
 	// print_stacks(&a, &b);
@@ -150,25 +60,25 @@ insert_last(&b, 1);
 	// rb(&b);
 	// print_stacks(&a, &b);
 
-	rr(&a, &b);	// TA ERRADO
-	print_stacks(&a, &b);
+	// rr(&a, &b);
+	// print_stacks(&a, &b);
+
+	// rra(&a);
+	// print_stacks(&a, &b);
+
+	// rrb(&b);
+	// print_stacks(&a, &b);
+
+	// rrr(&a, &b);
+	// print_stacks(&a, &b);
+
+			// CODIGO PRA TESTAR FUNCOES PEDIDAS PELO PDF
 
 
-	free_list(&a);
-	free_list(&b);
-	return (0);
-}
 
 
 
-
-
-
-
-
-
-
-			// CODIGO PRA TESTAR ALGUMAS FUNCOES
+			// CODIGO PRA TESTAR FUNCOES DE INSERCAO E REMOCAO DE LISTA
 
 	// insert_first(&a, 10);
 	// insert_first(&a, 20);
@@ -207,7 +117,7 @@ insert_last(&b, 1);
 	// free(teste);
 	// imprimir(a);
 
-			// CODIGO PRA TESTAR ALGUMAS FUNCOES
+			// CODIGO PRA TESTAR FUNCOES DE INSERCAO E REMOCAO DE LISTA
 
 
 

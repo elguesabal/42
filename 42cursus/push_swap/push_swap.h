@@ -17,8 +17,6 @@
 # include <stdlib.h>
 # include <limits.h>
 
-#include <stdio.h>				// TIRAR ISSO E TODOS OS PRINTF
-
 typedef struct stack
 {
 	int				n;
@@ -39,6 +37,23 @@ Stack	*remove_second(Stack **no);
 Stack	*remove_penultimate(Stack **no);
 Stack	*remove_last(Stack **no);
 
+// operations_part1.c
+void	sa(Stack **a);
+void	sb(Stack **b);
+void	ss(Stack **a, Stack **b);
+void	pa(Stack **a, Stack **b);
+
+// operations_part2.c
+void	pb(Stack **a, Stack **b);
+void	ra(Stack **a);
+void	rb(Stack **b);
+void	rr(Stack **a, Stack **b);
+
+// operations_part3.c
+void	rra(Stack **a);
+void	rrb(Stack **b);
+void	rrr(Stack **a, Stack **b);
+
 // func_assist.c
 int		search_duplicate(Stack **no);
 int		verification(int argc, char **argv, Stack **a);
@@ -46,7 +61,8 @@ void	print_stacks(Stack **a, Stack **b);
 void	free_list(Stack **no);
 
 // utils.c
-int	ft_atoi(const char *str);
+long	ft_atoi(const char *str);
+int		ft_putnbr(int n);
 
 
 #endif

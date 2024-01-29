@@ -11,10 +11,13 @@
 # **************************************************************************** #
 
 FILE =	push_swap.c\
-	insert_stack.c\
-	remove_stack.c\
-	func_assist.c\
-	utils.c
+	./'auxiliary functions'/insert_stack.c\
+	./'stack operations'/operations_part1.c\	# ASSIM Q FAZ NO MAKE??
+	./'stack operations'/operations_part2.c\
+	./'stack operations'/operations_part3.c\
+	./'auxiliary functions'/remove_stack.c\
+	./'auxiliary functions'/func_assist.c\
+	./'auxiliary functions'/utils.c
 NAME = push_swap
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -o
@@ -32,4 +35,4 @@ re: clean all
 
 .PHONY: all clean re
 
-# gcc -o push_swap push_swap.c insert_stack.c remove_stack.c func_assist.c utils.c
+# gcc -o push_swap push_swap.c ./'auxiliary functions'/insert_stack.c ./'auxiliary functions'/remove_stack.c ./'stack operations'/operations_part1.c ./'stack operations'/operations_part2.c ./'stack operations'/operations_part3.c ./'auxiliary functions'/func_assist.c ./'auxiliary functions'/utils.c

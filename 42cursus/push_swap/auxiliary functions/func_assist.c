@@ -1,4 +1,4 @@
-#include "push_swap.h"
+#include "../push_swap.h"
 
 int	search_duplicate(Stack **no)
 {
@@ -57,7 +57,7 @@ int	verification(int argc, char **argv, Stack **a)
 		n = ft_atoi(argv[i]);
 		if(n > INT_MAX || n < INT_MIN) // AO TENTAR FAZER UMA COMPARACAO O long SE COMPORTA COMO int E A VERIFICACAO SE COMPORTA COMO SE EU TIVESSE ARMAZENADO O NUMERO EM UM int
 		{
-			printf("\nn > INT_MAX || n < INT_MIN um deles foi true\n");
+			write(1, "\nn > INT_MAX || n < INT_MIN um deles foi true\n", 47);
 			free_list(a);
 			return (1);
 		}
@@ -82,24 +82,30 @@ void	print_stacks(Stack **a, Stack **b)
 
 	assist_a = *a;
 	assist_b = *b;
-	printf("--------------------------------------------\n");
+	write(1, "--------------------------------------------\n", 45);
 	while(assist_a || assist_b)
 	{
 		if(assist_a)
-			printf("%d ", assist_a->n);
+		{
+			ft_putnbr(assist_a->n);
+			write(1, " ", 1);
+		}
 		else
-			printf("  ");
+			write(1, "  ", 2);
 		if(assist_a)
 			assist_a = assist_a->next;
 
 		if(assist_b)
-			printf("%d\n", assist_b->n);
+		{
+			ft_putnbr(assist_b->n);
+			write(1, "\n", 1);
+		}
 		else
-			printf("\n");
+			write(1, "\n", 1);
 		if(assist_b)
 			assist_b = assist_b->next;
 	}
-	printf("\n- -\na b\n");
+	write(1, "\n- -\na b\n", 9);
 }
 
 void	free_list(Stack **no)
@@ -109,5 +115,4 @@ void	free_list(Stack **no)
 		free((*no)->previous);
 		*no = (*no)->next;
 	}
-	printf("\nfreezado");
 }

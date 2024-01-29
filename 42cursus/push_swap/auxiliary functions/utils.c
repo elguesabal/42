@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../push_swap.h"
+
 long	ft_atoi(const char *str)
 {
 	int	sign;
@@ -32,4 +34,48 @@ long	ft_atoi(const char *str)
 		str++;
 	}
 	return (result * sign);
+}
+
+// void	ft_putstr(char *str)
+// {
+// 	int	i;
+
+// 	if (!str)
+// 	{
+// 		write(1, "(null)", 6);
+// 		return ;
+// 	}
+// 	i = 0;
+// 	while (str[i])
+// 		i += write(1, &str[i], 1);
+// }
+
+int	ft_putnbr(int n)
+{
+	int	i;
+
+	i = 0;
+	if (n == -2147483648)
+	{
+		i += write(1, "-", 1);
+		i += write(1, "2", 1);
+		i += ft_putnbr(147483648);
+		return (i);
+	}
+	if (n < 0)
+	{
+		i += write(1, "-", 1);
+		n = -n;
+	}
+	if (n >= 10)
+	{
+		i += ft_putnbr(n / 10);
+		i += ft_putnbr(n % 10);
+	}
+	else
+	{
+		n += 48;
+		i += write(1, &n, 1);
+	}
+	return (i);
 }
