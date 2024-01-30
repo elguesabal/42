@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:13:29 by joseanto          #+#    #+#             */
-/*   Updated: 2024/01/26 14:13:30 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/01/30 14:06:26 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,31 +37,36 @@ Stack	*remove_second(Stack **no)
 	else
 	{
 		remove = (*no)->next;
-		(*no)->next = (*no)->next->next;
-		(*no)->next->previous = *no;
+		if((*no)->next->next)
+		{
+			(*no)->next = (*no)->next->next;
+			(*no)->next->previous = *no;
+		}
+		else
+			(*no)->next = NULL;
 	}
 	return (remove);
 }
 
-Stack	*remove_penultimate(Stack **no)
-{
-	Stack	*remove;
-	Stack	*assist;
+// Stack	*remove_penultimate(Stack **no)
+// {
+// 	Stack	*remove;
+// 	Stack	*assist;
 
-	remove = NULL;
-	if(!*no || (*no && !(*no)->next->next))
-		return (remove);
-	else
-	{
-		assist = *no;
-		while(assist->next->next)
-			assist = assist->next;
-		remove = assist;
-		assist->previous->next = assist->next;
-		assist->next->previous = assist->previous;
-	}
-	return (remove);
-}
+// 	remove = NULL;
+// 	if(!*no || (*no && !(*no)->next->next))
+// 		return (remove);
+// 	else
+// 	{
+// 		assist = *no;
+// 		while(assist->next->next)
+// 			assist = assist->next;
+// 		remove = assist;
+// 		assist->previous->next = assist->next;
+// 		assist->next->previous = assist->previous;
+// 	}
+// 	return (remove);
+// }
 
 Stack	*remove_last(Stack **no)
 {

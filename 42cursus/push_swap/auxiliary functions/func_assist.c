@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   func_assist.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/30 07:59:58 by joseanto          #+#    #+#             */
+/*   Updated: 2024/01/30 13:47:17 by joseanto         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../push_swap.h"
 
 int	search_duplicate(Stack **no)
@@ -55,9 +67,8 @@ int	verification(int argc, char **argv, Stack **a)
 	while(argv[i])
 	{
 		n = ft_atoi(argv[i]);
-		if(n > INT_MAX || n < INT_MIN) // AO TENTAR FAZER UMA COMPARACAO O long SE COMPORTA COMO int E A VERIFICACAO SE COMPORTA COMO SE EU TIVESSE ARMAZENADO O NUMERO EM UM int
+		if(n > INT_MAX || n < INT_MIN)
 		{
-			write(1, "\nn > INT_MAX || n < INT_MIN um deles foi true\n", 47);
 			free_list(a);
 			return (1);
 		}

@@ -6,11 +6,27 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 11:21:35 by joseanto          #+#    #+#             */
-/*   Updated: 2024/01/26 15:42:35 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/01/30 18:59:40 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+int	stack_check(Stack **a, Stack **b)
+{
+	Stack	*assist_a;
+
+	if(!*a || *b)
+		return (1);
+	assist_a = (*a)->next;
+	while(assist_a)
+	{
+		if(assist_a->previous->n > assist_a->n)
+			return (1);
+		assist_a = assist_a->next;
+	}
+	return (0);
+}
 
 int	main(int argc, char **argv)
 {
@@ -21,7 +37,43 @@ int	main(int argc, char **argv)
 	b = NULL;
 
 	if(verification(argc, argv, &a))
+	{
+		write(1, "Error\n", 6);
 		return (0);
+	}
+
+insert_last(&b, 2);
+insert_last(&b, 3);
+insert_last(&b, 1);
+	print_stacks(&a, &b);
+
+
+	write(1, "\nExec: \n", 8);
+	while(stack_check(&a, &b))
+	{
+		if(bigger_than_next(&a) && smaller_than_next(&b))
+		{
+			ss(&a, &b);
+			write(1, "ss\n", 3);
+		}
+		if(bigger_than_next(&a))
+		{
+			sa(&a);
+			write(1, "sa\n", 3);
+		}
+		else if(smaller_than_next(&b))
+		{
+			sb(&b);
+			write(1, "sb\n", 3);
+		}
+		else if(descending_order(&b))
+		{
+			pa(&a, &b);
+			write(1, "pa\n", 3);
+		}
+	}
+	write(1, "\n", 1);
+
 
 	print_stacks(&a, &b);
 
@@ -29,6 +81,7 @@ int	main(int argc, char **argv)
 	free_list(&b);
 	return (0);
 }
+
 
 
 

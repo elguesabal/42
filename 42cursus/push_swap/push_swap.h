@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 10:49:04 by joseanto          #+#    #+#             */
-/*   Updated: 2024/01/26 15:40:43 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/01/30 19:00:07 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ typedef struct stack
 // insert_stack.c
 void	insert_first(Stack **no, int n);
 void	insert_second(Stack **no, int n);
-void	insert_penultimate(Stack **no, int n);
+// void	insert_penultimate(Stack **no, int n);
 void	insert_last(Stack **no, int n);
 
 // remove_stack.c
 Stack	*remove_first(Stack **no);
 Stack	*remove_second(Stack **no);
-Stack	*remove_penultimate(Stack **no);
+// Stack	*remove_penultimate(Stack **no);
 Stack	*remove_last(Stack **no);
 
 // operations_part1.c
@@ -53,6 +53,14 @@ void	rr(Stack **a, Stack **b);
 void	rra(Stack **a);
 void	rrb(Stack **b);
 void	rrr(Stack **a, Stack **b);
+
+// stack_check.c
+int bigger_than_next(Stack **no);
+int smaller_than_next(Stack **no);
+int	ascending_order(Stack **no);
+int	descending_order(Stack **no);
+// int	size_stack(Stack **no);
+// Stack *last_element(Stack **no);
 
 // func_assist.c
 int		search_duplicate(Stack **no);

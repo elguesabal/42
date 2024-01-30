@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:13:23 by joseanto          #+#    #+#             */
-/*   Updated: 2024/01/26 14:13:24 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/01/30 14:06:39 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,28 +46,28 @@ void	insert_second(Stack **no, int n)
 	}
 }
 
-void	insert_penultimate(Stack **no, int n)
-{
-	Stack	*new;
-	Stack	*assist;
+// void	insert_penultimate(Stack **no, int n)
+// {
+// 	Stack	*new;
+// 	Stack	*assist;
 
-	assist = *no;
-	if(!*no || !assist->next->next)
-		insert_first(no, n);
-	else
-	{
-		new = malloc(sizeof(Stack));
-		if(!new)
-			return ;
-		while(assist->next->next)
-			assist = assist->next;
-		new->n = n;
-		new->next = assist->next;
-		new->previous = assist;
-		assist->next = new;
-		assist->next->next->previous = new;
-	}
-}
+// 	assist = *no;
+// 	if(!*no || !assist->next->next)
+// 		insert_first(no, n);
+// 	else
+// 	{
+// 		new = malloc(sizeof(Stack));
+// 		if(!new)
+// 			return ;
+// 		while(assist->next->next)
+// 			assist = assist->next;
+// 		new->n = n;
+// 		new->next = assist->next;
+// 		new->previous = assist;
+// 		assist->next = new;
+// 		assist->next->next->previous = new;
+// 	}
+// }
 
 void	insert_last(Stack **no, int n)
 {
