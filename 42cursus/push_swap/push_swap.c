@@ -42,21 +42,52 @@ int	main(int argc, char **argv)
 		return (0);
 	}
 
-insert_last(&b, 2);
-insert_last(&b, 3);
+
 insert_last(&b, 1);
+insert_last(&b, 3);
+insert_last(&b, 2);
 	print_stacks(&a, &b);
 
 
 	write(1, "\nExec: \n", 8);
 	while(stack_check(&a, &b))
 	{
-		if(bigger_than_next(&a) && smaller_than_next(&b))
+		if(a && first_biggest_last(&a) && b && first_smallest_last(&b))
+		{
+			rr(&a, &b);
+			write(1, "rr\n", 3);
+		}
+		else if(a && first_biggest_last(&a))
+		{
+			ra(&a);
+			write(1, "ra\n", 3);
+		}
+		else if(b && first_smallest_last(&b))
+		{
+			rb(&b);
+			write(1, "rb\n", 3);
+		}
+		else if(a && first_biggest_last(&a) && b && first_smallest_last(&b))
+		{
+			rrr(&a, &b);
+			write(1, "rrr\n", 4);
+		}
+		else if(a && first_biggest_last(&a))
+		{
+			rra(&a);
+			write(1, "rra\n", 4);
+		}
+		else if(b && first_smallest_last(&b))
+		{
+			rrb(&b);
+			write(1, "rrb\n", 4);
+		}
+		else if(bigger_than_next(&a) && smaller_than_next(&b))
 		{
 			ss(&a, &b);
 			write(1, "ss\n", 3);
 		}
-		if(bigger_than_next(&a))
+		else if(bigger_than_next(&a))
 		{
 			sa(&a);
 			write(1, "sa\n", 3);
@@ -66,16 +97,18 @@ insert_last(&b, 1);
 			sb(&b);
 			write(1, "sb\n", 3);
 		}
-		else if(descending_order(&b))
+		else if(b && descending_order(&b))
 		{
 			pa(&a, &b);
 			write(1, "pa\n", 3);
 		}
+// print_stacks(&a, &b);
 	}
 	write(1, "\n", 1);
 
 
 	print_stacks(&a, &b);
+// write(1, "\nfim\n", 5);
 
 	free_list(&a);
 	free_list(&b);

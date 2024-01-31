@@ -59,6 +59,10 @@ int bigger_than_next(Stack **no);
 int smaller_than_next(Stack **no);
 int	ascending_order(Stack **no);
 int	descending_order(Stack **no);
+int	first_biggest_last(Stack **no);
+int	first_smallest_last(Stack **no);
+// int	last_smallest_first(Stack **no);
+// int	last_greatest_first(Stack **no);
 // int	size_stack(Stack **no);
 // Stack *last_element(Stack **no);
 

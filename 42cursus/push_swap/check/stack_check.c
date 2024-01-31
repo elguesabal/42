@@ -58,6 +58,53 @@ int	descending_order(Stack **no)
 	return (1);
 }
 
+int	first_biggest_last(Stack **no)
+{
+	Stack	*assist;
+
+	if(!*no && !(*no)->next)
+		return (0);
+	assist = *no;
+	while(assist->next)
+		assist = assist->next;
+	return ((*no)->n > assist->n);
+}
+
+int	first_smallest_last(Stack **no)
+{
+	Stack	*assist;
+
+	if(!*no && !(*no)->next)
+		return (0);
+	assist = *no;
+	while(assist->next)
+		assist = assist->next;
+	return ((*no)->n < assist->n);
+}
+
+// int	last_smallest_first(Stack **no)
+// {
+// 	Stack	*assist;
+
+// 	if(!*no && !(*no)->next)
+// 		return (0);
+// 	assist = *no;
+// 	while(assist->next)
+// 		assist = assist->next;
+// 	return (assist->n < (*no)->n);
+// }
+
+// int	last_greatest_first(Stack **no)
+// {
+// 	Stack	*assist;
+
+// 	if(!*no && !(*no)->next)
+// 		return (0);
+// 	assist = *no;
+// 	while(assist->next)
+// 		assist = assist->next;
+// 	return (assist->n > (*no)->n);
+// }
 
 
 
@@ -78,7 +125,6 @@ int	descending_order(Stack **no)
 // 	}
 // 	return (size);
 // }
-
 
 // Stack *last_element(Stack **no) // AF FIZ ATOA E AGR TA AI CASO PRECISE PEGAR O ULTIMO ELEMENTO DA LISTA
 // {

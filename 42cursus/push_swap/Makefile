@@ -39,4 +39,4 @@ re: clean all
 
 .PHONY: all clean re
 
-# gcc -o push_swap push_swap.c ./'auxiliary functions'/insert_stack.c ./'auxiliary functions'/remove_stack.c ./'stack operations'/operations_part1.c ./'stack operations'/operations_part2.c ./'stack operations'/operations_part3.c ./'stack operations'/stack_check.c ./'auxiliary functions'/func_assist.c ./'auxiliary functions'/utils.c
+# gcc -o push_swap push_swap.c ./'auxiliary functions'/insert_stack.c ./'auxiliary functions'/remove_stack.c ./'stack operations'/operations_part1.c ./'stack operations'/operations_part2.c ./'stack operations'/operations_part3.c ./check/stack_check.c ./'auxiliary functions'/func_assist.c ./'auxiliary functions'/utils.c
