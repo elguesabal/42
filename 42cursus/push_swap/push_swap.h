@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 10:49:04 by joseanto          #+#    #+#             */
-/*   Updated: 2024/01/30 19:00:07 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/01 10:02:30 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	ascending_order(Stack **no);
 int	descending_order(Stack **no);
 int	first_biggest_last(Stack **no);
 int	first_smallest_last(Stack **no);
+int	smallest_last_and_second(Stack **no);
 // int	last_smallest_first(Stack **no);
 // int	last_greatest_first(Stack **no);
 // int	size_stack(Stack **no);

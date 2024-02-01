@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 07:59:58 by joseanto          #+#    #+#             */
-/*   Updated: 2024/01/30 13:47:17 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/01 09:28:24 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void	print_stacks(Stack **a, Stack **b)
 		if(assist_b)
 			assist_b = assist_b->next;
 	}
-	write(1, "\n- -\na b\n", 9);
+	write(1, "\n- -\na b\n\n", 10);
 }
 
 void	free_list(Stack **no)

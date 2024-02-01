@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 10:25:43 by joseanto          #+#    #+#             */
-/*   Updated: 2024/01/30 19:07:16 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/01 11:59:13 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int smaller_than_next(Stack **no)
 
 int	ascending_order(Stack **no)
 {
+// write(1, "aki\n", 4);
 	Stack	*assist;
 
 	if(!*no)
@@ -44,6 +45,7 @@ int	ascending_order(Stack **no)
 
 int	descending_order(Stack **no)
 {
+// write(1, "aki\n", 4);
 	Stack	*assist;
 
 	if(!*no)
@@ -60,6 +62,7 @@ int	descending_order(Stack **no)
 
 int	first_biggest_last(Stack **no)
 {
+// write(1, "aki\n", 4);
 	Stack	*assist;
 
 	if(!*no && !(*no)->next)
@@ -72,6 +75,7 @@ int	first_biggest_last(Stack **no)
 
 int	first_smallest_last(Stack **no)
 {
+// write(1, "aki\n", 4);
 	Stack	*assist;
 
 	if(!*no && !(*no)->next)
@@ -80,6 +84,21 @@ int	first_smallest_last(Stack **no)
 	while(assist->next)
 		assist = assist->next;
 	return ((*no)->n < assist->n);
+}
+
+int	smallest_last_and_second(Stack **no)
+{
+write(1, "aki\n", 4);
+	Stack	*assist;
+
+	if(!*no && !(*no)->next && !(*no)->next->next)
+		return (0);
+	assist = *no;
+	while(assist->next)
+		assist = assist->next;
+	int teste = ((*no)->n < (*no)->next->n && (*no)->n < assist->n && assist->n < (*no)->next->n);
+// write(1, "terminou\n", 9);
+	return (teste);
 }
 
 // int	last_smallest_first(Stack **no)

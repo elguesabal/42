@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 08:00:39 by joseanto          #+#    #+#             */
-/*   Updated: 2024/01/30 10:19:35 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/01 13:01:24 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	pb(Stack **a, Stack **b)
 	{
 		remove = remove_first(a);
 		insert_first(b, remove->n);
-		free(remove);\
+		free(remove);
 	}
 }
 
