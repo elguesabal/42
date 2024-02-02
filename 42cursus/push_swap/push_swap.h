@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 10:49:04 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/01 10:02:30 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/02 15:07:44 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,21 +38,21 @@ Stack	*remove_second(Stack **no);
 Stack	*remove_last(Stack **no);
 
 // operations_part1.c
-void	sa(Stack **a);
-void	sb(Stack **b);
-void	ss(Stack **a, Stack **b);
-void	pa(Stack **a, Stack **b);
+int	sa(Stack **a, int print);
+int	sb(Stack **b, int print);
+int	ss(Stack **a, Stack **b, int print);
+int	pa(Stack **a, Stack **b, int print);
 
 // operations_part2.c
-void	pb(Stack **a, Stack **b);
-void	ra(Stack **a);
-void	rb(Stack **b);
-void	rr(Stack **a, Stack **b);
+int	pb(Stack **a, Stack **b, int print);
+int	ra(Stack **a, int print);
+int	rb(Stack **b, int print);
+int	rr(Stack **a, Stack **b, int print);
 
 // operations_part3.c
-void	rra(Stack **a);
-void	rrb(Stack **b);
-void	rrr(Stack **a, Stack **b);
+int	rra(Stack **a, int print);
+int	rrb(Stack **b, int print);
+int	rrr(Stack **a, Stack **b, int print);
 
 // stack_check.c
 int bigger_than_next(Stack **no);

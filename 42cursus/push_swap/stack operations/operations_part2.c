@@ -6,13 +6,13 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 08:00:39 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/01 13:01:24 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/02 15:06:24 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
-void	pb(Stack **a, Stack **b)
+int	pb(Stack **a, Stack **b, int print)
 {
 	Stack	*remove;
 
@@ -22,9 +22,12 @@ void	pb(Stack **a, Stack **b)
 		insert_first(b, remove->n);
 		free(remove);
 	}
+	if(print)
+		write(1, "pb\n", 3);
+	return (1);
 }
 
-void	ra(Stack **a)
+int	ra(Stack **a, int print)
 {
 	Stack	*remove;
 
@@ -34,9 +37,12 @@ void	ra(Stack **a)
 		insert_last(a, remove->n);
 		free(remove);
 	}
+	if(print)
+		write(1, "ra\n", 3);
+	return (1);
 }
 
-void	rb(Stack **b)
+int	rb(Stack **b, int print)
 {
 	Stack	*remove;
 
@@ -46,11 +52,16 @@ void	rb(Stack **b)
 		insert_last(b, remove->n);
 		free(remove);
 	}
+	if(print)
+		write(1, "rb\n", 3);
+	return (1);
 }
 
-void	rr(Stack **a, Stack **b)
+int	rr(Stack **a, Stack **b, int print)
 {
-	ra(a);
-	rb(b);
+	ra(a, 0);
+	rb(b, 0);
+	if(print)
+		write(1, "rr\n", 3);
+	return (1);
 }
-

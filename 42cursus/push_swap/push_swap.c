@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 11:21:35 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/01 13:07:33 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/02 16:06:58 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,90 +32,24 @@ void	operator_algorithm(Stack **a, Stack **b)
 {
 	while(stack_check(a, b))
 	{
-		if(bigger_than_next(a) && smaller_than_next(b))
+		if(bigger_than_next(a) && smaller_than_next(b) && ss(a, b, 1));
+		else if(bigger_than_next(a) && sa(a, 1));
+		else if(smaller_than_next(b) && sb(b, 1));
+		else if(*a && first_biggest_last(a) && *b && first_smallest_last(b) && rr(a, b, 1));
+		else if(*a && first_biggest_last(a) && ra(a, 1));
+		else if(*b && first_smallest_last(b) && rb(b, 1));
+		else if(*a && first_biggest_last(a) && *b && first_smallest_last(b) && rrr(a, b, 1));
+		else if(*a && first_biggest_last(a) && rra(a, 1));
+		else if(*b && first_smallest_last(b) && rrb(b, 1));
+		else if(*a && smallest_last_and_second(a) && rra(a, 1) && sa(a, 1));
+		else if(*a && !ascending_order(a) && pb(a, b, 1))
 		{
-// write(1, "aki\n", 4);
-			ss(a, b);
-			write(1, "ss\n", 3);
-		}
-		else if(bigger_than_next(a))
-		{
-// write(1, "aki\n", 4);
-			sa(a);
-			write(1, "sa\n", 3);
-		}
-		else if(smaller_than_next(b))
-		{
-// write(1, "aki\n", 4);
-			sb(b);
-			write(1, "sb\n", 3);
-		}
-		else if(*a && first_biggest_last(a) && *b && first_smallest_last(b))
-		{
-// write(1, "aki\n", 4);
-			rr(a, b);
-			write(1, "rr\n", 3);
-		}
-		else if(*a && first_biggest_last(a))
-		{
-// write(1, "aki\n", 4);
-			ra(a);
-			write(1, "ra\n", 3);
-		}
-		else if(*b && first_smallest_last(b))
-		{
-// write(1, "aki\n", 4);
-			rb(b);
-			write(1, "rb\n", 3);
-		}
-		else if(*a && first_biggest_last(a) && *b && first_smallest_last(b))
-		{
-// write(1, "aki\n", 4);
-			rrr(a, b);
-			write(1, "rrr\n", 4);
-		}
-		else if(*a && first_biggest_last(a))
-		{
-// write(1, "aki\n", 4);
-			rra(a);
-			write(1, "rra\n", 4);
-		}
-		else if(*b && first_smallest_last(b))
-		{
-// write(1, "aki\n", 4);
-			rrb(b);
-			write(1, "rrb\n", 4);
-		}
-		else if(*a && smallest_last_and_second(a))
-		{
-// write(1, "aki\n", 4);
-			rra(a);
-			sa(a);
-			write(1, "rra\nsa\n", 7);
-		}
-		else if(*a && !ascending_order(a))
-		{
-// write(1, "aki\n", 4);
-			pb(a, b);
-			write(1, "pb\n", 3);
 			if(*b && (*b)->next && (*b)->n < (*b)->next->n)
-			{
-				sb(b);
-				write(1, "sb\n", 3);
-			}
+				sb(b, 1);
 		}
-		else if(*b && descending_order(b) && ascending_order(a))
-		{
-// write(1, "aki\n", 4);
-			pa(a, b);
-			write(1, "pa\n", 3);
-		}
+		else if(*b && descending_order(b) && ascending_order(a) && pa(a, b, 1));
 		else
-		{
-// write(1, "aki\n", 4);
-			pb(a, b);
-			write(1, "pb\n", 3);
-		}
+			pb(a, b, 1);
 sleep(1);
 print_stacks(a, b);
 	}
@@ -139,15 +73,15 @@ int	main(int argc, char **argv)
 // insert_last(&b, 1);
 // insert_last(&b, 3);
 // insert_last(&b, 2);
-	print_stacks(&a, &b);
+	// print_stacks(&a, &b);
 
 
-	write(1, "\nExec: \n", 8);
+	// write(1, "\nExec: \n", 8);
 	operator_algorithm(&a, &b);
-	write(1, "\n", 1);
+	// write(1, "\n", 1);
 
 
-	print_stacks(&a, &b);
+	// print_stacks(&a, &b);
 // write(1, "\nfim\n", 5);
 
 	free_list(&a);

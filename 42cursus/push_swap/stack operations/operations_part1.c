@@ -6,13 +6,13 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 08:00:35 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/01 11:41:08 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/02 15:05:48 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
-void	sa(Stack **a)
+int	sa(Stack **a, int print)
 {
 	Stack	*remove;
 
@@ -22,9 +22,12 @@ void	sa(Stack **a)
 		insert_first(a, remove->n);
 		free(remove);
 	}
+	if(print)
+		write(1, "sa\n", 3);
+	return (1);
 }
 
-void	sb(Stack **b)
+int	sb(Stack **b, int print)
 {
 	Stack	*remove;
 
@@ -34,15 +37,21 @@ void	sb(Stack **b)
 		insert_first(b, remove->n);
 		free(remove);
 	}
+	if(print)
+		write(1, "sb\n", 3);
+	return (1);
 }
 
-void	ss(Stack **a, Stack **b)
+int	ss(Stack **a, Stack **b, int print)
 {
-	sa(a);
-	sb(b);
+	sa(a, 0);
+	sb(b, 0);
+	if(print)
+		write(1, "ss\n", 3);
+	return (1);
 }
 
-void	pa(Stack **a, Stack **b)
+int	pa(Stack **a, Stack **b, int print)
 {
 	Stack	*remove;
 
@@ -52,4 +61,7 @@ void	pa(Stack **a, Stack **b)
 		insert_first(a, remove->n);
 		free(remove);
 	}
+	if(print)
+		write(1, "pa\n", 3);
+	return (1);
 }

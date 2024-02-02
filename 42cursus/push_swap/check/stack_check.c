@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 10:25:43 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/01 11:59:13 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/02 16:06:06 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ write(1, "aki\n", 4);
 	assist = *no;
 	while(assist->next)
 		assist = assist->next;
-	int teste = ((*no)->n < (*no)->next->n && (*no)->n < assist->n && assist->n < (*no)->next->n);
-// write(1, "terminou\n", 9);
+int teste = ((*no)->n < (*no)->next->n && (*no)->n < assist->n && assist->n < (*no)->next->n);
+write(1, "terminou\n", 9);
 	return (teste);
 }
 
