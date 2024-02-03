@@ -96,7 +96,7 @@ write(1, "aki\n", 4);
 	assist = *no;
 	while(assist->next)
 		assist = assist->next;
-int teste = ((*no)->n < (*no)->next->n && (*no)->n < assist->n && assist->n < (*no)->next->n);
+int teste = ((*no)->n < (*no)->next->n && (*no)->n < assist->n && assist->n < (*no)->next->n); // NAO ENTENDI AINDA MDS
 write(1, "terminou\n", 9);
 	return (teste);
 }
