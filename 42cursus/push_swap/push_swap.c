@@ -50,8 +50,8 @@ void	operator_algorithm(Stack **a, Stack **b)
 		else if(*b && descending_order(b) && ascending_order(a) && pa(a, b, 1));
 		else
 			pb(a, b, 1);
-sleep(1);
-print_stacks(a, b);
+// sleep(1);
+// print_stacks(a, b);
 	}
 }
 
@@ -75,13 +75,13 @@ int	main(int argc, char **argv)
 // insert_last(&b, 2);
 	// print_stacks(&a, &b);
 
-
+smallest_last_and_second(&a);
 	// write(1, "\nExec: \n", 8);
 	operator_algorithm(&a, &b);
-	// write(1, "\n", 1);
+	write(1, "\n", 1);
 
 
-	// print_stacks(&a, &b);
+	print_stacks(&a, &b);
 // write(1, "\nfim\n", 5);
 
 	free_list(&a);

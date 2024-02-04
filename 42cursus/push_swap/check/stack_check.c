@@ -88,7 +88,7 @@ int	first_smallest_last(Stack **no)
 
 int	smallest_last_and_second(Stack **no)
 {
-write(1, "aki\n", 4);
+// write(1, "aki\n", 4);
 	Stack	*assist;
 
 	if(!*no && !(*no)->next && !(*no)->next->next)
@@ -97,7 +97,7 @@ write(1, "aki\n", 4);
 	while(assist->next)
 		assist = assist->next;
 int teste = ((*no)->n < (*no)->next->n && (*no)->n < assist->n && assist->n < (*no)->next->n); // NAO ENTENDI AINDA MDS
-write(1, "terminou\n", 9);
+// write(1, "terminou\n", 9);
 	return (teste);
 }
 
