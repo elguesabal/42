@@ -1,14 +1,27 @@
-#include <mlx.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/06 11:15:02 by joseanto          #+#    #+#             */
+/*   Updated: 2024/02/06 18:57:01 by joseanto         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "./minilibx-linux/mlx.h"
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
 
+void	*MLX_PTR;
+void	*WIN_PTR;
+
 typedef struct
 {
-	void	*mlx_ptr;
-	void	*win_ptr;
-	int	width;
 	int	height;
+	int	width;
 } width_height;
 
 void draw_background(void *mlx_ptr, void *win_ptr, char *image_path, int width, int height)
@@ -28,39 +41,26 @@ int    ft_key(int key, void *param)
 {
 	width_height	*gojo = (width_height *)param;
 
-	if(key == 'w')
-	{
+	if(key == 'w' || key == 65362)
 		gojo->width -= 100;
-		draw_background(gojo->mlx_ptr, gojo->win_ptr, "image.xmp", gojo->width, gojo->height);
-		printf("w\n");
-	}
-	else if(key == 'a')
-	{
+	else if(key == 'a' || key == 65361)
 		gojo->height -= 100;
-		draw_background(gojo->mlx_ptr, gojo->win_ptr, "image.xmp", gojo->width, gojo->height);
-		printf("a\n");
-	}
-	else if(key == 's')
-	{
+	else if(key == 's' || key == 65364)
 		gojo->width += 100;
-		// printf("%d\n", gojo->width);
-		draw_background(&gojo->mlx_ptr, &gojo->win_ptr, "image.xmp", gojo->width, gojo->height);	// TENDI NADA
-		// printf("s\n");
-	}
-	else if(key == 'd')
-	{
+	else if(key == 'd' || key == 65363)
 		gojo->height += 100;
-		draw_background(gojo->mlx_ptr, gojo->win_ptr, "image.xmp", gojo->width, gojo->height);
-		printf("d\n");
-	}
-	else if(key == 65307)	// ESC
-	{
-		// mlx_destroy_window((void *)param);
-		printf("ESC\n");
-	}
 
 
-	// printf("%c\n", key);
+	draw_background(MLX_PTR, WIN_PTR, "image.xpm", gojo->height, gojo->width);
+
+	// if(key == 65307)	// ESC
+	// {
+	// 	// mlx_destroy_window((void *)param);
+	// 	printf("ESC\n");
+	// }
+
+
+	// printf("%d\n", key);
 }
 
 int close_window(void *mlx_ptr, void *win_ptr)
@@ -72,22 +72,31 @@ int close_window(void *mlx_ptr, void *win_ptr)
 
 int main()
 {
-    void *mlx_ptr;
-    void *win_ptr;
+    // void *mlx_ptr;
+    // void *win_ptr;
 	width_height	location;
 
-    mlx_ptr = mlx_init();
-    win_ptr = mlx_new_window(mlx_ptr, 800, 600, "Minha janela");
+    // mlx_ptr = mlx_init();
+    // win_ptr = mlx_new_window(mlx_ptr, 800, 600, "Minha janela");
 
-	location.mlx_ptr = mlx_ptr;
-	location.win_ptr = win_ptr;
-	location.width = 0;
-	location.height = 0;
+	MLX_PTR = mlx_init();
+	WIN_PTR = mlx_new_window(MLX_PTR, 800, 600, "Minha janela");
 
-	mlx_key_hook(win_ptr, ft_key, &location);
-	mlx_hook(win_ptr, 17, 0, close_window, win_ptr);
+	// location->mlx_ptr = mlx_ptr;
+	// location->win_ptr = win_ptr;
+	location.height = 400;
+	location.width = 300;
+// draw_background(MLX_PTR, WIN_PTR, "image.xmp", 0, 0);
 
+// printf("%ld\n", (long int)MLX_PTR);
+// printf("%p\n", location->win_ptr);
+// printf("%d\n", location->width);
+// printf("%d\n", location->height);
 
+	mlx_key_hook(WIN_PTR, ft_key, &location);
+	// mlx_hook(win_ptr, 17, 0, close_window, win_ptr);
+
+// draw_background(mlx_ptr, win_ptr, "image.xpm", 0, 0);
 
 // sleep(1);
 // // location.width = 10;
@@ -104,6 +113,6 @@ int main()
 
 
 
-    mlx_loop(mlx_ptr);
-    mlx_destroy_window(mlx_ptr, win_ptr);
+    mlx_loop(MLX_PTR);
+    mlx_destroy_window(MLX_PTR, WIN_PTR);
 }
