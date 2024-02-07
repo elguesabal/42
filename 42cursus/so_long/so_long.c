@@ -50,51 +50,49 @@ int    ft_key(int key, void *param)
 	else if(key == 'd' || key == 65363)
 		gojo->height += 100;
 
+	// draw_background(MLX_PTR, WIN_PTR, "image.xpm", gojo->height, gojo->width);
 
-	draw_background(MLX_PTR, WIN_PTR, "image.xpm", gojo->height, gojo->width);
+	if(key == 65307)	// ESC
+		mlx_destroy_window(MLX_PTR, WIN_PTR);
 
-	// if(key == 65307)	// ESC
-	// {
-	// 	// mlx_destroy_window((void *)param);
-	// 	printf("ESC\n");
-	// }
+	if(key == 'p')
+	{
+		while(1)
+		{
+			draw_background(MLX_PTR, WIN_PTR, "./img_xpm/protagonist/protagonist1.xpm", 0, 0);
+			sleep(1);
+			draw_background(MLX_PTR, WIN_PTR, "./img_xpm/protagonist/protagonist2.xpm", 0, 0);
+			sleep(1);
+			draw_background(MLX_PTR, WIN_PTR, "./img_xpm/protagonist/protagonist3.xpm", 0, 0);
+			sleep(1);
+			draw_background(MLX_PTR, WIN_PTR, "./img_xpm/protagonist/protagonist4.xpm", 0, 0);
+			sleep(1);
+			draw_background(MLX_PTR, WIN_PTR, "./img_xpm/protagonist/protagonist5.xpm", 0, 0);
+		}
+	}
 
-
-	// printf("%d\n", key);
+	printf("%d\n", key);
 }
 
-int close_window(void *mlx_ptr, void *win_ptr)
+int close_window(int key, void *param)
 {
     // Sair do loop de eventos
-    mlx_destroy_window(mlx_ptr, win_ptr);
+    mlx_destroy_window(MLX_PTR, WIN_PTR);
     return (0);
 }
 
 int main()
 {
-    // void *mlx_ptr;
-    // void *win_ptr;
 	width_height	location;
-
-    // mlx_ptr = mlx_init();
-    // win_ptr = mlx_new_window(mlx_ptr, 800, 600, "Minha janela");
 
 	MLX_PTR = mlx_init();
 	WIN_PTR = mlx_new_window(MLX_PTR, 800, 600, "Minha janela");
 
-	// location->mlx_ptr = mlx_ptr;
-	// location->win_ptr = win_ptr;
-	location.height = 400;
-	location.width = 300;
-// draw_background(MLX_PTR, WIN_PTR, "image.xmp", 0, 0);
-
-// printf("%ld\n", (long int)MLX_PTR);
-// printf("%p\n", location->win_ptr);
-// printf("%d\n", location->width);
-// printf("%d\n", location->height);
+	location.height = 0;
+	location.width = 0;
 
 	mlx_key_hook(WIN_PTR, ft_key, &location);
-	// mlx_hook(win_ptr, 17, 0, close_window, win_ptr);
+	mlx_hook(WIN_PTR, 17, 0, close_window, NULL);
 
 // draw_background(mlx_ptr, win_ptr, "image.xpm", 0, 0);
 
