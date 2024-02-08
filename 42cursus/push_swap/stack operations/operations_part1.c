@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 08:00:35 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/02 15:05:48 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/06 10:43:50 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ int	sa(Stack **a, int print)
 {
 	Stack	*remove;
 
-	if(*a && (*a)->next)
+	if (*a && (*a)->next)
 	{
 		remove = remove_second(a);
 		insert_first(a, remove->n);
 		free(remove);
 	}
-	if(print)
+	if (print)
 		write(1, "sa\n", 3);
 	return (1);
 }
@@ -31,13 +31,13 @@ int	sb(Stack **b, int print)
 {
 	Stack	*remove;
 
-	if(*b && (*b)->next)
+	if (*b && (*b)->next)
 	{
 		remove = remove_second(b);
 		insert_first(b, remove->n);
 		free(remove);
 	}
-	if(print)
+	if (print)
 		write(1, "sb\n", 3);
 	return (1);
 }
@@ -46,7 +46,7 @@ int	ss(Stack **a, Stack **b, int print)
 {
 	sa(a, 0);
 	sb(b, 0);
-	if(print)
+	if (print)
 		write(1, "ss\n", 3);
 	return (1);
 }
@@ -55,13 +55,13 @@ int	pa(Stack **a, Stack **b, int print)
 {
 	Stack	*remove;
 
-	if(*b)
+	if (*b)
 	{
 		remove = remove_first(b);
 		insert_first(a, remove->n);
 		free(remove);
 	}
-	if(print)
+	if (print)
 		write(1, "pa\n", 3);
 	return (1);
 }

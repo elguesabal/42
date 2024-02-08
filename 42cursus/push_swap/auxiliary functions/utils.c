@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:13:33 by joseanto          #+#    #+#             */
-/*   Updated: 2024/01/26 14:19:46 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/06 10:42:08 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 long	ft_atoi(const char *str)
 {
-	int	sign;
+	int		sign;
 	long	result;
 
 	result = 0;
@@ -36,46 +36,28 @@ long	ft_atoi(const char *str)
 	return (result * sign);
 }
 
-// void	ft_putstr(char *str)
-// {
-// 	int	i;
-
-// 	if (!str)
-// 	{
-// 		write(1, "(null)", 6);
-// 		return ;
-// 	}
-// 	i = 0;
-// 	while (str[i])
-// 		i += write(1, &str[i], 1);
-// }
-
-int	ft_putnbr(int n)
+void	ft_putnbr(int n)
 {
-	int	i;
-
-	i = 0;
 	if (n == -2147483648)
 	{
-		i += write(1, "-", 1);
-		i += write(1, "2", 1);
-		i += ft_putnbr(147483648);
-		return (i);
+		write(1, "-", 1);
+		write(1, "2", 1);
+		ft_putnbr(147483648);
+		return ;
 	}
 	if (n < 0)
 	{
-		i += write(1, "-", 1);
+		write(1, "-", 1);
 		n = -n;
 	}
 	if (n >= 10)
 	{
-		i += ft_putnbr(n / 10);
-		i += ft_putnbr(n % 10);
+		ft_putnbr(n / 10);
+		ft_putnbr(n % 10);
 	}
 	else
 	{
 		n += 48;
-		i += write(1, &n, 1);
+		write(1, &n, 1);
 	}
-	return (i);
 }

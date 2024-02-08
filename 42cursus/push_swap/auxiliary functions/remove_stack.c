@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:13:29 by joseanto          #+#    #+#             */
-/*   Updated: 2024/01/30 14:06:26 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/06 10:31:59 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ Stack	*remove_first(Stack **no)
 	Stack	*remove;
 
 	remove = NULL;
-	if(*no)
+	if (*no)
 	{
 		remove = *no;
 		*no = remove->next;
-		if(*no)
+		if (*no)
 			(*no)->previous = NULL;
 	}
 	return (remove);
@@ -32,18 +32,35 @@ Stack	*remove_second(Stack **no)
 	Stack	*remove;
 
 	remove = NULL;
-	if(!*no || !(*no)->next)
+	if (!*no || !(*no)->next)
 		return (remove);
 	else
 	{
 		remove = (*no)->next;
-		if((*no)->next->next)
+		if ((*no)->next->next)
 		{
 			(*no)->next = (*no)->next->next;
 			(*no)->next->previous = *no;
 		}
 		else
 			(*no)->next = NULL;
+	}
+	return (remove);
+}
+
+Stack	*remove_last(Stack **no)
+{
+	Stack	*remove;
+	Stack	*assist;
+
+	remove = NULL;
+	if (*no)
+	{
+		assist = *no;
+		while (assist->next)
+			assist = assist->next;
+		remove = assist;
+		assist->previous->next = NULL;
 	}
 	return (remove);
 }
@@ -67,20 +84,3 @@ Stack	*remove_second(Stack **no)
 // 	}
 // 	return (remove);
 // }
-
-Stack	*remove_last(Stack **no)
-{
-	Stack	*remove;
-	Stack	*assist;
-
-	remove = NULL;
-	if(*no)
-	{
-		assist = *no;
-		while(assist->next)
-			assist = assist->next;
-		remove = assist;
-		assist->previous->next = NULL;
-	}
-	return (remove);
-}

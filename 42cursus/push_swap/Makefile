@@ -6,7 +6,7 @@
 #    By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/26 12:34:30 by joseanto          #+#    #+#              #
-#    Updated: 2024/01/30 10:37:49 by joseanto         ###   ########.fr        #
+#    Updated: 2024/02/06 09:46:53 by joseanto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ FILE =	push_swap.c\
 	$(STACK)operations_part1.c\
 	$(STACK)operations_part2.c\
 	$(STACK)operations_part3.c\
-	$(CHECK)stack_check.c\
+	$(CHECK)stack_check_part1.c\
+	$(CHECK)stack_check_part2.c\
 	$(AUX)func_assist.c\
 	$(AUX)utils.c
 NAME = push_swap
@@ -39,4 +40,4 @@ re: clean all
 
 .PHONY: all clean re
 
-# gcc -o push_swap push_swap.c ./'auxiliary functions'/insert_stack.c ./'auxiliary functions'/remove_stack.c ./'stack operations'/operations_part1.c ./'stack operations'/operations_part2.c ./'stack operations'/operations_part3.c ./check/stack_check.c ./'auxiliary functions'/func_assist.c ./'auxiliary functions'/utils.c
+# gcc -o push_swap push_swap.c ./'auxiliary functions'/insert_stack.c ./'auxiliary functions'/remove_stack.c ./'stack operations'/operations_part1.c ./'stack operations'/operations_part2.c ./'stack operations'/operations_part3.c ./check/stack_check_part1.c ./check/stack_check_part2.c ./'auxiliary functions'/func_assist.c ./'auxiliary functions'/utils.c

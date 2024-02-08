@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 10:49:04 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/02 15:07:44 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/06 10:40:25 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,15 @@ typedef struct stack
 
 // insert_stack.c
 void	insert_first(Stack **no, int n);
-void	insert_second(Stack **no, int n);
-// void	insert_penultimate(Stack **no, int n);
 void	insert_last(Stack **no, int n);
+// void	insert_second(Stack **no, int n);
+// void	insert_penultimate(Stack **no, int n);
 
 // remove_stack.c
 Stack	*remove_first(Stack **no);
 Stack	*remove_second(Stack **no);
-// Stack	*remove_penultimate(Stack **no);
 Stack	*remove_last(Stack **no);
+// Stack	*remove_penultimate(Stack **no);
 
 // operations_part1.c
 int	sa(Stack **a, int print);
@@ -54,12 +54,14 @@ int	rra(Stack **a, int print);
 int	rrb(Stack **b, int print);
 int	rrr(Stack **a, Stack **b, int print);
 
-// stack_check.c
+// stack_check_part1.c
 int bigger_than_next(Stack **no);
 int smaller_than_next(Stack **no);
 int	ascending_order(Stack **no);
 int	descending_order(Stack **no);
 int	first_biggest_last(Stack **no);
+
+// stack_check_part2.c
 int	first_smallest_last(Stack **no);
 int	smallest_last_and_second(Stack **no);
 // int	last_smallest_first(Stack **no);
@@ -69,13 +71,14 @@ int	smallest_last_and_second(Stack **no);
 
 // func_assist.c
 int		search_duplicate(Stack **no);
-int		verification(int argc, char **argv, Stack **a);
+int		verification_part1(int argc, char **argv);
+int		verification_part2(char **argv, Stack **a);
+int		free_list(Stack **no);
 void	print_stacks(Stack **a, Stack **b);
-void	free_list(Stack **no);
 
 // utils.c
 long	ft_atoi(const char *str);
-int		ft_putnbr(int n);
+void	ft_putnbr(int n);
 
 
 #endif
