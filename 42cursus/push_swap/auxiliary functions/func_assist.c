@@ -38,21 +38,18 @@ int	search_duplicate(Stack **no)
 	return (0);
 }
 
-int	verification_part1(int argc, char **argv)
+int	verification_part1(int argc, char **argv, int i)
 {
-	int		i;
 	int		j;
 
-	if (argc == 1 || (argc == 2 && !argv[1][0]))
+	if (argc == 1)
 		return (1);
-	i = 1;
 	while (argv[i])
 	{
 		j = 0;
-		while (argv[i][j])
+		while (argv[i][j] || j == 0)
 		{
-			if ((argv[i][j] < '0' || argv[i][j] > '9') &&
-				argv[i][j] != '-' && argv[i][j] != '+')
+			if ((argv[i][j] < '0' || argv[i][j] > '9') && argv[i][j] != '-' && argv[i][j] != '+' && argv[i][j] == '\0')
 				return (1);
 			j++;
 		}
@@ -61,12 +58,10 @@ int	verification_part1(int argc, char **argv)
 	return (0);
 }
 
-int	verification_part2(char **argv, Stack **a)
+int	verification_part2(char **argv, Stack **a, int i)
 {
-	int		i;
 	long	n;
 
-	i = 1;
 	while (argv[i])
 	{
 		n = ft_atoi(argv[i]);
@@ -91,6 +86,20 @@ int	free_list(Stack **no)
 		free(assist);
 		assist = *no;
 	}
+	return (1);
+}
+
+int	free_split(char **argv)
+{
+	int	i;
+
+	i = 0;
+	while (argv[i])
+	{
+		free(argv[i]);
+		i++;
+	}
+	free(argv);
 	return (1);
 }
 

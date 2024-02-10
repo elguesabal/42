@@ -22,16 +22,18 @@ FILE =	push_swap.c\
 	$(CHECK)stack_check_part1.c\
 	$(CHECK)stack_check_part2.c\
 	$(AUX)func_assist.c\
-	$(AUX)utils.c
+	$(AUX)utils1.c\
+	$(AUX)utils2.c\
+	$(AUX)utils3.c
 NAME = push_swap
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -o
+FLAGS = -Wall -Wextra -Werror -o
 RM = rm
 
 all: $(NAME) $(OBJS)
 
 $(NAME):
-		$(CC) $(CFLAGS) $(NAME) $(FILE)
+		$(CC) $(FLAGS) $(NAME) $(FILE)
 
 clean:
 		$(RM) $(NAME)
@@ -40,4 +42,4 @@ re: clean all
 
 .PHONY: all clean re
 
-# gcc -o push_swap push_swap.c ./'auxiliary functions'/insert_stack.c ./'auxiliary functions'/remove_stack.c ./'stack operations'/operations_part1.c ./'stack operations'/operations_part2.c ./'stack operations'/operations_part3.c ./check/stack_check_part1.c ./check/stack_check_part2.c ./'auxiliary functions'/func_assist.c ./'auxiliary functions'/utils.c
+# gcc -o push_swap push_swap.c ./'auxiliary functions'/insert_stack.c ./'auxiliary functions'/remove_stack.c ./'stack operations'/operations_part1.c ./'stack operations'/operations_part2.c ./'stack operations'/operations_part3.c ./check/stack_check_part1.c ./check/stack_check_part2.c ./'auxiliary functions'/func_assist.c ./'auxiliary functions'/utils1.c ./'auxiliary functions'/utils2.c ./'auxiliary functions'/utils3.c

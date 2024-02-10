@@ -59,11 +59,24 @@ int	main(int argc, char **argv)
 {
 	Stack	*a;
 	Stack	*b;
+	int		i;
 
 	a = NULL;
 	b = NULL;
-	if (verification_part1(argc, argv) || verification_part2(argv, &a))
+	i = 1;
+	if (argc == 2)
+	{
+		argv = ft_split(argv[1], ' ');
+		i--;
+	}
+	if (verification_part1(argc, argv, i) || verification_part2(argv, &a, i))
+	{
+		if (argc == 2)
+			free_split(argv);
 		return (!write(1, "Error\n", 6));
+	}
+	if (argc == 2)
+		free_split(argv);
 	operator_algorithm(&a, &b, 0);
 	free_list(&a);
 	free_list(&b);
@@ -75,11 +88,24 @@ int	main(int argc, char **argv)
 // {
 // 	Stack	*a;
 // 	Stack	*b;
+// 	int		i;
 
 // 	a = NULL;
 // 	b = NULL;
-// 	if(verification_part1(argc, argv) || verification_part2(argv, &a))
+// 	i = 1;
+// 	if (argc == 2)
+// 	{
+// 		argv = ft_split(argv[1], ' ');
+// 		i--;
+// 	}
+// 	if (verification_part1(argc, argv, i) || verification_part2(argv, &a, i))
+// 	{
+// 		if (argc == 2)
+// 			free_split(argv);
 // 		return (!write(1, "Error\n", 6));
+// 	}
+// 	if (argc == 2)
+// 		free_split(argv);
 // 	print_stacks(&a, &b);
 // 	write(1, "\nExec: \n", 8);
 // 	operator_algorithm(&a, &b, 1);

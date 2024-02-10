@@ -71,12 +71,27 @@ int	smallest_last_and_second(Stack **no);
 
 // func_assist.c
 int		search_duplicate(Stack **no);
-int		verification_part1(int argc, char **argv);
-int		verification_part2(char **argv, Stack **a);
+int		verification_part1(int argc, char **argv, int i);
+int		verification_part2(char **argv, Stack **a, int i);
 int		free_list(Stack **no);
+int		free_split(char **argv);
 void	print_stacks(Stack **a, Stack **b);
 
-// utils.c
+// utils1.c
+size_t	ft_strlen(const char *str);
+int	check_char(char c, char const *set);
+size_t	len_start(char const *s1, char const *set);
+size_t	len_end(size_t e, size_t s, char const *s1, char const *set);
+char	*ft_strtrim(char const *s1, char const *set);
+
+// utils2.c
+int	amontw(char const *s, char c);
+char	**ft_mallsplit(char const *s, char **r, char c);
+void	ft_fillsplit(char const *s, char **r, char c);
+void	ft_freesplit(char *aux, char c, char **r);
+char	**ft_split(char const *s, char c);
+
+// utils3.c
 long	ft_atoi(const char *str);
 void	ft_putnbr(int n);
 
