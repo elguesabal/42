@@ -142,3 +142,4 @@ printf("%s\n", name_image("Teste", 1));
     mlx_loop(MLX_PTR);
     mlx_destroy_window(MLX_PTR, WIN_PTR);
 }
+
