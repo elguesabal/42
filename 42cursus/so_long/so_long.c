@@ -13,6 +13,7 @@
 #include "./minilibx-linux/mlx.h"
 #include <stdlib.h>
 #include <unistd.h>
+#include <fcntl.h>
 #include <stdio.h>
 
 void	*MLX_PTR;
@@ -24,7 +25,7 @@ typedef struct
 	int	width;
 } width_height;
 
-void draw_background(char *image_path, int width, int height)
+void draw_background(char *image_path, int width, int height)	// FUNCAO PARA PEGAR O NOME DA IMAGEM E POSICAO PARA RENDERIZAR A IMAGEM
 {
     void	*img_ptr;
     int		img_width;
@@ -37,42 +38,16 @@ void draw_background(char *image_path, int width, int height)
     mlx_put_image_to_window(MLX_PTR, WIN_PTR, img_ptr, width, height);
 }
 
-char	*name_image(char *name, int frame)
+int    ft_key(int key, void *param)	// FUNCAO DE EVENTO DE TECLA
 {
-	int		i;
-	char	*name_img;
-
-	i = 0;
-	while(name[i])
-		i++;
-	name_img = malloc((i + 6) * sizeof(char));
-	i = 0;
-	while (name[i])
-	{
-		name_img[i] = name[i];
-		i++;
-	}
-	name_img[i] = frame + 48;
-	name_img[i + 1] = '.';
-	name_img[i + 2] = 'x';
-	name_img[i + 3] = 'p';
-	name_img[i + 4] = 'm';
-	name_img[i + 5] = '\0';
-	return (name_img);
-}
-
-int    ft_key(int key, void *param)
-{
+	int				move;
 	width_height	*gojo = (width_height *)param;
 	int				i;
 
 	if(key == 'w' || key == 65362)
 		gojo->width -= 100;
 	else if(key == 'a' || key == 65361)
-	{
-		// mlx_flush_window(MLX_PTR, WIN_PTR);
 		gojo->height -= 100;
-	}
 	else if(key == 's' || key == 65364)
 		gojo->width += 100;
 	else if(key == 'd' || key == 65363)
@@ -81,42 +56,54 @@ int    ft_key(int key, void *param)
 	draw_background("image.xpm", gojo->height, gojo->width);
 
 	if(key == 65307)	// ESC
-		mlx_destroy_window(MLX_PTR, WIN_PTR);
-
-	if(key == 'p')		// RAPOSA
 	{
-		i = 1;
-		while(1)
-		{
-			if(i > 4)
-				i = 1;
-			draw_background(name_image("./img_xpm/fox/fox", i), 0, 0);
-			usleep(200000);
-			i++;
-		}
+		mlx_destroy_window(MLX_PTR, WIN_PTR);
+		// exit();
 	}
 
-	printf("%d\n", key);
+	// if(key == 'p')		// RAPOSA ANIMADA
+	// {
+	// 	i = 1;
+	// 	while(1)
+	// 	{
+	// 		if(i > 4)
+	// 			i = 1;
+	// 		draw_background(name_image("./img_xpm/fox/fox", i), 0, 0);
+	// 		usleep(200000);
+	// 		i++;
+	// 	}
+	// }
+
+	move++;
+	printf("%d\n", move);
 }
 
-int close_window(int key, void *param)
+int close_window(int key, void *param)	// FUNCAO DE EVENTO DE CLICK Q FECHA A JANELA CLICANDO NO X
 {
     // Sair do loop de eventos
     mlx_destroy_window(MLX_PTR, WIN_PTR);
+	// exit();
     return (0);
 }
 
-int main()
+int main(int argc, char **argv)
 {
-
-printf("%s\n", name_image("Teste", 1));
-
-
-
+	int				fd;
+	char			c;
+	int				i;
+	int				j;
+	char			map[100][100];
 	width_height	location;
 
+	fd = open(argv[1], O_RDONLY);
+	if (fd == -1)
+	{
+		printf("Erro\n");
+		return (0);
+	}
+
 	MLX_PTR = mlx_init();
-	WIN_PTR = mlx_new_window(MLX_PTR, 800, 600, "Minha janela");
+	WIN_PTR = mlx_new_window(MLX_PTR, 936, 288, "Minha janela");
 
 	location.height = 0;
 	location.width = 0;
@@ -124,21 +111,99 @@ printf("%s\n", name_image("Teste", 1));
 	mlx_key_hook(WIN_PTR, ft_key, &location);
 	mlx_hook(WIN_PTR, 17, 0, close_window, NULL);
 
-// draw_background(mlx_ptr, win_ptr, "image.xpm", 0, 0);
 
-// sleep(1);
-// // location.width = 10;
-// // location.height = 20;
-// // printf("%d\n", location.width);
-// 	draw_background(mlx_ptr, win_ptr, "image.xpm", 0, 0);
-// sleep(1);
-// 	mlx_clear_window(mlx_ptr, win_ptr);
-// sleep(1);
-// 	draw_background(mlx_ptr, win_ptr, "image.xpm", 400, 0);
-// 	draw_background(mlx_ptr, win_ptr, "image.xpm", 200, 100);
-// sleep(1);
-// 	mlx_clear_window(mlx_ptr, win_ptr);
+	// PASSAR O MAPA .ber PARA MATRIZ
+	i = 0;
+	j = 0;
+	while (read(fd, &c, 1))
+	{
+		if (c == '0' || c == '1' || c == 'C' || c == 'E' || c == 'P')
+		{
+			map[j][i] = c;
+			i++;
+		}
+		else if (c == '\n')
+		{
+			map[j][i] = '\n';
+			map[j][i + 1] = '\0';
+			i = 0;
+			j++;
+		}
+		// printf("%c", c);
+	}
+	j++;
+	map[j][0] = '\0';
+	close(fd);
+// draw_background("./img_xpm/wall/wall1.xpm", 0, 0);
+
+
+	// DESENHAR O MAPA COM A MATRIZ
+	i = 0;
+	j = 0;
+	int width = 0;
+	int	height = 0;
+	while (map[j][i])	// QUANDO O ARQUIVO TEM UM 0 E SALVO EM UMA VARIAVEL COMO CHAR O TESTE CONSIDERA O CHAR '0' COMO FALSE
+	{
+		if (map[j][i] == '1')
+		{
+			draw_background("./img_xpm/wall/wall1.xpm", width, height);
+			width += 72;
+			i++;
+		}
+		else if (map[j][i] == '\n')
+		{
+			width = 0;
+			height += 72;
+			i = 0;
+			j++;
+		}
+		// printf("%c", c);
+	}
+
+
+
+// draw_background("./img_xpm/wall/wall1.xpm", 0, 0);
+// draw_background("./img_xpm/wall/wall4.xpm", 72, 0);
+// draw_background("./img_xpm/wall/wall1.xpm", 144, 0);
+// draw_background("./img_xpm/wall/wall3.xpm", 216, 0);
+
+// draw_background("./img_xpm/void.xpm", 0, 0);
+
 
     mlx_loop(MLX_PTR);
     mlx_destroy_window(MLX_PTR, WIN_PTR);
+	return (0);
 }
+
+
+
+
+
+
+
+
+
+
+// char	*name_image(char *name, int frame)	// FUNCAO CRIADA PRA RETORNAR O NOME DO PROXIMO SPRITE
+// {
+// 	int		i;
+// 	char	*name_img;
+
+// 	i = 0;
+// 	while(name[i])
+// 		i++;
+// 	name_img = malloc((i + 6) * sizeof(char));
+// 	i = 0;
+// 	while (name[i])
+// 	{
+// 		name_img[i] = name[i];
+// 		i++;
+// 	}
+// 	name_img[i] = frame + 48;
+// 	name_img[i + 1] = '.';
+// 	name_img[i + 2] = 'x';
+// 	name_img[i + 3] = 'p';
+// 	name_img[i + 4] = 'm';
+// 	name_img[i + 5] = '\0';
+// 	return (name_img);
+// }
