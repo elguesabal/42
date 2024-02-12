@@ -124,40 +124,80 @@ int main(int argc, char **argv)
 		}
 		else if (c == '\n')
 		{
-			map[j][i] = '\n';
-			map[j][i + 1] = '\0';
+			// map[j][i] = '\n';
+			// map[j][i + 1] = '\0';
+			map[j][i] = '\0';
 			i = 0;
 			j++;
 		}
 		// printf("%c", c);
 	}
-	j++;
-	map[j][0] = '\0';
+	// j++;
+	// map[j][0] = '\0';
+// printf("%d\n", j);
+// 	map[j][i + 1] = '\0';
+	map[j + 1][0] = '\0';
 	close(fd);
 // draw_background("./img_xpm/wall/wall1.xpm", 0, 0);
+
+
+// i = 0;
+// j = 0;
+// while(map[j][0]) {
+// 	i = 0;
+// 	while(map[j][i]) {
+// 		printf("%c", map[j][i]);
+// 		i++;
+// 	}
+// 	j++;
+// }
 
 
 	// DESENHAR O MAPA COM A MATRIZ
 	i = 0;
 	j = 0;
-	int width = 0;
-	int	height = 0;
-	while (map[j][i])	// QUANDO O ARQUIVO TEM UM 0 E SALVO EM UMA VARIAVEL COMO CHAR O TESTE CONSIDERA O CHAR '0' COMO FALSE
+	static int	width = 0;
+	static int	height = 0;
+	while (map[j][0])	// QUANDO O ARQUIVO TEM UM 0 E SALVO EM UMA VARIAVEL COMO CHAR O TESTE CONSIDERA O CHAR '0' COMO FALSE
 	{
-		if (map[j][i] == '1')
+		width = 0;
+		i = 0;
+		while (map[j][i])
 		{
-			draw_background("./img_xpm/wall/wall1.xpm", width, height);
+			if (map[j][i] == '0')
+			{
+			}
+			else if (map[j][i] == '1')
+			{
+				draw_background("./img_xpm/wall/wall1.xpm", width, height);
+			}
+			else if (map[j][i] == 'C')
+			{
+				// draw_background("", width, height);
+			}
+			else if (map[j][i] == 'E')
+			{
+				// draw_background("", width, height);
+			}
+			else if (map[j][i] == 'P')
+			{
+				// draw_background("", width, height);
+			}
 			width += 72;
 			i++;
+printf("%c", map[j][i]);
 		}
-		else if (map[j][i] == '\n')
-		{
-			width = 0;
-			height += 72;
-			i = 0;
-			j++;
-		}
+		// else if (map[j][i] == '\n')
+		// {
+		// 	width = 0;
+		// 	height += 72;
+		// 	i = 0;
+		// 	j++;
+		// }
+		height += 72;
+		j++;
 		// printf("%c", c);
+printf("\n");
 	}
 
 
