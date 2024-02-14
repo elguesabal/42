@@ -25,6 +25,16 @@ typedef struct
 	int	width;
 } width_height;
 
+size_t	ft_strlen(const char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
 void draw_background(char *image_path, int width, int height)	// FUNCAO PARA PEGAR O NOME DA IMAGEM E POSICAO PARA RENDERIZAR A IMAGEM
 {
     void	*img_ptr;
@@ -102,16 +112,6 @@ int main(int argc, char **argv)
 		return (0);
 	}
 
-	MLX_PTR = mlx_init();
-	WIN_PTR = mlx_new_window(MLX_PTR, 936, 288, "Minha janela");
-
-	location.height = 0;
-	location.width = 0;
-
-	mlx_key_hook(WIN_PTR, ft_key, &location);
-	mlx_hook(WIN_PTR, 17, 0, close_window, NULL);
-
-
 	// PASSAR O MAPA .ber PARA MATRIZ
 	i = 0;
 	j = 0;
@@ -124,33 +124,21 @@ int main(int argc, char **argv)
 		}
 		else if (c == '\n')
 		{
-			// map[j][i] = '\n';
-			// map[j][i + 1] = '\0';
 			map[j][i] = '\0';
 			i = 0;
 			j++;
 		}
-		// printf("%c", c);
 	}
-	// j++;
-	// map[j][0] = '\0';
-// printf("%d\n", j);
-// 	map[j][i + 1] = '\0';
 	map[j + 1][0] = '\0';
 	close(fd);
-// draw_background("./img_xpm/wall/wall1.xpm", 0, 0);
 
 
-// i = 0;
-// j = 0;
-// while(map[j][0]) {
-// 	i = 0;
-// 	while(map[j][i]) {
-// 		printf("%c", map[j][i]);
-// 		i++;
-// 	}
-// 	j++;
-// }
+	MLX_PTR = mlx_init();
+	WIN_PTR = mlx_new_window(MLX_PTR, 72 * ft_strlen(map[0]), 72 * (j + 1), "Minha janela");
+	location.height = 0;
+	location.width = 0;
+	mlx_key_hook(WIN_PTR, ft_key, &location);
+	mlx_hook(WIN_PTR, 17, 0, close_window, NULL);
 
 
 	// DESENHAR O MAPA COM A MATRIZ
@@ -158,7 +146,7 @@ int main(int argc, char **argv)
 	j = 0;
 	static int	width = 0;
 	static int	height = 0;
-	while (map[j][0])	// QUANDO O ARQUIVO TEM UM 0 E SALVO EM UMA VARIAVEL COMO CHAR O TESTE CONSIDERA O CHAR '0' COMO FALSE
+	while (map[j][0])
 	{
 		width = 0;
 		i = 0;
@@ -169,7 +157,24 @@ int main(int argc, char **argv)
 			}
 			else if (map[j][i] == '1')
 			{
-				draw_background("./img_xpm/wall/wall1.xpm", width, height);
+				if (j == 0 && i == 0)
+					draw_background("./img_xpm/wall/wall1.xpm", width, height);
+				else if (j == 0 && i != 0 && map[j][i + 1] != '\0')
+					draw_background("./img_xpm/wall/wall2.xpm", width, height);
+				else if (j == 0 && map[j][i + 1] == '\0')
+					draw_background("./img_xpm/wall/wall3.xpm", width, height);
+				else if (j != 0 && map[j + 1][0] != '\0' && i == 0)
+					draw_background("./img_xpm/wall/wall4.xpm", width, height);
+				else if (j != 0 && map[j + 1][0] != '\0' && map[j][i + 1] == '\0')
+					draw_background("./img_xpm/wall/wall6.xpm", width, height);
+				else if (map[j + 1][0] == '\0' && i == 0)
+					draw_background("./img_xpm/wall/wall7.xpm", width, height);
+				else if (map[j + 1][0] == '\0' && i != 0 && map[j][i + 1] != '\0')
+					draw_background("./img_xpm/wall/wall8.xpm", width, height);
+				else if (map[j + 1][0] == '\0' && map[j][i + 1] == '\0')
+					draw_background("./img_xpm/wall/wall9.xpm", width, height);
+				else
+					draw_background("./img_xpm/wall/wall5.xpm", width, height);
 			}
 			else if (map[j][i] == 'C')
 			{
@@ -181,23 +186,13 @@ int main(int argc, char **argv)
 			}
 			else if (map[j][i] == 'P')
 			{
-				// draw_background("", width, height);
+				draw_background("./img_xpm/protagonist/protagonist1.xpm", width, height);
 			}
 			width += 72;
 			i++;
-printf("%c", map[j][i]);
 		}
-		// else if (map[j][i] == '\n')
-		// {
-		// 	width = 0;
-		// 	height += 72;
-		// 	i = 0;
-		// 	j++;
-		// }
 		height += 72;
 		j++;
-		// printf("%c", c);
-printf("\n");
 	}
 
 
