@@ -10,11 +10,18 @@
 #                                                                              #
 # **************************************************************************** #
 
-FILE =	so_long.c
-LIB = ./minilibx-linux/libmlx_Linux.a -lXext -lX11 -lm
-NAME = so_long
+AUX = ./ft_aux/
+RENDERING = ./rendering/
+EVENTS = ./events/
+FILE =	so_long.c\
+	$(RENDERING)aux_rendering.c\
+	$(RENDERING)map.c\
+	$(EVENTS)key_event.c\
+	$(AUX)utils1.c
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -o
+FLAGS = -Wall -Wextra -Werror -o
+NAME = so_long
+LIB = ./minilibx-linux/libmlx_Linux.a -lXext -lX11 -lm
 RM = rm
 
 all: $(NAME)
@@ -29,4 +36,4 @@ re: clean all
 
 .PHONY: all clean re
 
-# cc -o so_long so_long.c ./minilibx-linux/libmlx_Linux.a -lXext -lX11 -lm
+# cc -o so_long so_long.c ./minilibx-linux/libmlx_Linux.a -lXext -lX11 -lm ./rendering/map.c ./ft_aux/utils1.c
