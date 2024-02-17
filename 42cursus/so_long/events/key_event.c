@@ -4,9 +4,11 @@ void	move_vertical(components *position, int direction)
 {
 	if (MAP[position->protagonist_j][position->protagonist_i + direction] != '1')
 	{
+		MAP[position->protagonist_j][position->protagonist_i] = '0';
 		draw_background("./img_xpm/void.xpm", position->protagonist.height, position->protagonist.width);
 		position->protagonist.height += 72 * direction;
 		position->protagonist_i += 1 * direction;
+		MAP[position->protagonist_j][position->protagonist_i] = 'P';
 		draw_background("./img_xpm/protagonist/protagonist1.xpm", position->protagonist.height, position->protagonist.width);
 	}
 }
@@ -15,9 +17,11 @@ void	move_horizontal(components *position, int direction)
 {
 	if (MAP[position->protagonist_j + direction][position->protagonist_i] != '1')
 	{
+		MAP[position->protagonist_j][position->protagonist_i] = '0';
 		draw_background("./img_xpm/void.xpm", position->protagonist.height, position->protagonist.width);
 		position->protagonist.width += 72 * direction;
 		position->protagonist_j += 1 * direction;
+		MAP[position->protagonist_j][position->protagonist_i] = 'P';
 		draw_background("./img_xpm/protagonist/protagonist1.xpm", position->protagonist.height, position->protagonist.width);
 	}
 }

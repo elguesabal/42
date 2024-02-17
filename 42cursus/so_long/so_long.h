@@ -20,7 +20,9 @@ typedef struct
 	width_height	protagonist;
 	int				protagonist_i;
 	int				protagonist_j;
-	width_height	coin;
+	// width_height	coin;
+	// int				coin_i;
+	// int				coin_j;
 	width_height	exit;
 } components;
 
@@ -28,6 +30,10 @@ extern void	*MLX_PTR;
 extern void	*WIN_PTR;
 extern char	MAP[100][100];
 
+
+// ./rendering/components/wall.c
+void	render_map_wall(int j, int i, int width, int height);
+void	render_map_protagonist(components *position, int j, int i, int width, int height);
 
 // ./rendering/map.c
 width_height	*read_map(char *file);

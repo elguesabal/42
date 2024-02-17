@@ -44,58 +44,34 @@ width_height	*read_map(char *file)
 // DESENHAR O MAPA COM A MATRIZ
 void	render_map(components *position)
 {
-	int	i = 0;
-	int	j = 0;
+	int	i;
+	int	j;
 	int	width;
 	int	height;
 
+	j = 0;
 	height = 0;
 	while (MAP[j][0])
 	{
-		width = 0;
 		i = 0;
+		width = 0;
 		while (MAP[j][i])
 		{
 			if (MAP[j][i] == '0')
 			{
 			}
 			else if (MAP[j][i] == '1')
-			{
-				if (j == 0 && i == 0)
-					draw_background("./img_xpm/wall/wall1.xpm", width, height);
-				else if (j == 0 && i != 0 && MAP[j][i + 1] != '\0')
-					draw_background("./img_xpm/wall/wall2.xpm", width, height);
-				else if (j == 0 && MAP[j][i + 1] == '\0')
-					draw_background("./img_xpm/wall/wall3.xpm", width, height);
-				else if (j != 0 && MAP[j + 1][0] != '\0' && i == 0)
-					draw_background("./img_xpm/wall/wall4.xpm", width, height);
-				else if (j != 0 && MAP[j + 1][0] != '\0' && MAP[j][i + 1] == '\0')
-					draw_background("./img_xpm/wall/wall6.xpm", width, height);
-				else if (MAP[j + 1][0] == '\0' && i == 0)
-					draw_background("./img_xpm/wall/wall7.xpm", width, height);
-				else if (MAP[j + 1][0] == '\0' && i != 0 && MAP[j][i + 1] != '\0')
-					draw_background("./img_xpm/wall/wall8.xpm", width, height);
-				else if (MAP[j + 1][0] == '\0' && MAP[j][i + 1] == '\0')
-					draw_background("./img_xpm/wall/wall9.xpm", width, height);
-				else
-					draw_background("./img_xpm/wall/block.xpm", width, height);
-			}
+				render_map_wall(j, i, width, height);
 			else if (MAP[j][i] == 'C')
 			{
-				// draw_background("", width, height);
+				draw_background("./img_xpm/coin/coin1.xpm", width, height);
 			}
 			else if (MAP[j][i] == 'E')
 			{
-				// draw_background("", width, height);
+				draw_background("./img_xpm/exit/exit1.xpm", width, height);
 			}
 			else if (MAP[j][i] == 'P')
-			{
-				position->protagonist.height = 72 * i;
-				position->protagonist.width = 72 * j;
-				position->protagonist_i = i;
-				position->protagonist_j = j;
-				draw_background("./img_xpm/protagonist/protagonist1.xpm", width, height);
-			}
+				render_map_protagonist(position, j, i, width, height);
 			width += 72;
 			i++;
 		}

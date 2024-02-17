@@ -12,10 +12,13 @@
 
 AUX = ./ft_aux/
 RENDERING = ./rendering/
+COMPONENTS = $(RENDERING)components/
 EVENTS = ./events/
 FILE =	so_long.c\
 	$(RENDERING)aux_rendering.c\
 	$(RENDERING)map.c\
+	$(COMPONENTS)wall.c\
+	$(COMPONENTS)protagonist.c\
 	$(EVENTS)key_event.c\
 	$(AUX)utils1.c
 CC = cc
