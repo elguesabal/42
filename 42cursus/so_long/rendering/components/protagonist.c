@@ -1,10 +1,8 @@
 #include "../../so_long.h"
 
-void	render_map_protagonist(components *position, int j, int i, int width, int height)
+void	render_map_protagonist(components *position, int j, int i)
 {
-    position->protagonist.height = 72 * i;
-    position->protagonist.width = 72 * j;
-    position->protagonist_i = i;
-    position->protagonist_j = j;
-    draw_background("./img_xpm/protagonist/protagonist1.xpm", width, height);
+    position->protagonist.j = j;
+    position->protagonist.i = i;
+    draw_background("./img_xpm/protagonist/protagonist1.xpm", i * 72, j * 72);
 }

@@ -24,6 +24,7 @@ int main(int argc, char **argv)
 	width_height	*resolution;
 	components		position;
 
+	position.n_coin = 0;	// TEMPORARIAMENTE INICIANDO AKI
 	resolution = read_map(argv[1]);
 	if (!resolution)
 		return (0);

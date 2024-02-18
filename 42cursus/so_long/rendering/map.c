@@ -46,36 +46,26 @@ void	render_map(components *position)
 {
 	int	i;
 	int	j;
-	int	width;
-	int	height;
 
 	j = 0;
-	height = 0;
 	while (MAP[j][0])
 	{
 		i = 0;
-		width = 0;
 		while (MAP[j][i])
 		{
 			if (MAP[j][i] == '0')
 			{
 			}
 			else if (MAP[j][i] == '1')
-				render_map_wall(j, i, width, height);
+				render_map_wall(j, i, i * 72, j * 72);
 			else if (MAP[j][i] == 'C')
-			{
-				draw_background("./img_xpm/coin/coin1.xpm", width, height);
-			}
+				render_map_coin(position, i * 72, j * 72);
 			else if (MAP[j][i] == 'E')
-			{
-				draw_background("./img_xpm/exit/exit1.xpm", width, height);
-			}
+				render_map_exit(position, j, i);
 			else if (MAP[j][i] == 'P')
-				render_map_protagonist(position, j, i, width, height);
-			width += 72;
+				render_map_protagonist(position, j, i);
 			i++;
 		}
-		height += 72;
 		j++;
 	}
 }

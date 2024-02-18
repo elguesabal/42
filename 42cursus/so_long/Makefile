@@ -18,6 +18,8 @@ FILE =	so_long.c\
 	$(RENDERING)aux_rendering.c\
 	$(RENDERING)map.c\
 	$(COMPONENTS)wall.c\
+	$(COMPONENTS)coin.c\
+	$(COMPONENTS)exit.c\
 	$(COMPONENTS)protagonist.c\
 	$(EVENTS)key_event.c\
 	$(AUX)utils1.c

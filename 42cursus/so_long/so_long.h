@@ -17,13 +17,15 @@ typedef struct
 
 typedef struct
 {
-	width_height	protagonist;
-	int				protagonist_i;
-	int				protagonist_j;
-	// width_height	coin;
-	// int				coin_i;
-	// int				coin_j;
-	width_height	exit;
+	int	j;
+	int	i;
+} j_i;
+
+typedef struct
+{
+	int				n_coin;
+	j_i				exit;
+	j_i				protagonist;
 } components;
 
 extern void	*MLX_PTR;
@@ -33,7 +35,9 @@ extern char	MAP[100][100];
 
 // ./rendering/components/wall.c
 void	render_map_wall(int j, int i, int width, int height);
-void	render_map_protagonist(components *position, int j, int i, int width, int height);
+void	render_map_coin(components *position, int width, int height);
+void	render_map_exit(components *position, int j, int i);
+void	render_map_protagonist(components *position, int j, int i);
 
 // ./rendering/map.c
 width_height	*read_map(char *file);
