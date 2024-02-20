@@ -11,12 +11,6 @@
 
 typedef struct
 {
-	int	height;
-	int	width;
-} width_height;
-
-typedef struct
-{
 	int	j;
 	int	i;
 } j_i;
@@ -39,13 +33,19 @@ void	render_map_coin(components *position, int width, int height);
 void	render_map_exit(components *position, int j, int i);
 void	render_map_protagonist(components *position, int j, int i);
 
-// ./rendering/map.c
-width_height	*read_map(char *file);
-void			render_map();
+// ./rendering/verification.c
+int		check_components(void);
+// int		count_components();
+// int		rectangular_map();
+// int		wall_on_the_sides();
+// int		valid_path();
 
 // ./rendering/aux_rendering.c
 void			draw_background(char *image_path, int width, int height);
 
+// ./rendering/map.c
+j_i		*read_map(char *file);
+void	render_map(components *position);
 
 // ./events/aux_event1.c
 
@@ -58,7 +58,8 @@ int		close_window(int key, void *param);
 
 
 // ./ft_aux/utils1.c
-size_t	ft_strlen(const char *str);
+int		size_j(void);
+int		size_i(void);
 
 
 #endif

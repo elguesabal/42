@@ -15,6 +15,7 @@ RENDERING = ./rendering/
 COMPONENTS = $(RENDERING)components/
 EVENTS = ./events/
 FILE =	so_long.c\
+	$(RENDERING)verification.c\
 	$(RENDERING)aux_rendering.c\
 	$(RENDERING)map.c\
 	$(COMPONENTS)wall.c\

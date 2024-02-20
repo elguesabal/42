@@ -1,19 +1,19 @@
 #include "../so_long.h"
 
-width_height	*read_map(char *file)
+j_i	*read_map(char *file)
 {
-	width_height	*resolution;
+	j_i				*resolution;
 	int				fd;
 	char			c;
 	int				i;
 	int				j;
 
-	resolution = malloc(sizeof(width_height));
+	resolution = malloc(sizeof(j_i));	// NAO VERIFIQUEI ALOCACAO DE MEMORIA
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 	{
-		printf("Erro\n");
+		perror("Error\nErro ao abrir mapa");
 		return (NULL);
 	}
 
@@ -22,12 +22,13 @@ width_height	*read_map(char *file)
 	j = 0;
 	while (read(fd, &c, 1))
 	{
-		if (c == '0' || c == '1' || c == 'C' || c == 'E' || c == 'P')
+		// if (c == '0' || c == '1' || c == 'C' || c == 'E' || c == 'P')	// ERA FEITO ASSIM MAS MUDEI PQ LA NA VERIFICACAO E MELHOR DE TRABALHAR
+		if (c != '\n')
 		{
 			MAP[j][i] = c;
 			i++;
 		}
-		else if (c == '\n')
+		else // if (c == '\n')
 		{
 			MAP[j][i] = '\0';
 			i = 0;
@@ -36,8 +37,8 @@ width_height	*read_map(char *file)
 	}
 	MAP[j + 1][0] = '\0';
 	close(fd);
-	resolution->height = ft_strlen(MAP[0]);
-	resolution->width = j + 1;
+	resolution->i = size_i();
+	resolution->j = j + 1;
 	return (resolution);
 }
 

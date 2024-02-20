@@ -21,7 +21,7 @@ int main(int argc, char **argv)
 {
 	int				i;
 	int				j;
-	width_height	*resolution;
+	j_i				*resolution;
 	components		position;
 
 	position.n_coin = 0;	// TEMPORARIAMENTE INICIANDO AKI
@@ -30,14 +30,18 @@ int main(int argc, char **argv)
 		return (0);
 
 
-								// FAZER UMA VERIFICACAO PARA VER SE O MAPA E VALIDO
+// printf("j: %d\n", size_j());
+// printf("i: %d\n", size_i());
 
+								// FAZER UMA VERIFICACAO PARA VER SE O MAPA E VALIDO
+if (check_components())
+	return (0);
 								// FAZER UMA VERIFICACAO PARA VER SE O MAPA E VALIDO
 
 
 
 	MLX_PTR = mlx_init();
-	WIN_PTR = mlx_new_window(MLX_PTR, 72 * resolution->height, 72 * resolution->width, "Minha janela");
+	WIN_PTR = mlx_new_window(MLX_PTR, 72 * resolution->i, 72 * resolution->j, "Minha janela");
 	mlx_key_hook(WIN_PTR, ft_key, &position);
 	mlx_hook(WIN_PTR, 17, 0, close_window, NULL);
 

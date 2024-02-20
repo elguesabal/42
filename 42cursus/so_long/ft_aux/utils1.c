@@ -1,11 +1,21 @@
 #include "../so_long.h"
 
-size_t	ft_strlen(const char *str)
+int	size_j(void)
 {
-	size_t	i;
+	int	count;
 
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
+	count = 0;
+	while (MAP[count][0])
+		count++;
+	return (count);
+}
+
+int	size_i(void)
+{
+	int	count;
+
+	count = 0;
+	while (MAP[0][count])
+		count++;
+	return (count);
 }
