@@ -24,7 +24,8 @@ typedef struct
 
 extern void	*MLX_PTR;
 extern void	*WIN_PTR;
-extern char	MAP[100][100];
+// extern char	MAP[100][100];
+extern char	**MAP;
 
 
 // ./rendering/components/wall.c
@@ -35,8 +36,8 @@ void	render_map_protagonist(components *position, int j, int i);
 
 // ./rendering/verification.c
 int		check_components(void);
-// int		count_components();
-// int		rectangular_map();
+int		count_components(void);
+int		rectangular_map(void);
 // int		wall_on_the_sides();
 // int		valid_path();
 
@@ -58,6 +59,7 @@ int		close_window(int key, void *param);
 
 
 // ./ft_aux/utils1.c
+void	*ft_calloc(size_t n_elements, size_t size);
 int		size_j(void);
 int		size_i(void);
 

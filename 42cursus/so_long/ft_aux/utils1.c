@@ -1,5 +1,23 @@
 #include "../so_long.h"
 
+void	*ft_calloc(size_t n_elements, size_t size)
+{
+	unsigned char	*ptr;
+	size_t			i;
+
+	ptr = malloc(n_elements * size);
+	if (ptr)
+	{
+		i = 0;
+		while (i < n_elements * size)
+		{
+			ptr[i] = 0;
+			i++;
+		}
+	}
+	return (ptr);
+}
+
 int	size_j(void)
 {
 	int	count;

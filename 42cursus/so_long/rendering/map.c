@@ -30,12 +30,18 @@ j_i	*read_map(char *file)
 		}
 		else // if (c == '\n')
 		{
-			MAP[j][i] = '\0';
+			// MAP[j][i] = '\0';
 			i = 0;
 			j++;
 		}
 	}
-	MAP[j + 1][0] = '\0';
+	// MAP[j + 1][0] = '\0';
+	// i = size_i();
+	// while (i)
+	// {
+	// 	MAP[j + 1][i] = '\0';
+	// 	i--;
+	// }
 	close(fd);
 	resolution->i = size_i();
 	resolution->j = j + 1;
