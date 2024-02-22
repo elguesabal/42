@@ -38,8 +38,8 @@ void	render_map_protagonist(components *position, int j, int i);
 int		check_components(void);
 int		count_components(void);
 int		rectangular_map(void);
-// int		wall_on_the_sides();
-// int		valid_path();
+int		wall_on_the_sides(void);
+int		valid_path(components *position);
 
 // ./rendering/aux_rendering.c
 void			draw_background(char *image_path, int width, int height);
@@ -62,6 +62,7 @@ int		close_window(int key, void *param);
 void	*ft_calloc(size_t n_elements, size_t size);
 int		size_j(void);
 int		size_i(void);
-
+void	*allocate_memory(int map_j, int map_i);
+void	copy_map(char **map);
 
 #endif

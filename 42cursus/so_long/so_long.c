@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 11:15:02 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/21 17:14:39 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/22 15:27:04 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,32 +19,6 @@ char	**MAP;
 
 // void	*ft_calloc(size_t n_elements, size_t size)
 
-static int	allocate_memory()
-{
-	int	i;
-
-	// MAP = (char **)malloc(100 * sizeof(char *));
-	MAP = (char **)ft_calloc(100, sizeof(char *));
-	if (MAP == NULL)
-	{
-		perror("Erro ao alocar memoria");
-		return (1);
-	}
-	i = 0;
-	while (i < 100)
-	{
-		// MAP[i] = (char *)malloc(100 * sizeof(char));
-		MAP[i] = (char *)ft_calloc(100, sizeof(char));
-		if (MAP[i] == NULL)
-		{
-			perror("Erro ao alocar memoria");
-			return (1);
-		}
-		i++;
-	}
-	return (0);
-}
-
 int main(int argc, char **argv)
 {
 	int				i;
@@ -52,8 +26,12 @@ int main(int argc, char **argv)
 	j_i				*resolution;
 	components		position;
 
-	if (allocate_memory())
+	MAP = allocate_memory(100, 100);
+	if (MAP == NULL)
+	{
+		perror("Error\nMemoria do mapa nao alocada");
 		return (0);
+	}
 	position.n_coin = 0;	// TEMPORARIAMENTE INICIANDO AKI
 	resolution = read_map(argv[1]);
 	if (!resolution)
@@ -67,6 +45,13 @@ if (check_components())
 if (count_components())
 	return (0);
 if (rectangular_map())
+	return (0);
+if (wall_on_the_sides())
+{
+	perror("Error\nLateral nao esta completamente fechado por paredes");
+	return (0);
+}
+if (valid_path(&position))
 	return (0);
 
 

@@ -103,21 +103,92 @@ int	rectangular_map(void)
 	return (0);
 }
 
-int	wall_on_the_sides()
+int	wall_on_the_sides(void)
 {
 	int	j;
 	int	i;
 
-	while ()
+	// VEIFICA A PRIMEIRA LINHA DO MAPA
+	i = 0;
+	while (MAP[0][i])
 	{
-		while ()
-		{
-			
-		}
+		if (MAP[0][i] != '1')
+			return (1);
+		i++;
 	}
+
+	// VERIFICA A ULTIMA COLUNA DO MAPA
+	i--;
+	j = 0;
+	while (MAP[j][i])
+	{
+		if (MAP[j][i] != '1')
+			return (1);
+		j++;
+	}
+
+	// VERIFICA A PRIMEIRA COLUNA DO MAPA
+	j = 0;
+	while (MAP[j][0])
+	{
+		if (MAP[j][0] != '1')
+			return (1);
+		j++;
+	}
+
+	// VERIFICA A ULTIMA LINHA DO MAPA
+	j--;
+	i = 0;
+	while (MAP[j][i])
+	{
+		if (MAP[j][i] != '1')
+			return (1);
+		i++;
+	}
+
+	return (0);
 }
 
-// int	valid_path()
+int	valid_path(components *position)
+{
+	char	**map;
+	int		j;
+	int		i;
+	int		coin;
+	int		exit;
+
+	map = allocate_memory(size_j(), size_i());
+	copy_map(map);
+	coin = position->n_coin;
+	exit = 1;
+	j = position->protagonist.j;
+	i = position->protagonist.i;
+	while (coin || exit)
+	{
+		if ()
+		{
+
+		}
+		else if ()
+		{
+
+		}
+		else
+		{
+			perror("Error\n");
+			return (1);
+		}
+	}
+
+// printf("teste: %c\n", MAP[0][0]);
+// printf("teste: %c\n", map[0][0]);
+	return (0);
+}
+
+// int	valid_path(int i, int j, int *coin, int *exit)
 // {
 
 // }
+
+char str = 'a';
+write(1, "a", "1");
