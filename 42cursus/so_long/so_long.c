@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 11:15:02 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/23 12:31:28 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/23 17:14:07 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,18 @@ int main(int argc, char **argv)
 {
 	// int				i;
 	// int				j;
-	j_i				*resolution;
+	j_i				resolution;
 	components		position;
 
 	MAP = allocate_memory(100, 100);
 	COPY_MAP = allocate_memory(100, 100);
-	if (MAP == NULL)
+	if (MAP == NULL && COPY_MAP == NULL)
 	{
 		perror("Error\nMemoria do mapa nao alocada");
 		return (0);
 	}
 	position.n_coin = 0;	// TEMPORARIAMENTE INICIANDO AKI
-	resolution = read_map(argv[1]);
-	if (!resolution)
+	if (read_map(argv[1], &resolution))
 		return (0);
 
 
@@ -86,7 +85,7 @@ if (valid_path(position.protagonist.j, position.protagonist.i))
 
 
 	MLX_PTR = mlx_init();
-	WIN_PTR = mlx_new_window(MLX_PTR, 72 * resolution->i, 72 * resolution->j, "segmentation fault (core dumped)");
+	WIN_PTR = mlx_new_window(MLX_PTR, resolution.i * 72, resolution.j * 72, "segmentation fault (core dumped)");
 	mlx_key_hook(WIN_PTR, ft_key, &position);
 	mlx_hook(WIN_PTR, 17, 0, close_window, NULL);
 
@@ -96,6 +95,7 @@ if (valid_path(position.protagonist.j, position.protagonist.i))
 
     mlx_loop(MLX_PTR);
     mlx_destroy_window(MLX_PTR, WIN_PTR);
+	free_map();
 	return (0);
 }
 

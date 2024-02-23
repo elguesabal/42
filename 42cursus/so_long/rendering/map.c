@@ -6,15 +6,15 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 11:27:06 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/23 12:24:28 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/23 16:25:56 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../so_long.h"
 
-j_i	*read_map(char *file)
+int	read_map(char *file, j_i *resolution)
 {
-	j_i				*resolution;
+	// j_i				*resolution;
 	int				fd;
 	char			c;
 	int				i;
@@ -24,7 +24,7 @@ j_i	*read_map(char *file)
 	if (fd == -1)
 	{
 		perror("Error\nErro ao abrir mapa");
-		return (NULL);
+		return (1);
 	}
 
 	// PASSAR O MAPA .ber PARA MATRIZ
@@ -54,10 +54,10 @@ j_i	*read_map(char *file)
 	// 	i--;
 	// }
 	close(fd);
-	resolution = malloc(sizeof(j_i));	// NAO VERIFIQUEI ALOCACAO DE MEMORIA
+	// resolution = malloc(sizeof(j_i));	// NAO VERIFIQUEI ALOCACAO DE MEMORIA
 	resolution->i = size_i();
 	resolution->j = j + 1;
-	return (resolution);
+	return (0);
 }
 
 // DESENHAR O MAPA COM A MATRIZ

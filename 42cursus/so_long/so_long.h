@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:06:41 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/23 12:29:32 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/23 16:38:07 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	render_map_exit(components *position, int j, int i);
 void	render_map_protagonist(components *position, int j, int i);
 
 // ./rendering/map.c
-j_i		*read_map(char *file);
+int		read_map(char *file, j_i *resolution);
 void	render_map(components *position);
 
 // ./events/key_event.c
@@ -73,7 +73,7 @@ void	*ft_calloc(size_t n_elements, size_t size);
 int		size_j(void);
 int		size_i(void);
 void	*allocate_memory(int map_j, int map_i);
-// void	free_map();
+void	free_map();
 // void	copy_map(char **map);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 11:24:47 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/23 12:29:55 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/23 16:46:43 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	*allocate_memory(int map_j, int map_i)
 	memory = (char **)ft_calloc(map_j, sizeof(char *));
 	if (memory == NULL)
 	{
-		perror("Error\nMemoria nao alocar memoria");
+		perror("Error\nMemoria nao alocada");
 		return (NULL);
 	}
 	i = 0;
@@ -67,7 +67,7 @@ void	*allocate_memory(int map_j, int map_i)
 		memory[i] = (char *)ft_calloc(map_i, sizeof(char));
 		if (memory[i] == NULL)
 		{
-			perror("Erro\nMemoria nao alocar memoria");
+			perror("Erro\nMemoria nao alocada");
 			return (NULL);
 		}
 		i++;
@@ -75,10 +75,18 @@ void	*allocate_memory(int map_j, int map_i)
 	return (memory);
 }
 
-// void	free_map()
-// {
-	
-// }
+void	free_map()
+{
+	int	i;
+
+	i = 0;
+	while (MAP[i])
+	{
+		free(MAP[i]);
+		free(COPY_MAP[i]);
+		i++;
+	}
+}
 
 // void	copy_map(char **map)
 // {
