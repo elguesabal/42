@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 11:15:02 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/22 15:27:04 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/23 12:31:28 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,21 @@ void	*MLX_PTR;
 void	*WIN_PTR;
 // char	MAP[100][100];
 char	**MAP;
+char	**COPY_MAP;
+int		N_COIN;
+int		N_EXIT;
 
 // void	*ft_calloc(size_t n_elements, size_t size)
 
 int main(int argc, char **argv)
 {
-	int				i;
-	int				j;
+	// int				i;
+	// int				j;
 	j_i				*resolution;
 	components		position;
 
 	MAP = allocate_memory(100, 100);
+	COPY_MAP = allocate_memory(100, 100);
 	if (MAP == NULL)
 	{
 		perror("Error\nMemoria do mapa nao alocada");
@@ -42,7 +46,7 @@ int main(int argc, char **argv)
 								// FAZER UMA VERIFICACAO PARA VER SE O MAPA E VALIDO
 if (check_components())
 	return (0);
-if (count_components())
+if (count_components(&position))
 	return (0);
 if (rectangular_map())
 	return (0);
@@ -51,8 +55,13 @@ if (wall_on_the_sides())
 	perror("Error\nLateral nao esta completamente fechado por paredes");
 	return (0);
 }
-if (valid_path(&position))
+// COPY_MAP = allocate_memory(size_j(), size_i());
+// copy_map(COPY_MAP);
+if (valid_path(position.protagonist.j, position.protagonist.i))
+{
+	perror("Error\nNao existe caminho valido no mapa");
 	return (0);
+}
 
 
 // j = 0;

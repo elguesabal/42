@@ -6,16 +6,17 @@
 #    By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 09:25:54 by joseanto          #+#    #+#              #
-#    Updated: 2024/02/08 10:04:53 by joseanto         ###   ########.fr        #
+#    Updated: 2024/02/23 11:21:07 by joseanto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 AUX = ./ft_aux/
+VERIFICATION = ./verification/
 RENDERING = ./rendering/
 COMPONENTS = $(RENDERING)components/
 EVENTS = ./events/
 FILE =	so_long.c\
-	$(RENDERING)verification.c\
+	$(VERIFICATION)verification1.c\
 	$(RENDERING)aux_rendering.c\
 	$(RENDERING)map.c\
 	$(COMPONENTS)wall.c\

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils1.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/23 11:24:47 by joseanto          #+#    #+#             */
+/*   Updated: 2024/02/23 12:29:55 by joseanto         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../so_long.h"
 
 void	*ft_calloc(size_t n_elements, size_t size)
@@ -63,27 +75,32 @@ void	*allocate_memory(int map_j, int map_i)
 	return (memory);
 }
 
-void	copy_map(char **map)
-{
-	int	j;
-	int	i;
+// void	free_map()
+// {
+	
+// }
 
-	j = 0;
-	i = 0;
-	while (MAP[j][i])
-	{
-		while (MAP[j][i])
-		{
-			map[j][i] = MAP[j][i];
-			i++;
-			// if (MAP[j][i] == '\0')
-			// 	map[j][i] = MAP[j][i];
-			map[j][i] = MAP[j][i];
-		}
-		i = 0;
-		j++;
-		// if (MAP[j][i] == '\0')
-		// 	map[j][i] = MAP[j][i];
-		map[j][i] = MAP[j][i];
-	}
-}
+// void	copy_map(char **map)
+// {
+// 	int	j;
+// 	int	i;
+
+// 	j = 0;
+// 	i = 0;
+// 	while (MAP[j][i])
+// 	{
+// 		while (MAP[j][i])
+// 		{
+// 			map[j][i] = MAP[j][i];
+// 			i++;
+// 			// if (MAP[j][i] == '\0')
+// 			// 	map[j][i] = MAP[j][i];
+// 			map[j][i] = MAP[j][i];
+// 		}
+// 		i = 0;
+// 		j++;
+// 		// if (MAP[j][i] == '\0')
+// 		// 	map[j][i] = MAP[j][i];
+// 		map[j][i] = MAP[j][i];
+// 	}
+// }

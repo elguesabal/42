@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/23 11:27:06 by joseanto          #+#    #+#             */
+/*   Updated: 2024/02/23 12:24:28 by joseanto         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../so_long.h"
 
 j_i	*read_map(char *file)
@@ -7,8 +19,6 @@ j_i	*read_map(char *file)
 	char			c;
 	int				i;
 	int				j;
-
-	resolution = malloc(sizeof(j_i));	// NAO VERIFIQUEI ALOCACAO DE MEMORIA
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
@@ -26,6 +36,7 @@ j_i	*read_map(char *file)
 		if (c != '\n')
 		{
 			MAP[j][i] = c;
+			COPY_MAP[j][i] = c;
 			i++;
 		}
 		else // if (c == '\n')
@@ -43,6 +54,7 @@ j_i	*read_map(char *file)
 	// 	i--;
 	// }
 	close(fd);
+	resolution = malloc(sizeof(j_i));	// NAO VERIFIQUEI ALOCACAO DE MEMORIA
 	resolution->i = size_i();
 	resolution->j = j + 1;
 	return (resolution);
