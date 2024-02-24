@@ -24,10 +24,7 @@ int	check_components(void)
 		while (MAP[j][i])
 		{
 			if (MAP[j][i] != '0' && MAP[j][i] != '1' && MAP[j][i] != 'C' && MAP[j][i] != 'E' && MAP[j][i] != 'P')
-			{
-				perror("Error\nMapa contem mais elementos inesistentes");
 				return (1);
-			}
 			i++;
 		}
 		j++;
@@ -66,8 +63,6 @@ int	count_components(components *position)
 		}
 		j++;
 	}
-	if (!coin || protagonist != 1 || exit != 1)
-		perror("Error\nExistem mais de uma saida, protagonista ou nao existem coins");
 	N_COIN = coin;
 	N_EXIT = exit;
 	return (!coin || protagonist != 1 || exit != 1);
@@ -80,8 +75,7 @@ int	rectangular_map(void)
 	int	aux_j;
 	int	aux_i;
 
-	// VERIFICA NA VERTICAL
-	aux_j = 0;
+	aux_j = 0; // VERIFICA NA VERTICAL
 	while (MAP[aux_j][0])
 		aux_j++;
 	j = 0;
@@ -91,16 +85,11 @@ int	rectangular_map(void)
 		while (MAP[j][i])
 			j++;
 		if (aux_j != j)
-		{
-			perror("Error\nMapa nao retangular na vertical");
 			return (1);
-		}
 		j = 0;
 		i++;
 	}
-
-	// VERIFICA NA HORIZONTAL
-	aux_i = 0;
+	aux_i = 0; // VERIFICA NA HORIZONTAL
 	while (MAP[0][aux_i])
 		aux_i++;
 	j = 0;
@@ -110,14 +99,10 @@ int	rectangular_map(void)
 		while (MAP[j][i])
 			i++;
 		if (aux_i != i)
-		{
-			perror("Error\nMapa nao retangular na horizontal");
 			return (1);
-		}
 		i = 0;
 		j++;
 	}
-
 	return (0);
 }
 
@@ -165,71 +150,4 @@ int	wall_on_the_sides(void)
 	}
 
 	return (0);
-}
-
-int	valid_path(int j, int i)
-{
-	COPY_MAP[j][i] = '1';
-
-	// ANDANDO PARA A DIREITA
-	if (COPY_MAP[j][i + 1] == '0')
-		valid_path(j, i + 1);
-	else if (COPY_MAP[j][i + 1] == 'C')
-	{
-		N_COIN--;
-		valid_path(j, i + 1);
-	}
-	else if (COPY_MAP[j][i + 1] == 'E')
-	{
-		N_EXIT--;
-		valid_path(j, i + 1);
-	}
-
-
-	// ANDANDO PARA BAIXO
-	if (COPY_MAP[j + 1][i] == '0')
-		valid_path(j + 1, i);
-	else if (COPY_MAP[j + 1][i] == 'C')
-	{
-		N_COIN--;
-		valid_path(j + 1, i);
-	}
-	else if (COPY_MAP[j + 1][i] == 'E')
-	{
-		N_EXIT--;
-		valid_path(j + 1, i);
-	}
-
-
-	// ANDANDO PARA ESQUERDA
-	if (COPY_MAP[j][i - 1] == '0')
-		valid_path(j, i - 1);
-	else if (COPY_MAP[j][i - 1] == 'C')
-	{
-		N_COIN--;
-		valid_path(j, i - 1);
-	}
-	else if (COPY_MAP[j][i - 1] == 'E')
-	{
-		N_EXIT--;
-		valid_path(j, i - 1);
-	}
-
-
-	// ANDANDO PARA CIMA
-	if (COPY_MAP[j - 1][i] == '0')
-		valid_path(j - 1, i);
-	else if (COPY_MAP[j - 1][i] == 'C')
-	{
-		N_COIN--;
-		valid_path(j - 1, i);
-	}
-	else if (COPY_MAP[j - 1][i] == 'E')
-	{
-		N_EXIT--;
-		valid_path(j - 1, i);
-	}
-
-
-	return (N_COIN || N_EXIT);
 }

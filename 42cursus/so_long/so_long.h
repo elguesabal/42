@@ -28,14 +28,13 @@ typedef struct
 
 typedef struct
 {
-	int				n_coin;
-	j_i				exit;
-	j_i				protagonist;
+	int	n_coin;
+	j_i	exit;
+	j_i	protagonist;
 } components;
 
 extern void	*MLX_PTR;
 extern void	*WIN_PTR;
-// extern char	MAP[100][100];
 extern char	**MAP;
 extern char	**COPY_MAP;
 extern int	N_COIN;
@@ -47,10 +46,14 @@ int		check_components(void);
 int		count_components(components *position);
 int		rectangular_map(void);
 int		wall_on_the_sides(void);
+
+// ./verification/verification2.c
+void    aux_valid_path(int *num, int j, int i);
 int		valid_path(int j, int i);
+int 	result_of_checks(char *file, j_i *resolution, components *position);
 
 // ./rendering/aux_rendering.c
-void			draw_background(char *image_path, int width, int height);
+void	draw_background(char *image_path, int width, int height);
 
 // ./rendering/components/wall.c
 void	render_map_wall(int j, int i, int width, int height);
@@ -72,6 +75,7 @@ int		close_window(int key, void *param);
 void	*ft_calloc(size_t n_elements, size_t size);
 int		size_j(void);
 int		size_i(void);
+int		error(char *str);
 void	*allocate_memory(int map_j, int map_i);
 void	free_map();
 // void	copy_map(char **map);

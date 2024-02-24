@@ -22,10 +22,11 @@ int	read_map(char *file, j_i *resolution)
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
-	{
-		perror("Error\nErro ao abrir mapa");
 		return (1);
-	}
+	// {
+	// 	perror("Error\nErro ao abrir mapa");
+	// 	return (1);
+	// }
 
 	// PASSAR O MAPA .ber PARA MATRIZ
 	i = 0;

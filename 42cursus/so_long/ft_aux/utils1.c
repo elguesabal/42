@@ -50,6 +50,12 @@ int	size_i(void)
 	return (count);
 }
 
+int	error(char *str)
+{
+	perror(str);
+	return (1);
+}
+
 void	*allocate_memory(int map_j, int map_i)
 {
 	char	**memory;
@@ -57,19 +63,13 @@ void	*allocate_memory(int map_j, int map_i)
 
 	memory = (char **)ft_calloc(map_j, sizeof(char *));
 	if (memory == NULL)
-	{
-		perror("Error\nMemoria nao alocada");
 		return (NULL);
-	}
 	i = 0;
 	while (i < 100)
 	{
 		memory[i] = (char *)ft_calloc(map_i, sizeof(char));
 		if (memory[i] == NULL)
-		{
-			perror("Erro\nMemoria nao alocada");
 			return (NULL);
-		}
 		i++;
 	}
 	return (memory);
@@ -86,6 +86,8 @@ void	free_map()
 		free(COPY_MAP[i]);
 		i++;
 	}
+	free(MAP);
+	free(COPY_MAP);
 }
 
 // void	copy_map(char **map)

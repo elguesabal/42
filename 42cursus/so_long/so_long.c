@@ -14,87 +14,34 @@
 
 void	*MLX_PTR;
 void	*WIN_PTR;
-// char	MAP[100][100];
 char	**MAP;
 char	**COPY_MAP;
 int		N_COIN;
 int		N_EXIT;
 
-// void	*ft_calloc(size_t n_elements, size_t size)
 
 int main(int argc, char **argv)
 {
-	// int				i;
-	// int				j;
 	j_i				resolution;
 	components		position;
 
+	position.n_coin = 0;
 	MAP = allocate_memory(100, 100);
 	COPY_MAP = allocate_memory(100, 100);
-	if (MAP == NULL && COPY_MAP == NULL)
-	{
-		perror("Error\nMemoria do mapa nao alocada");
+
+	if(result_of_checks(argv[1], &resolution, &position))
 		return (0);
-	}
-	position.n_coin = 0;	// TEMPORARIAMENTE INICIANDO AKI
-	if (read_map(argv[1], &resolution))
-		return (0);
-
-
-
-								// FAZER UMA VERIFICACAO PARA VER SE O MAPA E VALIDO
-if (check_components())
-	return (0);
-if (count_components(&position))
-	return (0);
-if (rectangular_map())
-	return (0);
-if (wall_on_the_sides())
-{
-	perror("Error\nLateral nao esta completamente fechado por paredes");
-	return (0);
-}
-// COPY_MAP = allocate_memory(size_j(), size_i());
-// copy_map(COPY_MAP);
-if (valid_path(position.protagonist.j, position.protagonist.i))
-{
-	perror("Error\nNao existe caminho valido no mapa");
-	return (0);
-}
-
-
-// j = 0;
-// while (MAP[j][0])
-// {
-// 	i = 0;
-// 	while (MAP[j][i])
-// 	{
-// 		printf("%d", MAP[j][i]);
-// 		if (MAP[j][i + 1] == '\0')
-// 			printf("a");
-// 		i++;
-// 	}
-// 	printf("\n");
-// 	j++;
-// }
-// printf("%c", MAP[1][0]);
-// char teste = MAP[1][0];
-// write(1, &teste, 1);
-								// FAZER UMA VERIFICACAO PARA VER SE O MAPA E VALIDO
-
-
 
 	MLX_PTR = mlx_init();
 	WIN_PTR = mlx_new_window(MLX_PTR, resolution.i * 72, resolution.j * 72, "segmentation fault (core dumped)");
 	mlx_key_hook(WIN_PTR, ft_key, &position);
 	mlx_hook(WIN_PTR, 17, 0, close_window, NULL);
 
-
 	render_map(&position);
-
 
     mlx_loop(MLX_PTR);
     mlx_destroy_window(MLX_PTR, WIN_PTR);
+	free(MLX_PTR);
 	free_map();
 	return (0);
 }
