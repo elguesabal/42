@@ -78,5 +78,3 @@ int main(int argc, char **argv)
 // 	name_img[i + 5] = '\0';
 // 	return (name_img);
 // }
-
-

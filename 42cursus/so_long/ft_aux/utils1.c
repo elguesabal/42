@@ -12,6 +12,20 @@
 
 #include "../so_long.h"
 
+void	putnbr(unsigned int n)
+{
+	if (n > 9)
+	{
+		putnbr(n / 10);
+		putnbr(n % 10);
+	}
+	else
+	{
+		n += 48;
+		write(1, &n, 1);
+	}
+}
+
 void	*ft_calloc(size_t n_elements, size_t size)
 {
 	unsigned char	*ptr;
@@ -54,40 +68,6 @@ int	error(char *str)
 {
 	perror(str);
 	return (1);
-}
-
-void	*allocate_memory(int map_j, int map_i)
-{
-	char	**memory;
-	int		i;
-
-	memory = (char **)ft_calloc(map_j, sizeof(char *));
-	if (memory == NULL)
-		return (NULL);
-	i = 0;
-	while (i < 100)
-	{
-		memory[i] = (char *)ft_calloc(map_i, sizeof(char));
-		if (memory[i] == NULL)
-			return (NULL);
-		i++;
-	}
-	return (memory);
-}
-
-void	free_map()
-{
-	int	i;
-
-	i = 0;
-	while (MAP[i])
-	{
-		free(MAP[i]);
-		free(COPY_MAP[i]);
-		i++;
-	}
-	free(MAP);
-	free(COPY_MAP);
 }
 
 // void	copy_map(char **map)

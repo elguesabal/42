@@ -12,13 +12,24 @@
 
 #include "../so_long.h"
 
-void	move_horizontal(components *position, int direction)
+void	aux_move(char *img, j_i *protagonist, int *movements)
+{
+	draw_background(img, protagonist->i * 72, protagonist->j * 72);
+	(*movements)++;
+	putnbr(*movements);
+	write(1, "\n", 1);
+}
+
+void	move_horizontal(int *movements, components *position, int direction)
 {
 	if (MAP[position->protagonist.j][position->protagonist.i + direction] != '1')
 	{
 		if (MAP[position->protagonist.j][position->protagonist.i + direction] == 'C')
+		{
 			position->n_coin--;
-		MAP[position->protagonist.j][position->protagonist.i] = '0';
+			MAP[position->protagonist.j][position->protagonist.i + direction] = '0';
+		}
+		// MAP[position->protagonist.j][position->protagonist.i] = '0';	// ACHEI IMPORTANTE ATUALIZAR A LOCALIZACAO DAS MOEDAS MAS ISSO TBM AFETA A SAIDA
 		draw_background("./img_xpm/void.xpm", position->protagonist.i * 72, position->protagonist.j * 72);
 		position->protagonist.i += 1 * direction;
 		if (!position->n_coin && MAP[position->protagonist.j][position->protagonist.i] == 'E')
@@ -27,18 +38,24 @@ void	move_horizontal(components *position, int direction)
 			draw_background("./img_xpm/exit/exit2.xpm", position->exit.i * 72, position->exit.j * 72);
 		else
 			draw_background("./img_xpm/exit/exit1.xpm", position->exit.i * 72, position->exit.j * 72);
-		MAP[position->protagonist.j][position->protagonist.i] = 'P';
-		draw_background("./img_xpm/protagonist/protagonist1.xpm", position->protagonist.i * 72, position->protagonist.j * 72);
+		// MAP[position->protagonist.j][position->protagonist.i] = 'P';	// ACHEI IMPORTANTE ATUALIZAR A LOCALIZACAO DAS MOEDAS MAS ISSO TBM AFETA A SAIDA
+		// draw_background("./img_xpm/protagonist/protagonist1.xpm", position->protagonist.i * 72, position->protagonist.j * 72);
+		// (*movements)++;
+		// putnbr(*movements);
+		aux_move("./img_xpm/protagonist/protagonist1.xpm", &position->protagonist, movements);
 	}
 }
 
-void	move_vertical(components *position, int direction)
+void	move_vertical(int * movements, components *position, int direction)
 {
 	if (MAP[position->protagonist.j + direction][position->protagonist.i] != '1')
 	{
 		if (MAP[position->protagonist.j + direction][position->protagonist.i] == 'C')
+		{
 			position->n_coin--;
-		MAP[position->protagonist.j][position->protagonist.i] = '0';
+			MAP[position->protagonist.j + direction][position->protagonist.i] = '0';
+		}
+		// MAP[position->protagonist.j][position->protagonist.i] = '0';	// ACHEI IMPORTANTE ATUALIZAR A LOCALIZACAO DAS MOEDAS MAS ISSO TBM AFETA A SAIDA
 		draw_background("./img_xpm/void.xpm", position->protagonist.i * 72, position->protagonist.j * 72);
 		position->protagonist.j += 1 * direction;
 		if (!position->n_coin && MAP[position->protagonist.j][position->protagonist.i] == 'E')
@@ -47,24 +64,28 @@ void	move_vertical(components *position, int direction)
 			draw_background("./img_xpm/exit/exit2.xpm", position->exit.i * 72, position->exit.j * 72);
 		else
 			draw_background("./img_xpm/exit/exit1.xpm", position->exit.i * 72, position->exit.j * 72);
-		MAP[position->protagonist.j][position->protagonist.i] = 'P';
-		draw_background("./img_xpm/protagonist/protagonist1.xpm", position->protagonist.i * 72, position->protagonist.j * 72);
+		// MAP[position->protagonist.j][position->protagonist.i] = 'P';	// ACHEI IMPORTANTE ATUALIZAR A LOCALIZACAO DAS MOEDAS MAS ISSO TBM AFETA A SAIDA
+		// draw_background("./img_xpm/protagonist/protagonist1.xpm", position->protagonist.i * 72, position->protagonist.j * 72);
+		// (*movements)++;
+		// putnbr(*movements);
+		aux_move("./img_xpm/protagonist/protagonist1.xpm", &position->protagonist, movements);
 	}
 }
 
 // FUNCAO DE EVENTO DE TECLA
 int    ft_key(int key, void *param)
 {
+	static int		movements;
 	components		*position = (components *)param;
 
 	if(key == 'w' || key == 65362)
-		move_vertical(position, -1);
+		move_vertical(&movements, position, -1);
 	else if(key == 'a' || key == 65361)
-		move_horizontal(position, -1);
+		move_horizontal(&movements, position, -1);
 	else if(key == 's' || key == 65364)
-		move_vertical(position, 1);
+		move_vertical(&movements, position, 1);
 	else if(key == 'd' || key == 65363)
-		move_horizontal(position, 1);
+		move_horizontal(&movements, position, 1);
 	else if(key == 65307)	// ESC
 	{
 		mlx_destroy_window(MLX_PTR, WIN_PTR);

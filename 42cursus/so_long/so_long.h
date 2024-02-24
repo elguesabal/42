@@ -66,18 +66,22 @@ int		read_map(char *file, j_i *resolution);
 void	render_map(components *position);
 
 // ./events/key_event.c
-void	move_vertical(components *position, int direction);
-void	move_horizontal(components *position, int direction);
+void	move_horizontal(int *movements, components *position, int direction);
+void	move_vertical(int * movements, components *position, int direction);
 int		ft_key(int key, void *param);
 int		close_window(int key, void *param);
 
 // ./ft_aux/utils1.c
+void	putnbr(unsigned int n);
 void	*ft_calloc(size_t n_elements, size_t size);
 int		size_j(void);
 int		size_i(void);
 int		error(char *str);
+//void	copy_map(char **map);
+
+// ./ft_aux/utils2.c
 void	*allocate_memory(int map_j, int map_i);
 void	free_map();
-// void	copy_map(char **map);
+
 
 #endif

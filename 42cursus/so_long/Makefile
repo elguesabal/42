@@ -26,6 +26,7 @@ FILE =	so_long.c\
 	$(COMPONENTS)protagonist.c\
 	$(EVENTS)key_event.c\
 	$(AUX)utils1.c
+	$(AUX)utils2.c
 CC = cc
 FLAGS = -Wall -Wextra -Werror -o
 NAME = so_long
