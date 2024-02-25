@@ -1,101 +1,71 @@
 #include "../so_long.h"
 
-void    aux_valid_path(int *num, int j, int i)
+// VEIFICA A PRIMEIRA LINHA DO MAPA
+int	first_line(int *i)
 {
-    (*num)--;
-    valid_path(j, i);
+	*i = 0;
+	while (MAP[0][*i])
+	{
+		if (MAP[0][*i] != '1')
+			return (1);
+		(*i)++;
+	}
+	return (0);
 }
 
-int	valid_path(int j, int i)
+// VERIFICA A ULTIMA COLUNA DO MAPA
+int	last_column(int *j, int *i)
 {
-	COPY_MAP[j][i] = '1';
-
-	// ANDANDO PARA A DIREITA
-	if (COPY_MAP[j][i + 1] == '0')
-		valid_path(j, i + 1);
-	else if (COPY_MAP[j][i + 1] == 'C')
-        aux_valid_path(&N_COIN, j, i + 1);
-	// {
-	// 	N_COIN--;
-	// 	valid_path(j, i + 1);
-	// }
-	else if (COPY_MAP[j][i + 1] == 'E')
-        aux_valid_path(&N_EXIT, j, i + 1);
-	// {
-	// 	N_EXIT--;
-	// 	valid_path(j, i + 1);
-	// }
-
-
-	// ANDANDO PARA BAIXO
-	if (COPY_MAP[j + 1][i] == '0')
-		valid_path(j + 1, i);
-	else if (COPY_MAP[j + 1][i] == 'C')
-        aux_valid_path(&N_COIN, j + 1, i);
-	// {
-	// 	N_COIN--;
-	// 	valid_path(j + 1, i);
-	// }
-	else if (COPY_MAP[j + 1][i] == 'E')
-        aux_valid_path(&N_EXIT, j + 1, i);
-	// {
-	// 	N_EXIT--;
-	// 	valid_path(j + 1, i);
-	// }
-
-
-	// ANDANDO PARA ESQUERDA
-	if (COPY_MAP[j][i - 1] == '0')
-		valid_path(j, i - 1);
-	else if (COPY_MAP[j][i - 1] == 'C')
-        aux_valid_path(&N_COIN, j, i - 1);
-	// {
-	// 	N_COIN--;
-	// 	valid_path(j, i - 1);
-	// }
-	else if (COPY_MAP[j][i - 1] == 'E')
-        aux_valid_path(&N_EXIT, j, i - 1);
-	// {
-	// 	N_EXIT--;
-	// 	valid_path(j, i - 1);
-	// }
-
-
-	// ANDANDO PARA CIMA
-	if (COPY_MAP[j - 1][i] == '0')
-		valid_path(j - 1, i);
-	else if (COPY_MAP[j - 1][i] == 'C')
-        aux_valid_path(&N_COIN, j - 1, i);
-	// {
-	// 	N_COIN--;
-	// 	valid_path(j - 1, i);
-	// }
-	else if (COPY_MAP[j - 1][i] == 'E')
-        aux_valid_path(&N_EXIT, j - 1, i);
-	// {
-	// 	N_EXIT--;
-	// 	valid_path(j - 1, i);
-	// }
-
-
-	return (N_COIN || N_EXIT);
+	(*i)--;
+	*j = 0;
+	while (MAP[*j][*i])
+	{
+		if (MAP[*j][*i] != '1')
+			return (1);
+		(*j)++;
+	}
+	return (0);
 }
 
-int result_of_checks(char *file, j_i *resolution, components *position)
+// VERIFICA A PRIMEIRA COLUNA DO MAPA
+int	first_column(int *j)
 {
-	if (MAP == NULL || COPY_MAP == NULL)
-		return (error("Error\nMemoria do mapa nao alocada"));
-	if (read_map(file, resolution))
-		return (error("Error\nErro ao abrir mapa"));
-	if (check_components())
-		return (error("Error\nMapa contem mais elementos inesistentes"));
-	if (count_components(position))
-		return (error("Error\nNumero de saidas, protagonistas ou moedas invalidas"));
-	if (rectangular_map())
-		return (error("Error\nMapa nao retangular"));
-	if (wall_on_the_sides())
-		return (error("Error\nLateral nao esta completamente fechado por paredes"));
-	if (valid_path(position->protagonist.j, position->protagonist.i))
-		return (error("Error\nNao existe caminho valido no mapa"));
-    return (0);
+	*j = 0;
+	while (MAP[*j][0])
+	{
+		if (MAP[*j][0] != '1')
+			return (1);
+		(*j)++;
+	}
+	return (0);
+}
+
+// VERIFICA A ULTIMA LINHA DO MAPA
+int	last_line(int *j, int *i)
+{
+	(*j)--;
+	*i = 0;
+	while (MAP[*j][*i])
+	{
+		if (MAP[*j][*i] != '1')
+			return (1);
+		(*i)++;
+	}
+	return (0);
+}
+
+int	wall_on_the_sides(void)
+{
+	int	j;
+	int	i;
+
+	if (first_line(&i))
+		return (1);
+	if (last_column(&j, &i))
+		return (1);
+	if (first_column(&j))
+		return (1);
+	if (last_line(&j, &i))
+		return (1);
+	return (0);
 }

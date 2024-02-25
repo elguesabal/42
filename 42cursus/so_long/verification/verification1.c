@@ -23,7 +23,8 @@ int	check_components(void)
 		i = 0;
 		while (MAP[j][i])
 		{
-			if (MAP[j][i] != '0' && MAP[j][i] != '1' && MAP[j][i] != 'C' && MAP[j][i] != 'E' && MAP[j][i] != 'P')
+			if (MAP[j][i] != '0' && MAP[j][i] != '1' && MAP[j][i] != 'C'
+				&& MAP[j][i] != 'E' && MAP[j][i] != 'P')
 				return (1);
 			i++;
 		}
@@ -74,14 +75,13 @@ int	count_components(components *position)
 	return (!coin || protagonist != 1 || exit != 1);
 }
 
-int	rectangular_map(void)
+int	vertical_check(void)
 {
-	int	j;
 	int	i;
+	int	j;
 	int	aux_j;
-	int	aux_i;
 
-	aux_j = 0; // VERIFICA NA VERTICAL
+	aux_j = 0;
 	while (MAP[aux_j][0])
 		aux_j++;
 	j = 0;
@@ -95,7 +95,16 @@ int	rectangular_map(void)
 		j = 0;
 		i++;
 	}
-	aux_i = 0; // VERIFICA NA HORIZONTAL
+	return (0);
+}
+
+int	horizontal_check(void)
+{
+	int	i;
+	int	j;
+	int	aux_i;
+
+	aux_i = 0;
 	while (MAP[0][aux_i])
 		aux_i++;
 	j = 0;
@@ -112,48 +121,42 @@ int	rectangular_map(void)
 	return (0);
 }
 
-int	wall_on_the_sides(void)
-{
-	int	j;
-	int	i;
+// int	rectangular_map(void)
+// {
+// 	int	j;
+// 	int	i;
+// 	int	aux_j;
+// 	int	aux_i;
 
-	// VEIFICA A PRIMEIRA LINHA DO MAPA
-	i = 0;
-	while (MAP[0][i])
-	{
-		if (MAP[0][i] != '1')
-			return (1);
-		i++;
-	}
-
-	// VERIFICA A ULTIMA COLUNA DO MAPA
-	i--;
-	j = 0;
-	while (MAP[j][i])
-	{
-		if (MAP[j][i] != '1')
-			return (1);
-		j++;
-	}
-
-	// VERIFICA A PRIMEIRA COLUNA DO MAPA
-	j = 0;
-	while (MAP[j][0])
-	{
-		if (MAP[j][0] != '1')
-			return (1);
-		j++;
-	}
-
-	// VERIFICA A ULTIMA LINHA DO MAPA
-	j--;
-	i = 0;
-	while (MAP[j][i])
-	{
-		if (MAP[j][i] != '1')
-			return (1);
-		i++;
-	}
-
-	return (0);
-}
+// 	// aux_j = 0; // VERIFICA NA VERTICAL
+// 	// while (MAP[aux_j][0])
+// 	// 	aux_j++;
+// 	// j = 0;
+// 	// i = 0;
+// 	// while (MAP[j][i])
+// 	// {
+// 	// 	while (MAP[j][i])
+// 	// 		j++;
+// 	// 	if (aux_j != j)
+// 	// 		return (1);
+// 	// 	j = 0;
+// 	// 	i++;
+// 	// }
+// 	// aux_i = 0; // VERIFICA NA HORIZONTAL
+// 	// while (MAP[0][aux_i])
+// 	// 	aux_i++;
+// 	// j = 0;
+// 	// i = 0;
+// 	// while (MAP[j][i])
+// 	// {
+// 	// 	while (MAP[j][i])
+// 	// 		i++;
+// 	// 	if (aux_i != i)
+// 	// 		return (1);
+// 	// 	i = 0;
+// 	// 	j++;
+// 	// }
+// 	if (vertical_check() || horizontal_check())
+// 		return (1);
+// 	return (0);
+// }

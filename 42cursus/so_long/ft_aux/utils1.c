@@ -69,28 +69,3 @@ int	error(char *str)
 	perror(str);
 	return (1);
 }
-
-// void	copy_map(char **map)
-// {
-// 	int	j;
-// 	int	i;
-
-// 	j = 0;
-// 	i = 0;
-// 	while (MAP[j][i])
-// 	{
-// 		while (MAP[j][i])
-// 		{
-// 			map[j][i] = MAP[j][i];
-// 			i++;
-// 			// if (MAP[j][i] == '\0')
-// 			// 	map[j][i] = MAP[j][i];
-// 			map[j][i] = MAP[j][i];
-// 		}
-// 		i = 0;
-// 		j++;
-// 		// if (MAP[j][i] == '\0')
-// 		// 	map[j][i] = MAP[j][i];
-// 		map[j][i] = MAP[j][i];
-// 	}
-// }

@@ -45,11 +45,19 @@ extern int	N_EXIT;
 int		check_components(void);
 void	count(int *coin, j_i *position, int *protagonist, int *exit);
 int		count_components(components *position);
-int		rectangular_map(void);
-int		wall_on_the_sides(void);
+int		vertical_check(void);
+int		horizontal_check(void);
+// int		rectangular_map(void);
 
 // ./verification/verification2.c
-void    aux_valid_path(int *num, int j, int i);
+int		first_line(int *i);
+int		last_column(int *j, int *i);
+int		first_column(int *j);
+int		last_line(int *j, int *i);
+int		wall_on_the_sides(void);
+
+// ./verification/verification3.c
+void	aux_valid_path(int *num, int j, int i);
 int		valid_path(int j, int i);
 int 	result_of_checks(char *file, j_i *resolution, components *position);
 
@@ -63,10 +71,12 @@ void	render_map_exit(components *position, int j, int i);
 void	render_map_protagonist(components *position, int j, int i);
 
 // ./rendering/map.c
+void	creat_map(int *fd);
 int		read_map(char *file, j_i *resolution);
 void	render_map(components *position);
 
 // ./events/key_event.c
+void	aux_move(components *position, j_i *protagonist, int *movements);
 void	move_horizontal(int *movements, components *position, int direction);
 void	move_vertical(int * movements, components *position, int direction);
 int		ft_key(int key, void *param);
@@ -78,11 +88,11 @@ void	*ft_calloc(size_t n_elements, size_t size);
 int		size_j(void);
 int		size_i(void);
 int		error(char *str);
-//void	copy_map(char **map);
 
 // ./ft_aux/utils2.c
 void	*allocate_memory(int map_j, int map_i);
 void	free_map();
+//void	copy_map(char **map);
 
 
 #endif

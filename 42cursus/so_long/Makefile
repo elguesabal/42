@@ -18,6 +18,7 @@ EVENTS = ./events/
 FILE =	so_long.c\
 	$(VERIFICATION)verification1.c\
 	$(VERIFICATION)verification2.c\
+	$(VERIFICATION)verification3.c\
 	$(RENDERING)aux_rendering.c\
 	$(RENDERING)map.c\
 	$(COMPONENTS)wall.c\

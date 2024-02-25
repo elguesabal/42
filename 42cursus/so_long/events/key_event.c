@@ -12,12 +12,20 @@
 
 #include "../so_long.h"
 
-void	aux_move(char *img, j_i *protagonist, int *movements)
+void	aux_move(components *position, j_i *protagonist, int *movements)
 {
-	draw_background(img, protagonist->i * 72, protagonist->j * 72);
+	if (!position->n_coin)
+		draw_background("./img/exit/exit2.xpm", position->exit.i * 72, position->exit.j * 72);
+	else
+		draw_background("./img/exit/exit1.xpm", position->exit.i * 72, position->exit.j * 72);
+
+	draw_background("./img/protagonist/protagonist1.xpm", protagonist->i * 72, protagonist->j * 72);
 	(*movements)++;
 	putnbr(*movements);
 	write(1, "\n", 1);
+
+	if (!position->n_coin && MAP[position->protagonist.j][position->protagonist.i] == 'E')
+		mlx_destroy_window(MLX_PTR, WIN_PTR);
 }
 
 void	move_horizontal(int *movements, components *position, int direction)
@@ -29,20 +37,11 @@ void	move_horizontal(int *movements, components *position, int direction)
 			position->n_coin--;
 			MAP[position->protagonist.j][position->protagonist.i + direction] = '0';
 		}
-		// MAP[position->protagonist.j][position->protagonist.i] = '0';	// ACHEI IMPORTANTE ATUALIZAR A LOCALIZACAO DAS MOEDAS MAS ISSO TBM AFETA A SAIDA
-		draw_background("./img_xpm/void.xpm", position->protagonist.i * 72, position->protagonist.j * 72);
+		draw_background("./img/void.xpm", position->protagonist.i * 72, position->protagonist.j * 72);
 		position->protagonist.i += 1 * direction;
-		if (!position->n_coin && MAP[position->protagonist.j][position->protagonist.i] == 'E')
-			mlx_destroy_window(MLX_PTR, WIN_PTR);	// TA DANDO ERRO PQ AINDA NAO SEI FECHAR A JANELA CORRETAMENTE
-		else if (!position->n_coin)
-			draw_background("./img_xpm/exit/exit2.xpm", position->exit.i * 72, position->exit.j * 72);
-		else
-			draw_background("./img_xpm/exit/exit1.xpm", position->exit.i * 72, position->exit.j * 72);
-		// MAP[position->protagonist.j][position->protagonist.i] = 'P';	// ACHEI IMPORTANTE ATUALIZAR A LOCALIZACAO DAS MOEDAS MAS ISSO TBM AFETA A SAIDA
-		// draw_background("./img_xpm/protagonist/protagonist1.xpm", position->protagonist.i * 72, position->protagonist.j * 72);
-		// (*movements)++;
-		// putnbr(*movements);
-		aux_move("./img_xpm/protagonist/protagonist1.xpm", &position->protagonist, movements);
+
+		aux_move(position, &position->protagonist, movements);
+
 	}
 }
 
@@ -55,20 +54,15 @@ void	move_vertical(int * movements, components *position, int direction)
 			position->n_coin--;
 			MAP[position->protagonist.j + direction][position->protagonist.i] = '0';
 		}
-		// MAP[position->protagonist.j][position->protagonist.i] = '0';	// ACHEI IMPORTANTE ATUALIZAR A LOCALIZACAO DAS MOEDAS MAS ISSO TBM AFETA A SAIDA
-		draw_background("./img_xpm/void.xpm", position->protagonist.i * 72, position->protagonist.j * 72);
+		draw_background("./img/void.xpm", position->protagonist.i * 72, position->protagonist.j * 72);
 		position->protagonist.j += 1 * direction;
-		if (!position->n_coin && MAP[position->protagonist.j][position->protagonist.i] == 'E')
-			mlx_destroy_window(MLX_PTR, WIN_PTR);	// TA DANDO ERRO PQ AINDA NAO SEI FECHAR A JANELA CORRETAMENTE
-		else if (!position->n_coin)
-			draw_background("./img_xpm/exit/exit2.xpm", position->exit.i * 72, position->exit.j * 72);
-		else
-			draw_background("./img_xpm/exit/exit1.xpm", position->exit.i * 72, position->exit.j * 72);
-		// MAP[position->protagonist.j][position->protagonist.i] = 'P';	// ACHEI IMPORTANTE ATUALIZAR A LOCALIZACAO DAS MOEDAS MAS ISSO TBM AFETA A SAIDA
-		// draw_background("./img_xpm/protagonist/protagonist1.xpm", position->protagonist.i * 72, position->protagonist.j * 72);
-		// (*movements)++;
-		// putnbr(*movements);
-		aux_move("./img_xpm/protagonist/protagonist1.xpm", &position->protagonist, movements);
+		// if (!position->n_coin)
+		// 	draw_background("./img/exit/exit2.xpm", position->exit.i * 72, position->exit.j * 72);
+		// else
+		// 	draw_background("./img/exit/exit1.xpm", position->exit.i * 72, position->exit.j * 72);
+		aux_move(position, &position->protagonist, movements);
+		// if (!position->n_coin && MAP[position->protagonist.j][position->protagonist.i] == 'E')
+		// 	mlx_destroy_window(MLX_PTR, WIN_PTR);
 	}
 }
 
@@ -101,7 +95,7 @@ int    ft_key(int key, void *param)
 	// 	{
 	// 		if(i > 4)
 	// 			i = 1;
-	// 		draw_background(name_image("./img_xpm/fox/fox", i), 0, 0);
+	// 		draw_background(name_image("./img/fox/fox", i), 0, 0);
 	// 		usleep(200000);
 	// 		i++;
 	// 	}
@@ -111,8 +105,6 @@ int    ft_key(int key, void *param)
 // FUNCAO DE EVENTO DE CLICK Q FECHA A JANELA CLICANDO NO X
 int close_window(int key, void *param)
 {
-    // Sair do loop de eventos
     mlx_destroy_window(MLX_PTR, WIN_PTR);
-	// exit();
     return (0);
 }

@@ -15,5 +15,5 @@
 void	render_map_coin(components *position, int width, int height)
 {
 	position->n_coin++;
-	draw_background("./img_xpm/coin/coin1.xpm", width, height);
+	draw_background("./img/coin/coin1.xpm", width, height);
 }

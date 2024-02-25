@@ -12,52 +12,41 @@
 
 #include "../so_long.h"
 
-int	read_map(char *file, j_i *resolution)
+void	creat_map(int *fd)
 {
-	// j_i				*resolution;
-	int				fd;
-	char			c;
-	int				i;
-	int				j;
+	int		j;
+	int		i;
+	char	c;
 
-	fd = open(file, O_RDONLY);
-	if (fd == -1)
-		return (1);
-	// {
-	// 	perror("Error\nErro ao abrir mapa");
-	// 	return (1);
-	// }
-
-	// PASSAR O MAPA .ber PARA MATRIZ
-	i = 0;
 	j = 0;
-	while (read(fd, &c, 1))
+	i = 0;
+	while (read(*fd, &c, 1))
 	{
-		// if (c == '0' || c == '1' || c == 'C' || c == 'E' || c == 'P')	// ERA FEITO ASSIM MAS MUDEI PQ LA NA VERIFICACAO E MELHOR DE TRABALHAR
 		if (c != '\n')
 		{
 			MAP[j][i] = c;
 			COPY_MAP[j][i] = c;
 			i++;
 		}
-		else // if (c == '\n')
+		else
 		{
-			// MAP[j][i] = '\0';
 			i = 0;
 			j++;
 		}
 	}
-	// MAP[j + 1][0] = '\0';
-	// i = size_i();
-	// while (i)
-	// {
-	// 	MAP[j + 1][i] = '\0';
-	// 	i--;
-	// }
+}
+
+int	read_map(char *file, j_i *resolution)
+{
+	int				fd;
+
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
+		return (1);
+	creat_map(&fd);
 	close(fd);
-	// resolution = malloc(sizeof(j_i));	// NAO VERIFIQUEI ALOCACAO DE MEMORIA
+	resolution->j = size_j();
 	resolution->i = size_i();
-	resolution->j = j + 1;
 	return (0);
 }
 
