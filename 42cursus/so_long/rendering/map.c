@@ -50,7 +50,6 @@ int	read_map(char *file, j_i *resolution)
 	return (0);
 }
 
-// DESENHAR O MAPA COM A MATRIZ
 void	render_map(components *position)
 {
 	int	i;

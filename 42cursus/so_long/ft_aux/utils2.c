@@ -1,37 +1,49 @@
 #include "../so_long.h"
 
-void	*allocate_memory(int map_j, int map_i)
+int	size_j(void)
 {
-	char	**memory;
-	int		i;
+	int	count;
 
-	memory = (char **)ft_calloc(map_j, sizeof(char *));
-	if (memory == NULL)
-		return (NULL);
-	i = 0;
-	while (i < 100)
-	{
-		memory[i] = (char *)ft_calloc(map_i, sizeof(char));
-		if (memory[i] == NULL)
-			return (NULL);
-		i++;
-	}
-	return (memory);
+	count = 0;
+	while (MAP[count][0])
+		count++;
+	return (count);
 }
 
-void	free_map()
+int	size_i(void)
+{
+	int	count;
+
+	count = 0;
+	while (MAP[0][count])
+		count++;
+	return (count);
+}
+
+int	error(char *str)
+{
+	perror(str);
+	free_map();
+	return (1);
+}
+
+void	free_map(void)
 {
 	int	i;
 
 	i = 0;
-	while (MAP[i])
+	while (MAP[i] || COPY_MAP[i])
 	{
-		free(MAP[i]);
-		free(COPY_MAP[i]);
+		if (MAP && MAP[i])
+			free(MAP[i]);
+		if (COPY_MAP && COPY_MAP[i])
+			free(COPY_MAP[i]);
 		i++;
 	}
-	free(MAP);
-	free(COPY_MAP);
+	if (MAP)
+		free(MAP);
+	if (COPY_MAP)
+		free(COPY_MAP);
 }
 
 // void	copy_map(char **map)

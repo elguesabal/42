@@ -17,8 +17,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
-
-#include <stdio.h>  // printf
+#include <stdio.h>
 
 typedef struct
 {
@@ -85,13 +84,15 @@ int		close_window(int key, void *param);
 // ./ft_aux/utils1.c
 void	putnbr(unsigned int n);
 void	*ft_calloc(size_t n_elements, size_t size);
+void	*allocate_memory(int map_j, int map_i);
+int		count_lines(char *file);
+int		count_columns(char *file);
+
+// ./ft_aux/utils2.c
 int		size_j(void);
 int		size_i(void);
 int		error(char *str);
-
-// ./ft_aux/utils2.c
-void	*allocate_memory(int map_j, int map_i);
-void	free_map();
+void	free_map(void);
 //void	copy_map(char **map);
 
 

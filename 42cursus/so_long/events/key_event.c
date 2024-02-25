@@ -18,14 +18,12 @@ void	aux_move(components *position, j_i *protagonist, int *movements)
 		draw_background("./img/exit/exit2.xpm", position->exit.i * 72, position->exit.j * 72);
 	else
 		draw_background("./img/exit/exit1.xpm", position->exit.i * 72, position->exit.j * 72);
-
 	draw_background("./img/protagonist/protagonist1.xpm", protagonist->i * 72, protagonist->j * 72);
 	(*movements)++;
 	putnbr(*movements);
 	write(1, "\n", 1);
-
 	if (!position->n_coin && MAP[position->protagonist.j][position->protagonist.i] == 'E')
-		mlx_destroy_window(MLX_PTR, WIN_PTR);
+		close_window(0, NULL);
 }
 
 void	move_horizontal(int *movements, components *position, int direction)
@@ -39,9 +37,7 @@ void	move_horizontal(int *movements, components *position, int direction)
 		}
 		draw_background("./img/void.xpm", position->protagonist.i * 72, position->protagonist.j * 72);
 		position->protagonist.i += 1 * direction;
-
 		aux_move(position, &position->protagonist, movements);
-
 	}
 }
 
@@ -56,17 +52,10 @@ void	move_vertical(int * movements, components *position, int direction)
 		}
 		draw_background("./img/void.xpm", position->protagonist.i * 72, position->protagonist.j * 72);
 		position->protagonist.j += 1 * direction;
-		// if (!position->n_coin)
-		// 	draw_background("./img/exit/exit2.xpm", position->exit.i * 72, position->exit.j * 72);
-		// else
-		// 	draw_background("./img/exit/exit1.xpm", position->exit.i * 72, position->exit.j * 72);
 		aux_move(position, &position->protagonist, movements);
-		// if (!position->n_coin && MAP[position->protagonist.j][position->protagonist.i] == 'E')
-		// 	mlx_destroy_window(MLX_PTR, WIN_PTR);
 	}
 }
 
-// FUNCAO DE EVENTO DE TECLA
 int    ft_key(int key, void *param)
 {
 	static int		movements;
@@ -80,31 +69,33 @@ int    ft_key(int key, void *param)
 		move_vertical(&movements, position, 1);
 	else if(key == 'd' || key == 65363)
 		move_horizontal(&movements, position, 1);
-	else if(key == 65307)	// ESC
-	{
-		mlx_destroy_window(MLX_PTR, WIN_PTR);
-		// exit();
-	}
-
-
-	// int	i;
-	// if(key == 'p')		// RAPOSA ANIMADA
-	// {
-	// 	i = 1;
-	// 	while(1)
-	// 	{
-	// 		if(i > 4)
-	// 			i = 1;
-	// 		draw_background(name_image("./img/fox/fox", i), 0, 0);
-	// 		usleep(200000);
-	// 		i++;
-	// 	}
-	// }
+	else if(key == 65307)
+		close_window(0, NULL);
 }
 
-// FUNCAO DE EVENTO DE CLICK Q FECHA A JANELA CLICANDO NO X
-int close_window(int key, void *param)
+int	close_window(int key, void *param)
 {
-    mlx_destroy_window(MLX_PTR, WIN_PTR);
+	if (MLX_PTR && WIN_PTR)
+	    mlx_destroy_window(MLX_PTR, WIN_PTR);
+	if (MLX_PTR)
+		mlx_destroy_display(MLX_PTR);
+	if (MLX_PTR)
+		free(MLX_PTR);
+	free_map();
+	exit(0);
     return (0);
 }
+
+// int	i;		// RAPOSA ANIMADA
+// if(key == 'p')
+// {
+// 	i = 1;
+// 	while(1)
+// 	{
+// 		if(i > 4)
+// 			i = 1;
+// 		draw_background(name_image("./img/fox/fox", i), 0, 0);
+// 		usleep(200000);
+// 		i++;
+// 	}
+// }

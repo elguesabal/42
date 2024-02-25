@@ -44,28 +44,56 @@ void	*ft_calloc(size_t n_elements, size_t size)
 	return (ptr);
 }
 
-int	size_j(void)
+void	*allocate_memory(int map_j, int map_i)
 {
-	int	count;
+	char	**memory;
+	int		i;
 
-	count = 0;
-	while (MAP[count][0])
-		count++;
-	return (count);
+	memory = (char **)ft_calloc(map_j, sizeof(char *));
+	if (memory == NULL)
+		return (NULL);
+	i = 0;
+	while (i < map_i)
+	{
+		memory[i] = (char *)ft_calloc(map_i, sizeof(char));
+		if (memory[i] == NULL)
+			return (NULL);
+		i++;
+	}
+	return (memory);
 }
 
-int	size_i(void)
+int	count_lines(char *file)
 {
-	int	count;
+	int		fd;
+	int		i;
+	char	c;
 
-	count = 0;
-	while (MAP[0][count])
-		count++;
-	return (count);
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
+		return (0);
+	i = 0;
+	while (read(fd, &c, 1))
+	{
+		if (c == '\n')
+			i++;
+	}
+	i += 2;
+	return (i);
 }
 
-int	error(char *str)
+int	count_columns(char *file)
 {
-	perror(str);
-	return (1);
+	int		fd;
+	int		i;
+	char	c;
+
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
+		return (0);
+	i = 0;
+	while (read(fd, &c, 1) && c != '\n')
+		i++;
+	i++;
+	return (i);
 }

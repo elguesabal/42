@@ -12,7 +12,6 @@
 
 #include "../../so_long.h"
 
-// RENDERIZA A APREDE
 void	render_map_wall(int j, int i, int width, int height)
 {
 	if (j == 0 && i == 0)

@@ -2,34 +2,34 @@
 
 void	aux_valid_path(int *num, int j, int i)
 {
-	(*num)--;
+	COPY_MAP[j][i] = 'X';
+	if (num)
+		(*num)--;
 	valid_path(j, i);
 }
 
-// VERIFICA SE O CAMINHO DO MAPA E VALIDO
 int	valid_path(int j, int i)
 {
-	COPY_MAP[j][i] = '1';
 	if (COPY_MAP[j][i + 1] == '0')
-		valid_path(j, i + 1);
+		aux_valid_path(NULL, j, i + 1);
 	else if (COPY_MAP[j][i + 1] == 'C')
 		aux_valid_path(&N_COIN, j, i + 1);
 	else if (COPY_MAP[j][i + 1] == 'E')
 		aux_valid_path(&N_EXIT, j, i + 1);
 	if (COPY_MAP[j + 1][i] == '0')
-		valid_path(j + 1, i);
+		aux_valid_path(NULL, j + 1, i);
 	else if (COPY_MAP[j + 1][i] == 'C')
 		aux_valid_path(&N_COIN, j + 1, i);
 	else if (COPY_MAP[j + 1][i] == 'E')
 		aux_valid_path(&N_EXIT, j + 1, i);
 	if (COPY_MAP[j][i - 1] == '0')
-		valid_path(j, i - 1);
+		aux_valid_path(NULL, j, i - 1);
 	else if (COPY_MAP[j][i - 1] == 'C')
 		aux_valid_path(&N_COIN, j, i - 1);
 	else if (COPY_MAP[j][i - 1] == 'E')
 		aux_valid_path(&N_EXIT, j, i - 1);
 	if (COPY_MAP[j - 1][i] == '0')
-		valid_path(j - 1, i);
+		aux_valid_path(NULL, j - 1, i);
 	else if (COPY_MAP[j - 1][i] == 'C')
 		aux_valid_path(&N_COIN, j - 1, i);
 	else if (COPY_MAP[j - 1][i] == 'E')

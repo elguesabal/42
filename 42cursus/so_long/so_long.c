@@ -19,41 +19,25 @@ char	**COPY_MAP;
 int		N_COIN;
 int		N_EXIT;
 
-
 int main(int argc, char **argv)
 {
 	j_i				resolution;
 	components		position;
 
 	position.n_coin = 0;
-	MAP = allocate_memory(100, 100);
-	COPY_MAP = allocate_memory(100, 100);
-
+	MAP = allocate_memory(count_columns(argv[1]), count_lines(argv[1]));
+	COPY_MAP = allocate_memory(count_columns(argv[1]), count_lines(argv[1]));
 	if(result_of_checks(argv[1], &resolution, &position))
 		return (0);
-
 	MLX_PTR = mlx_init();
-	WIN_PTR = mlx_new_window(MLX_PTR, resolution.i * 72, resolution.j * 72, "segmentation fault (core dumped)");
+	WIN_PTR = mlx_new_window(MLX_PTR, resolution.i * 72, resolution.j * 72,
+			"segmentation fault (core dumped)");
 	mlx_key_hook(WIN_PTR, ft_key, &position);
 	mlx_hook(WIN_PTR, 17, 0, close_window, NULL);
-
 	render_map(&position);
-
-    mlx_loop(MLX_PTR);
-    mlx_destroy_window(MLX_PTR, WIN_PTR);
-	free(MLX_PTR);
-	free_map();
+	mlx_loop(MLX_PTR);
 	return (0);
 }
-
-
-
-
-
-
-
-
-
 
 // char	*name_image(char *name, int frame)	// FUNCAO CRIADA PRA RETORNAR O NOME DO PROXIMO SPRITE
 // {
