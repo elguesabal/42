@@ -32,17 +32,11 @@ int	check_components(void)
 	return (0);
 }
 
-int	count_components(components *position)
+void	count(int *coin, j_i *position, int *protagonist, int *exit)
 {
 	int	j;
 	int	i;
-	int	exit;
-	int	coin;
-	int	protagonist;
 
-	coin = 0;
-	protagonist = 0;
-	exit = 0;
 	j = 0;
 	while (MAP[j][0])
 	{
@@ -50,19 +44,31 @@ int	count_components(components *position)
 		while (MAP[j][i])
 		{
 			if (MAP[j][i] == 'C')
-				coin++;
+				(*coin)++;
 			else if (MAP[j][i] == 'P')
 			{
-				position->protagonist.j = j;
-				position->protagonist.i = i;
-				protagonist++;
+				position->j = j;
+				position->i = i;
+				(*protagonist)++;
 			}
 			else if (MAP[j][i] == 'E')
-				exit++;
+				(*exit)++;
 			i++;
 		}
 		j++;
 	}
+}
+
+int	count_components(components *position)
+{
+	int	exit;
+	int	coin;
+	int	protagonist;
+
+	coin = 0;
+	protagonist = 0;
+	exit = 0;
+	count(&coin, &position->protagonist, &protagonist, &exit);
 	N_COIN = coin;
 	N_EXIT = exit;
 	return (!coin || protagonist != 1 || exit != 1);

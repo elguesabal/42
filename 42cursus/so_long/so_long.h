@@ -43,6 +43,7 @@ extern int	N_EXIT;
 
 // ./verification/verification1.c
 int		check_components(void);
+void	count(int *coin, j_i *position, int *protagonist, int *exit);
 int		count_components(components *position);
 int		rectangular_map(void);
 int		wall_on_the_sides(void);
