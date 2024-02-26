@@ -1,53 +1,61 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   verification2.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/26 09:33:13 by joseanto          #+#    #+#             */
+/*   Updated: 2024/02/26 10:43:35 by joseanto         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../so_long.h"
 
-// VEIFICA A PRIMEIRA LINHA DO MAPA
 int	first_line(int *i)
 {
 	*i = 0;
-	while (MAP[0][*i])
+	while (g_map[0][*i])
 	{
-		if (MAP[0][*i] != '1')
+		if (g_map[0][*i] != '1')
 			return (1);
 		(*i)++;
 	}
 	return (0);
 }
 
-// VERIFICA A ULTIMA COLUNA DO MAPA
 int	last_column(int *j, int *i)
 {
 	(*i)--;
 	*j = 0;
-	while (MAP[*j][*i])
+	while (g_map[*j][*i])
 	{
-		if (MAP[*j][*i] != '1')
+		if (g_map[*j][*i] != '1')
 			return (1);
 		(*j)++;
 	}
 	return (0);
 }
 
-// VERIFICA A PRIMEIRA COLUNA DO MAPA
 int	first_column(int *j)
 {
 	*j = 0;
-	while (MAP[*j][0])
+	while (g_map[*j][0])
 	{
-		if (MAP[*j][0] != '1')
+		if (g_map[*j][0] != '1')
 			return (1);
 		(*j)++;
 	}
 	return (0);
 }
 
-// VERIFICA A ULTIMA LINHA DO MAPA
 int	last_line(int *j, int *i)
 {
 	(*j)--;
 	*i = 0;
-	while (MAP[*j][*i])
+	while (g_map[*j][*i])
 	{
-		if (MAP[*j][*i] != '1')
+		if (g_map[*j][*i] != '1')
 			return (1);
 		(*i)++;
 	}

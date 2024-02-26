@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils2.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/26 09:32:47 by joseanto          #+#    #+#             */
+/*   Updated: 2024/02/26 12:04:49 by joseanto         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../so_long.h"
 
 int	size_j(void)
@@ -5,7 +17,7 @@ int	size_j(void)
 	int	count;
 
 	count = 0;
-	while (MAP[count][0])
+	while (g_map[count][0])
 		count++;
 	return (count);
 }
@@ -15,7 +27,7 @@ int	size_i(void)
 	int	count;
 
 	count = 0;
-	while (MAP[0][count])
+	while (g_map[0][count])
 		count++;
 	return (count);
 }
@@ -29,44 +41,19 @@ int	error(char *str)
 
 void	free_map(void)
 {
-	int	i;
+	int	j;
 
-	i = 0;
-	while (MAP[i] || COPY_MAP[i])
+	j = size_j();
+	while (j != -1)
 	{
-		if (MAP && MAP[i])
-			free(MAP[i]);
-		if (COPY_MAP && COPY_MAP[i])
-			free(COPY_MAP[i]);
-		i++;
+		if (g_map && g_map[j])
+			free(g_map[j]);
+		if (g_copy_map && g_copy_map[j])
+			free(g_copy_map[j]);
+		j--;
 	}
-	if (MAP)
-		free(MAP);
-	if (COPY_MAP)
-		free(COPY_MAP);
+	if (g_map)
+		free(g_map);
+	if (g_copy_map)
+		free(g_copy_map);
 }
-
-// void	copy_map(char **map)
-// {
-// 	int	j;
-// 	int	i;
-
-// 	j = 0;
-// 	i = 0;
-// 	while (MAP[j][i])
-// 	{
-// 		while (MAP[j][i])
-// 		{
-// 			map[j][i] = MAP[j][i];
-// 			i++;
-// 			// if (MAP[j][i] == '\0')
-// 			// 	map[j][i] = MAP[j][i];
-// 			map[j][i] = MAP[j][i];
-// 		}
-// 		i = 0;
-// 		j++;
-// 		// if (MAP[j][i] == '\0')
-// 		// 	map[j][i] = MAP[j][i];
-// 		map[j][i] = MAP[j][i];
-// 	}
-// }

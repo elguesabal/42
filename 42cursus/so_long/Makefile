@@ -6,7 +6,7 @@
 #    By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 09:25:54 by joseanto          #+#    #+#              #
-#    Updated: 2024/02/23 11:21:07 by joseanto         ###   ########.fr        #
+#    Updated: 2024/02/26 13:17:26 by joseanto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ RM = rm
 all: $(NAME)
 
 $(NAME):
-		$(CC) -o $(NAME) $(FILE) $(LIB)
+		$(CC) $(FLAGS) $(NAME) $(FILE) $(LIB)
 
 clean:
 		$(RM) $(NAME)
@@ -45,5 +45,3 @@ clean:
 re: clean all
 
 .PHONY: all clean re
-
-# cc -o so_long so_long.c ./minilibx-linux/libmlx_Linux.a -lXext -lX11 -lm ./rendering/map.c ./ft_aux/utils1.c

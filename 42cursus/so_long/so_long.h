@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:06:41 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/23 16:38:07 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/26 10:42:44 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,26 +27,25 @@ typedef struct
 
 typedef struct
 {
-	int	n_coin;
-	j_i	exit;
-	j_i	protagonist;
+	int	n_c;
+	j_i	e;
+	j_i p;
 } components;
 
-extern void	*MLX_PTR;
-extern void	*WIN_PTR;
-extern char	**MAP;
-extern char	**COPY_MAP;
-extern int	N_COIN;
-extern int	N_EXIT;
+extern void	*g_mlx_prt; // MLX_PTR
+extern void	*g_win_ptr; // WIN_PTR
+extern char	**g_map; // MAP
+extern char	**g_copy_map; // COPY_MAP
+extern int	g_n_c; // N_C
+extern int	g_n_e; // N_E
 
 
 // ./verification/verification1.c
 int		check_components(void);
-void	count(int *coin, j_i *position, int *protagonist, int *exit);
+void	count(int *coin, j_i *position, int *p, int *e);
 int		count_components(components *position);
 int		vertical_check(void);
 int		horizontal_check(void);
-// int		rectangular_map(void);
 
 // ./verification/verification2.c
 int		first_line(int *i);
@@ -75,7 +74,7 @@ int		read_map(char *file, j_i *resolution);
 void	render_map(components *position);
 
 // ./events/key_event.c
-void	aux_move(components *position, j_i *protagonist, int *movements);
+void	aux_move(components *position, j_i *p, int *movements);
 void	move_horizontal(int *movements, components *position, int direction);
 void	move_vertical(int * movements, components *position, int direction);
 int		ft_key(int key, void *param);
@@ -93,7 +92,6 @@ int		size_j(void);
 int		size_i(void);
 int		error(char *str);
 void	free_map(void);
-//void	copy_map(char **map);
 
 
 #endif

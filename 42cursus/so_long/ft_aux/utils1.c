@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 11:24:47 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/23 16:46:43 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/26 12:57:34 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	putnbr(unsigned int n)
 
 void	*ft_calloc(size_t n_elements, size_t size)
 {
-	unsigned char	*ptr;
-	size_t			i;
+	char	*ptr;
+	size_t	i;
 
 	ptr = malloc(n_elements * size);
 	if (ptr)
@@ -49,13 +49,13 @@ void	*allocate_memory(int map_j, int map_i)
 	char	**memory;
 	int		i;
 
-	memory = (char **)ft_calloc(map_j, sizeof(char *));
+	memory = ft_calloc(map_j, sizeof(char *));
 	if (memory == NULL)
 		return (NULL);
 	i = 0;
 	while (i < map_i)
 	{
-		memory[i] = (char *)ft_calloc(map_i, sizeof(char));
+		memory[i] = ft_calloc(map_i, sizeof(char));
 		if (memory[i] == NULL)
 			return (NULL);
 		i++;

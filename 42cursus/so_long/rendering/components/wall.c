@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 11:26:25 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/23 11:26:26 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/26 10:34:43 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,21 @@
 void	render_map_wall(int j, int i, int width, int height)
 {
 	if (j == 0 && i == 0)
-		draw_background("./img/wall/wall1.xpm", width, height);
-	else if (j == 0 && i != 0 && MAP[j][i + 1] != '\0')
-		draw_background("./img/wall/wall2.xpm", width, height);
-	else if (j == 0 && MAP[j][i + 1] == '\0')
-		draw_background("./img/wall/wall3.xpm", width, height);
-	else if (j != 0 && MAP[j + 1][0] != '\0' && i == 0)
-		draw_background("./img/wall/wall4.xpm", width, height);
-	else if (j != 0 && MAP[j + 1][0] != '\0' && MAP[j][i + 1] == '\0')
-		draw_background("./img/wall/wall6.xpm", width, height);
-	else if (MAP[j + 1][0] == '\0' && i == 0)
-		draw_background("./img/wall/wall7.xpm", width, height);
-	else if (MAP[j + 1][0] == '\0' && i != 0 && MAP[j][i + 1] != '\0')
-		draw_background("./img/wall/wall8.xpm", width, height);
-	else if (MAP[j + 1][0] == '\0' && MAP[j][i + 1] == '\0')
-		draw_background("./img/wall/wall9.xpm", width, height);
+		draw_background("./img/1/wall1.xpm", width, height);
+	else if (j == 0 && i != 0 && g_map[j][i + 1] != '\0')
+		draw_background("./img/1/wall2.xpm", width, height);
+	else if (j == 0 && g_map[j][i + 1] == '\0')
+		draw_background("./img/1/wall3.xpm", width, height);
+	else if (j != 0 && g_map[j + 1][0] != '\0' && i == 0)
+		draw_background("./img/1/wall4.xpm", width, height);
+	else if (j != 0 && g_map[j + 1][0] != '\0' && g_map[j][i + 1] == '\0')
+		draw_background("./img/1/wall6.xpm", width, height);
+	else if (g_map[j + 1][0] == '\0' && i == 0)
+		draw_background("./img/1/wall7.xpm", width, height);
+	else if (g_map[j + 1][0] == '\0' && i != 0 && g_map[j][i + 1] != '\0')
+		draw_background("./img/1/wall8.xpm", width, height);
+	else if (g_map[j + 1][0] == '\0' && g_map[j][i + 1] == '\0')
+		draw_background("./img/1/wall9.xpm", width, height);
 	else
-		draw_background("./img/wall/block.xpm", width, height);
+		draw_background("./img/1/block.xpm", width, height);
 }

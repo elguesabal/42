@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 11:27:06 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/23 16:25:56 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/26 11:22:23 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	creat_map(int *fd)
 	{
 		if (c != '\n')
 		{
-			MAP[j][i] = c;
-			COPY_MAP[j][i] = c;
+			g_map[j][i] = c;
+			g_copy_map[j][i] = c;
 			i++;
 		}
 		else
@@ -56,21 +56,18 @@ void	render_map(components *position)
 	int	j;
 
 	j = 0;
-	while (MAP[j][0])
+	while (g_map[j][0])
 	{
 		i = 0;
-		while (MAP[j][i])
+		while (g_map[j][i])
 		{
-			if (MAP[j][i] == '0')
-			{
-			}
-			else if (MAP[j][i] == '1')
+			if (g_map[j][i] == '1')
 				render_map_wall(j, i, i * 72, j * 72);
-			else if (MAP[j][i] == 'C')
+			else if (g_map[j][i] == 'C')
 				render_map_coin(position, i * 72, j * 72);
-			else if (MAP[j][i] == 'E')
+			else if (g_map[j][i] == 'E')
 				render_map_exit(position, j, i);
-			else if (MAP[j][i] == 'P')
+			else if (g_map[j][i] == 'P')
 				render_map_protagonist(position, j, i);
 			i++;
 		}

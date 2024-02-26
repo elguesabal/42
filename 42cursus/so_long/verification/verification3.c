@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   verification3.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/26 09:33:21 by joseanto          #+#    #+#             */
+/*   Updated: 2024/02/26 15:01:35 by joseanto         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../so_long.h"
 
 void	aux_valid_path(int *num, int j, int i)
 {
-	COPY_MAP[j][i] = 'X';
+	g_copy_map[j][i] = 'X';
 	if (num)
 		(*num)--;
 	valid_path(j, i);
@@ -10,36 +22,36 @@ void	aux_valid_path(int *num, int j, int i)
 
 int	valid_path(int j, int i)
 {
-	if (COPY_MAP[j][i + 1] == '0')
+	if (g_copy_map[j][i + 1] == '0')
 		aux_valid_path(NULL, j, i + 1);
-	else if (COPY_MAP[j][i + 1] == 'C')
-		aux_valid_path(&N_COIN, j, i + 1);
-	else if (COPY_MAP[j][i + 1] == 'E')
-		aux_valid_path(&N_EXIT, j, i + 1);
-	if (COPY_MAP[j + 1][i] == '0')
+	else if (g_copy_map[j][i + 1] == 'C')
+		aux_valid_path(&g_n_c, j, i + 1);
+	else if (g_copy_map[j][i + 1] == 'E')
+		aux_valid_path(&g_n_e, j, i + 1);
+	if (g_copy_map[j + 1][i] == '0')
 		aux_valid_path(NULL, j + 1, i);
-	else if (COPY_MAP[j + 1][i] == 'C')
-		aux_valid_path(&N_COIN, j + 1, i);
-	else if (COPY_MAP[j + 1][i] == 'E')
-		aux_valid_path(&N_EXIT, j + 1, i);
-	if (COPY_MAP[j][i - 1] == '0')
+	else if (g_copy_map[j + 1][i] == 'C')
+		aux_valid_path(&g_n_c, j + 1, i);
+	else if (g_copy_map[j + 1][i] == 'E')
+		aux_valid_path(&g_n_e, j + 1, i);
+	if (g_copy_map[j][i - 1] == '0')
 		aux_valid_path(NULL, j, i - 1);
-	else if (COPY_MAP[j][i - 1] == 'C')
-		aux_valid_path(&N_COIN, j, i - 1);
-	else if (COPY_MAP[j][i - 1] == 'E')
-		aux_valid_path(&N_EXIT, j, i - 1);
-	if (COPY_MAP[j - 1][i] == '0')
+	else if (g_copy_map[j][i - 1] == 'C')
+		aux_valid_path(&g_n_c, j, i - 1);
+	else if (g_copy_map[j][i - 1] == 'E')
+		aux_valid_path(&g_n_e, j, i - 1);
+	if (g_copy_map[j - 1][i] == '0')
 		aux_valid_path(NULL, j - 1, i);
-	else if (COPY_MAP[j - 1][i] == 'C')
-		aux_valid_path(&N_COIN, j - 1, i);
-	else if (COPY_MAP[j - 1][i] == 'E')
-		aux_valid_path(&N_EXIT, j - 1, i);
-	return (N_COIN || N_EXIT);
+	else if (g_copy_map[j - 1][i] == 'C')
+		aux_valid_path(&g_n_c, j - 1, i);
+	else if (g_copy_map[j - 1][i] == 'E')
+		aux_valid_path(&g_n_e, j - 1, i);
+	return (g_n_c || g_n_e);
 }
 
 int	result_of_checks(char *file, j_i *resolution, components *position)
 {
-	if (MAP == NULL || COPY_MAP == NULL)
+	if (g_map == NULL || g_copy_map == NULL)
 		return (error("Error\nMemoria do mapa nao alocada"));
 	if (read_map(file, resolution))
 		return (error("Error\nErro ao abrir mapa"));
@@ -51,7 +63,7 @@ int	result_of_checks(char *file, j_i *resolution, components *position)
 		return (error("Error\nMapa nao retangular"));
 	if (wall_on_the_sides())
 		return (error("Error\nLateral nao esta totalmente fechada"));
-	if (valid_path(position->protagonist.j, position->protagonist.i))
+	if (valid_path(position->p.j, position->p.i))
 		return (error("Error\nNao existe caminho valido no mapa"));
 	return (0);
 }
