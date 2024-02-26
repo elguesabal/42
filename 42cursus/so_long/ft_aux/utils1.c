@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 11:24:47 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/26 12:57:34 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/26 18:07:25 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,10 @@ int	count_lines(char *file)
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
-		return (0);
+	{
+		perror("Error\nArquivo de mapa invalido");
+		exit(0);
+	}
 	i = 0;
 	while (read(fd, &c, 1))
 	{
@@ -90,7 +93,10 @@ int	count_columns(char *file)
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
-		return (0);
+	{
+		perror("Error\nArquivo de mapa invalido");
+		exit(0);
+	}
 	i = 0;
 	while (read(fd, &c, 1) && c != '\n')
 		i++;

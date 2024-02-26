@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 11:27:18 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/26 10:43:09 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/26 17:10:53 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	check_components(void)
 	return (0);
 }
 
-void	count(int *c, j_i *position, int *p, int *e)
+void	count(int *c, t_j_i *position, int *p, int *e)
 {
 	int	j;
 	int	i;
@@ -60,7 +60,7 @@ void	count(int *c, j_i *position, int *p, int *e)
 	}
 }
 
-int	count_components(components *position)
+int	count_components(t_components *position)
 {
 	int	e;
 	int	c;

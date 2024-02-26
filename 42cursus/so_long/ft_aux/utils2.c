@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 09:32:47 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/26 12:04:49 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/26 17:55:40 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,11 @@ int	size_i(void)
 	return (count);
 }
 
-int	error(char *str)
+int	error(char *str, int release)
 {
 	perror(str);
-	free_map();
+	if (release)
+		free_map();
 	return (1);
 }
 

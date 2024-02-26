@@ -6,13 +6,13 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 11:24:38 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/26 13:21:30 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/26 17:09:27 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../so_long.h"
 
-void	aux_move(components *position, j_i *p, int *movements)
+void	aux_move(t_components *position, t_j_i *p, int *movements)
 {
 	if (!position->n_c)
 		draw_background("./img/e/e2.xpm",
@@ -28,7 +28,7 @@ void	aux_move(components *position, j_i *p, int *movements)
 		close_window(0, NULL);
 }
 
-void	move_horizontal(int *movements, components *position, int direction)
+void	move_horizontal(int *movements, t_components *position, int direction)
 {
 	if (g_map[position->p.j][position->p.i + direction] != '1')
 	{
@@ -44,7 +44,7 @@ void	move_horizontal(int *movements, components *position, int direction)
 	}
 }
 
-void	move_vertical(int *movements, components *position, int direction)
+void	move_vertical(int *movements, t_components *position, int direction)
 {
 	if (g_map[position->p.j + direction][position->p.i] != '1')
 	{
@@ -62,10 +62,10 @@ void	move_vertical(int *movements, components *position, int direction)
 
 int	ft_key(int key, void *param)
 {
-	static int		movements;
-	components		*position;
+	static int			movements;
+	t_components		*position;
 
-	position = (components *)param;
+	position = (t_components *)param;
 	if (key == 'w' || key == 65362)
 		move_vertical(&movements, position, -1);
 	else if (key == 'a' || key == 65361)

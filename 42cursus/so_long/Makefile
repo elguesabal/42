@@ -6,7 +6,7 @@
 #    By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 09:25:54 by joseanto          #+#    #+#              #
-#    Updated: 2024/02/26 13:17:26 by joseanto         ###   ########.fr        #
+#    Updated: 2024/02/26 16:21:36 by joseanto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,5 +43,7 @@ clean:
 		$(RM) $(NAME)
 
 re: clean all
+
+fclean:	clean
 
 .PHONY: all clean re

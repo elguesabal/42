@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 11:27:06 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/26 11:22:23 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/26 17:10:39 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	creat_map(int *fd)
 	}
 }
 
-int	read_map(char *file, j_i *resolution)
+int	read_map(char *file, t_j_i *resolution)
 {
 	int				fd;
 
@@ -50,7 +50,7 @@ int	read_map(char *file, j_i *resolution)
 	return (0);
 }
 
-void	render_map(components *position)
+void	render_map(t_components *position)
 {
 	int	i;
 	int	j;

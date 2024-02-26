@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 09:33:21 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/26 15:01:35 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/26 17:58:03 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,23 @@ int	valid_path(int j, int i)
 	return (g_n_c || g_n_e);
 }
 
-int	result_of_checks(char *file, j_i *resolution, components *position)
+int	result_of_checks(int n, char *f, t_j_i *resol, t_components *position)
 {
+	if (n != 2)
+		return (error("Error\nNumero de argumentos invalidos", 0));
 	if (g_map == NULL || g_copy_map == NULL)
-		return (error("Error\nMemoria do mapa nao alocada"));
-	if (read_map(file, resolution))
-		return (error("Error\nErro ao abrir mapa"));
+		return (error("Error\nMemoria do mapa nao alocada", 1));
+	if (read_map(f, resol))
+		return (error("Error\nErro ao abrir mapa", 1));
 	if (check_components())
-		return (error("Error\nMapa contem mais elementos inesistentes"));
+		return (error("Error\nMapa contem mais elementos inesistentes", 1));
 	if (count_components(position))
-		return (error("Error\nSaidas, protagonistas ou moedas invalidas"));
+		return (error("Error\nSaidas, protagonistas ou moedas invalidas", 1));
 	if (vertical_check() || horizontal_check())
-		return (error("Error\nMapa nao retangular"));
+		return (error("Error\nMapa nao retangular", 1));
 	if (wall_on_the_sides())
-		return (error("Error\nLateral nao esta totalmente fechada"));
+		return (error("Error\nLateral nao esta totalmente fechada", 1));
 	if (valid_path(position->p.j, position->p.i))
-		return (error("Error\nNao existe caminho valido no mapa"));
+		return (error("Error\nNao existe caminho valido no mapa", 1));
 	return (0);
 }
