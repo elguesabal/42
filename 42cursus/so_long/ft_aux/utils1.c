@@ -81,6 +81,7 @@ int	count_lines(char *file)
 		if (c == '\n')
 			i++;
 	}
+	close(fd);
 	i += 2;
 	return (i);
 }
