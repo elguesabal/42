@@ -61,7 +61,7 @@ int	smallest_last_and_second(Stack **no)
 // 	return (assist->n > (*no)->n);
 // }
 
-// int	size_stack(Stack **no)
+// int	size_stack(Stack **no)		// ESSA FAZ A MESMA COISA Q list_size()
 // {
 // 	Stack	*assist;
 // 	int		size;
@@ -75,6 +75,25 @@ int	smallest_last_and_second(Stack **no)
 // 	}
 // 	return (size);
 // }
+
+
+// int	list_size(t_stk *list)		// ESSA FAZ A MESMA COISA Q size_stack()
+// {
+// 	int		count;
+// 	t_stk	*temp;
+
+// 	temp = list;
+// 	if (temp == NULL)
+// 		return (0);
+// 	count = 0;
+// 	while (temp != NULL)
+// 	{
+// 		temp = temp->next;
+// 		count++;
+// 	}
+// 	return (count);
+// }
+
 
 // Stack *last_element(Stack **no)
 // {

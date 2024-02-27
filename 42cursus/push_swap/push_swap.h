@@ -66,7 +66,8 @@ int	first_smallest_last(Stack **no);
 int	smallest_last_and_second(Stack **no);
 // int	last_smallest_first(Stack **no);
 // int	last_greatest_first(Stack **no);
-// int	size_stack(Stack **no);
+// int	size_stack(Stack **no);		// ESSA FAZ A MESMA COISA Q list_size()
+// int	list_size(t_stk *list);		// ESSA FAZ A MESMA COISA Q size_stack()
 // Stack *last_element(Stack **no);
 
 // func_assist.c
