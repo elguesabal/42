@@ -1,3 +1,52 @@
+
+// ??
+void	reposition_small_node(t_stk **stack_a, t_stk *n_small, int count)
+{
+	int		param;
+	int		size_list;
+	t_stk	*temp;
+
+	size_list = list_size(*stack_a);
+	param = size_list / 2;
+	temp = *stack_a;
+	while (temp != n_small)
+	{
+		count++;
+		temp = temp->next;
+	}
+	if (count < param)
+	{
+		while (*stack_a != n_small)
+			ra(stack_a);
+	}
+	else
+	{
+		while (*stack_a != n_small)
+			rra(stack_a);
+	}
+}
+
+// ??
+t_stk	*small_node(t_stk *stack)
+{
+	t_stk	*temp;
+	t_stk	*n_small;
+	int		small;
+
+	temp = stack;
+	small = list_size(stack);
+	while (temp)
+	{
+		if (small > temp->index)
+		{
+			n_small = temp;
+			small = temp->index;
+		}
+		temp = temp->next;
+	}
+	return (n_small);
+}
+
 // ??
 int	count_max_of_bits(int nb)
 {
@@ -128,31 +177,31 @@ void	sort_list(t_stk **stack_a, t_stk **stack_b)
 
 
 
-// FUNCAO Q GRAVA NA VARIAVEL index DE CADA NO A POSICAO Q CADA NO DEVERIA ESTAR
-void	index_list(t_stk *stack)
-{
-	t_stk	*temp;
-	t_stk	*small;
-	int		i;
-	int		size_list;
-	int		nb;
+// // FUNCAO Q GRAVA NA VARIAVEL index DE CADA NO A POSICAO Q CADA NO DEVERIA ESTAR
+// void	index_list(t_stk *stack)
+// {
+// 	t_stk	*temp;
+// 	t_stk	*small;
+// 	int		i;
+// 	int		size_list;
+// 	int		nb;
 
-	i = 0;
-	size_list = list_size(stack);
-	while (i < size_list)
-	{
-		nb = 2147483647;
-		temp = stack;
-		while (temp)
-		{
-			if (nb >= temp->x && temp->index == -1)
-			{
-				small = temp;
-				nb = temp->x;
-			}
-			temp = temp->next;
-		}
-		small->index = i;
-		i++;
-	}
-}
+// 	i = 0;
+// 	size_list = list_size(stack);
+// 	while (i < size_list)
+// 	{
+// 		nb = 2147483647;
+// 		temp = stack;
+// 		while (temp)
+// 		{
+// 			if (nb >= temp->x && temp->index == -1)
+// 			{
+// 				small = temp;
+// 				nb = temp->x;
+// 			}
+// 			temp = temp->next;
+// 		}
+// 		small->index = i;
+// 		i++;
+// 	}
+// }

@@ -20,6 +20,7 @@ void	insert_first(Stack **no, int n)
 	if (!new)
 		return ;
 	new->n = n;
+	new->index = -1;
 	new->next = *no;
 	new->previous = NULL;
 	if (*no)
@@ -36,6 +37,7 @@ void	insert_last(Stack **no, int n)
 	if (!new)
 		return ;
 	new->n = n;
+	new->index = -1;
 	new->next = NULL;
 	if (!*no)
 	{

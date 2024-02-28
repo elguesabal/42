@@ -61,20 +61,20 @@ int	smallest_last_and_second(Stack **no)
 // 	return (assist->n > (*no)->n);
 // }
 
-// int	size_stack(Stack **no)		// ESSA FAZ A MESMA COISA Q list_size()
-// {
-// 	Stack	*assist;
-// 	int		size;
+int	size_stack(Stack **no)		// ESSA FAZ A MESMA COISA Q list_size()
+{
+	Stack	*assist;
+	int		size;
 
-// 	assist = *no;
-// 	size = 0;
-// 	while(assist)
-// 	{
-// 		assist = assist->next;
-// 		size++;
-// 	}
-// 	return (size);
-// }
+	assist = *no;
+	size = 0;
+	while(assist)
+	{
+		assist = assist->next;
+		size++;
+	}
+	return (size);
+}
 
 
 // int	list_size(t_stk *list)		// ESSA FAZ A MESMA COISA Q size_stack()

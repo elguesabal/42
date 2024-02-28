@@ -17,9 +17,12 @@
 # include <stdlib.h>
 # include <limits.h>
 
+#include <stdio.h> // TIRAR ISSO DPS
+
 typedef struct stack
 {
 	int				n;
+	int				index;
 	struct stack	*next;
 	struct stack	*previous;
 } Stack;
@@ -66,7 +69,7 @@ int	first_smallest_last(Stack **no);
 int	smallest_last_and_second(Stack **no);
 // int	last_smallest_first(Stack **no);
 // int	last_greatest_first(Stack **no);
-// int	size_stack(Stack **no);		// ESSA FAZ A MESMA COISA Q list_size()
+int	size_stack(Stack **no);		// ESSA FAZ A MESMA COISA Q list_size()
 // int	list_size(t_stk *list);		// ESSA FAZ A MESMA COISA Q size_stack()
 // Stack *last_element(Stack **no);
 
@@ -80,13 +83,13 @@ void	print_stacks(Stack **a, Stack **b);
 
 // utils1.c
 size_t	ft_strlen(const char *str);
-int	check_char(char c, char const *set);
+int		check_char(char c, char const *set);
 size_t	len_start(char const *s1, char const *set);
 size_t	len_end(size_t e, size_t s, char const *s1, char const *set);
 char	*ft_strtrim(char const *s1, char const *set);
 
 // utils2.c
-int	amontw(char const *s, char c);
+int		amontw(char const *s, char c);
 char	**ft_mallsplit(char const *s, char **r, char c);
 void	ft_fillsplit(char const *s, char **r, char c);
 void	ft_freesplit(char *aux, char c, char **r);
