@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 08:00:35 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/08 15:08:30 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/29 19:15:45 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	sa(Stack **a, int print)
 	if (*a && (*a)->next)
 	{
 		remove = remove_second(a);
-		insert_first(a, remove->n);
+		insert_first(a, remove->n, remove->index);
 		free(remove);
 	}
 	if (print)
@@ -34,7 +34,7 @@ int	sb(Stack **b, int print)
 	if (*b && (*b)->next)
 	{
 		remove = remove_second(b);
-		insert_first(b, remove->n);
+		insert_first(b, remove->n, remove->index);
 		free(remove);
 	}
 	if (print)
@@ -58,7 +58,7 @@ int	pa(Stack **a, Stack **b, int print)
 	if (*b)
 	{
 		remove = remove_first(b);
-		insert_first(a, remove->n);
+		insert_first(a, remove->n, remove->index);
 		free(remove);
 	}
 	if (print)

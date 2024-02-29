@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 11:21:35 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/08 16:10:56 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/29 19:32:36 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,8 +180,10 @@ static void	index_list(Stack **stack)
 				small = temp;
 				nb = temp->n;
 			}
+printf(" %d ", temp->index);
 			temp = temp->next;
 		}
+printf("\n");
 		small->index = i;
 		i++;
 	}
@@ -305,6 +307,7 @@ int	main(int argc, char **argv)
 	if (argc == 2)
 		free_split(argv);
 index_list(&a);
+sleep(3);
 sort_list(&a, &b);
 	// operator_algorithm(&a, &b, 0);
 	free_list(&a);

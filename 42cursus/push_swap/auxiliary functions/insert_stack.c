@@ -6,13 +6,13 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:13:23 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/06 09:50:33 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/29 19:14:20 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
-void	insert_first(Stack **no, int n)
+void	insert_first(Stack **no, int n, int index)
 {
 	Stack	*new;
 
@@ -20,7 +20,7 @@ void	insert_first(Stack **no, int n)
 	if (!new)
 		return ;
 	new->n = n;
-	new->index = -1;
+	new->index = index;
 	new->next = *no;
 	new->previous = NULL;
 	if (*no)
@@ -28,7 +28,7 @@ void	insert_first(Stack **no, int n)
 	*no = new;
 }
 
-void	insert_last(Stack **no, int n)
+void	insert_last(Stack **no, int n, int index)
 {
 	Stack	*new;
 	Stack	*assist;
@@ -37,7 +37,7 @@ void	insert_last(Stack **no, int n)
 	if (!new)
 		return ;
 	new->n = n;
-	new->index = -1;
+	new->index = index;
 	new->next = NULL;
 	if (!*no)
 	{

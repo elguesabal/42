@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 08:00:39 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/06 10:43:20 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/29 19:15:55 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	pb(Stack **a, Stack **b, int print)
 	if (*a)
 	{
 		remove = remove_first(a);
-		insert_first(b, remove->n);
+		insert_first(b, remove->n, remove->index);
 		free(remove);
 	}
 	if (print)
@@ -34,7 +34,7 @@ int	ra(Stack **a, int print)
 	if (*a && (*a)->next)
 	{
 		remove = remove_first(a);
-		insert_last(a, remove->n);
+		insert_last(a, remove->n, remove->index);
 		free(remove);
 	}
 	if (print)
@@ -49,7 +49,7 @@ int	rb(Stack **b, int print)
 	if (*b && (*b)->next)
 	{
 		remove = remove_first(b);
-		insert_last(b, remove->n);
+		insert_last(b, remove->n, remove->index);
 		free(remove);
 	}
 	if (print)

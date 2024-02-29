@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 07:59:58 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/06 19:13:45 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/29 19:17:02 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	verification_part2(char **argv, Stack **a, int i)
 		n = ft_atoi(argv[i]);
 		if (n > INT_MAX || n < INT_MIN)
 			return (free_list(a));
-		insert_last(a, n);
+		insert_last(a, n, -1);
 		i++;
 	}
 	if (search_duplicate(a))

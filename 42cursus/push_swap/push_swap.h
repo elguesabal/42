@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 10:49:04 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/06 10:40:25 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/02/29 19:15:32 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ typedef struct stack
 
 
 // insert_stack.c
-void	insert_first(Stack **no, int n);
-void	insert_last(Stack **no, int n);
+void	insert_first(Stack **no, int n, int index);
+void	insert_last(Stack **no, int n, int index);
 // void	insert_second(Stack **no, int n);
 // void	insert_penultimate(Stack **no, int n);
 
