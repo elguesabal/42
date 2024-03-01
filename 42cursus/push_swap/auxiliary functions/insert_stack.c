@@ -6,17 +6,17 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:13:23 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/29 19:14:20 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/03/01 18:35:38 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
-void	insert_first(Stack **no, int n, int index)
+void	insert_first(t_stack **no, int n, int index)
 {
-	Stack	*new;
+	t_stack	*new;
 
-	new = malloc(sizeof(Stack));
+	new = malloc(sizeof(t_stack));
 	if (!new)
 		return ;
 	new->n = n;
@@ -28,12 +28,12 @@ void	insert_first(Stack **no, int n, int index)
 	*no = new;
 }
 
-void	insert_last(Stack **no, int n, int index)
+void	insert_last(t_stack **no, int n, int index)
 {
-	Stack	*new;
-	Stack	*assist;
+	t_stack	*new;
+	t_stack	*assist;
 
-	new = malloc(sizeof(Stack));
+	new = malloc(sizeof(t_stack));
 	if (!new)
 		return ;
 	new->n = n;

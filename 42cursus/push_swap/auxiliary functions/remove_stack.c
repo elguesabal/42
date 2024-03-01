@@ -6,15 +6,15 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:13:29 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/08 15:29:18 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/03/01 18:35:28 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
-Stack	*remove_first(Stack **no)
+t_stack	*remove_first(t_stack **no)
 {
-	Stack	*remove;
+	t_stack	*remove;
 
 	remove = NULL;
 	if (*no)
@@ -22,14 +22,17 @@ Stack	*remove_first(Stack **no)
 		remove = *no;
 		*no = remove->next;
 		if (*no)
+		{
+// printf("aa\n");
 			(*no)->previous = NULL;
+		}
 	}
 	return (remove);
 }
 
-Stack	*remove_second(Stack **no)
+t_stack	*remove_second(t_stack **no)
 {
-	Stack	*remove;
+	t_stack	*remove;
 
 	remove = NULL;
 	if (!*no || !(*no)->next)
@@ -48,10 +51,10 @@ Stack	*remove_second(Stack **no)
 	return (remove);
 }
 
-Stack	*remove_last(Stack **no)
+t_stack	*remove_last(t_stack **no)
 {
-	Stack	*remove;
-	Stack	*assist;
+	t_stack	*remove;
+	t_stack	*assist;
 
 	remove = NULL;
 	if (*no)

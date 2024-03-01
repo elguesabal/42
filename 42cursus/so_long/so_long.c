@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "so_long.h"
+// #include <X11/X.h>
 
 void	*g_mlx_prt;
 void	*g_win_ptr;
@@ -33,6 +34,7 @@ int	main(int argc, char **argv)
 	g_win_ptr = mlx_new_window(g_mlx_prt, resolution.i * 72, resolution.j * 72,
 			"segmentation fault (core dumped)");
 	mlx_key_hook(g_win_ptr, ft_key, &position);
+	// mlx_hook(g_win_ptr, KeyPress, KeyPressMask, ft_key, &position);
 	mlx_hook(g_win_ptr, 17, 0, close_window, NULL);
 	render_map(&position);
 	mlx_loop(g_mlx_prt);

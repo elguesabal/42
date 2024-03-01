@@ -6,15 +6,15 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 08:00:35 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/29 19:15:45 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/03/01 18:36:31 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
-int	sa(Stack **a, int print)
+int	sa(t_stack **a, int print)
 {
-	Stack	*remove;
+	t_stack	*remove;
 
 	if (*a && (*a)->next)
 	{
@@ -27,9 +27,9 @@ int	sa(Stack **a, int print)
 	return (1);
 }
 
-int	sb(Stack **b, int print)
+int	sb(t_stack **b, int print)
 {
-	Stack	*remove;
+	t_stack	*remove;
 
 	if (*b && (*b)->next)
 	{
@@ -42,7 +42,7 @@ int	sb(Stack **b, int print)
 	return (1);
 }
 
-int	ss(Stack **a, Stack **b, int print)
+int	ss(t_stack **a, t_stack **b, int print)
 {
 	sa(a, 0);
 	sb(b, 0);
@@ -51,9 +51,9 @@ int	ss(Stack **a, Stack **b, int print)
 	return (1);
 }
 
-int	pa(Stack **a, Stack **b, int print)
+int	pa(t_stack **a, t_stack **b, int print)
 {
-	Stack	*remove;
+	t_stack	*remove;
 
 	if (*b)
 	{

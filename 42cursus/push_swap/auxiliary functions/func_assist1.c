@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   func_assist.c                                      :+:      :+:    :+:   */
+/*   func_assist1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 07:59:58 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/29 19:17:02 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/03/01 18:33:06 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
-int	search_duplicate(Stack **no)
+int	search_duplicate(t_stack **no)
 {
-	Stack	*assist1;
-	Stack	*assist2;
+	t_stack	*assist1;
+	t_stack	*assist2;
 	int		n;
 	int		count;
 
@@ -58,7 +58,7 @@ int	verification_part1(int argc, char **argv, int i)
 	return (0);
 }
 
-int	verification_part2(char **argv, Stack **a, int i)
+int	verification_part2(char **argv, t_stack **a, int i)
 {
 	long	n;
 
@@ -75,9 +75,9 @@ int	verification_part2(char **argv, Stack **a, int i)
 	return (0);
 }
 
-int	free_list(Stack **no)
+int	free_list(t_stack **no)
 {
-	Stack	*assist;
+	t_stack	*assist;
 
 	assist = *no;
 	while (assist)
@@ -101,32 +101,4 @@ int	free_split(char **argv)
 	}
 	free(argv);
 	return (1);
-}
-
-void	print_stacks(Stack **a, Stack **b)
-{
-	Stack	*assist_a;
-	Stack	*assist_b;
-
-	assist_a = *a;
-	assist_b = *b;
-	write(1, "--------------------------------------------\n", 45);
-	while (assist_a || assist_b)
-	{
-		if (assist_a)
-		{
-			ft_putnbr(assist_a->n);
-			write(1, " ", 1);
-		}
-		else
-			write(1, "  ", 2);
-		if (assist_a)
-			assist_a = assist_a->next;
-		if (assist_b)
-			ft_putnbr(assist_b->n);
-		write(1, "\n", 1);
-		if (assist_b)
-			assist_b = assist_b->next;
-	}
-	write(1, "\n- -\na b\n\n", 10);
 }

@@ -6,22 +6,23 @@
 #    By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/26 12:34:30 by joseanto          #+#    #+#              #
-#    Updated: 2024/02/06 09:46:53 by joseanto         ###   ########.fr        #
+#    Updated: 2024/03/01 18:21:52 by joseanto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 AUX = ./'auxiliary functions'/
 STACK = ./'stack operations'/
-CHECK = ./check/
+ALGORITHM = ./algorithm/
 FILE =	push_swap.c\
 	$(AUX)insert_stack.c\
 	$(AUX)remove_stack.c\
 	$(STACK)operations_part1.c\
 	$(STACK)operations_part2.c\
 	$(STACK)operations_part3.c\
-	$(CHECK)stack_check_part1.c\
-	$(CHECK)stack_check_part2.c\
-	$(AUX)func_assist.c\
+	$(ALGORITHM)algorithm1.c\
+	$(ALGORITHM)algorithm2.c\
+	$(AUX)func_assist1.c\
+	$(AUX)func_assist2.c\
 	$(AUX)utils1.c\
 	$(AUX)utils2.c\
 	$(AUX)utils3.c

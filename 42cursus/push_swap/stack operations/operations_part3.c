@@ -6,15 +6,15 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 08:00:42 by joseanto          #+#    #+#             */
-/*   Updated: 2024/02/29 19:16:04 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/03/01 18:38:16 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
-int	rra(Stack **a, int print)
+int	rra(t_stack **a, int print)
 {
-	Stack	*remove;
+	t_stack	*remove;
 
 	if (*a && (*a)->next)
 	{
@@ -27,9 +27,9 @@ int	rra(Stack **a, int print)
 	return (1);
 }
 
-int	rrb(Stack **b, int print)
+int	rrb(t_stack **b, int print)
 {
-	Stack	*remove;
+	t_stack	*remove;
 
 	if (*b && (*b)->next)
 	{
@@ -42,7 +42,7 @@ int	rrb(Stack **b, int print)
 	return (1);
 }
 
-int	rrr(Stack **a, Stack **b, int print)
+int	rrr(t_stack **a, t_stack **b, int print)
 {
 	rra(a, 0);
 	rrb(b, 0);
