@@ -49,7 +49,8 @@ int	verification_part1(int argc, char **argv, int i)
 		j = 0;
 		while (argv[i][j] || j == 0)
 		{
-			if ((argv[i][j] < '0' || argv[i][j] > '9') && argv[i][j] != '-' && argv[i][j] != '+' && argv[i][j] == '\0')
+			if ((argv[i][j] < '0' || argv[i][j] > '9') && argv[i][j] != '-'
+			&& argv[i][j] != '+' && argv[i][j] == '\0')
 				return (1);
 			j++;
 		}

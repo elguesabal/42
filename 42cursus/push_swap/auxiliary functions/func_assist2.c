@@ -19,7 +19,7 @@ int	size_stack(t_stack **no)
 
 	assist = *no;
 	size = 0;
-	while(assist)
+	while (assist)
 	{
 		assist = assist->next;
 		size++;

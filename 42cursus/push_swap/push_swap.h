@@ -23,8 +23,7 @@ typedef struct s_stack
 	int				index;
 	struct s_stack	*next;
 	struct s_stack	*previous;
-} t_stack;
-
+}	t_stack;
 
 // insert_stack.c
 void	insert_first(t_stack **no, int n, int index);
@@ -36,21 +35,21 @@ t_stack	*remove_second(t_stack **no);
 t_stack	*remove_last(t_stack **no);
 
 // operations_part1.c
-int	sa(t_stack **a, int print);
-int	sb(t_stack **b, int print);
-int	ss(t_stack **a, t_stack **b, int print);
-int	pa(t_stack **a, t_stack **b, int print);
+int		sa(t_stack **a, int print);
+int		sb(t_stack **b, int print);
+int		ss(t_stack **a, t_stack **b, int print);
+int		pa(t_stack **a, t_stack **b, int print);
 
 // operations_part2.c
-int	pb(t_stack **a, t_stack **b, int print);
-int	ra(t_stack **a, int print);
-int	rb(t_stack **b, int print);
-int	rr(t_stack **a, t_stack **b, int print);
+int		pb(t_stack **a, t_stack **b, int print);
+int		ra(t_stack **a, int print);
+int		rb(t_stack **b, int print);
+int		rr(t_stack **a, t_stack **b, int print);
 
 // operations_part3.c
-int	rra(t_stack **a, int print);
-int	rrb(t_stack **b, int print);
-int	rrr(t_stack **a, t_stack **b, int print);
+int		rra(t_stack **a, int print);
+int		rrb(t_stack **b, int print);
+int		rrr(t_stack **a, t_stack **b, int print);
 
 // algorithm1.c
 int		count_max_of_bits(int nb);
@@ -95,6 +94,5 @@ char	**ft_split(char const *s, char c);
 // utils3.c
 long	ft_atoi(const char *str);
 void	ft_putnbr(int n);
-
 
 #endif
