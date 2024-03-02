@@ -41,30 +41,30 @@ int	stack_check(t_stack *list)
 	return (1);
 }
 
-void	print_stacks(t_stack **a, t_stack **b)
-{
-	t_stack	*assist_a;
-	t_stack	*assist_b;
+// void	print_stacks(t_stack **a, t_stack **b)
+// {
+// 	t_stack	*assist_a;
+// 	t_stack	*assist_b;
 
-	assist_a = *a;
-	assist_b = *b;
-	write(1, "--------------------------------------------\n", 45);
-	while (assist_a || assist_b)
-	{
-		if (assist_a)
-		{
-			ft_putnbr(assist_a->n);
-			write(1, " ", 1);
-		}
-		else
-			write(1, "  ", 2);
-		if (assist_a)
-			assist_a = assist_a->next;
-		if (assist_b)
-			ft_putnbr(assist_b->n);
-		write(1, "\n", 1);
-		if (assist_b)
-			assist_b = assist_b->next;
-	}
-	write(1, "\n- -\na b\n\n", 10);
-}
+// 	assist_a = *a;
+// 	assist_b = *b;
+// 	write(1, "--------------------------------------------\n", 45);
+// 	while (assist_a || assist_b)
+// 	{
+// 		if (assist_a)
+// 		{
+// 			ft_putnbr(assist_a->n);
+// 			write(1, " ", 1);
+// 		}
+// 		else
+// 			write(1, "  ", 2);
+// 		if (assist_a)
+// 			assist_a = assist_a->next;
+// 		if (assist_b)
+// 			ft_putnbr(assist_b->n);
+// 		write(1, "\n", 1);
+// 		if (assist_b)
+// 			assist_b = assist_b->next;
+// 	}
+// 	write(1, "\n- -\na b\n\n", 10);
+// }

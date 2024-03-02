@@ -22,10 +22,7 @@ t_stack	*remove_first(t_stack **no)
 		remove = *no;
 		*no = remove->next;
 		if (*no)
-		{
-// printf("aa\n");
 			(*no)->previous = NULL;
-		}
 	}
 	return (remove);
 }
@@ -67,23 +64,3 @@ t_stack	*remove_last(t_stack **no)
 	}
 	return (remove);
 }
-
-// Stack	*remove_penultimate(Stack **no)
-// {
-// 	Stack	*remove;
-// 	Stack	*assist;
-
-// 	remove = NULL;
-// 	if(!*no || (*no && !(*no)->next->next))
-// 		return (remove);
-// 	else
-// 	{
-// 		assist = *no;
-// 		while(assist->next->next)
-// 			assist = assist->next;
-// 		remove = assist;
-// 		assist->previous->next = assist->next;
-// 		assist->next->previous = assist->previous;
-// 	}
-// 	return (remove);
-// }

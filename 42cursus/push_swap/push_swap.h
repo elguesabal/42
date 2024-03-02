@@ -29,14 +29,11 @@ typedef struct s_stack
 // insert_stack.c
 void	insert_first(t_stack **no, int n, int index);
 void	insert_last(t_stack **no, int n, int index);
-// void	insert_second(Stack **no, int n);
-// void	insert_penultimate(Stack **no, int n);
 
 // remove_stack.c
 t_stack	*remove_first(t_stack **no);
 t_stack	*remove_second(t_stack **no);
 t_stack	*remove_last(t_stack **no);
-// Stack	*remove_penultimate(Stack **no);
 
 // operations_part1.c
 int	sa(t_stack **a, int print);
@@ -54,22 +51,6 @@ int	rr(t_stack **a, t_stack **b, int print);
 int	rra(t_stack **a, int print);
 int	rrb(t_stack **b, int print);
 int	rrr(t_stack **a, t_stack **b, int print);
-
-// // stack_check_part1.c
-// int		bigger_than_next(Stack **no);
-// int		smaller_than_next(Stack **no);
-// int		ascending_order(Stack **no);
-// int		descending_order(Stack **no);
-// int		first_biggest_last(Stack **no);
-
-// // stack_check_part2.c
-// int		first_smallest_last(Stack **no);
-// int		smallest_last_and_second(Stack **no);
-// // int	last_smallest_first(Stack **no);
-// // int	last_greatest_first(Stack **no);
-// // int	size_stack(Stack **no);		// ESSA FAZ A MESMA COISA Q list_size()
-// // int	list_size(t_stk *list);		// ESSA FAZ A MESMA COISA Q size_stack()
-// // Stack *last_element(Stack **no);
 
 // algorithm1.c
 int		count_max_of_bits(int nb);
@@ -95,7 +76,7 @@ int		free_split(char **argv);
 // func_assist2.c
 int		size_stack(t_stack **no);
 int		stack_check(t_stack *list);
-void	print_stacks(t_stack **a, t_stack **b);
+// void	print_stacks(t_stack **a, t_stack **b);
 
 // utils1.c
 size_t	ft_strlen(const char *str);

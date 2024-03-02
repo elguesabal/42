@@ -14,15 +14,15 @@
 
 int	count_max_of_bits(int nb)
 {
-	int	count;
+	int	i;
 
-	count = 0;
+	i = 0;
 	while (nb > 0)
 	{
-		count++;
+		i++;
 		nb = nb >> 1;
 	}
-	return (count);
+	return (i);
 }
 
 int	index_max(t_stack *stake)
