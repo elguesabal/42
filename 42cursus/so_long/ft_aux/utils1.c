@@ -101,6 +101,7 @@ int	count_columns(char *file)
 	i = 0;
 	while (read(fd, &c, 1) && c != '\n')
 		i++;
+	close(fd);
 	i++;
 	return (i);
 }
