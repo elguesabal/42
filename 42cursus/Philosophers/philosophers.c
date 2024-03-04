@@ -1,44 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   philosophers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/08 11:21:35 by joseanto          #+#    #+#             */
-/*   Updated: 2024/03/04 17:26:45 by joseanto         ###   ########.fr       */
+/*   Created: 2024/03/04 08:46:45 by joseanto          #+#    #+#             */
+/*   Updated: 2024/03/04 10:35:16 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "philosophers.h"
 
 int	main(int argc, char **argv)
 {
-	t_stack	*a;
-	t_stack	*b;
-	int		i;
+	int	n_philosophers = atoi(argv[1]);
+	int	time_death = atoi(argv[2]);
+	int	time_eat = atoi(argv[3]);
+	int	time_sleep = atoi(argv[4]);
 
-	if (argc == 1)
-		return (0);
-	a = NULL;
-	b = NULL;
-	i = 1;
-	if (argc == 2)
-	{
-		argv = ft_split(argv[1], ' ');
-		i--;
-	}
-	if (verification_part1(argc, argv, i) || verification_part2(argv, &a, i))
-	{
-		if (argc == 2)
-			free_split(argv);
-		return (!write(1, "Error\n", 6));
-	}
-	if (argc == 2)
-		free_split(argv);
-	index_list(&a);
-	sort_list(&a, &b);
-	free_list(&a);
-	free_list(&b);
+	(void)argc;
+	printf("filososfos: %d\n", n_philosophers);
+	printf("morte: %d\n", time_death);
+	printf("comer: %d\n", time_eat);
+	printf("dormir: %d\n", time_sleep);
 	return (0);
 }
