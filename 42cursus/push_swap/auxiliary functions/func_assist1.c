@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 07:59:58 by joseanto          #+#    #+#             */
-/*   Updated: 2024/03/01 18:33:06 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/03/05 14:12:43 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,23 @@ int	search_duplicate(t_stack **no)
 	return (0);
 }
 
-int	verification_part1(int argc, char **argv, int i)
+int	verification_part1(char **argv, int i)
 {
 	int		j;
+	int		n;
 
-	if (argc == 1)
-		return (1);
 	while (argv[i])
 	{
 		j = 0;
+		n = 0;
 		while (argv[i][j] || j == 0)
 		{
-			if ((argv[i][j] < '0' || argv[i][j] > '9') && argv[i][j] != '-'
-			&& argv[i][j] != '+' && argv[i][j] == '\0')
+			if ((argv[i][j] < '0' || argv[i][j] > '9') &&
+				argv[i][j] != '-' && argv[i][j] != '+')
+				return (1);
+			if (argv[i][j] >= '0' && argv[i][j] <= '9')
+				n++;
+			if (n && (argv[i][j] < '0' || argv[i][j] > '9'))
 				return (1);
 			j++;
 		}

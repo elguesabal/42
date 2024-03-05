@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 18:17:44 by joseanto          #+#    #+#             */
-/*   Updated: 2024/03/01 18:32:11 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/03/05 14:45:24 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ void	sort_four(t_stack **stack_a, t_stack **stack_b)
 
 	count = 0;
 	n_small = small_node(*stack_a);
-	reposition_small_node(stack_a, n_small, count);
+	reposition_small_node(stack_a, *n_small, count);
 	pb(stack_a, stack_b, 1);
 	sort_tree(stack_a);
-	pa(stack_b, stack_a, 1);
+	pa(stack_a, stack_b, 1);
 }
 
 void	sort_five(t_stack **stack_a, t_stack **stack_b)
@@ -45,10 +45,10 @@ void	sort_five(t_stack **stack_a, t_stack **stack_b)
 
 	count = 0;
 	n_small = small_node(*stack_a);
-	reposition_small_node(stack_a, n_small, count);
+	reposition_small_node(stack_a, *n_small, count);
 	pb(stack_a, stack_b, 1);
 	sort_four(stack_a, stack_b);
-	pa(stack_b, stack_a, 1);
+	pa(stack_a, stack_b, 1);
 }
 
 void	radix_sort(t_stack **stack_a, t_stack **stack_b)

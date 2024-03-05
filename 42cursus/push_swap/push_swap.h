@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 10:49:04 by joseanto          #+#    #+#             */
-/*   Updated: 2024/03/01 18:34:33 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/03/05 16:33:37 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int		rrr(t_stack **a, t_stack **b, int print);
 // algorithm1.c
 int		count_max_of_bits(int nb);
 int		index_max(t_stack *stake);
-void	reposition_small_node(t_stack **stack_a, t_stack *n_small, int count);
+void	reposition_small_node(t_stack **a, t_stack n_small, int count);
 t_stack	*small_node(t_stack *stack);
 void	index_list(t_stack **stack);
 
@@ -67,7 +67,7 @@ void	sort_list(t_stack **stack_a, t_stack **stack_b);
 
 // func_assist1.c
 int		search_duplicate(t_stack **no);
-int		verification_part1(int argc, char **argv, int i);
+int		verification_part1(char **argv, int i);
 int		verification_part2(char **argv, t_stack **a, int i);
 int		free_list(t_stack **no);
 int		free_split(char **argv);
