@@ -28,15 +28,27 @@
 
 void	*funcao(void *param)
 {
-	sleep(1);
-	printf("teste: %d\n", (int *)param);
+	// sleep(1);
+	// int *teste = (int *)param;
+	// printf("teste: %d\n", *teste);
+	// printf("teste:\n");
+
+	while (1)
+	{
+
+	}
 }
 
 int	main()
 {
-	int id1, id2;
-	int	n = 0;
+	pthread_t id1, id2;
+	int	n = 10;
 
 	pthread_create(&id1, NULL, funcao, &n);
 	pthread_create(&id2, NULL, funcao, &n);
+
+	// printf("teste: %d\n", (int)pthread_join(id1, NULL));
+	// printf("teste: %d\n", (int)pthread_join(id2, NULL));
+	(int)pthread_join(id1, NULL);
+	(int)pthread_join(id2, NULL);
 }
