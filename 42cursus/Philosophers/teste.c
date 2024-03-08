@@ -82,11 +82,11 @@ pthread_mutex_t	lock;
 void	*funcao(void *param)
 {
 	int *n = (int *)param;
-	int	i = 0;
 	int	temp;
 
-	printf("thread: %d\n", pthread_self());
+	printf("thread: %ld\n", pthread_self());
 
+	// int	i = 0;
 	// while (i < 100000)
 	// {
 	// 	temp = *n;
@@ -95,6 +95,7 @@ void	*funcao(void *param)
 	// 	i++;
 	// }
 
+	// int	i = 0;
 	// while (i < 100000)
 	// {
 	// 	pthread_mutex_lock(&lock);
@@ -109,7 +110,6 @@ void	*funcao(void *param)
 	// sleep(2);
 	// temp++;
 	// *n = temp;
-	// i++;
 	
 	pthread_mutex_lock(&lock);
 	temp = *n;

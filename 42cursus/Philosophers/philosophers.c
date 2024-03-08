@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 08:46:45 by joseanto          #+#    #+#             */
-/*   Updated: 2024/03/04 10:35:16 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/03/08 11:47:24 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	main(int argc, char **argv)
 {
-	int	n_philosophers = atoi(argv[1]);
+	int	n_philosophers = atoi(argv[1]); //
 	int	time_death = atoi(argv[2]);
 	int	time_eat = atoi(argv[3]);
 	int	time_sleep = atoi(argv[4]);
