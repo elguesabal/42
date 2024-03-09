@@ -20,8 +20,9 @@
 typedef struct s_philo
 {
 	int				n;
-	int				*fork_left;
-	int				*fork_right;
+	// int				*fork_left;
+	// int				*fork_right;
+	int				*fork;
 	int				time_die;
 	int				time_eat;
 	int				time_sleep;
@@ -43,6 +44,10 @@ typedef struct s_first
 	struct t_philo	*philo;
 	struct t_fork	*fork;
 }	t_first;
+
+
+// func_aux/utils1.c
+int	ft_atoi(const char *str);
 
 
 #endif

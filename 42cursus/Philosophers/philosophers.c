@@ -12,17 +12,47 @@
 
 #include "philosophers.h"
 
+void	*alloc_forks(int n)
+{
+	int	*forks;
+	int	i;
+
+	forks = malloc((n + 1) * sizeof(int));
+	if (!forks)
+	{
+		printf("erro\n");
+		return (0);
+	}
+	i = 0;
+	while (i < n)
+	{
+		forks[i] = i + 1;
+		i++;
+	}
+	forks[n] = -1;
+	return (forks);
+}
+
 int	main(int argc, char **argv)
 {
-	int	n_philosophers = atoi(argv[1]); //
-	int	time_death = atoi(argv[2]);
-	int	time_eat = atoi(argv[3]);
-	int	time_sleep = atoi(argv[4]);
+	int	*forks;
+	int	i;
 
 	(void)argc;
-	printf("filososfos: %d\n", n_philosophers);
-	printf("morte: %d\n", time_death);
-	printf("comer: %d\n", time_eat);
-	printf("dormir: %d\n", time_sleep);
+	if (argc == 1 || argv[1][0] == '0')
+	{
+		printf("erro\n");
+		return (0);
+	}
+	forks = alloc_forks(ft_atoi(argv[1]));
+
+	i = 0;
+	while (forks[i] != -1)
+	{
+		printf("teste: %d\n", forks[i]);
+		i++;
+	}
+
+	free(forks);
 	return (0);
 }

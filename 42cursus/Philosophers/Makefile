@@ -10,7 +10,9 @@
 #                                                                              #
 # **************************************************************************** #
 
-FILE =	philosophers.c
+AUX = ./func_aux/
+FILE =	philosophers.c\
+	$(AUX)utils1.c
 CC = cc
 FLAGS = -Wall -Wextra -Werror -o
 NAME = philosophers
