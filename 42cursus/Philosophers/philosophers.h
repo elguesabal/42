@@ -19,34 +19,29 @@
 
 typedef struct s_philo
 {
-	int				n;
-	// int				*fork_left;
-	// int				*fork_right;
-	int				*fork;
-	int				time_die;
-	int				time_eat;
-	int				time_sleep;
-	struct s_philo	*next;
-	struct s_philo	*previous;
+	int	philo;
+	int	time_die;
+	int	time_eat;
+	int	time_sleep;
 }	t_philo;
 
 typedef struct s_fork
 {
 	int				fork;
-	int				n;
-	struct s_fork	*next;
-	struct s_fork	*previous;
+	int				available;
 }	t_fork;
 
-typedef struct s_first
+typedef struct s_info
 {
-	int				n;
-	struct t_philo	*philo;
-	struct t_fork	*fork;
-}	t_first;
+	t_philo	*philo;
+	t_fork	*forks;
+	int		n;
+}	t_info;
 
 
 // func_aux/utils1.c
+int	error(char *str);
+int	is_number(char *str);
 int	ft_atoi(const char *str);
 
 

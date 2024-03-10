@@ -1,5 +1,22 @@
 #include "../philosophers.h"
 
+int	error(char *str)
+{
+	printf("%s", str);
+	return (1);
+}
+
+int	is_number(char *str)
+{
+	while (*str)
+	{
+		if (*str < '0' || *str > '9')
+			return (1);
+		str++;
+	}
+	return (0);
+}
+
 int	ft_atoi(const char *str)
 {
 	int	sign;
