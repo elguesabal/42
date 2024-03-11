@@ -44,3 +44,67 @@ int	ft_atoi(const char *str)
 	}
 	return (result * sign);
 }
+
+// void	insert_arg(t_info *info, char **argv)	// GUARDANDO CASO SEJA NECESSARIO DIMINUIR A FUNCAO alloc_memory
+// {
+// 	info->n = ft_atoi(argv[1]);
+// 	info->die = ft_atoi(argv[2]);
+// 	info->eat = ft_atoi(argv[3]);
+// 	info->slept = ft_atoi(argv[4]);
+//	if (argv[5])
+//		info->repetitions = ft_atoi(argv[5]);
+//	else
+//		info->repetitions = 0;
+// }
+
+// void	init_philo_fork(t_info *info)	// GUARDANDO CASO SEJA NECESSARIO DIMINUIR A FUNCAO alloc_memory
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (i < info->n)
+// 	{
+// 		info->philo[i].philo = i + 1;
+//		info->philo[i].dead = 0;
+// 		info->forks[i].fork = i + 1;
+// 		pthread_mutex_init(&info->forks[i].lock, NULL);
+// 		i++;
+// 	}
+// }
+
+int	init_info(t_info *info, char **argv)
+{
+	int	i;
+
+	info->n = ft_atoi(argv[1]);
+	info->die = ft_atoi(argv[2]) * 1000;
+	info->eat = ft_atoi(argv[3]) * 1000;
+	info->slept = ft_atoi(argv[4]) * 1000;
+	if (argv[5])
+		info->repetitions = ft_atoi(argv[5]);
+	else
+		info->repetitions = 0;
+	// insert_arg(info, argv);	// GUARDANDO CASO SEJA NECESSARIO DIMINUIR A FUNCAO alloc_memory
+
+	info->philo = malloc((info->n + 1) * sizeof(t_philo));
+	info->forks = malloc((info->n + 1) * sizeof(t_fork));
+	if (!info->forks || !info->philo)
+		return (error("Error\nmemoria nao alocada para os garfos ou filosofos\n"));
+
+	i = 0;
+	while (i < info->n)
+	{
+		info->philo[i].philo = i + 1;
+		info->philo[i].dead = 0;
+		// info->philo[i].time_die = ;
+		// info->philo[i].time_eat = ;
+		// info->philo[i].time_sleep = ;
+		info->forks[i].fork = i + 1;
+		// info->forks[i].available = 1;
+		pthread_mutex_init(&info->forks[i].lock, NULL);
+		i++;
+	}
+	// init_philo_fork(info);	// GUARDANDO CASO SEJA NECESSARIO DIMINUIR A FUNCAO alloc_memory
+
+	return (0);
+}
