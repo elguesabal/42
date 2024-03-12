@@ -55,6 +55,7 @@ int	ft_atoi(const char *str)
 //		info->repetitions = ft_atoi(argv[5]);
 //	else
 //		info->repetitions = 0;
+//	gettimeofday(&info->time, NULL);
 // }
 
 // void	init_philo_fork(t_info *info)	// GUARDANDO CASO SEJA NECESSARIO DIMINUIR A FUNCAO alloc_memory
@@ -84,7 +85,8 @@ int	init_info(t_info *info, char **argv)
 		info->repetitions = ft_atoi(argv[5]);
 	else
 		info->repetitions = 0;
-	// insert_arg(info, argv);	// GUARDANDO CASO SEJA NECESSARIO DIMINUIR A FUNCAO alloc_memory
+	gettimeofday(&info->time, NULL);
+	// insert_arg(info, argv);	// GUARDANDO CASO SEJA NECESSARIO DIMINUIR A FUNCAO init_info()
 
 	info->philo = malloc((info->n + 1) * sizeof(t_philo));
 	info->forks = malloc((info->n + 1) * sizeof(t_fork));
@@ -94,17 +96,34 @@ int	init_info(t_info *info, char **argv)
 	i = 0;
 	while (i < info->n)
 	{
-		info->philo[i].philo = i + 1;
+		// info->philo[i].philo = i + 1;	// SERIO Q EU TENTEI SALVAR O VALOR DE i EM UMA VARIAVEL Q EU DEPÉNDO DE i PRA SABER A POSICAO DO ARRAY PRA ACESSAR?
 		info->philo[i].dead = 0;
 		// info->philo[i].time_die = ;
 		// info->philo[i].time_eat = ;
 		// info->philo[i].time_sleep = ;
 		info->forks[i].fork = i + 1;
+		info->philo[i].left = &info->forks[i];
+		if (i + 1 != info->n)
+			info->philo[i].right = &info->forks[i + 1];
+		else if (i + 1 == info->n)
+			info->philo[i].right = &info->forks[0];
 		// info->forks[i].available = 1;
 		pthread_mutex_init(&info->forks[i].lock, NULL);
 		i++;
 	}
-	// init_philo_fork(info);	// GUARDANDO CASO SEJA NECESSARIO DIMINUIR A FUNCAO alloc_memory
+	// init_philo_fork(info);	// GUARDANDO CASO SEJA NECESSARIO DIMINUIR A FUNCAO init_info()
 
 	return (0);
+}
+
+int	milliseconds(t_info *info)
+{
+	struct timeval	current_time;
+	int				seconds;
+	int				microseconds;
+
+	gettimeofday(&current_time, NULL);
+	seconds = (current_time.tv_sec - info->time.tv_sec) * 1000;
+	microseconds = (current_time.tv_usec - info->time.tv_usec) / 1000;
+	return (seconds + microseconds);
 }

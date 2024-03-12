@@ -51,7 +51,9 @@ int	main(void)
 	while (1)
 	{
 		pthread_create(&id, NULL, acao, &tempo);
-		pthread_join(id, NULL);
+		// pthread_create(&id, NULL, acao, &tempo);
+		// pthread_join(id, NULL);
+		pthread_detach(id);
 	}
 
 
