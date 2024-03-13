@@ -127,3 +127,27 @@ int	milliseconds(t_info *info)
 	microseconds = (current_time.tv_usec - info->time.tv_usec) / 1000;
 	return (seconds + microseconds);
 }
+
+void	init_mutex(t_info *info)
+{
+	int	i;
+
+	i = 0;
+	while (i < info->n)
+	{
+		pthread_mutex_init(&info->forks[i].lock, NULL);
+		i++;
+	}
+}
+
+void	destroy_mutex(t_info *info)
+{
+	int	i;
+	
+	i = 0;
+	while (i < info->n)
+	{
+		pthread_mutex_destroy(&info->forks[i].lock);
+		i++;
+	}
+}

@@ -50,13 +50,15 @@ typedef struct s_info
 
 
 // func_aux/utils1.c
-int	error(char *str);
-int	is_number(char *str);
-int	ft_atoi(const char *str);
+int		error(char *str);
+int		is_number(char *str);
+int		ft_atoi(const char *str);
 // void	insert_arg(t_info *info, char **argv);
 // void	init_philo_fork(t_info *info);
-int	init_info(t_info *info, char **argv);
-int	milliseconds(t_info *info);
+int		init_info(t_info *info, char **argv);
+int		milliseconds(t_info *info);
+void	init_mutex(t_info *info);
+void	destroy_mutex(t_info *info);
 
 // func_aux/verification.c
 int	verification(int argc, char **argv);

@@ -200,26 +200,49 @@
 
 
 
-void	*funcao(void *param)
+// void	*funcao(void *param)
+// {
+// 	printf("comecou\n");
+// 	sleep(3);
+// 	printf("terminou\n");
+// }
+
+// int	main(void)
+// {
+// 	pthread_t	id;
+
+// 	pthread_create(&id, NULL, funcao, NULL);
+
+// 	sleep(1);
+
+// 	pthread_create(&id, NULL, funcao, NULL);
+
+// 	sleep(1);
+
+// 	printf("teste\n");
+
+// 	pthread_join(id, NULL);
+// }
+
+
+
+void	*funcao1(void *param)
 {
-	printf("comecou\n");
-	sleep(3);
-	printf("terminou\n");
+	printf("funcao1\n");
+}
+
+void	*funcao2(void *param)
+{
+	printf("funcao2\n");
 }
 
 int	main(void)
 {
-	pthread_t	id;
+	pthread_t	id1, id2;
 
-	pthread_create(&id, NULL, funcao, NULL);
+	pthread_create(&id1, NULL, funcao1, NULL);
+	pthread_create(&id2, NULL, funcao2, NULL);
 
-	sleep(1);
-
-	pthread_create(&id, NULL, funcao, NULL);
-
-	sleep(1);
-
-	printf("teste\n");
-
-	pthread_join(id, NULL);
+	pthread_join(id1, NULL);
+	pthread_join(id2, NULL);
 }
