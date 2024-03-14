@@ -98,6 +98,7 @@ int	init_info(t_info *info, char **argv)
 	{
 		// info->philo[i].philo = i + 1;	// SERIO Q EU TENTEI SALVAR O VALOR DE i EM UMA VARIAVEL Q EU DEPÉNDO DE i PRA SABER A POSICAO DO ARRAY PRA ACESSAR?
 		info->philo[i].dead = 0;
+		info->philo[i].actions = 0;
 		// info->philo[i].time_die = ;
 		// info->philo[i].time_eat = ;
 		// info->philo[i].time_sleep = ;
@@ -107,6 +108,7 @@ int	init_info(t_info *info, char **argv)
 			info->philo[i].right = &info->forks[i + 1];
 		else if (i + 1 == info->n)
 			info->philo[i].right = &info->forks[0];
+		info->philo[i].time_eat = info->time;
 		// info->forks[i].available = 1;
 		pthread_mutex_init(&info->forks[i].lock, NULL);
 		i++;
@@ -128,17 +130,17 @@ int	milliseconds(t_info *info)
 	return (seconds + microseconds);
 }
 
-void	init_mutex(t_info *info)
-{
-	int	i;
+// void	init_mutex(t_info *info)	// JA TA INICIANDO NA FUNCAO init_info()
+// {
+// 	int	i;
 
-	i = 0;
-	while (i < info->n)
-	{
-		pthread_mutex_init(&info->forks[i].lock, NULL);
-		i++;
-	}
-}
+// 	i = 0;
+// 	while (i < info->n)
+// 	{
+// 		pthread_mutex_init(&info->forks[i].lock, NULL);
+// 		i++;
+// 	}
+// }
 
 void	destroy_mutex(t_info *info)
 {

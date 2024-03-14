@@ -32,13 +32,16 @@ typedef struct s_philo
 	// int				philo;	// SERIO Q EU TENTEI SALVAR O VALOR DE i EM UMA VARIAVEL Q EU DEPÉNDO DE i PRA SABER A POSICAO DO ARRAY PRA ACESSAR?
 	int				dead;
 	pthread_t		id;
+	int				actions; //
 	t_fork			*left;
 	t_fork			*right;
+	struct timeval	time_eat;
 }	t_philo;
 
 typedef struct s_info
 {
 	int					n;
+	int					i;
 	int					die;
 	int					eat;
 	int					slept;
@@ -57,7 +60,7 @@ int		ft_atoi(const char *str);
 // void	init_philo_fork(t_info *info);
 int		init_info(t_info *info, char **argv);
 int		milliseconds(t_info *info);
-void	init_mutex(t_info *info);
+// void	init_mutex(t_info *info);	// JA TA INICIANDO NA FUNCAO init_info()
 void	destroy_mutex(t_info *info);
 
 // func_aux/verification.c

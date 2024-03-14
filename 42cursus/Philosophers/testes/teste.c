@@ -226,23 +226,41 @@
 
 
 
-void	*funcao1(void *param)
-{
-	printf("funcao1\n");
-}
+// void	*funcao1(void *param)
+// {
+// 	printf("funcao1\n");
+// }
 
-void	*funcao2(void *param)
-{
-	printf("funcao2\n");
-}
+// void	*funcao2(void *param)
+// {
+// 	printf("funcao2\n");
+// }
+
+// int	main(void)
+// {
+// 	pthread_t	id1, id2;
+
+// 	pthread_create(&id1, NULL, funcao1, NULL);
+// 	pthread_create(&id2, NULL, funcao2, NULL);
+
+// 	pthread_join(id1, NULL);
+// 	pthread_join(id2, NULL);
+// }
+
+
 
 int	main(void)
 {
-	pthread_t	id1, id2;
+	pthread_mutex_t	lock;
 
-	pthread_create(&id1, NULL, funcao1, NULL);
-	pthread_create(&id2, NULL, funcao2, NULL);
+	pthread_mutex_init(&lock, NULL);
 
-	pthread_join(id1, NULL);
-	pthread_join(id2, NULL);
+	// printf("%d\n", pthread_mutex_lock(&lock));
+	printf("%d\n", lock);
+	pthread_mutex_unlock(&lock);
+
+	printf("%d\n", pthread_mutex_lock(&lock));
+	pthread_mutex_destroy(&lock);
+
+	return (0);
 }
