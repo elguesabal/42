@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 08:48:59 by joseanto          #+#    #+#             */
-/*   Updated: 2024/03/12 16:28:25 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/03/15 08:43:45 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_philo
 typedef struct s_info
 {
 	int					n;
-	int					i;
+	// int					i;
 	int					die;
 	int					eat;
 	int					slept;

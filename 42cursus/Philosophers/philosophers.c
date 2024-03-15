@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 08:46:45 by joseanto          #+#    #+#             */
-/*   Updated: 2024/03/12 15:54:25 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/03/15 14:08:25 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,17 @@ int	dead_philosopher(t_info *info)
 
 		if (info->philo[i].dead)
 		{
-			printf("filoso %d o filosofo morreu em %d ms\n", i + 1, milliseconds(info));
-			return (0);
+			printf("filoso %d morreu em %d ms\n", i + 1, milliseconds(info));
+			return (1);
 		}
 		i++;
 	}
-	return (1);
+	return (0);
 }
 
-// int	time_dead(t_info *info, int i)
+// void	*death_count(void *param)
 // {
-// 	info->philo[].dead = 1;
-// 	usleep(milliseconds(info.philo[].));
-// 	if ()
+	
 // 	return (0);
 // }
 
@@ -60,13 +58,14 @@ int	dead_philosopher(t_info *info)
 void	action(t_info *info, int i)
 {
 	// static int	actions;	// AKI TA SALVANDO O VALOR INCREMENTADO POR OUTRAS THREADS
+	// pthread_t	id;
 
 	while (!info->philo[i].dead)
 	{
 		if (info->philo[i].actions == 0)
 		{
-			// pthread_create();//
-			// pthread_join();//
+			// pthread_create(&id, NULL, death_count, &info->philo[i]);
+			// pthread_detach(id); // ta dando erro aki
 			pthread_mutex_lock(&info->forks[i].lock);
 			printf("filoso %d pegou um garfo em %d ms\n", i + 1, milliseconds(info));
 			if (i + 1 == info->n)
@@ -104,22 +103,28 @@ void	action(t_info *info, int i)
 	}
 }
 
+int	number()
+{
+	static int	i;
+	return (i++);
+}
+
 void	*philosophers(void *param)
 {
 	t_info		*info;
 	// static int	i;	// TODA VEZ Q ESSA FUNCAO E CHAMADA PELA pthread_creat() ELA ASSUME O VALOR DE 0
-	int			i;
+	// int			i;
 
 	info = (t_info *)param;
-	i = info->i;
+	// i = info->i;
 	// while (!info->philo[i].dead)
 	// {
 		// pthread_create(&info.philo[0].id, NULL, action, &info);
 		// pthread_join(info.philo[0].id, NULL);
-		action(info, i);
-
-
+		action(info, number());
 		// i++;
+
+
 	// 	if (i == info->n)
 	// 		i = 0;
 	// }
@@ -149,7 +154,7 @@ int	main(int argc, char **argv)
 	i = 0;
 	while (i < info.n)
 	{
-		info.i = i;
+		// info.i = i;
 		pthread_create(&info.philo[i].id, NULL, philosophers, &info);
 		// pthread_join(info.philo[i].id, NULL);
 		pthread_detach(info.philo[i].id);
@@ -162,11 +167,15 @@ int	main(int argc, char **argv)
 		i++;
 	}
 
-// sleep(10);
-// info.philo[0].dead++;	// ASSASSINEI UM FILOSO PARA VER O RESULTADO DO VALGRIND
+// usleep(5000000);
+// info.philo[0].dead = 1;	// ASSASSINEI UM FILOSO PARA VER O RESULTADO DO VALGRIND
 
-	while (dead_philosopher(&info))
+	i = 1;
+	while (i)
 	{
+		if (dead_philosopher(&info))
+			i = 0;
+
 		usleep(500);	// LOOP INFINITO USANDO usleep() PARA NAO FORCAR O PC
 	}
 

@@ -249,18 +249,73 @@
 
 
 
+// int	main(void)
+// {
+// 	pthread_mutex_t	lock;
+
+// 	pthread_mutex_init(&lock, NULL);
+
+// 	// printf("%d\n", pthread_mutex_lock(&lock));
+// 	printf("%d\n", lock);
+// 	pthread_mutex_unlock(&lock);
+
+// 	printf("%d\n", pthread_mutex_lock(&lock));
+// 	pthread_mutex_destroy(&lock);
+
+// 	return (0);
+// }
+
+
+
+
+// void	*funcao(void *param)
+// {
+// 	static int	i;
+// 	i++;
+// 	printf("%d\n", i);
+// 	return (NULL);
+// }
+
+// int	main(void)
+// {
+// 	pthread_t	id1, id2;
+
+// 	pthread_create(&id1, NULL, funcao, NULL);
+// 	pthread_create(&id2, NULL, funcao, NULL);
+
+// 	usleep(100);
+// }
+
+
+int	number()
+{
+	static int	i;
+	return (i++);
+}
+
+void	teste(int i)
+{
+	printf("%d\n", i);
+}
+
+void	*funcao(void *param)
+{
+	static int	i;
+	teste(number());
+	i++;
+	return (NULL);
+}
+
 int	main(void)
 {
-	pthread_mutex_t	lock;
+	pthread_t	id[100];
+	int			i = 0;
 
-	pthread_mutex_init(&lock, NULL);
+	while (i < 100)
+	{
+		pthread_create(&id[i], NULL, funcao, NULL);
+		i++;
+	}
 
-	// printf("%d\n", pthread_mutex_lock(&lock));
-	printf("%d\n", lock);
-	pthread_mutex_unlock(&lock);
-
-	printf("%d\n", pthread_mutex_lock(&lock));
-	pthread_mutex_destroy(&lock);
-
-	return (0);
+	usleep(100);
 }

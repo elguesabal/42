@@ -1,6 +1,16 @@
-int main()
+// int main()
+// {
+//     int n = 0;
+//     while (1)
+//         n++;
+// }
+
+
+
+int main(void)
 {
-    int n = 0;
-    while (1)
-        n++;
+    pthread_t   id1, id2;
+
+    
+    return (0);
 }
