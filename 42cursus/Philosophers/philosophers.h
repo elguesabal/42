@@ -51,6 +51,13 @@ typedef struct s_info
 	t_fork				*forks;
 }	t_info;
 
+typedef struct s_dead
+{
+	t_philo				*philo;
+	int					die;
+	int					*dead;
+}	t_dead;
+
 
 // func_aux/utils1.c
 int		error(char *str);

@@ -103,11 +103,8 @@ int	init_info(t_info *info, char **argv)
 		// info->philo[i].time_eat = ;
 		// info->philo[i].time_sleep = ;
 		info->forks[i].fork = i + 1;
-		info->philo[i].left = &info->forks[i];
-		if (i + 1 != info->n)
-			info->philo[i].right = &info->forks[i + 1];
-		else if (i + 1 == info->n)
-			info->philo[i].right = &info->forks[0];
+		info->philo[i].left = NULL;
+		info->philo[i].right = NULL;
 		info->philo[i].time_eat = info->time;
 		// info->forks[i].available = 1;
 		pthread_mutex_init(&info->forks[i].lock, NULL);

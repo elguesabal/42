@@ -47,25 +47,48 @@ int	dead_philosopher(t_info *info)
 	return (0);
 }
 
-// void	*death_count(void *param)
-// {
-	
-// 	return (0);
-// }
 
 
+
+
+
+
+
+
+
+void	*death_count(void *param)	// TO MATANDO FILOSOFO SEM QUERER
+{
+	t_dead				*philo;
+	struct timeval		time;
+
+	philo = (t_dead *)param;
+	while (!philo->philo->left && !philo->philo->right)
+	{
+		gettimeofday(&time, NULL);
+		if ((time.tv_sec - philo->philo->time_eat.tv_sec) * 1000000 + time.tv_usec - philo->philo->time_eat.tv_usec >= philo->die)	// TO MATANDO FILOSOFO SEM QUERER
+		{
+			philo->philo->dead = 1;	// TO MATANDO FILOSOFO SEM QUERER
+			return (0);
+		}
+		usleep(100);
+	}
+	return (0);
+}
 
 void	action(t_info *info, int i)
 {
-	// static int	actions;	// AKI TA SALVANDO O VALOR INCREMENTADO POR OUTRAS THREADS
-	// pthread_t	id;
+	pthread_t	id;
+	t_dead		philo;
 
 	while (!info->philo[i].dead)
 	{
 		if (info->philo[i].actions == 0)
 		{
-			// pthread_create(&id, NULL, death_count, &info->philo[i]);
-			// pthread_detach(id); // ta dando erro aki
+			philo.philo = &info->philo[i];
+			philo.die = info->die;
+			philo.dead = &info->philo[i].dead;
+			pthread_create(&id, NULL, death_count, &philo);	// AINDA TO TRAVADO AKI	// TO MATANDO FILOSOFO SEM QUERER
+			pthread_detach(id);	// AINDA TO TRAVADO AKI	// TO MATANDO FILOSOFO SEM QUERER
 			pthread_mutex_lock(&info->forks[i].lock);
 			printf("filoso %d pegou um garfo em %d ms\n", i + 1, milliseconds(info));
 			if (i + 1 == info->n)
@@ -74,16 +97,13 @@ void	action(t_info *info, int i)
 				pthread_mutex_lock(&info->forks[i + 1].lock);
 			printf("filoso %d pegou um garfo em %d ms\n", i + 1, milliseconds(info));
 			printf("filoso %d comecou a comer em %d ms\n", i + 1, milliseconds(info));
-			// if (time_dead(info))
-			// {
-			// 	info->philo[i].dead = 0;
-			// }
 			usleep(info->eat);
 			pthread_mutex_unlock(&info->forks[i].lock);
 			if (i + 1 == info->n)
 				pthread_mutex_unlock(&info->forks[0].lock);
 			else
 				pthread_mutex_unlock(&info->forks[i + 1].lock);
+			gettimeofday(&info->philo[i].time_eat, NULL);
 			info->philo[i].actions++;
 		}
 		else if (info->philo[i].actions == 1)
@@ -157,7 +177,7 @@ int	main(int argc, char **argv)
 		// info.i = i;
 		pthread_create(&info.philo[i].id, NULL, philosophers, &info);
 		// pthread_join(info.philo[i].id, NULL);
-		pthread_detach(info.philo[i].id);
+		pthread_detach(info.philo[i].id);	// AKI PODE SER SUBSTITUIDO POR FUNCOES pthread_join() APOS O LOOP Q PROCURA A MORTE DE UM FILOSOSO SENDO Q ANTES PODE TER UM LOOP MATANDO TODOS OS FILOSOFOS
 		usleep(100);	// ISSO GARANTE Q info.i NAO VAI SER MODIFICADO ANTES DE SER SALVO DENTRO DA FUNCAO philosophers()	// NAO TA FUNCIONANDO
 
 		// if (i + 1 == info.n)
@@ -175,10 +195,10 @@ int	main(int argc, char **argv)
 	{
 		if (dead_philosopher(&info))
 			i = 0;
-
+printf("teste: %d\n", dead_philosopher(&info));	// TO MATANDO FILOSOFO SEM QUERER
 		usleep(500);	// LOOP INFINITO USANDO usleep() PARA NAO FORCAR O PC
 	}
-
+sleep(10);
 	destroy_mutex(&info);
 
 
