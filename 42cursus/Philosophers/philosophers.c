@@ -55,7 +55,6 @@ int	dead_philosopher(t_info *info)
 
 
 
-
 void	*death_count(void *param)	// TO MATANDO FILOSOFO SEM QUERER
 {
 	t_dead				*philo;
