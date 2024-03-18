@@ -36,12 +36,8 @@ int	dead_philosopher(t_info *info)
 	i = 0;
 	while (i < info->n)
 	{
-
 		if (info->philo[i].dead)
-		{
-			printf("filoso %d morreu em %d ms\n", i + 1, milliseconds(info));
-			return (1);
-		}
+			return (i + 1);
 		i++;
 	}
 	return (0);
@@ -51,26 +47,35 @@ int	dead_philosopher(t_info *info)
 
 
 
-
-
-
-
-void	*death_count(void *param)	// TO MATANDO FILOSOFO SEM QUERER
+void	*death_count(void *param)
 {
 	t_dead				*philo;
 	struct timeval		time;
 
 	philo = (t_dead *)param;
-	while (!philo->philo->left && !philo->philo->right)
+
+
+	// ESSE CODIGO TAVA BUGADO
+	// while (philo->philo->dead)
+	// {
+	// 	gettimeofday(&time, NULL);
+	// 	if ((time.tv_sec - philo->philo->time_eat.tv_sec) * 1000000 + time.tv_usec - philo->philo->time_eat.tv_usec >= philo->die)
+	// 	{
+	// 		philo->philo->dead = 1;
+	// 		return (0);
+	// 	} 
+	// 	usleep(100);
+	// }
+
+
+	// MAS ESSE NAO KKKKK
+	while ((time.tv_sec - philo->philo->time_eat.tv_sec) * 1000000 + time.tv_usec - philo->philo->time_eat.tv_usec < philo->die)
 	{
 		gettimeofday(&time, NULL);
-		if ((time.tv_sec - philo->philo->time_eat.tv_sec) * 1000000 + time.tv_usec - philo->philo->time_eat.tv_usec >= philo->die)	// TO MATANDO FILOSOFO SEM QUERER
-		{
-			philo->philo->dead = 1;	// TO MATANDO FILOSOFO SEM QUERER
-			return (0);
-		}
 		usleep(100);
 	}
+	philo->philo->dead = 1;
+
 	return (0);
 }
 
@@ -79,39 +84,56 @@ void	action(t_info *info, int i)
 	pthread_t	id;
 	t_dead		philo;
 
-	while (!info->philo[i].dead)
+	philo.philo = &info->philo[i];
+	philo.die = info->die;
+	philo.dead = &info->philo[i].dead;
+	pthread_create(&id, NULL, death_count, &philo);
+	pthread_detach(id);
+
+	while (dead_philosopher(info) == 0)
 	{
-		if (info->philo[i].actions == 0)
+		if (info->philo[i].actions == 0 && dead_philosopher(info) == 0)
 		{
-			philo.philo = &info->philo[i];
-			philo.die = info->die;
-			philo.dead = &info->philo[i].dead;
-			pthread_create(&id, NULL, death_count, &philo);	// AINDA TO TRAVADO AKI	// TO MATANDO FILOSOFO SEM QUERER
-			pthread_detach(id);	// AINDA TO TRAVADO AKI	// TO MATANDO FILOSOFO SEM QUERER
 			pthread_mutex_lock(&info->forks[i].lock);
-			printf("filoso %d pegou um garfo em %d ms\n", i + 1, milliseconds(info));
+			if (dead_philosopher(info) == 0)
+			{
+				printf("filoso %d pegou um garfo em %d ms\n", i + 1, milliseconds(info));
+				// info->philo[i].left = &info->forks[i];	// ACHEI Q IA PRECISAR SALVAR O PONTEIRO
+			}
 			if (i + 1 == info->n)
+			{
 				pthread_mutex_lock(&info->forks[0].lock);
+				// info->philo[i].right = &info->forks[0];	// ACHEI Q IA PRECISAR SALVAR O PONTEIRO
+			}
 			else
+			{
 				pthread_mutex_lock(&info->forks[i + 1].lock);
-			printf("filoso %d pegou um garfo em %d ms\n", i + 1, milliseconds(info));
-			printf("filoso %d comecou a comer em %d ms\n", i + 1, milliseconds(info));
+				// info->philo[i].right = &info->forks[i + 1];	// ACHEI Q IA PRECISAR SALVAR O PONTEIRO
+			}
+			if (dead_philosopher(info) == 0)
+			{
+				printf("filoso %d pegou um garfo em %d ms\n", i + 1, milliseconds(info));
+				printf("filoso %d comecou a comer em %d ms\n", i + 1, milliseconds(info));
+			}
+			gettimeofday(&info->philo[i].time_eat, NULL);
 			usleep(info->eat);
+			gettimeofday(&info->philo[i].time_eat, NULL);
 			pthread_mutex_unlock(&info->forks[i].lock);
+			// info->philo[i].left = NULL;	// ACHEI Q IA PRECISAR SALVAR O PONTEIRO
 			if (i + 1 == info->n)
 				pthread_mutex_unlock(&info->forks[0].lock);
 			else
 				pthread_mutex_unlock(&info->forks[i + 1].lock);
-			gettimeofday(&info->philo[i].time_eat, NULL);
+			// info->philo[i].right = NULL;	// ACHEI Q IA PRECISAR SALVAR O PONTEIRO
 			info->philo[i].actions++;
 		}
-		else if (info->philo[i].actions == 1)
+		else if (info->philo[i].actions == 1 && dead_philosopher(info) == 0)
 		{
 			printf("filoso %d dormiu em %d ms\n", i + 1, milliseconds(info));
 			usleep(info->slept);
 			info->philo[i].actions++;
 		}
-		else if (info->philo[i].actions == 2)
+		else if (info->philo[i].actions == 2 && dead_philosopher(info) == 0)
 		{
 			printf("filoso %d pensou em %d ms\n", i + 1, milliseconds(info));
 			info->philo[i].actions++;
@@ -131,26 +153,9 @@ int	number()
 void	*philosophers(void *param)
 {
 	t_info		*info;
-	// static int	i;	// TODA VEZ Q ESSA FUNCAO E CHAMADA PELA pthread_creat() ELA ASSUME O VALOR DE 0
-	// int			i;
 
 	info = (t_info *)param;
-	// i = info->i;
-	// while (!info->philo[i].dead)
-	// {
-		// pthread_create(&info.philo[0].id, NULL, action, &info);
-		// pthread_join(info.philo[0].id, NULL);
-		action(info, number());
-		// i++;
-
-
-	// 	if (i == info->n)
-	// 		i = 0;
-	// }
-
-	// if (info->philo[0].dead)
-	// 	printf("filoso %d o filosofo morreu em %d ms\n", i + 1, milliseconds(info));
-
+	action(info, number());
 	return (NULL);
 }
 
@@ -189,15 +194,30 @@ int	main(int argc, char **argv)
 // usleep(5000000);
 // info.philo[0].dead = 1;	// ASSASSINEI UM FILOSO PARA VER O RESULTADO DO VALGRIND
 
-	i = 1;
-	while (i)
+
+
+	// i = 1;
+	// while (i)
+	// {
+	// 	if (dead_philosopher(&info))
+	// 	{
+	// 		printf("filoso %d morreu em %d ms\n", i + 1, milliseconds(&info));
+	// 		i = 0;	// MENTIRA Q EU FIZ ISSO KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK SEMPRE SERA O FILOSO 2 Q VAI SER ANUNCIADO COMO MORTO
+	// 	}
+	// 	usleep(500);	// LOOP INFINITO USANDO usleep() PARA NAO FORCAR O PC
+	// }
+
+	i = 0;
+	while (i == 0)
 	{
-		if (dead_philosopher(&info))
-			i = 0;
-printf("teste: %d\n", dead_philosopher(&info));	// TO MATANDO FILOSOFO SEM QUERER
-		usleep(500);	// LOOP INFINITO USANDO usleep() PARA NAO FORCAR O PC
+		i = dead_philosopher(&info);
+		if (i)
+			printf("filoso %d morreu em %d ms\n", i + 1, milliseconds(&info));
+		usleep(500);
 	}
-sleep(10);
+
+
+
 	destroy_mutex(&info);
 
 
