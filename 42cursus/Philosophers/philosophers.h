@@ -54,7 +54,7 @@ typedef struct s_info
 typedef struct s_dead
 {
 	t_philo				*philo;
-	int					die;
+	int					*die;	// MUDEI AKI PARA ENDERECO E MUDOU O RESULTADO
 	int					*dead;
 }	t_dead;
 

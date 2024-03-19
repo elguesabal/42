@@ -47,7 +47,7 @@ int	dead_philosopher(t_info *info)
 
 
 
-void	*death_count(void *param)
+void	*death_count(void *param)	//	PARECE Q O FILOSOFO TA MORRENDO PQ TO PASSANDO UM VALOR E NAO CONSIGO MODIFICA-LO EM OUTRA FUNCAO PQ NAO E UM PONTEIRO
 {
 	t_dead				*philo;
 	struct timeval		time;
@@ -68,8 +68,8 @@ void	*death_count(void *param)
 	// }
 
 
-	// MAS ESSE NAO KKKKK
-	while ((time.tv_sec - philo->philo->time_eat.tv_sec) * 1000000 + time.tv_usec - philo->philo->time_eat.tv_usec < philo->die)
+	// MAS ESSE NAO KKKKK	ELE TAVA BUGADO TBM KKKKKKKKKKKKK	MAS O BUG NAO ERA AKI MAS NO STRUCT PASSADO POR ELE KKKK
+	while ((time.tv_sec - philo->philo->time_eat.tv_sec) * 1000000 + time.tv_usec - philo->philo->time_eat.tv_usec < *philo->die)
 	{
 		gettimeofday(&time, NULL);
 		usleep(100);
@@ -83,9 +83,10 @@ void	action(t_info *info, int i)
 {
 	pthread_t	id;
 	t_dead		philo;
+	// struct timeval	time;	//	AKI EU TENHO Q ARMAZENAAR O TEMPPO DA ULTIMA VEZ Q O FILOSOFO COMEU
 
 	philo.philo = &info->philo[i];
-	philo.die = info->die;
+	philo.die = &info->die;
 	philo.dead = &info->philo[i].dead;
 	pthread_create(&id, NULL, death_count, &philo);
 	pthread_detach(id);
