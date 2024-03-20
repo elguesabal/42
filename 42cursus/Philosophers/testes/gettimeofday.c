@@ -15,6 +15,26 @@ int	main(void)
 
 
 
+// int	main(void)
+// {
+// 	struct timeval	teste;
+	
+// 	gettimeofday(&teste, NULL);
+// 	int	t1 = teste.tv_usec;
+
+// 	printf("Tempo atual: %ld segundos, %ld microssegundos\n", teste.tv_sec, teste.tv_usec);
+
+// sleep(1);
+
+// 	gettimeofday(&teste, NULL);
+// 	int	t2 = teste.tv_usec;
+
+// 	printf("Tempo atual: %ld segundos, %ld microssegundos\n", teste.tv_sec, teste.tv_usec);
+
+// 	printf("%d\n", t2 - t1);
+// }
+
+
 
 
 // pthread_mutex_t	lock;

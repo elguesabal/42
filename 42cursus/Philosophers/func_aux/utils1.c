@@ -81,10 +81,6 @@ int	init_info(t_info *info, char **argv)
 	info->die = ft_atoi(argv[2]) * 1000;
 	info->eat = ft_atoi(argv[3]) * 1000;
 	info->slept = ft_atoi(argv[4]) * 1000;
-	if (argv[5])
-		info->repetitions = ft_atoi(argv[5]);
-	else
-		info->repetitions = 0;
 	gettimeofday(&info->time, NULL);
 	// insert_arg(info, argv);	// GUARDANDO CASO SEJA NECESSARIO DIMINUIR A FUNCAO init_info()
 
@@ -98,7 +94,12 @@ int	init_info(t_info *info, char **argv)
 	{
 		// info->philo[i].philo = i + 1;	// SERIO Q EU TENTEI SALVAR O VALOR DE i EM UMA VARIAVEL Q EU DEPÉNDO DE i PRA SABER A POSICAO DO ARRAY PRA ACESSAR?
 		info->philo[i].dead = 0;
+		if (argv[5])
+			info->philo[i].repetitions = ft_atoi(argv[5]);
+		else
+			info->philo[i].repetitions = -1;
 		info->philo[i].actions = 0;
+		// info->philo[i].finish = 1;
 		// info->philo[i].time_die = ;
 		// info->philo[i].time_eat = ;
 		// info->philo[i].time_sleep = ;

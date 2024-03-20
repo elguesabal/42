@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 08:48:59 by joseanto          #+#    #+#             */
-/*   Updated: 2024/03/15 08:43:45 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/03/20 18:37:03 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,11 @@ typedef struct s_philo
 	// int				philo;	// SERIO Q EU TENTEI SALVAR O VALOR DE i EM UMA VARIAVEL Q EU DEPÉNDO DE i PRA SABER A POSICAO DO ARRAY PRA ACESSAR?
 	int				dead;
 	pthread_t		id;
-	int				actions; //
-	t_fork			*left;
-	t_fork			*right;
+	int				repetitions;
+	int				actions;
+	// t_fork			*left;
+	// t_fork			*right;
+	// int				finish;
 	struct timeval	time_eat;
 }	t_philo;
 
@@ -45,7 +47,7 @@ typedef struct s_info
 	int					die;
 	int					eat;
 	int					slept;
-	int					repetitions;
+	// int					repetitions;
 	struct timeval		time;
 	t_philo				*philo;
 	t_fork				*forks;
