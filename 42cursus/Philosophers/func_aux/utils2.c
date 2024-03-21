@@ -1,33 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philosophers.c                                     :+:      :+:    :+:   */
+/*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/04 08:46:45 by joseanto          #+#    #+#             */
-/*   Updated: 2024/03/21 18:39:13 by joseanto         ###   ########.fr       */
+/*   Created: 2024/03/21 14:19:12 by joseanto          #+#    #+#             */
+/*   Updated: 2024/03/21 14:40:43 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "../philosophers.h"
 
-int	main(int argc, char **argv)
+void	destroy_mutex(t_info *info)
 {
-	t_info	info;
+	int	i;
 
-	if (verification(argc, argv))
-		return (0);
-	if (init_info(&info, argv))
-		return (0);
-
-	creat_philosopher(&info);
-
-	finish(&info);
-
-	destroy_mutex(&info);
-
-	free(info.philo);
-	free(info.forks);
-	return (0);
+	i = 0;
+	while (i < info->n)
+	{
+		pthread_mutex_destroy(&info->forks[i]);
+		i++;
+	}
 }
