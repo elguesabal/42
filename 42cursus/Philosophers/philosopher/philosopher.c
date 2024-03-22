@@ -27,13 +27,12 @@ void	eat(t_info *info, int i)
 	{
 		pthread_mutex_lock(&info->forks[i + 1]);
 	}
-	gettimeofday(&info->philo[i].time_eat, NULL);	// ATUALIZANDO O TEMPO ANTES DE PEGAR O GARFO PRA EVITAR Q O FILOSOFO CONSIGA PEGAR OS 2 GARFOS E MORRER
 	if (dead_philosopher(info) == 0)
 	{
+		gettimeofday(&info->philo[i].time_eat, NULL);
 		printf("filoso %d pegou um garfo em %d ms\n", i + 1, milliseconds(info));
 		printf("filoso %d comecou a comer em %d ms\n", i + 1, milliseconds(info));
 		usleep(info->eat);
-		gettimeofday(&info->philo[i].time_eat, NULL);	// A CONTAGEM DO TEMPO PARA A MORTE COMECA A CONTAR NO FINAL DA REFEICAO OU NO COMECO??
 	}
 	pthread_mutex_unlock(&info->forks[i]);
 	if (i + 1 == info->n)
@@ -68,7 +67,6 @@ void	*philosopher(void *param)
 	info = (t_info *)param;
 	philo.philo = &info->philo[i];
 	philo.die = &info->die;
-	philo.dead = &info->philo[i].dead;
 	pthread_create(&id, NULL, death_count, &philo);
 	while (dead_philosopher(info) == 0 && info->philo[i].repetitions)
 	{
@@ -93,8 +91,8 @@ void	creat_philosopher(t_info *info)
 	while (i < info->n)
 	{
 		pthread_create(&info->philo[i].id, NULL, philosopher, info);
-		pthread_detach(info->philo[i].id);	// AKI PODE SER SUBSTITUIDO POR FUNCOES pthread_join() APOS O LOOP Q PROCURA A MORTE DE UM FILOSOSO SENDO Q ANTES PODE TER UM LOOP MATANDO TODOS OS FILOSOFOS
-		usleep(100);	// ISSO GARANTE Q FILOSOFOS VIZINHOS PEGUE 1 GARFO E OCORRA Q CADA FILOSOFO MORRA COM 1 GARFO E GARANTE TBM Q EU PEGUE O INDICE i CORRETAMENTE
+		pthread_detach(info->philo[i].id);
+		usleep(100);
 		i++;
 	}
 }

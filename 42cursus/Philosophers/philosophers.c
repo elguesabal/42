@@ -20,13 +20,9 @@ int	main(int argc, char **argv)
 		return (0);
 	if (init_info(&info, argv))
 		return (0);
-
 	creat_philosopher(&info);
-
 	finish(&info);
-
 	destroy_mutex(&info);
-
 	free(info.philo);
 	free(info.forks);
 	return (0);

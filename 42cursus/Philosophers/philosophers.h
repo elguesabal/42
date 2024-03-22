@@ -43,7 +43,6 @@ typedef struct s_dead
 {
 	t_philo				*philo;
 	int					*die;
-	int					*dead;
 }	t_dead;
 
 // philosopher/philosopher.c
