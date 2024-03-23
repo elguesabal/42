@@ -40,6 +40,7 @@ void	eat(t_info *info, int i)
 	else
 		pthread_mutex_unlock(&info->forks[i + 1]);
 	info->philo[i].repetitions--;
+// printf("\t\t\tfalta %d repeticoes para o filosofo %d\n", info->philo[i].repetitions, i + 1);
 	info->philo[i].actions++;
 }
 
@@ -68,13 +69,13 @@ void	*philosopher(void *param)
 	philo.philo = &info->philo[i];
 	philo.die = &info->die;
 	pthread_create(&id, NULL, death_count, &philo);
-	while (dead_philosopher(info) == 0 && info->philo[i].repetitions)
+	while ((info->philo[i].repetitions < 0 && dead_philosopher(info) == 0) || (info->philo[i].repetitions > 0 && info->philo[i].dead == 0))
 	{
-		if (info->philo[i].actions == 0 && dead_philosopher(info) == 0)
+		if (info->philo[i].actions == 0/* && dead_philosopher(info) == 0*/)
 			eat(info, i);
-		else if (info->philo[i].actions == 1 && dead_philosopher(info) == 0)
+		else if (info->philo[i].actions == 1/* && dead_philosopher(info) == 0*/)
 			to_sleep(info, i);
-		else if (info->philo[i].actions == 2 && dead_philosopher(info) == 0)
+		else if (info->philo[i].actions == 2/* && dead_philosopher(info) == 0*/)
 			think(info, i);
 		if (info->philo[i].actions == 3)
 			info->philo[i].actions = 0;

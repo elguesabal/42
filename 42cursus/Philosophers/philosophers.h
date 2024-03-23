@@ -55,7 +55,9 @@ void	creat_philosopher(t_info *info);
 // philosopher/assistant.c
 void	*death_count(void *param);
 int		dead_philosopher(t_info *info);
+											// int	last_death(t_info *info, int list);
 int		repetitions(t_info *info);
+int		all_dead(t_info *info);
 void    finish(t_info *info);
 
 // func_aux/verification.c
