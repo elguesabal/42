@@ -20,12 +20,6 @@ int	main(int argc, char **argv)
 		return (0);
 	if (init_info(&info, argv))
 		return (0);
-
-
-// list_of_dead(&info);
-// sleep(10);
-
-
 	creat_philosopher(&info);
 	finish(&info);
 	destroy_mutex(&info);

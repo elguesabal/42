@@ -46,8 +46,8 @@ typedef struct s_dead
 }	t_dead;
 
 // philosopher/philosopher.c
-void    eat(t_info *info, int i);
-void    to_sleep(t_info *info, int i);
+void	eat(t_info *info, int i);
+void	to_sleep(t_info *info, int i);
 void	think(t_info *info, int i);
 void	*philosopher(void *param);
 void	creat_philosopher(t_info *info);
@@ -55,13 +55,12 @@ void	creat_philosopher(t_info *info);
 // philosopher/assistant.c
 void	*death_count(void *param);
 int		dead_philosopher(t_info *info);
-											// int	last_death(t_info *info, int list);
 int		repetitions(t_info *info);
 int		all_dead(t_info *info);
-void    finish(t_info *info);
+void	finish(t_info *info);
 
 // func_aux/verification.c
-int	verification(int argc, char **argv);
+int		verification(int argc, char **argv);
 
 // func_aux/utils1.c
 int		is_number(char *str);
@@ -72,6 +71,5 @@ int		milliseconds(t_info *info);
 
 // func_aux/utils2.c
 void	destroy_mutex(t_info *info);
-
 
 #endif

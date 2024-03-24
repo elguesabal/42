@@ -16,7 +16,7 @@ void	destroy_mutex(t_info *info)
 {
 	int	i;
 
-	// usleep(1000000);	// TALVEZ RESOLVA ALGUNS FREES COM PROBLEMAS
+	usleep(info->die);	// RESOLVE ALGUNS FREES COM PROBLEMAS
 	i = 0;
 	while (i < info->n)
 	{

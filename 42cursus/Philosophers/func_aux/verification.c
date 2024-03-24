@@ -24,7 +24,8 @@ int	verification(int argc, char **argv)
 		return (printf("Error\nNumero para comer em ms invalido\n"));
 	if (argv[4][0] == '\0' || argv[4][0] == '0' || is_number(argv[4]))
 		return (printf("Error\nNumero para dormir em ms invalido\n"));
-	if (argc == 6 && (argv[5][0] == '\0' || argv[5][0] == '0' || is_number(argv[5])))
+	if (argc == 6 && (argv[5][0] == '\0'
+		|| argv[5][0] == '0' || is_number(argv[5])))
 		return (printf("Error\nNumero de repeticoes invalido\n"));
 	return (0);
 }

@@ -15,23 +15,17 @@
 void	eat(t_info *info, int i)
 {
 	pthread_mutex_lock(&info->forks[i]);
-	if (dead_philosopher(info) == 0)
-	{
-		printf("filoso %d pegou um garfo em %d ms\n", i + 1, milliseconds(info));
-	}
+	if (dead_philosopher(info) == 0 || info->philo[i].repetitions > 0)
+		printf("%dms %d has taken a fork\n", milliseconds(info), i + 1);
 	if (i + 1 == info->n)
-	{
 		pthread_mutex_lock(&info->forks[0]);
-	}
 	else
-	{
 		pthread_mutex_lock(&info->forks[i + 1]);
-	}
-	if (dead_philosopher(info) == 0)
+	if (dead_philosopher(info) == 0 || info->philo[i].repetitions > 0)
 	{
 		gettimeofday(&info->philo[i].time_eat, NULL);
-		printf("filoso %d pegou um garfo em %d ms\n", i + 1, milliseconds(info));
-		printf("filoso %d comecou a comer em %d ms\n", i + 1, milliseconds(info));
+		printf("%dms %d has taken a fork\n", milliseconds(info), i + 1);
+		printf("%dms %d is eating\n", milliseconds(info), i + 1);
 		usleep(info->eat);
 	}
 	pthread_mutex_unlock(&info->forks[i]);
@@ -40,20 +34,19 @@ void	eat(t_info *info, int i)
 	else
 		pthread_mutex_unlock(&info->forks[i + 1]);
 	info->philo[i].repetitions--;
-// printf("\t\t\tfalta %d repeticoes para o filosofo %d\n", info->philo[i].repetitions, i + 1);
 	info->philo[i].actions++;
 }
 
 void	to_sleep(t_info *info, int i)
 {
-    printf("filoso %d dormiu em %d ms\n", i + 1, milliseconds(info));
-    usleep(info->slept);
-    info->philo[i].actions++;
+	printf("%dms %d is sleeping\n", milliseconds(info), i + 1);
+	usleep(info->slept);
+	info->philo[i].actions++;
 }
 
 void	think(t_info *info, int i)
 {
-	printf("filoso %d pensou em %d ms\n", i + 1, milliseconds(info));
+	printf("%dms %d is thinking\n", milliseconds(info), i + 1);
 	info->philo[i].actions++;
 }
 
@@ -69,13 +62,14 @@ void	*philosopher(void *param)
 	philo.philo = &info->philo[i];
 	philo.die = &info->die;
 	pthread_create(&id, NULL, death_count, &philo);
-	while ((info->philo[i].repetitions < 0 && dead_philosopher(info) == 0) || (info->philo[i].repetitions > 0 && info->philo[i].dead == 0))
+	while ((info->philo[i].repetitions < 0 && dead_philosopher(info) == 0)
+		|| (info->philo[i].repetitions > 0 && info->philo[i].dead == 0))
 	{
-		if (info->philo[i].actions == 0/* && dead_philosopher(info) == 0*/)
+		if (info->philo[i].actions == 0)
 			eat(info, i);
-		else if (info->philo[i].actions == 1/* && dead_philosopher(info) == 0*/)
+		else if (info->philo[i].actions == 1)
 			to_sleep(info, i);
-		else if (info->philo[i].actions == 2/* && dead_philosopher(info) == 0*/)
+		else if (info->philo[i].actions == 2)
 			think(info, i);
 		if (info->philo[i].actions == 3)
 			info->philo[i].actions = 0;
