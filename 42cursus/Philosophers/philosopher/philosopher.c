@@ -15,13 +15,13 @@
 void	eat(t_info *info, int i)
 {
 	pthread_mutex_lock(&info->forks[i]);
-	if (dead_philosopher(info) == 0 || info->philo[i].repetitions > 0)
+	if (dead_philosopher(info) == 0 || info->philo[i].repetitions > 0) // VERIFICAR AMANHA COM MAIS CALMA ESSA VERIFICACAO
 		printf("%dms %d has taken a fork\n", milliseconds(info), i + 1);
 	if (i + 1 == info->n)
 		pthread_mutex_lock(&info->forks[0]);
 	else
 		pthread_mutex_lock(&info->forks[i + 1]);
-	if (dead_philosopher(info) == 0 || info->philo[i].repetitions > 0)
+	if (dead_philosopher(info) == 0 || info->philo[i].repetitions > 0) // VERIFICAR AMANHA COM MAIS CALMA ESSA VERIFICACAO
 	{
 		gettimeofday(&info->philo[i].time_eat, NULL);
 		printf("%dms %d has taken a fork\n", milliseconds(info), i + 1);
