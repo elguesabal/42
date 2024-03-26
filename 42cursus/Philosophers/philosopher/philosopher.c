@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 09:33:12 by joseanto          #+#    #+#             */
-/*   Updated: 2024/03/21 15:22:00 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/03/26 08:22:25 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,15 @@
 void	eat(t_info *info, int i)
 {
 	pthread_mutex_lock(&info->forks[i]);
-	if (dead_philosopher(info) == 0 || info->philo[i].repetitions > 0) // VERIFICAR AMANHA COM MAIS CALMA ESSA VERIFICACAO
+	if ((info->philo[i].repetitions > 0 && info->philo[i].dead == 0)
+		|| (info->philo[i].repetitions < 0 && dead_philosopher(info) == 0))
 		printf("%dms %d has taken a fork\n", milliseconds(info), i + 1);
 	if (i + 1 == info->n)
 		pthread_mutex_lock(&info->forks[0]);
 	else
 		pthread_mutex_lock(&info->forks[i + 1]);
-	if (dead_philosopher(info) == 0 || info->philo[i].repetitions > 0) // VERIFICAR AMANHA COM MAIS CALMA ESSA VERIFICACAO
+	if ((info->philo[i].repetitions > 0 && info->philo[i].dead == 0)
+		|| (info->philo[i].repetitions < 0 && dead_philosopher(info) == 0))
 	{
 		gettimeofday(&info->philo[i].time_eat, NULL);
 		printf("%dms %d has taken a fork\n", milliseconds(info), i + 1);

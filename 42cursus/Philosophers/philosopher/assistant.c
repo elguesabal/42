@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 09:50:44 by joseanto          #+#    #+#             */
-/*   Updated: 2024/03/21 15:22:30 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/03/26 08:26:11 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	*death_count(void *param)
 {
-	t_dead				*philo;
-	struct timeval		time;
+	t_dead			*philo;
+	struct timeval	time;
 
 	philo = (t_dead *)param;
 	gettimeofday(&time, NULL);
@@ -23,7 +23,7 @@ void	*death_count(void *param)
 		+ time.tv_usec - philo->philo->time_eat.tv_usec < *philo->die)
 	{
 		gettimeofday(&time, NULL);
-		usleep(100);	// SE EU ATIVAR ESSA PAUSA PARA POUPAR O USO DO PROCESSADOR PODE ACONTECER DO FILOSO NAO MORRER QUANDO O TEMPO PARA MORRER E IGUAL AO DE DORMIR
+		usleep(100);
 		if (philo->philo->repetitions == 0)
 			return (NULL);
 	}
@@ -98,6 +98,6 @@ void	finish(t_info *info)
 			if (repetitions(info) == 0 || all_dead(info))
 				return ;
 		}
-		usleep(100);	// SE EU ATIVAR ESSA PAUSA PARA POUPAR O USO DO PROCESSADOR PODE ACONTECER DO FILOSO NAO MORRER QUANDO O TEMPO PARA MORRER E IGUAL AO DE DORMIR
+		usleep(100);
 	}
 }

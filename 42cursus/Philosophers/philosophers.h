@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 08:48:59 by joseanto          #+#    #+#             */
-/*   Updated: 2024/03/21 14:42:45 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/03/26 08:24:27 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,19 @@ typedef struct s_philo
 
 typedef struct s_info
 {
-	int					n;
-	int					die;
-	int					eat;
-	int					slept;
-	struct timeval		time;
-	t_philo				*philo;
-	pthread_mutex_t		*forks;
+	int				n;
+	int				die;
+	int				eat;
+	int				slept;
+	struct timeval	time;
+	t_philo			*philo;
+	pthread_mutex_t	*forks;
 }	t_info;
 
 typedef struct s_dead
 {
-	t_philo				*philo;
-	int					*die;
+	t_philo	*philo;
+	int		*die;
 }	t_dead;
 
 // philosopher/philosopher.c
