@@ -17,7 +17,7 @@ void	eat(t_info *info, int i)
 	pthread_mutex_lock(&info->forks[i]);
 	if ((info->philo[i].repetitions > 0 && info->philo[i].dead == 0)
 		|| (info->philo[i].repetitions < 0 && dead_philosopher(info) == 0))
-		printf("%dms %d has taken a fork\n", milliseconds(info), i + 1);
+		printf("%dms %d \033[0;33mhas taken a fork\n\033[0m", milliseconds(info), i + 1);
 	if (i + 1 == info->n)
 		pthread_mutex_lock(&info->forks[0]);
 	else
@@ -26,8 +26,8 @@ void	eat(t_info *info, int i)
 		|| (info->philo[i].repetitions < 0 && dead_philosopher(info) == 0))
 	{
 		gettimeofday(&info->philo[i].time_eat, NULL);
-		printf("%dms %d has taken a fork\n", milliseconds(info), i + 1);
-		printf("%dms %d is eating\n", milliseconds(info), i + 1);
+		printf("%dms %d \033[0;33mhas taken a fork\n\033[0m", milliseconds(info), i + 1);
+		printf("%dms %d \033[0;32mis eating\n\033[0m", milliseconds(info), i + 1);
 		usleep(info->eat);
 	}
 	pthread_mutex_unlock(&info->forks[i]);
@@ -41,14 +41,14 @@ void	eat(t_info *info, int i)
 
 void	to_sleep(t_info *info, int i)
 {
-	printf("%dms %d is sleeping\n", milliseconds(info), i + 1);
+	printf("%dms %d \033[0;37mis sleeping\n\033[0m", milliseconds(info), i + 1);
 	usleep(info->slept);
 	info->philo[i].actions++;
 }
 
 void	think(t_info *info, int i)
 {
-	printf("%dms %d is thinking\n", milliseconds(info), i + 1);
+	printf("%dms %d \033[0;34mis thinking\n\033[0m", milliseconds(info), i + 1);
 	info->philo[i].actions++;
 }
 

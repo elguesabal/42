@@ -88,13 +88,13 @@ void	finish(t_info *info)
 		{
 			i = dead_philosopher(info);
 			if (i)
-				printf("%dms %d died\n", milliseconds(info), i);
+				printf("%dms %d \033[0;31mdied\n\033[0m", milliseconds(info), i);
 		}
 		else if (info->philo[0].repetitions > -1)
 		{
 			i = dead_philosopher(info);
 			if (i)
-				printf("%dms %d died\n", milliseconds(info), i);
+				printf("%dms %d \033[0;31mdied\n\033[0m", milliseconds(info), i);
 			if (repetitions(info) == 0 || all_dead(info))
 				return ;
 		}
