@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+// getcwd chdir
+
+
+
 // int	main(void)
 // {
 // 	char	buffer[100];

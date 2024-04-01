@@ -146,29 +146,29 @@
 
 
 
-int	main(void)
-{
-	pid_t	pid, child_pid;
-	int		status;
+// int	main(void)
+// {
+// 	pid_t	pid, child_pid;
+// 	int		status;
 
-	printf("processo pai %d\n\n", getpid());
+// 	printf("processo pai %d\n\n", getpid());
 
-	pid = fork();
+// 	pid = fork();
 
-	if (pid == -1)
-		printf("Erro\n");
-	else if (pid == 0)
-	{
-		sleep(3);
-		printf("1 Processo filho: %d\n", getpid());
-	}
-	else if (pid > 0)
-	{
-		child_pid = wait4(pid, &status, 0, NULL);
-		printf("2 Processo pai: %d\n", getpid());
-		printf("3 Processo filho: %d\n", pid);
-		printf("4 return wait: %d\tstatus: %d\n", child_pid, status);
-	}
+// 	if (pid == -1)
+// 		printf("Erro\n");
+// 	else if (pid == 0)
+// 	{
+// 		sleep(3);
+// 		printf("1 Processo filho: %d\n", getpid());
+// 	}
+// 	else if (pid > 0)
+// 	{
+// 		child_pid = wait4(pid, &status, 0, NULL);
+// 		printf("2 Processo pai: %d\n", getpid());
+// 		printf("3 Processo filho: %d\n", pid);
+// 		printf("4 return wait: %d\tstatus: %d\n", child_pid, status);
+// 	}
 
-	return (0);
-}
+// 	return (0);
+// }
