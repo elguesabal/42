@@ -6,7 +6,7 @@ int	main(void)
 {
 	char	*str;
 
-	str = readline("teste: ");
+	str = readline("teste: ");	// COMPILAR COM A FLAG -lreadline
 	printf("teste: %s\n", str);
 	free(str);
 	return (0);
