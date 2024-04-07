@@ -23,18 +23,18 @@
 
 
 
-// int	main(void)
-// {
-// 	int		status;
-// 	char	buffer[100];
+int	main(void)
+{
+	int		status;
+	char	buffer[100];
 
-// 	getcwd(buffer, sizeof(buffer));
-// 	printf("diretorio atual: %s\n", buffer);
+	getcwd(buffer, sizeof(buffer));
+	printf("diretorio atual: %s\n", buffer);
 
-// 	chdir("/nfs/homes/joseanto");
-// 	getcwd(buffer, sizeof(buffer));
-// 	printf("status: %d\tdiretorio atual: %s\n", status, buffer);
+	chdir("/nfs/homes/joseanto");
+	getcwd(buffer, sizeof(buffer));
+	printf("status: %d\tdiretorio atual: %s\n", status, buffer);
 
-// 	return (0);
-// }
+	return (0);
+}
 

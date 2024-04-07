@@ -12,14 +12,12 @@
 
 #include "minishell.h"
 
-
-
 int	compare(char *s1, char *s2)	// AUXILIAR
 {
 	int			i;
 
 	i = 0;
-	while (s1[i] || s2[i])
+	while ((s1[i] || s2[i]) && s2[i] != ' ' && s2[i] != '	')
 	{
 		if (s1[i] != s2[i])
 			return (0);
@@ -29,37 +27,29 @@ int	compare(char *s1, char *s2)	// AUXILIAR
 }
 
 
-
-int	pwd(void)
-{
-	char	*pwd;
-
-	if ((pwd = getcwd(NULL, 0)))
-    	printf("%s\n", pwd);
-    else
-    {
-        printf("Error\npwd nao funcionou\n");
-	    free(pwd);
-        return (1);
-    }
-	free(pwd);
-	return (0);
-}
-
 int	main(void)
 {
 	char	*str;
 
-	
-	while (1)
+	str = readline("minishell: ");
+	while (!compare("exit", str))
 	{
-		str = readline("minishell: ");
-		if (compare("pwd", str))
-		{
+		if (compare("echo", str))
+			echo(str);
+		else if (compare("cd", str))
+			cd(str);
+		else if (compare("pwd", str))
 			pwd();
-			free(str);
-		}
+		else if (compare("export", str))
+		{}
+		else if (compare("unset", str))
+		{}
+		else if (compare("env", str))
+		{}
+		else
+			printf("%s: comando não encontrado\n", str);
+		free(str);
+		str = readline("minishell: ");
 	}
-
 	return (0);
 }
