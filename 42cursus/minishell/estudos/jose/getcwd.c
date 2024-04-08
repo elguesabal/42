@@ -25,15 +25,21 @@
 
 int	main(void)
 {
-	int		status;
 	char	buffer[100];
 
 	getcwd(buffer, sizeof(buffer));
 	printf("diretorio atual: %s\n", buffer);
 
-	chdir("/nfs/homes/joseanto");
+	// chdir("/nfs/homes/joseanto");
+
+	// chdir("/home/jose/programacao/42/42cursus/minishell/estudos/jose");
+	chdir("/home/jose/programacao/42/42cursus/minishell/estudos/jose/mensagem");
+	// chdir("../");
+	// chdir("..");
+	chdir("../minishell");
+
 	getcwd(buffer, sizeof(buffer));
-	printf("status: %d\tdiretorio atual: %s\n", status, buffer);
+	printf("diretorio atual: %s\n", buffer);
 
 	return (0);
 }
