@@ -91,5 +91,4 @@ void	analyze(char **argv, t_token *info);
 int	compare(char *s1, char *s2);    // TEMPORARIO
 
 
-
 #endif
