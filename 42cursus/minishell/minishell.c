@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joseanto <joseanto@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wfranco <wfranco@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 18:23:25 by joseanto          #+#    #+#             */
-/*   Updated: 2024/05/02 08:44:10 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/06/04 19:16:25 by wfranco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,61 @@
 
 
 
+void check_operator(char **arg)
+{
+    int i;
+
+i = 0;
+while (arg[i] && arg[i + 1] != NULL)
+{
+	if (arg[i][0] == '|')
+	{
+		if (arg[i + 1][0] == '|' || arg[i + 1][0] == '>' || arg[i + 1][0] == '<')
+		{
+			printf("syntax error near '%c'\n", arg[i][0]);
+			return ;
+		}
+		if (arg[i][1] == '|' || arg[i][1] == '>' || arg[i][1] == '<')
+		{
+			printf("syntax error near '%c'\n", arg[i][0]);
+			return ;
+		}
+	}
+	else if (arg[i][0] == '>')
+	{
+		if (arg[i + 1][0] == '|' || arg[i + 1][0] == '<')
+		{
+			printf("syntax error near '%c'\n", arg[i + 1][0]);
+			return ;
+		}
+		if (arg[i][1] == '|' || arg[i][1] == '<')
+		{
+			printf("syntax error near '%c'\n", arg[i][0]);
+			return ;
+		}
+	}
+	else if (arg[i][0] == '<')
+	{
+		if (arg[i + 1][0] == '|' || arg[i + 1][0] == '>')
+		{
+			printf("syntax error near '%c'\n", arg[i + 1][0]);
+			return ;
+		}
+		if (arg[i][1] == '|' || arg[i][1] == '>')
+		{
+			printf("syntax error near '%c'\n", arg[i][0]);
+			return ;
+		}
+	}
+	i++;
+}
+	if (arg[i][0] == '|' && (arg[i][1] == '>' || arg[i][1] == '|' || arg[i][1] == '<'))
+		printf("syntax error near '%c'\n", arg[i][0]);
+	else if (arg[i][0] == '>' && (arg[i][1] == '|' || arg[i][1] == '<'))
+		printf("syntax error near '%c'\n", arg[i][0]);
+	else if (arg[i][0] == '<' && (arg[i][1] == '|' || arg[i][1] == '>'))
+		printf("syntax error near '%c'\n", arg[i][0]);
+}
 
 
 
@@ -61,7 +116,8 @@ int	main(int argc, char **argv, char **argenv)
 	while (1)
 	{
 		str = readline("minishell: "); // printf("teste :%d\n", (*str == '\0')); // CASO PRESSIONE ENTER SEM DIGITAR NADA NO SHELL *str == 0
-
+// printf("testando ctrl+d\n");
+		add_history(str);
 		quotes(str);
 		remove_quotes(str);
 		separate_redirection_operators(&str);
@@ -77,7 +133,7 @@ int	main(int argc, char **argv, char **argenv)
 // }
 // printf("fim do teste\n\n");
 
-		if (search_operator(args, '|') || search_operator(args, '>') || search_operator(args, '<'))
+		if (search_operator(args, '|') || search_operator(args, '>') || search_operator(args, '<')) // AKI EU DEVERIA SEPARAR ENTRE REDIRECIONADORES PARA ARQUIVO E PROGRAMAS (AI EU PODERIA USAR redirection_operators() DENTRO DE command_pipe())
 		{
 			redirection_operators(str, args, &argenv, &env_list);
 		}
