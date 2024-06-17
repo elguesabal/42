@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joseanto <joseanto@student.42.rio>         +#+  +:+       +#+        */
+/*   By: wfranco <wfranco@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 18:10:16 by joseanto          #+#    #+#             */
-/*   Updated: 2024/06/14 20:39:26 by joseanto         ###   ########.fr       */
+/*   Updated: 2024/06/17 07:27:08 by wfranco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,16 @@ void	init_history(void);
 void	new_history(char *str);
 
 // ./argument management/check_arguments.c
-void	check_operator(char **arg);
+int 	check_syntax_error(char operator);
+int		check_pipe(char **arg, int i);
+int 	check_greater(char **arg, int i);
+int		check_less(char **arg, int i);
+int		check_operator(char **arg);
+
+// ./argument management/signal.c
+void	handle_sigint(int sign);
+void	handle_sigquit(int sign);
+void	check_signal(void);
 
 
 
