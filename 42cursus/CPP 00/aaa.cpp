@@ -1,11 +1,27 @@
 #include <iostream>
 
+// CIN
+// GOTO
+// OR
+// int main(void) {
+// 	char letra;
+
+// 	inicio:
+// 	std::cout << "repetir? [s/n] ";
+// 	std::cin >> letra;
+
+// 	if (letra == 's' or letra == 'y')
+// 		goto inicio;
+
+// 	return (0);
+// }
+
+
 int main(void) {
-    char *teste;
+	char a = 'a';
 
-    std::cout << "teste: ";
-    std::cin >> teste;
-    std::cout << teste;
+	if (a == 97)
+		std::cout << a;
 
-    return (0);
+	return (0);
 }
