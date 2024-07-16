@@ -17,11 +17,14 @@
 // }
 
 
-int main(void) {
-	char a = 'a';
+int main(int argc, char **argv) {
 
-	if (a == 97)
-		std::cout << a;
+	std::cout << argv[1] << std::endl;
+
+	argc++;
+
+	if (argc < 10)
+		main(argc, argv);
 
 	return (0);
 }
