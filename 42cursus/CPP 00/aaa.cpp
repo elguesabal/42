@@ -384,42 +384,111 @@
 
 
 
-typedef struct s_carro {
-	std::string nome;
-	std::string cor;
-	int pot;
-	int velMax;
-	int vel;
+// typedef struct s_carro {
+// 	std::string nome;
+// 	std::string cor;
+// 	int pot;
+// 	int velMax;
+// 	int vel;
 
-	void insere(std::string stnome, std::string stcor, int stpot, int stvelMax) {
-		nome = stnome;
-		cor = stcor;
-		pot = stpot;
-		velMax = stvelMax;
-		vel = 0;
-	}
+// 	void insere(std::string stnome, std::string stcor, int stpot, int stvelMax) {
+// 		nome = stnome;
+// 		cor = stcor;
+// 		pot = stpot;
+// 		velMax = stvelMax;
+// 		vel = 0;
+// 	}
 
-	void mostra() {
-		std::cout << "Nome: " << nome << std::endl;
-		std::cout << "Cor: " << cor << std::endl;
-		std::cout << "Potencia: " << pot << std::endl;
-		std::cout << "Velocidade maxima: " << velMax << std::endl;
-		std::cout << "Velocidade atual: " << vel << std::endl;
-	}
+// 	void mostra() {
+// 		std::cout << "Nome: " << nome << std::endl;
+// 		std::cout << "Cor: " << cor << std::endl;
+// 		std::cout << "Potencia: " << pot << std::endl;
+// 		std::cout << "Velocidade maxima: " << velMax << std::endl;
+// 		std::cout << "Velocidade atual: " << vel << std::endl;
+// 	}
 
-	void mudaVel(int mv) {
-		if (mv > velMax)
-			vel = velMax;
-		else if (mv < 0)
-			vel = 0;
-		else
-			vel = mv;
-	}
-} t_carro;
+// 	void mudaVel(int mv) {
+// 		if (mv > velMax)
+// 			vel = velMax;
+// 		else if (mv < 0)
+// 			vel = 0;
+// 		else
+// 			vel = mv;
+// 	}
+// } t_carro;
+
+// int main(void) {
+// 	t_carro car;
+// 	car.insere("tornado", "vermelho", 450, 350);
+// 	car.mostra();
+// 	return (0);
+// }
+
+
+
+// typedef struct s_carro {
+// 	std::string nome;
+// 	std::string cor;
+// 	int pot;
+// 	int velMax;
+// 	int vel;
+
+// 	void insere(std::string stnome, std::string stcor, int stpot, int stvelMax) {
+// 		nome = stnome;
+// 		cor = stcor;
+// 		pot = stpot;
+// 		velMax = stvelMax;
+// 		vel = 0;
+// 	}
+
+// 	void mostra() {
+// 		std::cout << "Nome: " << nome << std::endl;
+// 		std::cout << "Cor: " << cor << std::endl;
+// 		std::cout << "Potencia: " << pot << std::endl;
+// 		std::cout << "Velocidade maxima: " << velMax << std::endl;
+// 		std::cout << "Velocidade atual: " << vel << std::endl;
+// 	}
+
+// 	void mudaVel(int mv) {
+// 		if (mv > velMax)
+// 			vel = velMax;
+// 		else if (mv < 0)
+// 			vel = 0;
+// 		else
+// 			vel = mv;
+// 	}
+// } t_carro;
+
+// int main(void) {
+// 	s_carro *carros = new s_carro[5];
+// 	s_carro car1, car2, car3, car4, car5;
+
+// 	carros[0] = car1;
+// 	carros[1] = car2;
+// 	carros[2] = car3;
+// 	carros[3] = car4;
+// 	carros[4] = car5;
+
+// 	carros[0].insere("tornado", "vermelho", 450, 350);
+// 	carros[1].insere("luxo", "preto", 250, 260);
+// 	carros[2].insere("familia", "prata", 150, 180);
+// 	carros[3].insere("trabalho", "branco", 80, 120);
+// 	carros[4].insere("padrao", "cinza", 100, 150);
+
+// 	for (int i = 0; i < 5; i++) {
+// 		carros[i].mostra();
+// 		std::cout << std::endl;
+// 	}
+// 	return (0);
+// }
+
+
 
 int main(void) {
-	t_carro car;
-	car.insere("tornado", "vermelho", 450, 350);
-	car.mostra();
+	std::string teste1 = "kkk";
+	std::string *teste2 = &teste1;
+
+	std::cout << &teste1 << ": " << teste1 << std::endl;
+	std::cout << teste2 << ": " << *teste2 << std::endl;
 	return (0);
 }
