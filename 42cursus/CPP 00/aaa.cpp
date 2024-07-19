@@ -202,7 +202,7 @@
 
 
 // iterator
-// .begin()
+// .begin() SAPOHA NA VDD RETORNA UM ENDERECO DE MEMORIA
 // advence()
 // .insert()
 // int main(void) {
@@ -248,20 +248,178 @@
 
 
 // .reverse()
-int main(void) {
-	std::list <int> aula;
-	std::list <int>::iterator it;
+// int main(void) {
+// 	std::list <int> aula;
+// 	std::list <int>::iterator it;
 
-	aula.push_front(1);
-	aula.push_front(2);
-	aula.push_front(3);
-	aula.push_front(4);
-	aula.push_front(5);
-	aula.reverse();
+// 	aula.push_front(1);
+// 	aula.push_front(2);
+// 	aula.push_front(3);
+// 	aula.push_front(4);
+// 	aula.push_front(5);
+// 	aula.reverse();
 
-	while (!aula.empty()) {
-		std::cout << aula.front() << std::endl;
-		aula.pop_front();
+// 	while (!aula.empty()) {
+// 		std::cout << aula.front() << std::endl;
+// 		aula.pop_front();
+// 	}
+// 	return (0);
+// }
+
+
+
+// .erase()
+// int main(void) {
+// 	std::list <int> aula;
+// 	std::list <int>::iterator it;
+
+// 	for (int i = 1; i <= 10; i++)
+// 		aula.push_front(i);
+
+// 	it = aula.begin();
+// 	advance(it, 3);
+// 	aula.insert(it, 0);
+
+// 	aula.erase(--it);
+
+// 	std::cout << "Tamanho da lista: " << aula.size() << std::endl;
+// 	while (!aula.empty()) {
+// 		std::cout << aula.front() << std::endl;
+// 		aula.pop_front();
+// 	}
+// 	return (0);
+// }
+
+
+
+// .clear()
+// int main(void) {
+// 	std::list <int> n;
+
+// 	for (int i = 1; i <= 10; i++)
+// 		n.push_back(i);
+
+// 	n.clear();
+
+// 	std::cout << "Tamanho da lista: " << n.size() << std::endl;
+// 	return (0);
+// }
+
+
+
+// .merge()
+// int main(void) {
+// 	std::list <int> list1;
+// 	std::list <int> list2;
+
+// 	for (int i = 1; i <= 5; i++)
+// 		list1.push_back(i);
+// 	for (int i = 6; i <= 10; i++)
+// 		list2.push_back(i);
+
+// 	list1.merge(list2);
+
+// 	std::cout << "Tamanho de list1: " << list1.size() << std::endl;
+// 	while (!list1.empty()) {
+// 		std::cout << list1.front() << std::endl;
+// 		list1.pop_front();
+// 	}
+// 	std::cout << "Tamanho de list2: " << list2.size() << std::endl;
+// 	while (!list2.empty()) {
+// 		std::cout << list2.front() << std::endl;
+// 		list2.pop_front();
+// 	}
+// 	return (0);
+// }
+
+
+
+// typedef struct s_carro {
+// 	std::string nome;
+// 	std::string cor;
+// 	int pot;
+// 	int velMax;
+// } t_carro;
+
+// int main(void) {
+// 	t_carro car;
+
+// 	car.nome = "tornado";
+// 	car.cor = "vermelho";
+// 	car.pot = 450;
+// 	car.velMax = 350;
+
+// 	std::cout << "Nome: " << car.nome << std::endl;
+// 	std::cout << "Cor: " << car.cor << std::endl;
+// 	std::cout << "Potencia: " << car.pot << std::endl;
+// 	std::cout << "Velocidade maxima: " << car.velMax << std::endl;
+// 	return (0);
+// }
+
+
+
+// #include <stdlib.h>
+
+// typedef struct s_teste {
+// 	int n;
+// 	struct s_teste *next;
+// } t_teste;
+
+// int main(void) {
+// 	t_teste *teste;
+
+// 	teste = (t_teste*)malloc(sizeof(t_teste));
+// 	teste->n = 1;
+// 	teste->next = (t_teste*)malloc(sizeof(t_teste));
+// 	teste->next->n = 2;
+// 	teste->next->next = (t_teste*)malloc(sizeof(t_teste));
+// 	teste->next->next->n = 3;
+// 	teste->next->next->next = NULL;
+
+// 	std::cout << teste->n << std::endl;
+// 	std::cout << teste->next->n << std::endl;
+// 	std::cout << teste->next->next->n << std::endl;
+// 	return (0);
+// }
+
+
+
+typedef struct s_carro {
+	std::string nome;
+	std::string cor;
+	int pot;
+	int velMax;
+	int vel;
+
+	void insere(std::string stnome, std::string stcor, int stpot, int stvelMax) {
+		nome = stnome;
+		cor = stcor;
+		pot = stpot;
+		velMax = stvelMax;
+		vel = 0;
 	}
+
+	void mostra() {
+		std::cout << "Nome: " << nome << std::endl;
+		std::cout << "Cor: " << cor << std::endl;
+		std::cout << "Potencia: " << pot << std::endl;
+		std::cout << "Velocidade maxima: " << velMax << std::endl;
+		std::cout << "Velocidade atual: " << vel << std::endl;
+	}
+
+	void mudaVel(int mv) {
+		if (mv > velMax)
+			vel = velMax;
+		else if (mv < 0)
+			vel = 0;
+		else
+			vel = mv;
+	}
+} t_carro;
+
+int main(void) {
+	t_carro car;
+	car.insere("tornado", "vermelho", 450, 350);
+	car.mostra();
 	return (0);
 }
