@@ -484,11 +484,21 @@
 
 
 
-int main(void) {
-	std::string teste1 = "kkk";
-	std::string *teste2 = &teste1;
+// int main(void) {
+// 	std::string teste1 = "kkk";
+// 	std::string *teste2 = &teste1;
 
-	std::cout << &teste1 << ": " << teste1 << std::endl;
-	std::cout << teste2 << ": " << *teste2 << std::endl;
+// 	std::cout << &teste1 << ": " << teste1 << std::endl;
+// 	std::cout << teste2 << ": " << *teste2 << std::endl;
+// 	return (0);
+// }
+
+
+
+int main(void) {
+	char *buffer = (char*) malloc(sizeof(char) + 1); // ESSA FUNCAO SO ALOCA 1 CHAR???
+
+	std::cin >> buffer; // SE DIGITAR MAIS DE 1 CHAR NAO DARIA LEAK NO VALGRIND?
+	std::cout << "teste: " << buffer << std::endl;
 	return (0);
 }
