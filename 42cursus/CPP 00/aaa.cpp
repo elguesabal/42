@@ -2,6 +2,7 @@
 #include <stack>
 #include <queue>
 #include <list>
+#include <vector>
 
 // CIN
 // GOTO
@@ -495,10 +496,73 @@
 
 
 
-int main(void) {
-	char *buffer = (char*) malloc(sizeof(char) + 1); // ESSA FUNCAO SO ALOCA 1 CHAR???
+// int main(void) {
+// 	char *buffer = (char*) malloc(sizeof(char) + 1); // ESSA FUNCAO SO ALOCA 1 CHAR???
 
-	std::cin >> buffer; // SE DIGITAR MAIS DE 1 CHAR NAO DARIA LEAK NO VALGRIND?
-	std::cout << "teste: " << buffer << std::endl;
+// 	std::cin >> buffer; // SE DIGITAR MAIS DE 1 CHAR NAO DARIA LEAK NO VALGRIND?
+// 	std::cout << "teste: " << buffer << std::endl;
+// 	return (0);
+// }
+
+
+
+// VECTOR
+// .swap()
+// .at()
+// int main(void) {
+// 	std::vector <int> n1;
+// 	std::vector <int> n2;
+
+// 	for (int i = 1; i < 5; i++) {
+// 		n1.push_back(i);
+// 		n2.push_back(i + 4);
+// 	}
+// 	std::cout << "tamanho n1: " << n1.size() << std::endl;
+// 	std::cout << "tamanho n2: " << n2.size() << std::endl;
+
+// 	std::cout << "n1[2]: " << n1.at(2) << std::endl;
+// 	std::cout << "n2[1]: " << n2.at(1) << std::endl;
+
+// 	n1.swap(n2);
+
+// 	std::cout << "n1: ";
+// 	for (int i = 0; i < 4; i++)
+// 		std::cout << n1[i] << " ";
+// 	std::cout << std::endl << "n2: ";
+// 	for (int i = 0; i < 4; i++)
+// 		std::cout << n2[i] << " ";
+// 	return (0);
+// }
+
+
+
+// .insert()
+// .end()
+// .erase()
+// int main(void) {
+// 	std::vector <int> n;
+
+// 	n.push_back(0);
+// 	n.push_back(1);
+// 	n.push_back(3);
+// 	n.push_back(5);
+// 	n.push_back(999);
+
+// 	n.insert(n.begin() + 2, 2);
+// 	n.insert(n.end() - 2, 4);
+// 	n.erase(n.end() - 1); // end() ME RETORNA O ENDERECO DO FECHAMENTO FIM DE STRING
+
+// 	for (int i = 0; i < n.size(); i++)
+// 		std::cout << n[i] << std::endl;
+// 	while (!n.empty())
+// 		n.pop_back();
+// 	std::cout << "tamanho de n: " << n.size() << std::endl;
+// 	return (0);
+// }
+
+
+
+int main(void) {
+
 	return (0);
 }
