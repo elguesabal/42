@@ -8,6 +8,8 @@
 # include <stdio.h>
 # include <fcntl.h>
 
+extern int	g_x;
+extern int	g_y;
 extern void	*g_mlx;
 extern void	*g_win;
 extern char	**g_map;
@@ -22,6 +24,7 @@ int keyboard(int key, void *param);
 // ./utils/memory.c
 void	*ft_calloc(size_t n_elements, size_t size);
 void	*allocate_memory(int x, int y);
+void	free_map();
 
 // ./utils/map_reading.c
 int	n_columns(char *file);

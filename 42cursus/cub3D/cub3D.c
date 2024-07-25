@@ -12,10 +12,10 @@ int	main(int argc, char **argv)
 (void)argc;
 	g_x = n_columns(argv[1]);
 	g_y = n_lines(argv[1]);
-	g_map = allocate_memory(g_x, g_y); // ALLOCA MEMORIA
+	g_map = allocate_memory(g_x + 1, g_y + 1);
+	g_copy_map = allocate_memory(g_x + 1, g_y + 1);
 
-
-
+// printf("x: %d\ty: %d\n", g_x, g_y);
 // int	i = 0, j = 0;
 // while (i < g_y)
 // {
@@ -27,9 +27,7 @@ int	main(int argc, char **argv)
 // 	}
 // 	i++;
 // }
-
-// g_map[3][1] = 'w';
-
+// g_map[1][1] = 'w';
 // i = 0;
 // while (i < g_y)
 // {
@@ -42,8 +40,6 @@ int	main(int argc, char **argv)
 // 	printf("\n");
 // 	i++;
 // }
-
-
 
 	g_mlx = mlx_init();
 	g_win = mlx_new_window(g_mlx, 200, 200, "cub3D");
