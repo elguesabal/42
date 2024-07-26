@@ -6,7 +6,9 @@
 class PhoneBook {
 	public:
 		PhoneBook(void);
-		void add(std::string fist, std::string last, std::string nick, std::string number, std::string secret);
+		~PhoneBook(void);
+		int size();
+		void add(std::string secret, std::string number, std::string nick, std::string last, std::string fist);
 
 	private:
 		Contact *contacts[9];
@@ -14,17 +16,40 @@ class PhoneBook {
 };
 
 PhoneBook::PhoneBook(void) {
-	for (int i = 0; i < 9; i++) {
-		contacts[i] = new Contact(i);
-	}
+	for (int i = 0; i < 9; i++)
+		contacts[i] = NULL;
 }
 
-void PhoneBook::add(std::string fist, std::string last, std::string nick, std::string number, std::string secret) {
-	std::cout << fist << std::endl;
-	std::cout << last << std::endl;
-	std::cout << nick << std::endl;
-	std::cout << number << std::endl;
-	std::cout << secret << std::endl;
+PhoneBook::~PhoneBook(void) {
+	for (int i = size(); i > -1; --i)
+		delete contacts[i];
+}
+
+int PhoneBook::size() {
+	int i = 0;
+
+	while (contacts[i])
+		i++;
+	return (i);
+}
+
+void PhoneBook::add(std::string secret, std::string number, std::string nick, std::string last, std::string fist) {
+	int i = size();
+
+
+	contacts[i] = new Contact(i);
+
+	contacts[i]->setContact(fist, last, nick, number, secret);
+
+
+
+
+	// std::cout << i << std::endl;
+	// std::cout << fist << std::endl;
+	// std::cout << last << std::endl;
+	// std::cout << nick << std::endl;
+	// std::cout << number << std::endl;
+	// std::cout << secret << std::endl;
 }
 
 #endif

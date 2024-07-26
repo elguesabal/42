@@ -4,6 +4,7 @@
 class Contact {
 	public:
 		Contact(int i);
+		void setContact(std::string fist, std::string last, std::string nick, std::string num, std::string sec);
 
 	private:
 		int index;
@@ -12,6 +13,7 @@ class Contact {
 		std::string nickName;
 		std::string number;
 		std::string secret;
+
 };
 
 Contact::Contact(int i) {
@@ -21,6 +23,14 @@ Contact::Contact(int i) {
 	nickName = "";
 	number = "";
 	secret = "";
+}
+
+void Contact::setContact(std::string fist, std::string last, std::string nick, std::string num, std::string sec) {
+	fistName = fist;
+	lastName = last;
+	nickName = nick;
+	number = num;
+	secret = sec;
 }
 
 #endif

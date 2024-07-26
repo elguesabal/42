@@ -14,27 +14,12 @@ std::string input(std::string str) {
 int main(void) {
 	std::string buffer;
 	PhoneBook *list = new PhoneBook();
-	// std::string fistName;
-	// std::string lastName;
-	// std::string nickName;
-	// std::string number;
-	// std::string secret;
 
 	waitCommand:
 	std::cout << "Digite um comando: ";
 	std::cin >> buffer;
 	if (buffer == "ADD") {
-		// std::cout << "Nome: ";
-		// std::cin >> fistName;
-		// std::cout << "Sobrenome: ";
-		// std::cin >> lastName;
-		// std::cout << "Nick: ";
-		// std::cin >> nickName;
-		// std::cout << "Number: ";
-		// std::cin >> number;
-		// std::cout << "Secret: ";
-		// std::cin >> secret;
-		list->add(input("Nome: "), input("Sobrenome: "), input("Nick: "), input("Number: "), input("Secret: ")); // PQ AS FUNCOES SAO EXECUTADAS DA DIREITA PRA ESQUERDA?
+		list->add(input("Secret: "), input("Number: "), input("Nick: "), input("Sobrenome: "), input("Nome: ")); // PQ AS FUNCOES SAO EXECUTADAS DA DIREITA PRA ESQUERDA?
 		std::cout << "Contato salvo" << std::endl;
 	} if (buffer == "SEARCH") {
 		std::cout << "search" << std::endl;
