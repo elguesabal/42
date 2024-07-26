@@ -595,11 +595,31 @@
 
 
 
-#include "aviao.h" // ARQUIVO ./aviao.h
+// #include "aviao.h" // ARQUIVO ./aviao.h
+
+// int main(void) {
+//     Aviao *av1 = new Aviao(1);
+
+//     av1->imprimir();
+// 	return (0);
+// }
+
+
+
+#include "classes.h"
 
 int main(void) {
-    Aviao *av1 = new Aviao(1);
+    Veiculo *v1 = new Veiculo(1);
 
-    av1->imprimir();
-	return (0);
+    v1->setLigado(1);
+    // v1->setVelMax(500);
+
+    if (v1->getLigado()) {
+        std::cout << "veiculo ligado" << std::endl;
+    } else {
+        std::cout << "veiculo desligado" << std::endl;
+    }
+    std::cout << "velocidade maxima: " << v1->getVelMax() << std::endl;
+
+    return (0);
 }

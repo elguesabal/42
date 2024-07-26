@@ -1,33 +1,30 @@
 #ifndef PHONEBOOK_H_INCLUDED
 #define PHONEBOOK_H_INCLUDED
 
-#include <iostream>
-
-// class Contact {
-// 	public:
-// 		int index;
-// 		std::string fistName;
-// 		std::string lastName;
-// 		std::string nickName;
-// 		Contact(int index, std::string fistName, std::string lastName, std::string nickName);
-// }
-
-// Contact(int index, std::string fistName, std::string lastName, std::string nickName) {
-
-// }
-
+#include "Contact.h"
 
 class PhoneBook {
 	public:
-		// Contact *contact = ???
 		PhoneBook(void);
+		void add(std::string fist, std::string last, std::string nick, std::string number, std::string secret);
 
 	private:
+		Contact *contacts[9];
 
 };
 
 PhoneBook::PhoneBook(void) {
-	// std::cout << "teste" << std::endl;
+	for (int i = 0; i < 9; i++) {
+		contacts[i] = new Contact(i);
+	}
+}
+
+void PhoneBook::add(std::string fist, std::string last, std::string nick, std::string number, std::string secret) {
+	std::cout << fist << std::endl;
+	std::cout << last << std::endl;
+	std::cout << nick << std::endl;
+	std::cout << number << std::endl;
+	std::cout << secret << std::endl;
 }
 
 #endif
