@@ -10,12 +10,12 @@ class PhoneBook {
 		void search(void);
 
 	private:
-		Contact *contacts[8];
+		Contact *contacts[9];
 
 };
 
 PhoneBook::PhoneBook(void) {
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < 9; i++)
 		contacts[i] = NULL;
 }
 
@@ -35,11 +35,13 @@ int PhoneBook::size() {
 void PhoneBook::add(std::string secret, std::string number, std::string nick, std::string last, std::string fist) {
 	int i = size();
 
-	if (i == 7) {
+	if (i > 7) {
 		delete contacts[0];
-		for (int j = 0; j < 7; j++)
+		for (int j = 0; j < 8; j++) {
 			contacts[j] = contacts[j + 1];
-		contacts[7] = NULL;
+			contacts[j]->index = j;
+		}
+		// contacts[8] = NULL;
 	}
 
 	contacts[i] = new Contact(i);
@@ -51,7 +53,7 @@ void PhoneBook::search(void) {
 	int index;
 
 	// std::cout << "|" << std::setw(10) << "Index" << "|" << std::setw(10) << "Fist name" << "|" << std::setw(10) << "Last name" << "|" << "Nickname" << "|" << std::endl;
-	for (int i = 0; contacts[i]; i++) {
+	for (int i = 0; contacts[i] != NULL; i++) {
 		contacts[i]->printList();
 	}
 	std::cout << "Digite o index do contato escolhido: ";
