@@ -35,33 +35,46 @@ int PhoneBook::size() {
 void PhoneBook::add(std::string secret, std::string number, std::string nick, std::string last, std::string fist) {
 	int i = size();
 
+	contacts[i] = new Contact(i);
+	contacts[i]->setContact(fist, last, nick, number, secret);
+
 	if (i > 7) {
 		delete contacts[0];
 		for (int j = 0; j < 8; j++) {
 			contacts[j] = contacts[j + 1];
 			contacts[j]->index = j;
 		}
-		// contacts[8] = NULL;
+		contacts[8] = NULL;
 	}
 
-	contacts[i] = new Contact(i);
-
-	contacts[i]->setContact(fist, last, nick, number, secret);
 }
 
 void PhoneBook::search(void) {
 	int index;
 
-	// std::cout << "|" << std::setw(10) << "Index" << "|" << std::setw(10) << "Fist name" << "|" << std::setw(10) << "Last name" << "|" << "Nickname" << "|" << std::endl;
-	for (int i = 0; contacts[i] != NULL; i++) {
-		contacts[i]->printList();
-	}
-	std::cout << "Digite o index do contato escolhido: ";
-	std::cin >> index;
-	if (index < 0 || index > size() - 1) {
-		std::cout << "Contato inexistente!" << std::endl;
+	std::cout << "|" << std::left << std::setw(10) << "Index" << "|" << std::left << std::setw(10) << "Nome" << "|" << std::left << std::setw(10) << "Sobrenome" << "|" << std::left << std::setw(10) << "Nick" << "|" << std::endl;
+	if (contacts[0] == NULL) {
+		std::cout << "Nenhum contato salvo!" << std::endl;
 		return ;
 	}
+	for (int i = 0; contacts[i] != NULL; i++)
+		contacts[i]->printList();
+
+	// std::cout << "Digite o index do contato escolhido: ";
+	// std::cin >> index;
+	// while (std::cin.fail() || index < 0 || index > size() - 1) {
+	// 	std::cin.clear();
+	// 	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	// 	std::cout << "Contato inexistente! Digite um index valido: ";
+	// 	std::cin >> index;
+	// }
+
+	do {
+		std::cin.clear();
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		std::cout << "Digite um index valido: ";
+		std::cin >> index;
+	} while (std::cin.fail() || index < 0 || index > size() - 1);
 	contacts[index]->printContact();
 }
 
