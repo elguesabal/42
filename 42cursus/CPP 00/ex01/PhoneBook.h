@@ -5,12 +5,12 @@ class PhoneBook {
 	public:
 		PhoneBook(void);
 		~PhoneBook(void);
-		int size();
 		void add(std::string secret, std::string number, std::string nick, std::string last, std::string fist);
 		void search(void);
 
 	private:
 		Contact *contacts[9];
+		int size();
 
 };
 
@@ -47,16 +47,17 @@ void PhoneBook::add(std::string secret, std::string number, std::string nick, st
 		contacts[8] = NULL;
 	}
 
+	std::cout << "Contato salvo" << std::endl;
 }
 
 void PhoneBook::search(void) {
 	int index;
 
-	std::cout << "|" << std::left << std::setw(10) << "Index" << "|" << std::left << std::setw(10) << "Nome" << "|" << std::left << std::setw(10) << "Sobrenome" << "|" << std::left << std::setw(10) << "Nick" << "|" << std::endl;
 	if (contacts[0] == NULL) {
 		std::cout << "Nenhum contato salvo!" << std::endl;
 		return ;
 	}
+	std::cout << "|" << std::left << std::setw(10) << "Index" << "|" << std::left << std::setw(10) << "Nome" << "|" << std::left << std::setw(10) << "Sobrenome" << "|" << std::left << std::setw(10) << "Nick" << "|" << std::endl;
 	for (int i = 0; contacts[i] != NULL; i++)
 		contacts[i]->printList();
 

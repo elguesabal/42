@@ -19,12 +19,10 @@ int main(void) {
 	waitCommand:
 	buffer = input("Digite um comando: ");
 	if (buffer == "ADD") {
-		list->add(input("Secret: "), input("Number: "), input("Nick: "), input("Sobrenome: "), input("Nome: ")); // PQ AS FUNCOES SAO EXECUTADAS DA DIREITA PRA ESQUERDA?
-		std::cout << "Contato salvo" << std::endl;
+		list->add(input("Secret: "), input("Number: "), input("Nick: "), input("Sobrenome: "), input("Nome: "));
 	} if (buffer == "SEARCH") {
 		list->search();
 	} else if (buffer == "EXIT") {
-		std::cout << "exit" << std::endl;
 		delete list;
 		return (0);
 	}
