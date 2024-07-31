@@ -1,8 +1,4 @@
-#include <iostream>
-#include <iomanip>
-#include <limits>
-#include "Contact.h"
-#include "PhoneBook.h"
+#include "../includes/header.h"
 
 std::string input(std::string str) {
 	std::string response = "";

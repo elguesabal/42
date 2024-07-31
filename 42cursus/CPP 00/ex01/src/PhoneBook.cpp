@@ -1,18 +1,4 @@
-#ifndef PHONEBOOK_H_INCLUDED
-#define PHONEBOOK_H_INCLUDED
-
-class PhoneBook {
-	public:
-		PhoneBook(void);
-		~PhoneBook(void);
-		void add(std::string secret, std::string number, std::string nick, std::string last, std::string fist);
-		void search(void);
-
-	private:
-		Contact *contacts[9];
-		int size();
-
-};
+#include "../includes/header.h"
 
 PhoneBook::PhoneBook(void) {
 	for (int i = 0; i < 9; i++)
@@ -51,25 +37,15 @@ void PhoneBook::add(std::string secret, std::string number, std::string nick, st
 }
 
 void PhoneBook::search(void) {
-	int index;
-
 	if (contacts[0] == NULL) {
 		std::cout << "Nenhum contato salvo!" << std::endl;
 		return ;
 	}
-	std::cout << "|" << std::left << std::setw(10) << "Index" << "|" << std::left << std::setw(10) << "Nome" << "|" << std::left << std::setw(10) << "Sobrenome" << "|" << std::left << std::setw(10) << "Nick" << "|" << std::endl;
+	std::cout << "\v\t" << "|" << std::left << std::setw(10) << "Index" << "|" << std::setw(10) << "Nome" << "|" << std::setw(10) << "Sobrenome" << "|" << std::setw(10) << "Nick" << "|\v" << std::endl;
 	for (int i = 0; contacts[i] != NULL; i++)
 		contacts[i]->printList();
-
-	// std::cout << "Digite o index do contato escolhido: ";
-	// std::cin >> index;
-	// while (std::cin.fail() || index < 0 || index > size() - 1) {
-	// 	std::cin.clear();
-	// 	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-	// 	std::cout << "Contato inexistente! Digite um index valido: ";
-	// 	std::cin >> index;
-	// }
-
+	std::cout << "\v";
+	int index;
 	do {
 		std::cin.clear();
 		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -78,5 +54,3 @@ void PhoneBook::search(void) {
 	} while (std::cin.fail() || index < 0 || index > size() - 1);
 	contacts[index]->printContact();
 }
-
-#endif
