@@ -1,13 +1,13 @@
 COMPILER = c++
 FLAGS = -Wall -Wextra -Werror -std=c++98 -o
 NAME = BraiiiiiiinnnzzzZ
-FILE = ???
+FILE = ./src/main.cpp	
 RM = rm
 
 all: $(NAME)
 
 $(NAME):
-		$(COMPILER) $(FLAGS) $(NAME) $(FILE).cpp
+		$(COMPILER) $(FLAGS) $(NAME) $(FILE)
 
 clean:
 		$(RM) $(NAME)
