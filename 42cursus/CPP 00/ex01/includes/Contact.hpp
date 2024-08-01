@@ -10,11 +10,11 @@ class Contact {
 		void printContact(void);
 
 	private:
-		std::string fistName;
-		std::string lastName;
-		std::string nickName;
-		std::string number;
-		std::string secret;
+		std::string _fistName;
+		std::string _lastName;
+		std::string _nickName;
+		std::string _number;
+		std::string _secret;
 
 };
 
