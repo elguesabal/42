@@ -8,5 +8,9 @@ int main(void) {
 	std::cout << std::endl << std::endl;
 
 	randomChump("randomChump");
+
+	std::cout << std::endl << std::endl;
+
+	zombieHorde(10, "zumbieHorde"); // USAR delete
 	return (0);
 }

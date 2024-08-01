@@ -4,7 +4,8 @@ NAME = BraiiiiiiinnnzzzZ
 FILE = ./src/main.cpp\
 		./src/Zombie.cpp\
 		./src/newZombie.cpp\
-		./src/randomChump.cpp
+		./src/randomChump.cpp\
+		./src/zombieHorde.cpp
 RM = rm
 
 all: $(NAME)
