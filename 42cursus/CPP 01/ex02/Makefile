@@ -1,9 +1,7 @@
 COMPILER = c++
 FLAGS = -Wall -Wextra -Werror -std=c++98 -o
-NAME = BraiiiiiiinnnzzzZ
-FILE = ./src/main.cpp\
-		./src/Zombie.cpp\
-		./src/zombieHorde.cpp
+NAME = BRAIN
+FILE = ./main.cpp
 RM = rm
 
 all: $(NAME)

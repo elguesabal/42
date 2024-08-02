@@ -1,16 +1,8 @@
 #include "../includes/header.h"
 
 int main(void) {
-	Zombie *zombie = newZombie("newZombie");
-	zombie->announce();
-	delete zombie;
+	Zombie *zombies = zombieHorde(3, "zumbieHorde");
 
-	std::cout << std::endl << std::endl;
-
-	randomChump("randomChump");
-
-	std::cout << std::endl << std::endl;
-
-	zombieHorde(10, "zumbieHorde"); // USAR delete
+	delete[] zombies;
 	return (0);
 }
