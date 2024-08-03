@@ -10,12 +10,10 @@ int main(void) {
 	std::cout << &ref << std::endl;
 
 	std::cout << std::endl;
+	std::cout << std::endl;
 
-	std::cout << &"teste" << std::endl;
-
-	std::cout << &str << std::endl;
-	std::cout << ptr << std::endl;
-	std::cout << &ref << std::endl;
-
+	std::cout << str << std::endl;
+	std::cout << *ptr << std::endl;
+	std::cout << ref << std::endl;
 	return (0);
 }
