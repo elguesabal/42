@@ -1,6 +1,6 @@
 #include "../includes/header.h"
 
-int main()
+int main(void)
 {
 	// {
 	// 	Weapon club = Weapon("crude spiked club");
@@ -28,9 +28,11 @@ int main()
 	std::cout << std::endl;
 
 
-	// HumanA teste = HumanA("teste", club);
-	// // HumanA bob("Bob", club);
-	// teste.attack();
+	HumanA *bob = new HumanA("teste", club);
+	// HumanA bob = HumanA("teste", club);
+	// HumanA bob("Bob", club);
+	bob->attack();
+	// bob.attack();
 
 
 
