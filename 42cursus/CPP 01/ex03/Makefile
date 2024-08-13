@@ -2,8 +2,9 @@ COMPILER = c++
 FLAGS = -Wall -Wextra -Werror -std=c++98 -o
 NAME = UnnecessaryViolence
 FILE = ./src/main.cpp\
-		./src/Weapon.cpp
-		# ./src/HumanA.cpp
+		./src/Weapon.cpp\
+		./src/HumanA.cpp\
+		./src/HumanB.cpp
 RM = rm
 
 all: $(NAME)
