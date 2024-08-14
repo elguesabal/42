@@ -7,39 +7,40 @@ bool test(bool n, std::string str) {
 	return (n);
 }
 
-void replaceLine(std::string *line, char *s1, char *s2) {
+std::string replaceLine(std::string line, std::string s1, std::string s2) {
 	std::size_t find;
-(void)s2;
 
 	do {
-		find = line->find(s1);
+		find = line.find(s1);
 		if (find != std::string::npos) {
-			// std::cout << "s1 encontrado: " << line[0][1] << std::endl;
-			line[0][find] = 'b'; // USAR O TAMANHO DA SUBSTRING PARA ACHAR A STRING RESTANTE A SER COPIADA
-			// std::cout << "nova linha: " << line[0] << std::endl;
+			line.erase(find, s1.length());
+			line.insert(find, s2);
 		}
-		// std::cout << "find: " << find << std::endl;
 	} while (find != std::string::npos);
+	return (line);
 }
 
 int main(int argc, char **argv) {
 	if (test(argc != 4, "Error: Numero de argumentos invalido"))
 		return (1);
-	// std::string file = argv[1];
-	// std::string s1 = argv[2];
-	// std::string s2 = argv[3];
 
-	std::ifstream readFile(argv[1]);
+	std::string file = argv[1];
+	std::string fileReplace = file + ".replace";
+	std::string s1 = argv[2];
+	std::string s2 = argv[3];
+
+	std::ifstream readFile(file.c_str());
 	if (test(!readFile.is_open(), "Error: Arquivo nao existente"))
 		return (1);
 
-	std::ofstream writeFile("teste.txt.replace");
+	std::ofstream writeFile(fileReplace.c_str());
 	if (test(!readFile.is_open(), "Error: Nao foi possivel criar o arquivo"))
 		return (1);
 
 	std::string line;
 	while (std::getline(readFile, line)) {
-		replaceLine(&line, argv[2], argv[3]);
+		if (s1 != s2)
+			line = replaceLine(line, s1, s2);
 		writeFile << line << std::endl;
 	}
 
