@@ -8,10 +8,10 @@ bool test(bool n, std::string str) {
 }
 
 std::string replaceLine(std::string line, std::string s1, std::string s2) {
-	std::size_t find;
+	std::size_t find = 0;
 
 	do {
-		find = line.find(s1);
+		find = line.find(s1, find + s2.length());
 		if (find != std::string::npos) {
 			line.erase(find, s1.length());
 			line.insert(find, s2);
