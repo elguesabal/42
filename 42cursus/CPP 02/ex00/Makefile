@@ -1,8 +1,8 @@
 COMPILER = c++
 FLAGS = -Wall -Wextra -Werror -std=c++98 -o
-NAME = ex05
+NAME = ex00
 FILE = ./main.cpp\
-		./Harl.cpp
+		./Fixed.cpp
 RM = rm
 
 all: $(NAME)

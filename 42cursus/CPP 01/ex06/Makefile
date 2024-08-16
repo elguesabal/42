@@ -1,6 +1,6 @@
 COMPILER = c++
 FLAGS = -Wall -Wextra -Werror -std=c++98 -o
-NAME = ex05
+NAME = harlFilter
 FILE = ./main.cpp\
 		./Harl.cpp
 RM = rm
