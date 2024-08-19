@@ -10,6 +10,11 @@ Fixed::Fixed(Fixed &fixed) {
 	*this = fixed;
 }
 
+// Fixed::Fixed(const int fixed) : _n1(fixed << _n2) {
+Fixed::Fixed(const int fixed) {
+	this->_n1 = fixed << _n2;
+}
+
 Fixed &Fixed::operator = (Fixed &fixed) {
 	std::cout << "Copy assignment operator called" << std::endl;
 	this->_n1 = fixed.getRawBits();
@@ -28,4 +33,12 @@ int Fixed::getRawBits(void) const {
 void Fixed::setRawBits(const int raw) {
 	std::cout << "setRawBIts member function called" << std::endl;
 	this->_n1 = raw;
+}
+
+float Fixed::toFloat(void) const {
+	return ((float)this->_n1 / (1 << this->_n2));
+}
+
+int Fixed::toInt(void) const {
+	return ((int)(roundf((float)this->_n1 / (1 << this->_n2))));
 }

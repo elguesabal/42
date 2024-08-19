@@ -16,7 +16,6 @@ class Fixed {
 		int _n1;
 		const static int _n2 = 8;
 
-
 };
 
 #endif
