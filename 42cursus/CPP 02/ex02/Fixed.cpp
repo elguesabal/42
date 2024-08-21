@@ -47,3 +47,7 @@ std::ostream &operator << (std::ostream &out, const Fixed &fixed) {
 	out << fixed.toFloat();
 	return (out);
 }
+
+Fixed Fixed::operator + (const Fixed &fixed) const {
+	return (Fixed(this->toInt() + fixed.toInt()));
+}

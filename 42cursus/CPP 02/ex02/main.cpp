@@ -59,7 +59,14 @@
 
 
 int main(void) {
+	Fixed a(10);
+	Fixed b(20);
 
+	// a = a + b;
+
+	std::cout << a << std::endl;
+	std::cout << b << std::endl;
+	std::cout << (a + b) << std::endl;
 
 	return (0);
 }
