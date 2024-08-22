@@ -18,11 +18,6 @@ Fixed::Fixed(const float fixed) {
 	this->_n1 = (int)(roundf(fixed * (1 << _n2)));
 }
 
-Fixed &Fixed::operator = (const Fixed &fixed) {
-	this->_n1 = fixed.getRawBits();
-	return (*this);
-}
-
 Fixed::~Fixed(void) {
 	// std::cout << "Default called" << std::endl;
 }
@@ -43,11 +38,86 @@ int Fixed::toInt(void) const {
 	return ((int)(roundf((float)this->_n1 / (1 << this->_n2))));
 }
 
+
+
+Fixed Fixed::operator + (const Fixed &fixed) const {
+	return (Fixed(this->toFloat() + fixed.toFloat()));
+}
+
+Fixed Fixed::operator - (const Fixed &fixed) const {
+	return (Fixed(this->toFloat() - fixed.toFloat()));
+}
+
+Fixed Fixed::operator * (const Fixed &fixed) const {
+	return (Fixed(this->toFloat() * fixed.toFloat()));
+}
+
+Fixed Fixed::operator / (const Fixed &fixed) const {
+	return (Fixed(this->toFloat() / fixed.toFloat()));
+}
+
+Fixed &Fixed::operator = (const Fixed &fixed) {
+	this->_n1 = fixed.getRawBits();
+	return (*this);
+}
+
+bool Fixed::operator > (const Fixed &fixed) const {
+	return (this->toFloat() > fixed.toFloat());
+}
+
+bool Fixed::operator < (const Fixed &fixed) const {
+	return (this->toFloat() < fixed.toFloat());
+}
+
+bool Fixed::operator >= (const Fixed &fixed) const {
+	return (this->toFloat() >= fixed.toFloat());
+}
+
+bool Fixed::operator <= (const Fixed &fixed) const {
+	return (this->toFloat() <= fixed.toFloat());
+}
+
+bool Fixed::operator == (const Fixed &fixed) const {
+	return (this->toFloat() == fixed.toFloat());
+}
+
+bool Fixed::operator != (const Fixed &fixed) const {
+	return (this->toFloat() != fixed.toFloat());
+}
+
+Fixed &Fixed::operator ++ (void) {
+	// (this->_n1)++;
+	// return (*this);
+
+	// std::cout << "teste: " << this->_n1 << std::endl;
+
+	// this->_n1 = this->_n1 + 1;
+	// this->_n1 = (this->_n1 + 1) << _n2;
+	this->_n1 = ((int)roundf(this->toFloat() + 1)) << _n2;
+	return (*this);
+}
+
+Fixed &Fixed::operator -- (void) {
+	this->_n1 = ((int)roundf(this->toFloat() - 1)) << _n2;
+	return (*this);
+}
+
+Fixed Fixed::operator ++ (int) {
+	Fixed copy = *this;
+	this->_n1 = ((int)roundf(this->toFloat() + 1)) << _n2;
+	return (copy);
+}
+
+Fixed Fixed::operator -- (int) {
+	Fixed copy = *this;
+	this->_n1 = ((int)roundf(this->toFloat() - 1)) << _n2;
+	return (copy);
+}
+
+
+
+
 std::ostream &operator << (std::ostream &out, const Fixed &fixed) {
 	out << fixed.toFloat();
 	return (out);
-}
-
-Fixed Fixed::operator + (const Fixed &fixed) const {
-	return (Fixed(this->toInt() + fixed.toInt()));
 }

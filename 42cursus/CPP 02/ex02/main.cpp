@@ -59,14 +59,38 @@
 
 
 int main(void) {
-	Fixed a(10);
-	Fixed b(20);
+	Fixed a(5);
+	Fixed b(2);
+	// Fixed c = 10;
 
 	// a = a + b;
+	// a = a - b;
+	// a = a * b;
+	// a = a / b;
 
-	std::cout << a << std::endl;
-	std::cout << b << std::endl;
-	std::cout << (a + b) << std::endl;
+	std::cout << "a: " << a << std::endl;
+	std::cout << "b: " << b << std::endl;
+	// std::cout << "c: " << c << std::endl;
+	std::cout << std::endl << "result: " << std::endl;
+
+	// std::cout << (a + b) << std::endl;
+	// std::cout << (a - b) << std::endl;
+	// std::cout << (a * b) << std::endl;
+	// std::cout << (a / b) << std::endl;
+
+	// std::cout << (a > b) << std::endl;
+	// std::cout << (a < b) << std::endl;
+	// std::cout << (a >= b) << std::endl;
+	// std::cout << (a <= b) << std::endl;
+	// std::cout << (a == b) << std::endl;
+	// std::cout << (a != b) << std::endl;
+
+	// std::cout << ++a << std::endl;
+	// std::cout << --b << std::endl;
+	std::cout << a++ << std::endl;
+	std::cout << b-- << std::endl;
+
+
 
 	return (0);
 }
