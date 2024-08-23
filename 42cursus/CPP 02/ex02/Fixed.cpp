@@ -19,7 +19,7 @@ Fixed::Fixed(const float fixed) {
 }
 
 Fixed::~Fixed(void) {
-	// std::cout << "Default called" << std::endl;
+
 }
 
 int Fixed::getRawBits(void) const {
@@ -112,6 +112,41 @@ Fixed Fixed::operator -- (int) {
 	Fixed copy = *this;
 	this->_n1 = ((int)roundf(this->toFloat() - 1)) << _n2;
 	return (copy);
+}
+
+Fixed &Fixed::min(Fixed &f1, Fixed &f2) {
+	// std::cout << "teste non-const" << std::endl;
+	return ((f1 < f2) ? f1 : f2);
+}
+
+Fixed &Fixed::max(Fixed &f1, Fixed &f2) {
+	return ((f1 > f2) ? f1 : f2);
+}
+
+const Fixed &Fixed::min(const Fixed &f1, const Fixed &f2) {
+	// return ((f1.toFloat() < f2.toFloat()) ? f1 : f2);
+	// const Fixed copy = min(f1, f2);
+
+
+	// return ((f1.toFloat() < f2.toFloat()) ? Fixed(f1) : Fixed(f2));
+
+
+	// const Fixed &ref1 = new Fixed(f1);
+	// const Fixed &ref2 = new Fixed(f2);
+
+
+	// if (f1.toFloat() > f2.toFloat()) {
+	// 	return (new Fixed(f2));
+	// }
+	// return (new Fixed(f1));
+
+
+	// std::cout << "teste const" << std::endl;
+	return ((f1 < f2) ? f1 : f2);
+}
+
+const Fixed &Fixed::max(const Fixed &f1, const Fixed &f2) {
+	return ((f1 > f2) ? f1 : f2);
 }
 
 
