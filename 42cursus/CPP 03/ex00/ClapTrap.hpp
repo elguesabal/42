@@ -11,10 +11,10 @@ class ClapTrap {
 		ClapTrap &operator = (const ClapTrap &clapTrap);
 		~ClapTrap(void);
 		void attack(const std::string &target);
-		// void takeDamage(unsigned int amount);
-		// void beRepaired(unsigned int amount);
+		void takeDamage(unsigned int amount);
+		void beRepaired(unsigned int amount);
 
-		std::string teste(void);
+		void status(void);
 
 	private:
 		std::string _name;

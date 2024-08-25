@@ -1,11 +1,13 @@
 #include "ClapTrap.hpp"
 
 int main(void) {
-	ClapTrap clap1 = ClapTrap("ClapTrap");
-	ClapTrap clap2 = clap1;
+	ClapTrap clap;
 
-	std::cout << "clap1: " << clap1.teste() << std::endl;
-	std::cout << "clap2: " << clap2.teste() << std::endl;
+	clap.attack("CPP");
+	clap.takeDamage(5);
+	clap.beRepaired(20);
+
+	clap.status();
 
 	return (0);
 }
