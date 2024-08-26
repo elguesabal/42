@@ -1,4 +1,4 @@
-#include "ClapTrap.hpp"
+#include "header.h"
 
 ClapTrap::ClapTrap(void) : _name(""), _life(10), _energy(10), _damage(0) {
 	std::cout << "Claptrap: Chamou o construtor \"ClapTrap(void)\" sem iniciar o nome" << std::endl;

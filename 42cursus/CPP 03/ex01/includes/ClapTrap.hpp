@@ -1,7 +1,7 @@
 #ifndef CLAPTRAP_HPP
 #define CLAPTRAP_HPP
 
-#include <iostream>
+#include "header.h"
 
 class ClapTrap {
 	public:
@@ -15,7 +15,7 @@ class ClapTrap {
 		void beRepaired(unsigned int amount);
 		// void status(void);
 
-	private:
+	protected:
 		std::string _name;
 		int _life;
 		int _energy;
