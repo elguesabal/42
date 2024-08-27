@@ -13,7 +13,7 @@ ClapTrap::ClapTrap(const ClapTrap &clapTrap) : _name(clapTrap._name), _life(clap
 }
 
 ClapTrap &ClapTrap::operator = (const ClapTrap &clapTrap) {
-	std::cout << "Claptrap " << clapTrap._name << ": Chamou o construtor \"ClapTrap &operator = (const ClapTrap &clapTrap);\"" << std::endl;
+	std::cout << "Claptrap " << this->_name << ": Chamou o construtor \"ClapTrap &operator = (const ClapTrap &clapTrap);\"" << std::endl;
 	this->_name = clapTrap._name;
 	this->_life = clapTrap._life;
 	this->_energy = clapTrap._energy;
@@ -62,8 +62,6 @@ void ClapTrap::beRepaired(unsigned int amount) {
 	} else if (this->_energy == 0) {
 		std::cout << "\033[31m" << "Claptrap " << this->_name << "\033[0m" << ": Sem energia para ser reparado!" << std::endl;
 	} else {
-		// if ((this->_life + amount) > 10)
-			// amount = 10 - this->_life;
 		// amount = ((this->_life + amount) > 10) ? 10 - this->_life : amount; // DEU RUIM AKI
 
 		std::cout << "Claptrap " << this->_name << ": Foi reparado em " << amount << " pontos" << std::endl;

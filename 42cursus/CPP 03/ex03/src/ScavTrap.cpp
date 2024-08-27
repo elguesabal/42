@@ -25,7 +25,7 @@ ScavTrap::ScavTrap(const ScavTrap &scavTrap) {
 }
 
 ScavTrap &ScavTrap::operator = (const ScavTrap &scavTrap) {
-	std::cout << "Scavtrap " << scavTrap._name << ": Chamou o construtor \"ScavTrap &operator = (const ScavTrap &scavTrap);\"" << std::endl;
+	std::cout << "Scavtrap " << this->_name << ": Chamou o construtor \"ScavTrap &operator = (const ScavTrap &scavTrap);\"" << std::endl;
 	this->_name = scavTrap._name;
 	this->_life = scavTrap._life;
 	this->_energy = scavTrap._energy;
