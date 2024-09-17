@@ -1,11 +1,11 @@
 #include "header.h"
 
-Dog::Dog(void) {
+Dog::Dog(void) : Animal() {
 	std::cout << "Construtor Dog: \"Dog(void);\"" << std::endl;
 	this->Animal::_type = "Dog";
 }
 
-Dog::Dog(const Dog &dog) {
+Dog::Dog(const Dog &dog) : Animal(dog) {
 	std::cout << "Construtor Dog: \"Dog(const Dog &dog)\"" << std::endl;
 	this->Dog::_type = dog._type;
 }
