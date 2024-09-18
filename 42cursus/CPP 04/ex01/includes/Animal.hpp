@@ -8,7 +8,7 @@ class Animal {
 		Animal(void);
 		Animal(const Animal &animal);
 		Animal &operator = (const Animal &animal);
-		~Animal(void);
+		virtual ~Animal(void);
 		virtual void makeSound(void) const;
 		std::string getType(void) const;
 

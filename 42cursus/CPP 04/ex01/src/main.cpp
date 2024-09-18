@@ -35,9 +35,18 @@
 
 
 int main(void) {
-	const Animal *dog = new Dog();
+	const Animal *dog1 = new Dog();
+	Animal dog2 = *dog1;
 
-	(void)dog;
+	std::cout << dog1->getType() << ": ";
+	dog1->makeSound();
+	std::cout << std::endl;
+
+	std::cout << dog2.getType() << ": ";
+	dog2.makeSound();
+	std::cout << std::endl;
+
+	delete dog1;
 
 	return (0);
 }

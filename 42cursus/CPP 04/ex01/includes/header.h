@@ -3,8 +3,8 @@
 
 #include <iostream>
 #include "Animal.hpp"
+#include "Brain.hpp"
 #include "Dog.hpp"
 #include "Cat.hpp"
-#include "Brain.hpp"
 
 #endif
