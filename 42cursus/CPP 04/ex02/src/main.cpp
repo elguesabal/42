@@ -34,22 +34,22 @@
 
 
 
-int	main( void )
-{
-	int size = 5;
-	Animal	*arrayAnimals[2 * size];
+// int	main( void )
+// {
+// 	int size = 5;
+// 	Animal	*arrayAnimals[2 * size];
 
-	for (int i = 0; i < size; i++)
-	{
-		arrayAnimals[i] = new Dog();
-		arrayAnimals[size + i] = new Cat();
-	}
+// 	for (int i = 0; i < size; i++)
+// 	{
+// 		arrayAnimals[i] = new Dog();
+// 		arrayAnimals[size + i] = new Cat();
+// 	}
 
-	std::cout << std::endl;
+// 	std::cout << std::endl;
 
-	for (int i = 0; i < 2 * size; i++)
-		delete arrayAnimals[i];
-}
+// 	for (int i = 0; i < 2 * size; i++)
+// 		delete arrayAnimals[i];
+// }
 
 
 
@@ -67,3 +67,13 @@ int	main( void )
 
 // 	return (0);
 // }
+
+
+
+int main(void) {
+	Animal* animal = new Animal();
+
+	animal->makeSound();
+	delete animal;
+	return (0);
+}
