@@ -2,8 +2,10 @@
 
 int main(void) {
 	try {
-		Bureaucrat teste("vampeta", -1);
-		std::cout << "name: " << teste.getName() << "grade: " << teste.getGrade() << std::endl;
+		Bureaucrat bureaucrat("vampeta", 1);
+		// --bureaucrat;
+		// std::cout << "name: " << bureaucrat.getName() << "grade: " << bureaucrat.getGrade() << std::endl;
+		std::cout << bureaucrat;
 	} catch (std::exception &error) {
 		std::cout << error.what() << std::endl;
 	}

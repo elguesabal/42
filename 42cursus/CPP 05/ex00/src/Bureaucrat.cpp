@@ -14,9 +14,21 @@ Bureaucrat::Bureaucrat(const Bureaucrat &bureaucrat) : _name(bureaucrat._name), 
 }
 
 Bureaucrat &Bureaucrat::operator = (const Bureaucrat &bureaucrat) {
-	// this->_name = bureaucrat._name;
-	// this->_grade = bureaucrat._grade;
-	(void)bureaucrat;
+	this->_grade = bureaucrat._grade;
+	return (*this);
+}
+
+Bureaucrat &Bureaucrat::operator ++ (void) {
+	if (this->_grade == 150)
+		throw (GradeTooHigh());
+	(this->_grade)++;
+	return (*this);
+}
+
+Bureaucrat &Bureaucrat::operator -- (void) {
+	if (this->_grade == 1)
+		throw (GradeTooLow());
+	(this->_grade)--;
 	return (*this);
 }
 
@@ -24,11 +36,11 @@ Bureaucrat::~Bureaucrat(void) {
 
 }
 
-std::string Bureaucrat::getName(void) {
+std::string Bureaucrat::getName(void) const {
 	return (this->_name);
 }
 
-int Bureaucrat::getGrade(void) {
+int Bureaucrat::getGrade(void) const {
 	return (this->_grade);
 }
 
@@ -38,4 +50,9 @@ const char *Bureaucrat::GradeTooHigh::what(void) const throw() {
 
 const char *Bureaucrat::GradeTooLow::what(void) const throw() {
 	return ("Exception: Nota muito baixa!");
+}
+
+std::ostream &operator << (std::ostream &out, const Bureaucrat &bureaucrat) {
+	out << bureaucrat.getName() << ", nota do burocrata " << bureaucrat.getGrade() << std::endl;
+	return (out);
 }
