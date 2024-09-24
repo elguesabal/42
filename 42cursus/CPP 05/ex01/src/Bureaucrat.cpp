@@ -1,4 +1,5 @@
 #include "header.h"
+#include "Form.hpp"
 
 Bureaucrat::Bureaucrat(std::string name, int grade) : _name(name) {
 	if (grade > 150) {
@@ -42,6 +43,16 @@ std::string Bureaucrat::getName(void) const {
 
 int Bureaucrat::getGrade(void) const {
 	return (this->_grade);
+}
+
+void Bureaucrat::signForm(Form &form) const {
+	try {
+		form.beSigned(*this);
+		std::cout << this->_name << " assinou " << form.getName() << std::endl;
+	} catch (const std::exception &error) {
+		std::cout << this->_name << " não conseguiu assinar " << form.getName() << " por ";
+		std::cout << error.what() << std::endl;
+	}
 }
 
 const char *Bureaucrat::GradeTooHigh::what(void) const throw() {

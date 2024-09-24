@@ -15,10 +15,28 @@
 
 
 
-int main(void) {
-	Form form("vampeta", 1, 10, 50);
+// int main(void) {
+// 	try {
+// 		Form form("vampeta", 0, 50);
+// 		std::cout << form;
+// 	} catch (std::exception &error) {
+// 		std::cout << error.what() << std::endl;
+// 	}
 
-	std::cout << form;
+// 	return (0);
+// }
+
+
+
+int main(void) {
+	try {
+		Bureaucrat bureaucrat("vampeta", 10);
+		Form form("formTeste", 100, 100);
+
+		bureaucrat.signForm(form);
+	} catch (const std::exception &error) {
+		std::cout << error.what() << std::endl;
+	}
 
 	return (0);
 }

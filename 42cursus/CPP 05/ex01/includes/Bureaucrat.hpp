@@ -1,6 +1,8 @@
 #ifndef BUREAUCRTA_HPP
 #define BUREAUCRTA_HPP
 
+class Form;
+
 class Bureaucrat {
 	public:
 		Bureaucrat(std::string name, int grade);
@@ -12,6 +14,7 @@ class Bureaucrat {
 
 		std::string getName(void) const;
 		int getGrade(void) const;
+		void signForm(Form &form) const;
 
 		class GradeTooHigh : public std::exception {
 			public:

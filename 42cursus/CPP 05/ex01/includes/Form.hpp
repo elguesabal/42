@@ -1,16 +1,30 @@
 #ifndef FORM_HPP
 #define FORM_HPP
 
+class Bureaucrat;
+
 class Form {
 	public:
-		Form(std::string name, bool sign, int gradeSigned, int gradeExec);
+		Form(std::string name, int gradeSigned, int gradeExec);
 		Form(const Form &form);
 		Form &operator = (const Form &form);
 		~Form(void);
+
 		std::string getName(void) const;
 		bool getSigned(void) const;
 		int getGradeSigned(void) const;
 		int getGradeExec(void) const;
+		void beSigned(const Bureaucrat &bureaucrat);
+
+		class GradeTooHigh : public std::exception {
+			public:
+				const char *what(void) const throw();
+		};
+
+		class GradeTooLow : public std::exception {
+			public:
+				const char *what(void) const throw();
+		};
 
 	private:
 		const std::string _name;
