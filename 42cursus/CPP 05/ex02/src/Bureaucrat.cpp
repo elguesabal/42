@@ -44,7 +44,7 @@ int Bureaucrat::getGrade(void) const {
 	return (this->_grade);
 }
 
-void Bureaucrat::signForm(Form &form) const {
+void Bureaucrat::signForm(AForm &form) const {
 	try {
 		form.beSigned(*this);
 		std::cout << this->_name << " assinou " << form.getName() << std::endl;
