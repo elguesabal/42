@@ -46,9 +46,15 @@
 int main(void) {
 	try {
 		Bureaucrat bureaucrat("vampeta", 10);
-		AForm form("formTeste", 100, 100);
+		// Bureaucrat bureaucrat("vampeta", 100);
+		// Bureaucrat bureaucrat("vampeta", 150);
 
+		// AForm form("formTeste", 100, 100);
+		// bureaucrat.signForm(form);
+
+		ShrubberyCreationForm form("formulario teste");
 		bureaucrat.signForm(form);
+		form.execute(bureaucrat);
 	} catch (const std::exception &error) {
 		std::cout << error.what() << std::endl;
 	}

@@ -43,6 +43,8 @@ void AForm::beSigned(const Bureaucrat &bureaucrat) {
 	this->_signed = 1;
 }
 
+// void AForm::execute(const Bureaucrat &bureaucrat) const; UE NAO PRECISO???
+
 const char *AForm::GradeTooHigh::what(void) const throw() {
 	return ("Exception: Nota muito alta!");
 }
