@@ -3,11 +3,8 @@
 
 #include "AForm.hpp"
 
-class Bureaucrat;
-
 class ShrubberyCreationForm : public AForm {
 	public:
-		// ShrubberyCreationForm(void);
 		ShrubberyCreationForm(std::string target);
 		ShrubberyCreationForm(const ShrubberyCreationForm &s);
 		ShrubberyCreationForm &operator = (const ShrubberyCreationForm &s);

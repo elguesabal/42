@@ -27,6 +27,16 @@ class AForm {
 				const char *what(void) const throw();
 		};
 
+		class FormNotSigned : public std::exception {
+			public:
+				const char *what(void) const throw();
+		};
+
+		class FileNotOpen : public std::exception {
+			public:
+				const char *what(void) const throw();
+		};
+
 	private:
 		const std::string _name;
 		bool _signed;

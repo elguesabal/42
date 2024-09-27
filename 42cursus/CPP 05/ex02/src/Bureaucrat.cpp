@@ -54,6 +54,19 @@ void Bureaucrat::signForm(AForm &form) const {
 	}
 }
 
+void Bureaucrat::executeForm(AForm &form) const {
+	// if (!this->getSigned())
+	// 	throw (FormNotSigned());
+	// if (executor.getGrade() > this->getGradeExec())
+	// 	throw (GradeTooLow());
+	// std::cout << "testeeeee: " << form.getSigned() << std::endl; // SERA Q CONSIGO VALIDAR AKI?
+	try {
+		form.execute(*this);
+	} catch (const std::exception &error) {
+		std::cout << error.what() << std::endl;
+	}
+}
+
 const char *Bureaucrat::GradeTooHigh::what(void) const throw() {
 	return ("Exception: Nota muito alta!");
 }

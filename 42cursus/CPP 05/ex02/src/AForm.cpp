@@ -43,7 +43,7 @@ void AForm::beSigned(const Bureaucrat &bureaucrat) {
 	this->_signed = 1;
 }
 
-// void AForm::execute(const Bureaucrat &bureaucrat) const; UE NAO PRECISO???
+
 
 const char *AForm::GradeTooHigh::what(void) const throw() {
 	return ("Exception: Nota muito alta!");
@@ -51,6 +51,14 @@ const char *AForm::GradeTooHigh::what(void) const throw() {
 
 const char *AForm::GradeTooLow::what(void) const throw() {
 	return ("Exception: Nota muito baixa!");
+}
+
+const char *AForm::FormNotSigned::what(void) const throw() {
+	return ("Exception: Formulário não assinado!");
+}
+
+const char *AForm::FileNotOpen::what(void) const throw() {
+	return ("Exception: Arquivo não aberto!");
 }
 
 std::ostream &operator << (std::ostream &out, const AForm &form) {

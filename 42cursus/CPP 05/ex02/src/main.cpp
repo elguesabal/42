@@ -44,17 +44,56 @@
 
 
 int main(void) {
+	// try {
+	// 	Bureaucrat bureaucrat("vampeta", 10);
+	// 	// Bureaucrat bureaucrat("vampeta", 140);
+	// 	// Bureaucrat bureaucrat("vampeta", 150);
+
+	// 	ShrubberyCreationForm form("formulario teste");
+	// 	bureaucrat.signForm(form);
+	// 	form.execute(bureaucrat);
+	// } catch (const std::exception &error) {
+	// 	std::cout << error.what() << std::endl;
+	// }
+
+
+
+	// try {
+	// 	Bureaucrat bureaucrat("vampeta", 10);
+	// 	// Bureaucrat bureaucrat("vampeta", 50);
+	// 	// Bureaucrat bureaucrat("vampeta", 150);
+
+	// 	RobotomyRequestForm form("formulario teste");
+	// 	bureaucrat.signForm(form);
+	// 	form.execute(bureaucrat);
+	// } catch (const std::exception &error) {
+	// 	std::cout << error.what() << std::endl;
+	// }
+
+
+
+	// try {
+	// 	Bureaucrat bureaucrat("vampeta", 1);
+	// 	// Bureaucrat bureaucrat("vampeta", 10);
+	// 	// Bureaucrat bureaucrat("vampeta", 50);
+
+	// 	PresidentialPardonForm form("formulario teste");
+	// 	bureaucrat.signForm(form);
+	// 	form.execute(bureaucrat);
+	// } catch (const std::exception &error) {
+	// 	std::cout << error.what() << std::endl;
+	// }
+
+
+
 	try {
-		Bureaucrat bureaucrat("vampeta", 10);
-		// Bureaucrat bureaucrat("vampeta", 100);
-		// Bureaucrat bureaucrat("vampeta", 150);
+		Bureaucrat bureaucrat("vampeta", 1);
+		// Bureaucrat bureaucrat("vampeta", 10);
+		// Bureaucrat bureaucrat("vampeta", 50);
 
-		// AForm form("formTeste", 100, 100);
-		// bureaucrat.signForm(form);
-
-		ShrubberyCreationForm form("formulario teste");
+		PresidentialPardonForm form("formulario teste");
 		bureaucrat.signForm(form);
-		form.execute(bureaucrat);
+		bureaucrat.executeForm(form);
 	} catch (const std::exception &error) {
 		std::cout << error.what() << std::endl;
 	}
