@@ -1,7 +1,7 @@
 COMPILER = c++
 INCLUDE = -I ./
 FLAGS = -Wall -Wextra -Werror -std=c++98 $(INCLUDE) -o
-NAME = ScalarConverter
+NAME = convert
 FILE = ./main.cpp\
 		./ScalarConverter.cpp
 RM = rm
