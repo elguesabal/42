@@ -4,17 +4,67 @@ void printChar(std::string input) {
 	std::stringstream ss(input);
 	int num;
 
-	ss >> num;
-	// std::cout << "teste: " << num << std::endl;
 	std::cout << "char: ";
-	if (num > 31 && num < 127) {
-		char c = num;
-		std::cout << c << std::endl;
-	} else if (num < 32 || num > 128) {
-		std::cout << "Non displayable" << std::endl;
-	} else {
+	if (!(ss >> num)) {
 		std::cout << "impossible" << std::endl;
+	} else if (num > 31 && num < 127) {
+		char c = num;
+		std::cout << "'" << c << "'" << std::endl;
+	} else {
+		std::cout << "Non displayable" << std::endl;
 	}
+}
+
+void printInt(std::string input) {
+	std::stringstream ss(input);
+	int num;
+
+	std::cout << "int: ";
+	if (ss >> num) {
+		std::cout << num << std::endl;
+	} else {
+		std::cout << "nan" << std::endl;
+	}
+}
+
+void printFloat(std::string input) {
+	std::stringstream ss(input);
+	float num;
+
+	std::cout << "float: ";
+	if (!(ss >> num)) {
+		std::cout << "nanf" << std::endl;
+		return ;
+	}
+	ss << num;
+	std::string str = ss.str();
+	std::size_t pos = str.find('f');
+	if (pos != std::string::npos)
+		str.erase(pos, 1);
+	pos = str.find('.');
+	if (pos == std::string::npos)
+		str += ".0";
+	std::cout << str << "f" << std::endl;
+}
+
+void printDouble(std::string input) {
+	std::stringstream ss(input);
+	double num;
+
+	std::cout << "double: ";
+	if (!(ss >> num)) {
+		std::cout << "nan" << std::endl;
+		return ;
+	}
+	ss << num;
+	std::string str = ss.str();
+	std::size_t pos = str.find('f');
+	if (pos != std::string::npos)
+		str.erase(pos, 1);
+	pos = str.find('.');
+	if (pos == std::string::npos)
+		str += ".0";
+	std::cout << str << std::endl;
 }
 
 void ScalarConverter::convert(std::string input) {
@@ -25,6 +75,8 @@ void ScalarConverter::convert(std::string input) {
 		std::cout << "double: " << input << std::endl;
 		return ;
 	}
-
 	printChar(input);
+	printInt(input);
+	printFloat(input);
+	printDouble(input);
 }
