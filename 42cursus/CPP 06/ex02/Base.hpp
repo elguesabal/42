@@ -5,6 +5,9 @@
 #include <cstdlib>
 #include <ctime>
 
+#include <string>
+#include <stdlib.h>
+
 class Base {
 	public:
 		virtual ~Base() {};

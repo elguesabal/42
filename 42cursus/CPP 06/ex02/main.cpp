@@ -36,15 +36,15 @@ void identify(Base &p) {
 		dynamic_cast<A&>(p);
 		std::cout << "A" << std::endl;
 		return ;
-	} catch (const std::exception &error) {} // NAO ESTA CAINDO AKI NEM A PAU PQ ESTOU USANDO exception NO LUGAR DE bad_cast
+	} catch (const std::exception &error) {}
 	try {
 		dynamic_cast<B&>(p);
-		std::cout << "A" << std::endl;
+		std::cout << "B" << std::endl;
 		return ;
 	} catch (const std::exception &error) {}
 	try {
 		dynamic_cast<C&>(p);
-		std::cout << "A" << std::endl;
+		std::cout << "C" << std::endl;
 		return ;
 	} catch (const std::exception &error) {}
 	std::cout << "Erro ao converter tipo" << std::endl;
