@@ -6,13 +6,20 @@
 template <typename T> class Array {
 	public:
 		Array(void);
-		Array(unsigend int &size);
-		// Array operator = (const Array &array); O RETORNO TA ERRADO
-		~void(void);
+		Array(unsigned int size);
+		Array(const Array &array);
+		Array &operator = (const Array &array);
+		T &operator [] (const int index);
+		~Array(void);
+
+		class indexOutOfBounds : public std::exception {
+			public:
+				virtual const char *what(void) const throw();
+		};
 
 	private:
 		T *_array;
-		unsigend int _size;
+		unsigned int _size;
 };
 
 #endif

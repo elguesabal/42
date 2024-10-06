@@ -1,9 +1,8 @@
 COMPILER = c++
-INCLUDE = -I ./includes
+INCLUDE = -I ./includes -I ./src
 FLAGS = -Wall -Wextra -Werror -std=c++98 $(INCLUDE) -o
 NAME = array
-FILE = ./src/main.cpp\
-		./src/
+FILE = ./src/main.cpp
 RM = rm
 
 all: $(NAME)
