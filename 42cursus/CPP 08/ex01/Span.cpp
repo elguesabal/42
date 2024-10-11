@@ -46,8 +46,6 @@ long int Span::longestSpan(void) {
 	return((long int)*(std::max_element(this->_array.begin(), this->_array.end())) - (long int)*(std::min_element(this->_array.begin(), this->_array.end())));
 }
 
-
-
 const char *Span::noSpace::what() const throw() {
 	return ("Error: Array cheio");
 }
@@ -55,9 +53,6 @@ const char *Span::noSpace::what() const throw() {
 const char *Span::noNumbers::what() const throw() {
 	return ("Error: A matriz não possui números suficientes");
 }
-
-
-
 
 void Span::print(void) {
 	for (std::vector <int>::iterator it = this->_array.begin(); it != this->_array.end(); it++) {

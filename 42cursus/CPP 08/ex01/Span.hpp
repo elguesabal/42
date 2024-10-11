@@ -16,8 +16,9 @@ class Span {
 		void addNumber(const int n);
 		long int shortestSpan(void);
 		long int longestSpan(void);
-
 		// FALTA O ITERATOR PARA PREENCHER MUITOS NUMEROS DE UMA VEZ
+
+		void print(void); // TESTE
 
 		class noSpace: public std::exception {
 			public:
@@ -28,8 +29,6 @@ class Span {
 			public:
 				virtual const char *what() const throw();
 		};
-
-		void print(void); // TESTE
 
 	private:
 		unsigned int _size;
