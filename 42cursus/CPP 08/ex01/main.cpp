@@ -1,4 +1,5 @@
 #include "Span.hpp"
+#include "Span.tpp"
 
 int main()
 {
@@ -19,20 +20,23 @@ int main()
 
 
 // int main(void) {
-// 	Span span(3);
+// 	Span span(10);
+// 	std::vector <int> n;
 
+// 	for (int i = 0; i < 10; i++)
+// 		n.push_back(i);
 // 	try {
-// 		span.addNumber(1);
-// 		span.addNumber(6);
-// 		span.addNumber(3);
+// 		// span.addNumber(1);
+// 		// span.addNumber(6);
+// 		// span.addNumber(3);
 // 		// span.addNumber(5);
-// 		std::cout << span.shortestSpan() << std::endl;
-// 		std::cout << span.longestSpan() << std::endl;
+// 		// std::cout << span.shortestSpan() << std::endl;
+// 		// std::cout << span.longestSpan() << std::endl;
+// 		span.fillSpan<std::vector <int> >(n.begin(), n.end());
+// 		for (int i = 0; i < 10; i++)
+// 			std::cout << n[i] << std::endl;
 // 	} catch (std::exception &error) {
 // 		std::cout << error.what() << std::endl;
 // 	}
-
-// 	// span.print();
-
 // 	return (0);
 // }

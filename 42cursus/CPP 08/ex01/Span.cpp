@@ -53,9 +53,3 @@ const char *Span::noSpace::what() const throw() {
 const char *Span::noNumbers::what() const throw() {
 	return ("Error: A matriz não possui números suficientes");
 }
-
-void Span::print(void) {
-	for (std::vector <int>::iterator it = this->_array.begin(); it != this->_array.end(); it++) {
-		std::cout << *it << std::endl;
-	}
-}

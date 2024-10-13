@@ -3,8 +3,8 @@
 
 #include <iostream>
 #include <vector>
-# include <algorithm>
-# include <numeric>
+#include <algorithm>
+#include <numeric>
 
 class Span {
 	public:
@@ -16,9 +16,7 @@ class Span {
 		void addNumber(const int n);
 		long int shortestSpan(void);
 		long int longestSpan(void);
-		// FALTA O ITERATOR PARA PREENCHER MUITOS NUMEROS DE UMA VEZ
-
-		void print(void); // TESTE
+		template <typename Container> void fillSpan(const typename Container::iterator &begin, const typename Container::iterator &end);
 
 		class noSpace: public std::exception {
 			public:
