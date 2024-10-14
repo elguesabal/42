@@ -2,8 +2,7 @@ COMPILER = c++
 INCLUDE = -I ./includes -I ./src
 FLAGS = -Wall -Wextra -Werror -std=c++98 $(INCLUDE) -o
 NAME = MutantStack
-FILE = ./main.cpp\
-		./MutantStack.cpp
+FILE = ./main.cpp
 RM = rm
 
 all: $(NAME)

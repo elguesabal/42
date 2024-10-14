@@ -35,6 +35,13 @@
 
 
 int main(void) {
-	std::cout << "teste" << std::endl;
+	// std::cout << "teste" << std::endl;
+
+	MutantStack<int> teste;
+
+	teste.push(1);
+
+	// std::cout << teste[0] << std::endl;
+
 	return (0);
 }
