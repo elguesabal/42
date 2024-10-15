@@ -35,13 +35,16 @@
 
 
 int main(void) {
-	// std::cout << "teste" << std::endl;
+	MutantStack<int> stack1;
+	MutantStack<int> stack2;
 
-	MutantStack<int> teste;
+	for (int i = 0; i < 3; i++)
+		stack1.push(i + 1);
 
-	teste.push(1);
+	stack2 = stack1;
 
-	// std::cout << teste[0] << std::endl;
+	stack1.print();
+	stack2.print();
 
 	return (0);
 }
