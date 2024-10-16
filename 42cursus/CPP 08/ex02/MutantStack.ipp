@@ -8,12 +8,12 @@ template <typename T> MutantStack<T>::MutantStack(void) : std::stack<T>() {
 }
 
 template <typename T> MutantStack<T>::MutantStack(const MutantStack &stack) : std::stack<T>(stack) {
-	// *this = stack;
+
 }
 
 template <typename T> MutantStack<T> &MutantStack<T>::operator = (const MutantStack &stack) {
-	// NAO COPIAR ELE MESMO
-	this->c = stack.c; // DE ONDE SAIU ESSE c???
+	if (this != &stack)
+		this->c = stack.c;
 	return (*this);
 }
 
@@ -21,23 +21,12 @@ template <typename T> MutantStack<T>::~MutantStack(void) {
 
 }
 
+template <typename T> typename MutantStack<T>::iterator MutantStack<T>::begin(void) {
+	return (this->c.begin());
+}
 
-template <typename T> void MutantStack<T>::print(void) {
-	// for (std::stack <int>::iterator it = *this->begin(); it != *this->end(); it++)
-	// 	std::cout << *it << std::endl;
-
-	// std::cout << this->c.begin() << std::endl;
-
-	// std::cout << this->top() << std::endl;
-
-	// for (MutantStack<T> temp = *this; !temp.empty(); temp.pop())
-	// 	std::cout << temp.top() << std::endl;
-
-	MutantStack<T> temp = *this;
-	while (!temp.empty()) {
-		std::cout << temp.top() << std::endl;
-		temp.pop();
-	}
+template <typename T> typename MutantStack<T>::iterator MutantStack<T>::end(void) {
+	return (this->c.end());
 }
 
 #endif
