@@ -75,16 +75,12 @@ bool BitcoinExchange::validLine(const std::string &line) const {
 		std::cout << "Error: " << "bad input => " << line << std::endl;
 		return (0);
 	}
-	
+
 	// ACHO MELHOR AKI EU TER UMA VARIAVEL PRA ANO MES E DIA E AI COMPARAR COMO UM int
 	if (line[0] != '2' || line[1] != '0' || (line[2] < '0' && line[2] > '2')) { // ACHO MELHOR AKI EU TER UMA VARIAVEL PRA ANO MES E DIA E AI COMPARAR COMO UM int
 		std::cout << "Error: " << "data invalida." << std::endl;
 		return (0);
 	}
-
-
-
-
 
 	return (1);
 }
