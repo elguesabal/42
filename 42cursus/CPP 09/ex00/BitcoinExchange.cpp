@@ -77,10 +77,15 @@ bool BitcoinExchange::validLine(const std::string &line) const {
 	}
 
 	// ACHO MELHOR AKI EU TER UMA VARIAVEL PRA ANO MES E DIA E AI COMPARAR COMO UM int
-	if (line[0] != '2' || line[1] != '0' || (line[2] < '0' && line[2] > '2')) { // ACHO MELHOR AKI EU TER UMA VARIAVEL PRA ANO MES E DIA E AI COMPARAR COMO UM int
-		std::cout << "Error: " << "data invalida." << std::endl;
-		return (0);
-	}
+	int year = std::atoi(line.substr(0, 4).c_str());
+	int month = std::atoi(line.substr(5, 2).c_str());
+	int day = std::atoi(line.substr(7, 2).c_str()); // AGORA FAZER A VERIFICAR POR DATA
+
+	// std::cout << "teste: " << year << "-" << month << "-" << day << std::endl;
+	// if (line[0] != '2' || line[1] != '0' || (line[2] < '0' && line[2] > '2')) { // ACHO MELHOR AKI EU TER UMA VARIAVEL PRA ANO MES E DIA E AI COMPARAR COMO UM int
+	// 	std::cout << "Error: " << "data invalida." << std::endl;
+	// 	return (0);
+	// }
 
 	return (1);
 }

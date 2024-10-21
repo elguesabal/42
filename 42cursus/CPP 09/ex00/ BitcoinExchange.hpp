@@ -8,6 +8,7 @@
 #include <stdexcept>
 #include <sstream>
 #include <iomanip> // USADO PARA PRINTAR NUMERO COM MAIS DE UMA CASA DECIMAL APOS A VIRGULA
+#include <cstdlib>
 
 class BitcoinExchange {
 	public:
