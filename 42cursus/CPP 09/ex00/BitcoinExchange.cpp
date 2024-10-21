@@ -63,34 +63,93 @@ void BitcoinExchange::readInput(void) {
 	std::string line;
 
 	while (getline(this->_input, line)) {
-		// std::cout << line << std::endl;
-		validLine(line); // AKI EU DEVO USAR UM IF Q CASO RETORNE VERDADEIRO ENTRE NO IF
+		if (validDate(line) && line[10] == ' ' && line[11] == '|' && line[12] == ' ' && validValue(line)) {
+			std::cout << line.substr(0, 10) << " => " << line.substr(13) << " = " << value(line) << std::endl;
+		}
 	}
 	this->_input.close();
 }
 
-bool BitcoinExchange::validLine(const std::string &line) const {
-	// std::cout << "teste function: " << line << std::endl;
-	if (line.size() < 14) {
-		std::cout << "Error: " << "bad input => " << line << std::endl;
+// bool BitcoinExchange::validLine(const std::string &line) const {
+// 	// if (line.size() < 14 || line[4] != '-' || line[7] != '-') {
+// 	// 	std::cout << "Error: bad input => " << line << std::endl;
+// 	// 	return (0);
+// 	// }
+
+// 	// int year = std::atoi(line.substr(0, 4).c_str());
+// 	// int month = std::atoi(line.substr(5, 2).c_str());
+// 	// int day = std::atoi(line.substr(8, 2).c_str());
+
+// 	// if (month > 12 || month < 1 || day < 1 || day > 31 || (month % 2 == 0 && day > 30) || (month == 2 && day > 29)) {
+// 	// 	std::cout << "Error: data invalida => " << line << std::endl;
+// 	// 	return (0);
+// 	// }
+
+// 	// if (year < 2009 || year > 2022 || (year == 2022 && month > 3)) {
+// 	// 	std::cout << "Error: data nao consta do banco de dados => " << line << std::endl;
+// 	// 	return (0);
+// 	// }
+	
+
+// 	return (1);
+// }
+
+bool BitcoinExchange::validDate(const std::string &line) const {
+	if (line.size() < 14 || !isdigit(line[0]) || !isdigit(line[1]) || !isdigit(line[2]) || !isdigit(line[3]) || line[4] != '-' || !isdigit(line[5]) || !isdigit(line[6]) || line[7] != '-' || !isdigit(line[8])  || !isdigit(line[9])) {
+		std::cout << "Error: bad input => " << line << std::endl;
 		return (0);
 	}
-
-	// ACHO MELHOR AKI EU TER UMA VARIAVEL PRA ANO MES E DIA E AI COMPARAR COMO UM int
 	int year = std::atoi(line.substr(0, 4).c_str());
 	int month = std::atoi(line.substr(5, 2).c_str());
-	int day = std::atoi(line.substr(7, 2).c_str()); // AGORA FAZER A VERIFICAR POR DATA
-
-	// std::cout << "teste: " << year << "-" << month << "-" << day << std::endl;
-	// if (line[0] != '2' || line[1] != '0' || (line[2] < '0' && line[2] > '2')) { // ACHO MELHOR AKI EU TER UMA VARIAVEL PRA ANO MES E DIA E AI COMPARAR COMO UM int
-	// 	std::cout << "Error: " << "data invalida." << std::endl;
-	// 	return (0);
-	// }
-
+	int day = std::atoi(line.substr(8, 2).c_str());
+	if (month > 12 || month < 1 || day < 1 || day > 31 || (month % 2 == 0 && day > 30) || (month == 2 && day > 29)) {
+		std::cout << "Error: data invalida => " << line << std::endl;
+		return (0);
+	}
+	if (year < 2009 || year > 2022 || (year == 2022 && month > 3)) {
+		std::cout << "Error: data nao consta do banco de dados => " << line << std::endl;
+		return (0);
+	}
 	return (1);
 }
 
+bool BitcoinExchange::validValue(const std::string &line) const {
+	if (line[13] == '.' || line[line.size() - 1] == '.') {
+		std::cout << "Error: bad input => " << line << std::endl;
+		return (0);
+	}
+	for (long unsigned int i = 13, dot = 1; i < line.size(); i++) {
+		if ((!isdigit(line[i]) && line[i] != '.' && line[13] != '-') || (line[i] == '.' && dot == 0)) {
+			std::cout << "Error: bad input => " << line << std::endl;
+			return (0);
+		}
+		if (line[i] == '.')
+			--dot;
+	}
+	std::string num = line.substr(13);
+	std::stringstream ss(num);
+	float value;
+	ss >> value;
+	if (value < 0) {
+		std::cout << "Error: not a positive number" << std::endl;
+		return (0);
+	} else if (value > 100) {
+		std::cout << "Error: too large a number" << std::endl;
+		return (0);
+	}
+	return (1);
+}
 
+std::string BitcoinExchange::value(const std::string &line) const { // TO MEIO PERDIDO DE COMO CONTINUAR MAS SEI Q ESSA FUNCAO VAI RETORNAR O VALOR DO NUMERO DE BITCOIN COM A COTACAO
+	std::string date = line.substr(0, 10);
+	std::string value = line.substr(13);
+	int year = std::atoi(line.substr(0, 4).c_str());
+	int month = std::atoi(line.substr(5, 2).c_str());
+	int day = std::atoi(line.substr(8, 2).c_str());
+
+	std::cout << "~~~ " << date << " --- " << value;
+	return ("");
+}
 
 
 void BitcoinExchange::print(void) {

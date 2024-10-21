@@ -26,7 +26,10 @@ class BitcoinExchange {
 		std::ifstream _datacsv;
 		std::ifstream _input;
 		std::map<std::string, float> _data;
-		bool validLine(const std::string &date) const;
+		// bool validLine(const std::string &line) const;
+		bool validDate(const std::string &line) const;
+		bool validValue(const std::string &line) const;
+		std::string value(const std::string &line) const;
 };
 
 #endif
