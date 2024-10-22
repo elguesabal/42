@@ -63,6 +63,7 @@ void BitcoinExchange::readInput(void) {
 	std::string line;
 
 	while (getline(this->_input, line)) {
+		// std::cout << "AAAAAAA" << std::endl;
 		if (validDate(line) && line[10] == ' ' && line[11] == '|' && line[12] == ' ' && validValue(line)) {
 			std::cout << line.substr(0, 10) << " => " << line.substr(13) << " = " << value(line) << std::endl;
 		}
@@ -142,14 +143,24 @@ bool BitcoinExchange::validValue(const std::string &line) const {
 
 std::string BitcoinExchange::value(const std::string &line) const { // TO MEIO PERDIDO DE COMO CONTINUAR MAS SEI Q ESSA FUNCAO VAI RETORNAR O VALOR DO NUMERO DE BITCOIN COM A COTACAO
 	std::string date = line.substr(0, 10);
-	std::string value = line.substr(13);
-	int year = std::atoi(line.substr(0, 4).c_str());
-	int month = std::atoi(line.substr(5, 2).c_str());
-	int day = std::atoi(line.substr(8, 2).c_str());
+	// std::string value = line.substr(13);
+	// int year = std::atoi(line.substr(0, 4).c_str());
+	// int month = std::atoi(line.substr(5, 2).c_str());
+	// int day = std::atoi(line.substr(8, 2).c_str());
+	// float valueDataFloat = this->_data[date];
+	float valueDataFloat = this->_data.at(date.c_str());
+	// std::ostringstream oss;
 
-	std::cout << "~~~ " << date << " --- " << value;
+	// oss << std::fixed << std::setprecision(2) << valueDataFloat;
+	// std::string valueDataStr = oss.str();
+
+
+
+	std::cout << valueDataFloat;
+	// std::cout << "~~~ " << date << " --- " << value;
 	return ("");
 }
+
 
 
 void BitcoinExchange::print(void) {
