@@ -141,24 +141,73 @@ bool BitcoinExchange::validValue(const std::string &line) const {
 	return (1);
 }
 
-std::string BitcoinExchange::value(const std::string &line) const { // TO MEIO PERDIDO DE COMO CONTINUAR MAS SEI Q ESSA FUNCAO VAI RETORNAR O VALOR DO NUMERO DE BITCOIN COM A COTACAO
+std::string BitcoinExchange::value(const std::string &line) const { // ACHO Q TA PRONTO (AINDA NAO TESTADO FORA DO TESTE DADO PELO PDF) MAS AINDA POSSO REFATORAR
 	std::string date = line.substr(0, 10);
-	// std::string value = line.substr(13);
-	// int year = std::atoi(line.substr(0, 4).c_str());
-	// int month = std::atoi(line.substr(5, 2).c_str());
-	// int day = std::atoi(line.substr(8, 2).c_str());
+	// int yearLine, monthLine, dayLine;
+	int yearLine = std::atoi(line.substr(0, 4).c_str());
+	int monthLine = std::atoi(line.substr(5, 2).c_str());
+	int dayLine = std::atoi(line.substr(8, 2).c_str());
 	// float valueDataFloat = this->_data[date];
-	float valueDataFloat = this->_data.at(date.c_str());
-	// std::ostringstream oss;
+	float valueDataFloat;
+	// std::string valueDataStr;
+	// int yearData;
+	// int monthData;
+	// int dayData;
+	std::ostringstream oss;
 
 	// oss << std::fixed << std::setprecision(2) << valueDataFloat;
 	// std::string valueDataStr = oss.str();
 
+		// std::cout << "cade o erro?" << std::endl;
+	while (this->_data.find(date.c_str()) == this->_data.end()) {
+		if (dayLine > 1) {
+			--dayLine;
+		} else if (monthLine > 1) {
+			dayLine = 31;
+			--monthLine;
+		} else {
+			dayLine = 31;
+			monthLine = 12;
+			--yearLine;
+		}
 
+		oss << yearLine;
+		date = oss.str();
+		date += "-";
+		oss.str("");
+		oss.clear();
 
-	std::cout << valueDataFloat;
+		oss << monthLine;
+		// std::cout << "teste::: " << oss.str() << oss.str() << oss.str();
+		// std::cout << "size: " << oss.str() << "==>" << oss.str().size();
+		if (oss.str().size() == 1)
+			date += "0";
+		date += oss.str();
+		date += "-";
+		oss.str("");
+		oss.clear();
+
+		oss << dayLine;
+		if (oss.str().size() == 1)
+			date += "0";
+		date += oss.str();
+		oss.str("");
+		oss.clear();
+
+		// std::cout << " ??" << date << "?? ";
+	}
+	valueDataFloat = this->_data.at(date.c_str());
+	std::string nBitcoinStr = line.substr(13);
+	std::stringstream ss(nBitcoinStr);
+	float nBitcoinFloat;
+	ss >> nBitcoinFloat;
+
+	oss << valueDataFloat * nBitcoinFloat;
+
+	// std::cout << "TESTANDO ESSA BAGACA: " << valueDataFloat;
+	// std::cout << " TESTANDO ESSA BAGACA: " << date;
 	// std::cout << "~~~ " << date << " --- " << value;
-	return ("");
+	return (oss.str());
 }
 
 
