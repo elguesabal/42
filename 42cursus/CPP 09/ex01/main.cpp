@@ -22,12 +22,14 @@ int main(int argc, char **argv) {
 		return (0);
 	}
 
-	(void)argv;
 	try {
 		RPN teste1;
 		RPN teste2(argv[1]);
 		RPN teste3(teste2);
 		RPN teste4 = teste2;
+
+		teste2.readArg();
+		std::cout << argv[1] << " => " << teste2.result() << std::endl;
 	} catch (std::exception &error) {
 		std::cout << error.what() << std::endl;
 	}

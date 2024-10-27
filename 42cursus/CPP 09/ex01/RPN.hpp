@@ -15,10 +15,11 @@ class RPN {
 
 		bool error(const char *argv) const;
 		void readArg(void);
+		int result(void);
 
 	private:
 		std::string _arg;
-		std::deque<char> _RPN;
+		std::deque<std::string> _RPN;
 };
 
 #endif
