@@ -4,6 +4,8 @@
 #include <iostream>
 #include <stdexcept>
 #include <deque>
+#include <cstdlib>
+#include <sstream>
 
 class RPN {
 	public:
@@ -15,7 +17,8 @@ class RPN {
 
 		bool error(const char *argv) const;
 		void readArg(void);
-		int result(void);
+		std::string result(void);
+		int operation(int n1, int n2, std::string &signal) const;
 
 	private:
 		std::string _arg;

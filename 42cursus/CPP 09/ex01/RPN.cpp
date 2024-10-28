@@ -1,23 +1,21 @@
 #include "RPN.hpp"
 
 RPN::RPN(void) : _arg("") {
-	// std::cout << "class criada" << std::endl;
+
 }
 
 RPN::RPN(const char *argv) : _arg(argv) {
 	if (error(argv))
 		throw (std::runtime_error("Error"));
-	// std::cout << "class criada" << std::endl;
 }
 
 RPN::RPN(const RPN &rpn) : _arg(rpn._arg) {
-	// std::cout << "class criada" << std::endl;
+
 }
 
 RPN &RPN::operator = (const RPN &rpn) {
 	if (this != &rpn)
 		this->_arg = rpn._arg;
-	// std::cout << "class criada" << std::endl;
 	return (*this);
 }
 
@@ -52,30 +50,50 @@ void RPN::readArg(void) {
 		if (this->_arg[i] != ' ')
 			this->_RPN.push_back(std::string(1, this->_arg[i]));
 	}
-
-	// for (std::deque<char>::iterator it = this->_RPN.begin(); it != this->_RPN.end(); ++it)
-	// 	std::cout << "teste: " << *it << std::endl;
 }
 
-int RPN::result(void) {
-	// int n1, n2, signal;
-			// std::cout << "teste" << std::endl;
+std::string RPN::result(void) {
+	std::ostringstream oss;
 
 	while (this->_RPN.size() != 1) {
-		// for (int i = 0, std::deque<std::string> it = this->_RPN.begin(); ; i++) {
-
-		// }
-
-		// if (this->_RPN.size() > 3 && this->_RPN[0])
-
-		for (unsigned int i = 0; i < this->_RPN.size(); i++) {
-			if (this->_RPN[i] == "+" || this->_RPN[i] == "-" || this->_RPN[i] == "*" || this->_RPN[i] == "/") { // AGORA TENHO Q SALVAR OS DOIS NUMEROS ANTES DO PRIMEIRO OPERADOR
-				std::cout << "operacao q eu tenho q fazer => " << this->_RPN[i] << " com os numero => " << this->_RPN[i - 2] << " " << this->_RPN[i - 1] << std::endl;
-				this->_RPN.pop_back();
-				this->_RPN.pop_back();
+		for (std::deque<std::string>::iterator it = this->_RPN.begin(); it != this->_RPN.end(); ++it) {
+			if (*it == "+" || *it == "-" || *it == "*" || *it == "/") {
+				oss.str("");
+				oss.clear();
+				oss << operation(std::atoi((*(it - 2)).c_str()), std::atoi((*(it - 1)).c_str()), *it);
+				this->_RPN.insert(it - 2, oss.str());
+				this->_RPN.erase(it - 2);
+				this->_RPN.erase(it - 1);
+				this->_RPN.erase(it);
 				break;
 			}
 		}
+
+
+		// TERIA UM JEITO MAIS EFICIENTE USANDO RECURSIVIDADE GOTO WHILE OU DO WHILE?
+		// std::deque<std::string>::iterator it = this->_RPN.begin();
+		// do {
+		// 	++it;
+		// 	if (*it == "+" || *it == "-" || *it == "*" || *it == "/") {
+
+		// 	}
+		// } while (it != this->_RPN.end() && *it != "=" && *it != "-" && *it != "*" && *it != "/");
 	}
-	return (10);
+
+	return (this->_RPN[0].c_str());
+}
+
+int RPN::operation(int n1, int n2, std::string &signal) const {
+	switch (signal[0]) {
+		case '+':
+			return (n1 + n2);
+		case '-':
+			return (n1 - n2);
+		case '*':
+			return (n1 + n2);
+		case '/':
+			return (n1 / n2);
+		default:
+			return (0);
+	}
 }
