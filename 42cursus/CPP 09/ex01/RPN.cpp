@@ -62,24 +62,11 @@ std::string RPN::result(void) {
 				oss.clear();
 				oss << operation(std::atoi((*(it - 2)).c_str()), std::atoi((*(it - 1)).c_str()), *it);
 				this->_RPN.insert(it - 2, oss.str());
-				this->_RPN.erase(it - 2);
-				this->_RPN.erase(it - 1);
-				this->_RPN.erase(it);
+				this->_RPN.erase(it - 2, it + 1);
 				break;
 			}
 		}
-
-
-		// TERIA UM JEITO MAIS EFICIENTE USANDO RECURSIVIDADE GOTO WHILE OU DO WHILE?
-		// std::deque<std::string>::iterator it = this->_RPN.begin();
-		// do {
-		// 	++it;
-		// 	if (*it == "+" || *it == "-" || *it == "*" || *it == "/") {
-
-		// 	}
-		// } while (it != this->_RPN.end() && *it != "=" && *it != "-" && *it != "*" && *it != "/");
 	}
-
 	return (this->_RPN[0].c_str());
 }
 
@@ -90,7 +77,7 @@ int RPN::operation(int n1, int n2, std::string &signal) const {
 		case '-':
 			return (n1 - n2);
 		case '*':
-			return (n1 + n2);
+			return (n1 * n2);
 		case '/':
 			return (n1 / n2);
 		default:

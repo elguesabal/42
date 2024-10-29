@@ -10,7 +10,6 @@ int main(int argc, char **argv) {
 
 		rpn.readArg();
 		std::cout << rpn.result() << std::endl;
-		// std::cout << argv[1] << " => " << rpn.result() << std::endl;
 	} catch (std::exception &error) {
 		std::cout << error.what() << std::endl;
 	}

@@ -15,14 +15,14 @@ class RPN {
 		RPN &operator = (const RPN &rpn);
 		~RPN(void);
 
-		bool error(const char *argv) const;
 		void readArg(void);
 		std::string result(void);
-		int operation(int n1, int n2, std::string &signal) const;
 
 	private:
 		std::string _arg;
 		std::deque<std::string> _RPN;
+		bool error(const char *argv) const;
+		int operation(int n1, int n2, std::string &signal) const;
 };
 
 #endif
