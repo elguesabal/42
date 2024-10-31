@@ -6,7 +6,12 @@ int main(int argc, char **argv) {
 		return (0);
 	}
 	try {
-		PmergeMe teste(argv + 1);
+		PmergeMe teste1(argv + 1);
+		PmergeMe teste2(teste1);
+		PmergeMe teste3;
+
+		teste3 = teste1;
+		teste3.fordJohnson();
 	} catch (std::exception &error) {
 		std::cout << error.what() << std::endl;
 	}
