@@ -32,11 +32,18 @@ void PmergeMe::fordJohnson(void) {
 	printContainer("Before vector:", this->_vector);
 	printContainer("Before list:", this->_list);
 
+	std::clock_t beginVector = std::clock();
 	std::vector<int> vector = fordJohnsonContainer(this->_vector);
+	std::clock_t endVector = std::clock();
+
+	std::clock_t beginList = std::clock();
 	std::list<int> list = fordJohnsonContainer(this->_list);
+	std::clock_t endList = std::clock();
 
 	printContainer("After vector:", vector);
 	printContainer("After list:", list);
+	std::cout << "Time to process a range of " << this->_vector.size() << " elements with std::[..] : " << 1000.0 * (endVector - beginVector) / CLOCKS_PER_SEC << std::endl;
+	std::cout << "Time to process a range of " << this->_list.size() << " elements with std::[..] : " << 1000.0 * (endList - beginList) / CLOCKS_PER_SEC << std::endl;
 }
 
 void PmergeMe::error(char **argv) const {
@@ -164,17 +171,13 @@ template <typename T> void PmergeMe::printContainer(const char *str, const T &co
 template <typename Container> Container PmergeMe::fordJohnsonContainer(Container &data) const {
 	if (data.size() <= 1)
 		return (data);
-
 	typename Container::iterator middle = data.begin();
 	for (std::size_t i = 0; i < data.size() / 2; ++i)
 		++middle;
-
 	Container left(data.begin(), middle);
 	Container right(middle, data.end());
-
 	left = fordJohnsonContainer(left);
 	right = fordJohnsonContainer(right);
-
 	return mergeContainer(left, right);
 }
 
@@ -182,7 +185,6 @@ template <typename Container> Container PmergeMe::mergeContainer(Container &left
 	Container result;
 	typename Container::const_iterator itLeft = left.begin();
 	typename Container::const_iterator itRight = right.begin();
-
 	while (itLeft != left.end() && itRight != right.end()) {
 		if (*itLeft < *itRight) {
 			result.push_back(*itLeft);
@@ -192,16 +194,13 @@ template <typename Container> Container PmergeMe::mergeContainer(Container &left
 			++itRight;
 		}
 	}
-
 	while (itLeft != left.end()) {
 		result.push_back(*itLeft);
 		++itLeft;
 	}
-
 	while (itRight != right.end()) {
 		result.push_back(*itRight);
 		++itRight;
 	}
-
 	return (result);
 }
