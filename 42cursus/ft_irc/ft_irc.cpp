@@ -74,12 +74,7 @@ int server(int port) {
 // 	// exit(0);
 // }
 
-void ctrlC(int signal) { // POR ENQUANTO ASSIM
-	if (signal == SIGINT) {
-		close(server_socket);
-		exit(0);
-	}
-}
+
 
 int main(int argc, char **argv) {
 	if (validation(argc, argv))
@@ -104,9 +99,6 @@ int main(int argc, char **argv) {
 // sigqueue(getpid(), SIGINT, sig_value); // ALIAS SEI SIM MAS MESMO A FUNCAO NAO FAZENDO NADA O SERVIDO DA "Erro ao aceitar conexão"
 
 std::signal(SIGINT, ctrlC); // CAGUEI PRO sigaction()
-
-
-
 	// std::vector<int> client_sockets;
 	int new_socket;
 	struct sockaddr_in client_address;

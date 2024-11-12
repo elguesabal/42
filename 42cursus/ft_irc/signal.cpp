@@ -6,3 +6,10 @@
 
 // 	}
 // }
+
+void ctrlC(int signal) { // POR ENQUANTO ASSIM
+	if (signal == SIGINT) {
+		close(server_socket);
+		exit(0);
+	}
+}
