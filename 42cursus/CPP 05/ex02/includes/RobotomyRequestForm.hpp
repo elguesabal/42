@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   RobotomyRequestForm.hpp                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joseanto <joseanto@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/14 01:36:40 by joseanto          #+#    #+#             */
+/*   Updated: 2024/11/14 01:36:41 by joseanto         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef ROBOTOMYREQUESTFORM_HPP
 #define ROBOTOMYREQUESTFORM_HPP
 
@@ -14,7 +26,6 @@ class RobotomyRequestForm : public AForm {
 
 	private:
 		const std::string _target;
-
 };
 
 #endif

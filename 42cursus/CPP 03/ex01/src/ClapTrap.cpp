@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ClapTrap.cpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joseanto <joseanto@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/14 01:30:39 by joseanto          #+#    #+#             */
+/*   Updated: 2024/11/14 01:30:40 by joseanto         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "header.h"
 
 ClapTrap::ClapTrap(void) : _name(""), _life(10), _energy(10), _damage(0) {
@@ -62,10 +74,6 @@ void ClapTrap::beRepaired(unsigned int amount) {
 	} else if (this->_energy == 0) {
 		std::cout << "\033[31m" << "Claptrap " << this->_name << "\033[0m" << ": Sem energia para ser reparado!" << std::endl;
 	} else {
-		// if ((this->_life + amount) > 10)
-			// amount = 10 - this->_life;
-		// amount = ((this->_life + amount) > 10) ? 10 - this->_life : amount; // DEU RUIM AKI
-
 		std::cout << "Claptrap " << this->_name << ": Foi reparado em " << amount << " pontos" << std::endl;
 		this->_life += amount;
 		--this->_energy;

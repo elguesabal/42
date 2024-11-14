@@ -1,19 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Fixed.cpp                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joseanto <joseanto@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/14 01:28:44 by joseanto          #+#    #+#             */
+/*   Updated: 2024/11/14 01:28:45 by joseanto         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Fixed.hpp"
 
 Fixed::Fixed(void) : _n1(0) {
-	// this->_n1 = 0; // OU : _n1(0) TANTO FAZ (EU ACHO)
+
 }
 
 Fixed::Fixed(const Fixed &fixed) {
 	*this = fixed;
 }
 
-// Fixed::Fixed(const int fixed) : _n1(fixed << _n2) {
 Fixed::Fixed(const int fixed) {
 	this->_n1 = fixed << _n2;
 }
 
-// Fixed::Fixed(const float fixed) : _n1((int)roundf(fixed * (1 << _n2))) {
 Fixed::Fixed(const float fixed) {
 	this->_n1 = (int)(roundf(fixed * (1 << _n2)));
 }
@@ -37,8 +47,6 @@ float Fixed::toFloat(void) const {
 int Fixed::toInt(void) const {
 	return ((int)(roundf((float)this->_n1 / (1 << this->_n2))));
 }
-
-
 
 Fixed Fixed::operator + (const Fixed &fixed) const {
 	return (Fixed(this->toFloat() + fixed.toFloat()));
@@ -86,67 +94,22 @@ bool Fixed::operator != (const Fixed &fixed) const {
 }
 
 Fixed &Fixed::operator ++ (void) {
-	// this->_n1 = ((int)roundf(this->toFloat() + 1)) << _n2;
-	// return (*this);
-
 	(this->_n1)++;
 	return (*this);
 }
 
 Fixed &Fixed::operator -- (void) {
-	// this->_n1 = ((int)roundf(this->toFloat() - 1)) << _n2;
-	// return (*this);
-
 	(this->_n1)--;
 	return (*this);
 }
 
 Fixed Fixed::operator ++ (int) {
-	// Fixed copy = *this;
-	// this->_n1 = ((int)roundf(this->toFloat() + 1)) << _n2;
-	// return (copy);
-
-	// Fixed copy = *this;
-	// int i = 0;
-	// std::cout << "teste1" << std::endl;
-	// if (i < 0) {
-	// 	while (i <= 0) {
-	// 		--*this;
-	// 		i++;
-	// 	}
-	// } else {
-	// 	while (i >= 0) {
-	// 		++*this;
-	// 		i--;
-	// 	}
-	// }
-	// return (copy);
-
 	Fixed copy = *this;
 	++(*this);
 	return (copy);
 }
 
 Fixed Fixed::operator -- (int) {
-	// Fixed copy = *this;
-	// this->_n1 = ((int)roundf(this->toFloat() - 1)) << _n2;
-	// return (copy);
-
-	// Fixed copy = *this;
-	// int i = 0;
-	// if (i < 0) {
-	// 	while (i <= 0) {
-	// 		++*this;
-	// 		i++;
-	// 	}
-	// } else {
-	// 	while (i >= 0) {
-	// 		--*this;
-	// 		i--;
-	// 	}
-	// }
-	// return (copy);
-
 	Fixed copy = *this;
 	--(*this);
 	return (copy);
@@ -161,32 +124,12 @@ Fixed &Fixed::max(Fixed &f1, Fixed &f2) {
 }
 
 const Fixed &Fixed::min(const Fixed &f1, const Fixed &f2) {
-	// return ((f1.toFloat() < f2.toFloat()) ? f1 : f2);
-	// const Fixed copy = min(f1, f2);
-
-
-	// return ((f1.toFloat() < f2.toFloat()) ? Fixed(f1) : Fixed(f2));
-
-
-	// const Fixed &ref1 = new Fixed(f1);
-	// const Fixed &ref2 = new Fixed(f2);
-
-
-	// if (f1.toFloat() > f2.toFloat()) {
-	// 	return (new Fixed(f2));
-	// }
-	// return (new Fixed(f1));
-
-
 	return ((f1 < f2) ? f1 : f2);
 }
 
 const Fixed &Fixed::max(const Fixed &f1, const Fixed &f2) {
 	return ((f1 > f2) ? f1 : f2);
 }
-
-
-
 
 std::ostream &operator << (std::ostream &out, const Fixed &fixed) {
 	out << fixed.toFloat();

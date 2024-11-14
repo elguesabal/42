@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   FragTrap.hpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joseanto <joseanto@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/14 01:32:03 by joseanto          #+#    #+#             */
+/*   Updated: 2024/11/14 01:32:04 by joseanto         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FRAGTRAP_HPP
 #define FRAGTRAP_HPP
 
@@ -12,9 +24,6 @@ class FragTrap:public virtual ClapTrap {
 		~FragTrap(void);
 		void attack(const std::string &target);
         void highFivesGuys(void);
-
-	private:
-
 };
 
 #endif

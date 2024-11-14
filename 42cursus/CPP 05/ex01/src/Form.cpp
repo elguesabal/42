@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Form.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joseanto <joseanto@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/14 01:36:08 by joseanto          #+#    #+#             */
+/*   Updated: 2024/11/14 01:36:09 by joseanto         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "header.h"
 
 Form::Form(std::string name, int gradeSigned, int gradeExec) : _name(name), _signed(0), _gradeSigned(gradeSigned), _gardeExec(gradeExec) {

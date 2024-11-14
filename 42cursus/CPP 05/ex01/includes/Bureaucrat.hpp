@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Bureaucrat.hpp                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joseanto <joseanto@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/14 01:35:51 by joseanto          #+#    #+#             */
+/*   Updated: 2024/11/14 01:35:52 by joseanto         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef BUREAUCRTA_HPP
 #define BUREAUCRTA_HPP
 
@@ -29,7 +41,6 @@ class Bureaucrat {
 	private:
 		const std::string _name;
 		int _grade;
-
 };
 
 std::ostream &operator << (std::ostream &out, const Bureaucrat &bureaucrat);

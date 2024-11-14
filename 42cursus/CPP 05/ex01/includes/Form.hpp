@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Form.hpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joseanto <joseanto@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/14 01:35:55 by joseanto          #+#    #+#             */
+/*   Updated: 2024/11/14 01:35:56 by joseanto         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FORM_HPP
 #define FORM_HPP
 
@@ -31,7 +43,6 @@ class Form {
 		bool _signed;
 		const int _gradeSigned;
 		const int _gardeExec;
-
 };
 
 std::ostream &operator << (std::ostream &out, const Form &form);

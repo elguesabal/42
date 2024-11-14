@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   AForm.hpp                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joseanto <joseanto@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/14 01:36:23 by joseanto          #+#    #+#             */
+/*   Updated: 2024/11/14 01:36:24 by joseanto         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef AFORM_HPP
 #define AFORM_HPP
 
@@ -42,7 +54,6 @@ class AForm {
 		bool _signed;
 		const int _gradeSigned;
 		const int _gardeExec;
-
 };
 
 std::ostream &operator << (std::ostream &out, const AForm &form);

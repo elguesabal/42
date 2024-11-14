@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   DiamondTrap.hpp                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joseanto <joseanto@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/14 01:31:55 by joseanto          #+#    #+#             */
+/*   Updated: 2024/11/14 01:31:56 by joseanto         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef DIAMONDTRAP_HPP
 #define DIAMONDTRAP_HPP
 
@@ -15,7 +27,6 @@ class DiamondTrap:public ScavTrap, public FragTrap {
 
 	private:
 		std::string _name;
-
 };
 
 #endif

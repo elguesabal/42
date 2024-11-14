@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   RobotomyRequestForm.cpp                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joseanto <joseanto@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/14 01:37:43 by joseanto          #+#    #+#             */
+/*   Updated: 2024/11/14 01:37:44 by joseanto         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "header.h"
 
 RobotomyRequestForm::RobotomyRequestForm(std::string target) : AForm("RobotomyRequestForm", 72, 45), _target(target) {
@@ -18,11 +30,7 @@ RobotomyRequestForm::~RobotomyRequestForm(void) {
 }
 
 void RobotomyRequestForm::execute(const Bureaucrat &executor) const {
-	// if (!this->getSigned())
-	// 	throw (FormNotSigned());
-	// if (executor.getGrade() > this->getGradeExec())
-	// 	throw (GradeTooLow());
-	(void)executor; // VERIFICACAO FEITA NA FUNCAO "void executeForm(AForm &form) const;" DENTRO DA CLASS Bureaucrat
+	(void)executor;
 	std::cout << "* ruídos de perfuração *" << std::endl;
 	std::cout << "* ruídos de perfuração *" << std::endl;
 	std::cout << "* ruídos de perfuração *" << std::endl;

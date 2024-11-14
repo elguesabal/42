@@ -1,8 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ScavTrap.cpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joseanto <joseanto@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/14 01:32:46 by joseanto          #+#    #+#             */
+/*   Updated: 2024/11/14 01:32:47 by joseanto         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "header.h"
 
 ScavTrap::ScavTrap(void) : ClapTrap() {
 	std::cout << "Scavtrap: Chamou o construtor \"ScavTrap(void);\" sem iniciar o nome" << std::endl;
-	// this->_name = "";
 	this->_life = 100;
 	this->_energy = 50;
 	this->_damage = 20;
@@ -10,7 +21,6 @@ ScavTrap::ScavTrap(void) : ClapTrap() {
 
 ScavTrap::ScavTrap(std::string name) : ClapTrap(name) {
 	std::cout << "Scavtrap " << name << ": Chamou o construtor \"ScavTrap(std::string name);\"" << std::endl;
-	// this->_name = name;
 	this->_life = 100;
 	this->_energy = 50;
 	this->_damage = 20;
