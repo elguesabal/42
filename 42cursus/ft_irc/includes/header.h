@@ -15,9 +15,12 @@
 // 	int server_socket;
 // };
 
-int server_socket;
+extern int server_socket;
 
-// ./signal.cpp
+// ./src/verification.cpp
+int validation(int argc, char **argv);
+
+// ./src/signal.cpp
 void ctrlC(int signal);
 
 #endif

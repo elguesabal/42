@@ -2,7 +2,9 @@ COMPILER = c++
 INCLUDE = -I ./includes
 FLAGS = -Wall -Wextra -Werror -std=c++98 $(INCLUDE) -o
 NAME = ircserv
-FILE = ./ft_irc.cpp
+FILE = ./ft_irc.cpp\
+		./src/verification.cpp\
+		./src/signal.cpp
 RM = rm
 
 all: $(NAME)

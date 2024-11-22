@@ -1,37 +1,9 @@
 #include "header.h"
 
-int validation(int argc, char **argv) {
-	if (argc != 3) {
-		std::cout << "Numero de argumentos invalido" << std::endl;
-		return (1);
-	}
-
-	if (strlen(argv[1]) > 15) {
-		std::cout << "Primeiro argumento deve conter apenas um ip" << std::endl;
-		return (1);
-	}
-	for (int i = 0; argv[1][i]; i++) {
-		if (argv[1][i] != '.' && (argv[1][i] < '0' || argv[1][i] > '9')) {
-			std::cout << "Primeiro argumento deve conter apenas um ip" << std::endl;
-			return (1);
-		}
-	}
-
-	if (strlen(argv[2]) > 4) {
-		std::cout << "O segundo argumento deve conter apenas uma porta" << std::endl;
-		return (1);
-	}
-	for (int i = 0; argv[2][i]; i++) {
-		if (argv[2][i] < '0' || argv[2][i] > '9') {
-			std::cout << "O segundo argumento deve conter apenas uma porta" << std::endl;
-			return (1);
-		}
-	}
-	return (0);
-}
+int server_socket;
 
 int server(int port) {
-	int server_socket = socket(AF_INET, SOCK_STREAM, 0);
+	server_socket = socket(AF_INET, SOCK_STREAM, 0);
 	if (server_socket == -1) {
 		std::cerr << "Erro ao criar o socket" << std::endl;
 		return (-1);
@@ -55,54 +27,42 @@ int server(int port) {
 	return (server_socket);
 }
 
-// void ctrlC(int signal, siginfo_t *info, void *context) {
-// (void)signal;
-// (void)info;
-// (void)context;
+// FUNCAO Q ESCUTA MENSAGENS DO CLIENTE
+void handle_client(int client_socket) {
+	char buffer[100];
+	while (true) {
+		memset(buffer, 0, 100);
 
-// 	// static int server_socket;
+		ssize_t bytes_received = recv(client_socket, buffer, 99, 0);
 
-// 	// signalData *data = reinterpret_cast<signalData *>(info->si_value.sival_ptr);
-// 	// if (info) {
-// 	// 	std::cout << "cheio" << std::endl;
-// 	// 	// close(data->server_socket);
-// 	// 	// server_socket = data->server_socket;
-// 	// } else {
-// 	// 	std::cout << "vazio" << std::endl;
-// 	// }
-// 	// std::cout << "teste fora" << std::endl;
-// 	// exit(0);
-// }
+		if (bytes_received < 0) {
+			std::cerr << "Erro ao receber dados" << std::endl;
+			break;
+		}
 
+		if (bytes_received == 0) {
+			std::cout << "Conexao encerrada pelo cliente" << std::endl;
+			break;
+		}
 
+		std::cout << "Mensagem recebida: " << buffer;
+	}
+	close(client_socket);
+}
 
 int main(int argc, char **argv) {
 	if (validation(argc, argv))
 		return (0);
-	server_socket = server(std::atoi(argv[2]));
+	server_socket = server(std::atoi(argv[1]));
 	if (server_socket == -1)
 		return (-1);
+	std::signal(SIGINT, ctrlC);
 
-
-
-// struct sigaction action = {}; // NAO SEI PQ MAS TA SENDO ENVIADO UM SIGNAL LOGO NO COMECO DO CODIGO
-// signalData data = { server_socket };
-// action.sa_flags = SA_SIGINFO;
-// action.sa_sigaction = ctrlC;
-
-// sigemptyset(&action.sa_mask);
-// sigaddset(&action.sa_mask, SIGINT);
-
-// sigaction(SIGINT, &action, NULL);
-// sigval sig_value = {};
-// sig_value.sival_ptr = &data;
-// sigqueue(getpid(), SIGINT, sig_value); // ALIAS SEI SIM MAS MESMO A FUNCAO NAO FAZENDO NADA O SERVIDO DA "Erro ao aceitar conexão"
-
-std::signal(SIGINT, ctrlC); // CAGUEI PRO sigaction()
 	// std::vector<int> client_sockets;
 	int new_socket;
 	struct sockaddr_in client_address;
 	socklen_t client_address_len = sizeof(client_address);
+	std::cout << "Servidor iniciado na porta: " << argv[1] << std::endl << "Senha: " << argv[2] << std::endl;
 	while (true) {
 		new_socket = accept(server_socket, (struct sockaddr *)&client_address, &client_address_len);
 		if (new_socket == -1) {
@@ -112,9 +72,11 @@ std::signal(SIGINT, ctrlC); // CAGUEI PRO sigaction()
 		}
 
 		// client_sockets.push_back(new_socket);
-		std::cout << "Conexão aceita do cliente: " << inet_ntoa(client_address.sin_addr) << " na porta " << ntohs(client_address.sin_port) << std::endl;
+		// std::cout << "Conexão aceita do cliente: " << inet_ntoa(client_address.sin_addr) << " na porta " << ntohs(client_address.sin_port) << std::endl;
+		std::cout << "a" << std::endl;
 
-		send(new_socket, "vampeta", 7, 0);
+		send(new_socket, "Bem vindo ao servidor!\n Senha: ", 31, 0);
+		handle_client(new_socket);
 	}
 
 	// AKI EU DEVERIA FECHAR O SERVIDOR MAS NESSE CASO O LOOP E INFINITO
