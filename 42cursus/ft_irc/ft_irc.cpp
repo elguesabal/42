@@ -73,10 +73,13 @@ int main(int argc, char **argv) {
 
 		// client_sockets.push_back(new_socket);
 		// std::cout << "Conexão aceita do cliente: " << inet_ntoa(client_address.sin_addr) << " na porta " << ntohs(client_address.sin_port) << std::endl;
-		std::cout << "a" << std::endl;
+		// std::cout << "a" << std::endl;
 
-		send(new_socket, "Bem vindo ao servidor!\n Senha: ", 31, 0);
-		handle_client(new_socket);
+		// send(new_socket, "Bem vindo ao servidor!\n Senha: ", 31, 0);
+		// send(new_socket, "Senha: ", 7, 0);
+		if (authPassword(new_socket, argv[2]) == -1) {
+			handle_client(new_socket);
+		}
 	}
 
 	// AKI EU DEVERIA FECHAR O SERVIDOR MAS NESSE CASO O LOOP E INFINITO

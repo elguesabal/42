@@ -23,4 +23,7 @@ int validation(int argc, char **argv);
 // ./src/signal.cpp
 void ctrlC(int signal);
 
+// ./src/password.cpp
+int authPassword(int client_socket, char *passwordServer);
+
 #endif
