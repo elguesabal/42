@@ -2,6 +2,9 @@
 
 int server_socket;
 
+/// @brief INICIALIZA O SERVIDOR NA PORTA PASSADA PELO ARGUMENTO
+/// @param port PORTA EM Q O SERVIDOR ESTA ABERTO
+/// @return RETORNA UM NUMERO POSITIVO 
 int server(int port) {
 	server_socket = socket(AF_INET, SOCK_STREAM, 0);
 	if (server_socket == -1) {
@@ -27,25 +30,24 @@ int server(int port) {
 	return (server_socket);
 }
 
-// FUNCAO Q ESCUTA MENSAGENS DO CLIENTE
-void handle_client(int client_socket) {
+/// @brief ESCUTA QUALQUER MENSAGEM ENVIADA PELO CLIENTE
+/// @param client_socket FD DE CONEXAO DO CLIENTE
+/// @param port PORTA EM Q O CLIENTE ESTA SE CONECTANDO (SO PRA TESTE MESMO)
+void handle_client(int client_socket, int port) {
 	char buffer[100];
 	while (true) {
 		memset(buffer, 0, 100);
-
 		ssize_t bytes_received = recv(client_socket, buffer, 99, 0);
-
 		if (bytes_received < 0) {
 			std::cerr << "Erro ao receber dados" << std::endl;
 			break;
 		}
-
 		if (bytes_received == 0) {
 			std::cout << "Conexao encerrada pelo cliente" << std::endl;
 			break;
 		}
 
-		std::cout << "Mensagem recebida: " << buffer;
+		std::cout << "Mensagem recebida da porta " << port << ": " << buffer;
 	}
 	close(client_socket);
 }
@@ -54,6 +56,7 @@ int main(int argc, char **argv) {
 	if (validation(argc, argv))
 		return (0);
 	server_socket = server(std::atoi(argv[1]));
+std::cout << "teste: " << server_socket << std::endl;
 	if (server_socket == -1)
 		return (-1);
 	std::signal(SIGINT, ctrlC);
@@ -74,11 +77,12 @@ int main(int argc, char **argv) {
 		// client_sockets.push_back(new_socket);
 		// std::cout << "Conexão aceita do cliente: " << inet_ntoa(client_address.sin_addr) << " na porta " << ntohs(client_address.sin_port) << std::endl;
 		// std::cout << "a" << std::endl;
+		// std::cout << "Conexao aceita do ip: " << inet_ntoa(client_address.sin_addr) << " na porta " << ntohs(client_address.sin_port) << std::endl;
 
 		// send(new_socket, "Bem vindo ao servidor!\n Senha: ", 31, 0);
 		// send(new_socket, "Senha: ", 7, 0);
-		if (authPassword(new_socket, argv[2]) == -1) {
-			handle_client(new_socket);
+		if (authPassword(new_socket, argv[2]) != -1) {
+			handle_client(new_socket, ntohs(client_address.sin_port));
 		}
 	}
 

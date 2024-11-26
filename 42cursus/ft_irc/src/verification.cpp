@@ -1,5 +1,9 @@
 #include "header.h"
 
+/// @brief FAZ UMA VERIFICACAO SE OS ARGUMENTOS DE INICIALIZACAO DO PROGRAMA SAO VALIDOS
+/// @param argc NUMERO DE ARGUMENTOS PASSADO
+/// @param argv ARRAY DE PONTEIRO COM OS ARGUMENTOS
+/// @return RETORNA 0 CASO ESTEJA TUDO OK E 1 CASO EXISTA ALGUM ERRO NO ARGUMENTO
 int validation(int argc, char **argv) {
 	if (argc != 3) {
 		std::cout << "Numero de argumentos invalido" << std::endl;
