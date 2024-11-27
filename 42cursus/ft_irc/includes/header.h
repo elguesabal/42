@@ -11,6 +11,10 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+#include <unistd.h> // USANDO ISSO PARA VER O PID
+
+#include "client.hpp"
+
 // struct signalData {
 // 	int server_socket;
 // };
@@ -18,10 +22,13 @@
 extern int server_socket;
 
 // ./src/verification.cpp
-int validation(int argc, char **argv);
+void validation(int argc, char **argv);
 
 // ./src/signal.cpp
 void ctrlC(int signal);
+
+// ./src/new_client.cpp
+Client new_client(void);
 
 // ./src/password.cpp
 int authPassword(int client_socket, char *passwordServer);
