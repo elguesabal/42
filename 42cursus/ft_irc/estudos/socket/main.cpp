@@ -18,6 +18,12 @@
 
 // int setsockopt(int socket, int level, int option_name, const void *option_value, socklen_t option_len);
 // int main(void) {
+// 	int opt = 1;
+
+// 	if (setsockopt(server_socket, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) == -1) {
+// 		std::cerr << "Erro ao definir opção de socket" << std::endl;
+// 		return -1;
+// 	}
 // 	return (0);
 // }
 

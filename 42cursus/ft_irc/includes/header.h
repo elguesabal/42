@@ -10,14 +10,12 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <fcntl.h>
+#include <poll.h>
 
 #include <unistd.h> // USANDO ISSO PARA VER O PID
 
 #include "client.hpp"
-
-// struct signalData {
-// 	int server_socket;
-// };
 
 extern int server_socket;
 
@@ -28,7 +26,8 @@ void validation(int argc, char **argv);
 void ctrlC(int signal);
 
 // ./src/new_client.cpp
-Client new_client(void);
+// Client new_client(void); // IMPLEMENTEI ESSA FUNCAO NO CONSTRUTOR DA CLASSE Client(void)
+void new_client(std::vector<pollfd> &fds, std::vector<Client> &clients);
 
 // ./src/password.cpp
 int authPassword(int client_socket, char *passwordServer);
