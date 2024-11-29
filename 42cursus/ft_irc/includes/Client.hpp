@@ -10,6 +10,7 @@ class Client {
 		// Client(int socket, sockaddr_in _client, pollfd pfd);
 		~Client(void);
 
+		void close_client(void);
 		std::string ip(void) const;
 		unsigned short port(void) const;
 
@@ -18,6 +19,7 @@ class Client {
 		struct pollfd pfd;
 		// int password = 0;
 		// std::string nickname;
+		// std::string name;
 		// int adm = 0;
 
 	private:

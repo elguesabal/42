@@ -4,10 +4,11 @@ FLAGS = -Wall -Wextra -Werror -std=c++98 $(INCLUDE) -o
 NAME = ircserv
 FILE = ./ft_irc.cpp\
 		./src/verification.cpp\
+		./src/server.cpp\
 		./src/signal.cpp\
-		./src/new_client.cpp\
+		./src/client.cpp\
 		./src/password.cpp\
-		./class/client.cpp
+		./class/Client.cpp
 RM = rm
 
 all: $(NAME)

@@ -29,16 +29,14 @@ Client::Client(void) {
 // }
 
 Client::~Client(void) {
-	// AKI EU DEVO USAR A FUNCAO close() NO FD DO CLIENTE????
-	std::cout << "testando o destrutor" << std::endl;
-	close(this->pfd.fd);
+	// this->delete_client();
 }
 
-void Client::delete_client(void) {
-	if (fd != -1) {
+void Client::close_client(void) {
+	if (this->pfd.fd != -1) {
+		// std::cout << "fechando o fd" << std::endl;
 		close(this->pfd.fd);
-
-		fd = -1;
+		this->pfd.fd = -1;
 	}
 }
 

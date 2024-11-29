@@ -32,3 +32,14 @@ void new_client(std::vector<pollfd> &fds, std::vector<Client> &clients) {
 	fds.push_back(new_client.pfd);
 	clients.push_back(new_client);
 }
+
+/// @brief REMOVE UM CLIENTE CLIENTE DA PILHA DE FD E DA PILHA DE CLIENTES
+/// @param fds PILHA RESPONSAVEL POR TODOS OS FDS ABERTOS (INCLUINDO O PRIMEIRO Q E O SOCKET DO SERVIDOR)
+/// @param clients PILHA RESPONSALVEL POR TODOS OS CLIENTES (CADA POSICAO E UMA CLASSE CONTENDO TODAS AS INFORMACOES DO CLIENTE)
+/// @param i INDICE EM REFERENTE A POSICAO DO CLIENTE EM A SER REMOVIDO
+void delete_client(std::vector<pollfd> &fds, std::vector<Client> &clients, unsigned int i) {
+	fds.erase(fds.begin() + i);
+	clients[i - 1].close_client();
+	clients.erase(clients.begin() + i - 1);
+	std::cout << "Conexao encerrada pelo cliente" << std::endl;
+}
