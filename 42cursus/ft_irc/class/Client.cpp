@@ -1,7 +1,7 @@
 #include "header.h"
 
 /// @brief CRIA UM NOVO CLIENTE DPS Q A FUNCAO poll DETECTAR UM EVENTO DE NOVA CONEXAO (PREENCHE TODAS AS VARIAVEIS DENTRO DA CLASSE COM BASE NA LEITURA DO SOCKET DO SERVIDOR)
-Client::Client(void) {
+Client::Client(int server_socket) {
 	int new_socket;
 	struct sockaddr_in client_address;
 	socklen_t client_address_len = sizeof(client_address);
@@ -12,7 +12,7 @@ Client::Client(void) {
 		close(server_socket);
 		exit(-1);
 	} else {
-		std::cout << "Conexao aceita do ip: " << inet_ntoa(client_address.sin_addr) << " na porta " << ntohs(client_address.sin_port) << std::endl;
+		std::cout << "Conexao aceita do ip " << inet_ntoa(client_address.sin_addr) << " na porta " << ntohs(client_address.sin_port) << std::endl;
 	}
 
 	struct pollfd fd;
@@ -22,6 +22,8 @@ Client::Client(void) {
 	this->client = client_address;
 	// this->socket = new_socket;
 	this->pfd = fd;
+	this->auth = false;
+	this->password_attempts = 0;
 }
 
 // Client::Client(int socket, sockaddr_in client, pollfd pfd) : client(client), pfd(pfd) {

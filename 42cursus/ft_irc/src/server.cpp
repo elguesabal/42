@@ -34,3 +34,36 @@ void init_server(int port, char *password) {
 
 	std::cout << "Servidor iniciado na porta: " << port << std::endl << "Senha: " << password << std::endl;
 }
+
+void listener(Server &server) {
+	std::vector<pollfd> fds;
+	std::vector<Client> clients;
+	char buffer[1024];
+
+	fds.push_back(server.server_fd);
+	while (true) {
+		int ret = poll(fds.data(), fds.size(), -1);
+
+		if (ret == -1) {
+			std::cout << "erro no poll" << std::endl;
+			exit(1);
+		} else if (fds[0].revents & POLLIN) {
+			new_client(fds, clients, server_socket);
+		} else {
+			for (unsigned int i = 1; i < fds.size(); i++) {
+				if (fds[i].revents & POLLIN) {
+					memset(buffer, 0, 1024);
+					ssize_t bytes_received = recv(fds[i].fd, buffer, 99, 0);
+					if (bytes_received > 0) {
+						new_buffer(clients[i - 1], fds, buffer);
+					} else if (bytes_received == 0) {
+						delete_client(fds, clients, i);
+					} else if (bytes_received < 0) {
+						std::cerr << "Erro ao receber mensagem" << std::endl;
+					}
+					break;
+				}
+			}
+		}
+	}
+}

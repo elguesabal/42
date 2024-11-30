@@ -8,6 +8,7 @@ FILE = ./ft_irc.cpp\
 		./src/signal.cpp\
 		./src/client.cpp\
 		./src/password.cpp\
+		./class/Server.cpp\
 		./class/Client.cpp
 RM = rm
 
