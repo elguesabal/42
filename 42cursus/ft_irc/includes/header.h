@@ -25,7 +25,7 @@ void validation(int argc, char **argv);
 
 // ./src/server.cpp
 void init_server(int port, char *password);
-void listener(Server &server);
+void listener(Server server);
 
 // ./src/signal.cpp
 void ctrlC(int signal);
@@ -33,8 +33,8 @@ void ctrlC(int signal);
 // ./src/client.cpp
 // Client new_client(void); // IMPLEMENTEI ESSA FUNCAO NO CONSTRUTOR DA CLASSE Client(void)
 void new_client(std::vector<pollfd> &fds, std::vector<Client> &clients, int server_socket);
-void delete_client(std::vector<pollfd> &fds, std::vector<Client> &clients, unsigned int i);
-void new_buffer(Client &client, std::vector<pollfd> &fds, std::string buffer);
+void delete_client(std::vector<pollfd> &fds, std::vector<Client> &clients, unsigned int i, Client &client);
+void new_buffer(Server &server, Client &client, std::vector<pollfd> &fds, std::string buffer);
 // bool authentication(Client &client);
 
 // ./src/password.cpp

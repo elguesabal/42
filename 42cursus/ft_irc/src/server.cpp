@@ -35,7 +35,7 @@ void init_server(int port, char *password) {
 	std::cout << "Servidor iniciado na porta: " << port << std::endl << "Senha: " << password << std::endl;
 }
 
-void listener(Server &server) {
+void listener(Server server) {
 	std::vector<pollfd> fds;
 	std::vector<Client> clients;
 	char buffer[1024];
@@ -55,9 +55,9 @@ void listener(Server &server) {
 					memset(buffer, 0, 1024);
 					ssize_t bytes_received = recv(fds[i].fd, buffer, 99, 0);
 					if (bytes_received > 0) {
-						new_buffer(clients[i - 1], fds, buffer);
+						new_buffer(server, clients[i - 1], fds, buffer);
 					} else if (bytes_received == 0) {
-						delete_client(fds, clients, i);
+						delete_client(fds, clients, i, clients[i - 1]);
 					} else if (bytes_received < 0) {
 						std::cerr << "Erro ao receber mensagem" << std::endl;
 					}

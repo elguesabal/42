@@ -40,17 +40,46 @@ void new_client(std::vector<pollfd> &fds, std::vector<Client> &clients, int serv
 /// @param fds PILHA RESPONSAVEL POR TODOS OS FDS ABERTOS (INCLUINDO O PRIMEIRO Q E O SOCKET DO SERVIDOR)
 /// @param clients PILHA RESPONSALVEL POR TODOS OS CLIENTES (CADA POSICAO E UMA CLASSE CONTENDO TODAS AS INFORMACOES DO CLIENTE)
 /// @param i INDICE EM REFERENTE A POSICAO DO CLIENTE EM A SER REMOVIDO
-void delete_client(std::vector<pollfd> &fds, std::vector<Client> &clients, unsigned int i) {
+void delete_client(std::vector<pollfd> &fds, std::vector<Client> &clients, unsigned int i, Client &client) {
 	std::cout << "Conexao encerrada do ip " << inet_ntoa(clients[i - 1].client.sin_addr) << " na porta " << ntohs(clients[i - 1].client.sin_port) << std::endl;
-	fds.erase(fds.begin() + i);
-	clients[i - 1].close_client();
-	clients.erase(clients.begin() + i - 1);
+	// fds.erase(fds.begin() + i);
+	// clients[i - 1].close_client();
+	// clients.erase(clients.begin() + i - 1);
+
+
+	std::vector<Client>::iterator it = std::find(clients.begin(), clients.end(), client);
+	if (client == client)
+		std::cout << "foi" << std::endl;
+
+	// int index = it - clients.begin();
+	// std::cout << "index: " << index << " i: " << i << std::endl;
+
+	// fds.erase(std::find(fds.begin(), fds.end(), client.pfd));
+	// clients[std::find(clients.begin(), clients.end(), client.pfd.fd) - clients.begin()].close_client();
+	// clients.erase(std::find(clients.begin(), clients.end(), client.pfd.fd));
+
+(void)i;
+(void)fds;
+(void)it;
 }
 
-void new_buffer(Client &client, std::vector<pollfd> &fds, std::string buffer) {
-
+/// @brief FUNCAO Q ENCAMINHA COMO O BUFFER RECEBIDO POR UM CLIENTE ESPECIFICO VAI SER TRATADO
+/// @param client REFERENCIA Q CONTEM AS INFORMACOES DO CLIENTE
+/// @param fds PILHA RESPONSAVEL POR TODOS OS FDS ABERTOS (INCLUINDO O PRIMEIRO Q E O SOCKET DO SERVIDOR)
+/// @param buffer 
+void new_buffer(Server &server, Client &client, std::vector<pollfd> &fds, std::string buffer) {
 	if (client.auth == false) {
-
+		buffer.erase(buffer.size() - 1);
+		if (buffer == server.password) {
+			client.auth = true;
+			send(client.pfd.fd, "Bem vindo ao servidor!\n", 23, 0);
+		} else {
+			send(client.pfd.fd, "Senha incorreta! Digite novamente: ", 35, 0);
+			// client.password_attempts++;
+			// (client.password_attempts < 3) ? client.password_attempts++ : delete_client(???);
+			// AKI NAO TENHO UM INDICE PARA PASSAR COMO ARGUMENTO ENTAO VOU TER Q FAZER UMA BUSCA delete_client() DENTRO DO ARRAY DE FD
+			// EU POSSO ENVIAR UMA MENSAGEM PARA UM SOCKET EM Q O CLIENTE JA FECHOU A CONEXAO???
+		}
 	} else {
 		for (unsigned int i = 1; i < fds.size(); i++) {
 			if (fds[i].fd != client.pfd.fd) {

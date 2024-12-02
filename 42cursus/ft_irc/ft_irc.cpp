@@ -30,8 +30,8 @@ int main(int argc, char **argv) {
 	init_server(std::atoi(argv[1]), argv[2]);
 	std::signal(SIGINT, ctrlC);
 
-	Server server(server_socket);
-	listener(server);
+	// Server server(server_socket, argv[2]);
+	listener(Server(server_socket, argv[2]));
 
 		// if (authPassword(client.socket, argv[2]) != -1) {
 		// 	handle_client(client.socket, ntohs(client.client.sin_port));
