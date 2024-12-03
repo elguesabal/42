@@ -47,19 +47,31 @@ void delete_client(std::vector<pollfd> &fds, std::vector<Client> &clients, unsig
 	// clients.erase(clients.begin() + i - 1);
 
 
-	std::vector<Client>::iterator it = std::find(clients.begin(), clients.end(), client);
-	if (client == client)
-		std::cout << "foi" << std::endl;
+	std::vector<Client>::iterator it = std::find(clients.begin(), clients.end(), client); // PQP TAVA FATANDO INCLUIR A BIBLIOTECA <algorithm> POR ISSO TAVA DANDO ERRO NA COMPILACAO
+	// if (client == client)
+	// 	std::cout << "foi" << std::endl;
 
 	// int index = it - clients.begin();
 	// std::cout << "index: " << index << " i: " << i << std::endl;
 
-	// fds.erase(std::find(fds.begin(), fds.end(), client.pfd));
-	// clients[std::find(clients.begin(), clients.end(), client.pfd.fd) - clients.begin()].close_client();
-	// clients.erase(std::find(clients.begin(), clients.end(), client.pfd.fd));
+	// fds.erase(std::find(fds.begin(), fds.end(), client.pfd)); // A CLASSE TEM O OPERADOR == DEFINIDO?? VOU TER Q FAZER O OPERADOR DE ==
+	clients[std::find(clients.begin(), clients.end(), client.pfd.fd) - clients.begin()].close_client();
+	clients.erase(std::find(clients.begin(), clients.end(), client.pfd.fd));
 
-(void)i;
+
+	// std::vector<int> teste;
+	// teste.push_back(1);
+	// teste.push_back(2);
+	// teste.push_back(3);
+
+	// std::vector<int>::iterator it = std::find(teste.begin(), teste.end(), 2);
+	// std::cout << "teste: " << *it << std::endl;
+
+
 (void)fds;
+(void)clients;
+(void)i;
+(void)client;
 (void)it;
 }
 

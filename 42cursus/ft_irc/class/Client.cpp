@@ -1,4 +1,3 @@
-#include "Client.hpp"
 #include "header.h"
 
 /// @brief CRIA UM NOVO CLIENTE DPS Q A FUNCAO poll DETECTAR UM EVENTO DE NOVA CONEXAO (PREENCHE TODAS AS VARIAVEIS DENTRO DA CLASSE COM BASE NA LEITURA DO SOCKET DO SERVIDOR)
@@ -12,7 +11,7 @@ Client::Client(int server_socket) {
 	// new_socket = accept(server_socket, (struct sockaddr *)&client_address, &client_address_len);
 	this->pfd.fd = accept(server_socket, (struct sockaddr *)&this->client, &client_address_len);
 	if (this->pfd.fd == -1) {
-		std::cerr << "Erro ao aceitar conexão" << std::endl;
+		std::cerr << "Erro ao aceitar conexão" << std::endl; // TA CAINDO AKI QUANDO EU FECHO A CONEXAO DE UM CLIENTE QUANDO EU NAOREMOVO O pollfd DO ARRAY DE pollfd
 		close(server_socket);
 		exit(-1);
 	}
