@@ -22,8 +22,6 @@
 // 	return (Client(new_socket, client_address, pfd));
 // }
 
-
-
 /// @brief CRIA UM NOVO CLIENTE E SALVA DENTRO DAS DUAS PILHAS
 /// @param fds PILHA RESPONSAVEL POR TODOS OS FDS ABERTOS (INCLUINDO O PRIMEIRO Q E O SOCKET DO SERVIDOR)
 /// @param clients PILHA RESPONSALVEL POR TODOS OS CLIENTES (CADA POSICAO E UMA CLASSE CONTENDO TODAS AS INFORMACOES DO CLIENTE)
@@ -36,27 +34,40 @@ void new_client(std::vector<pollfd> &fds, std::vector<Client> &clients, int serv
 	// VOU TER Q ALOCAR MEMORIA DINAMICAMENTE PARA NAO FICAR CLIENTES Q JA DESCONECTARAM SALVO NA MEMORIA RAM
 }
 
+// bool operator == (const pollfd &fd1, const pollfd &fd2) {
+// 	std::cout << "testando operador de comparacao" << std::endl;
+// 	return (fd1.fd == fd2.fd);
+// }
+
 /// @brief REMOVE UM CLIENTE CLIENTE DA PILHA DE FD E DA PILHA DE CLIENTES
 /// @param fds PILHA RESPONSAVEL POR TODOS OS FDS ABERTOS (INCLUINDO O PRIMEIRO Q E O SOCKET DO SERVIDOR)
 /// @param clients PILHA RESPONSALVEL POR TODOS OS CLIENTES (CADA POSICAO E UMA CLASSE CONTENDO TODAS AS INFORMACOES DO CLIENTE)
 /// @param i INDICE EM REFERENTE A POSICAO DO CLIENTE EM A SER REMOVIDO
-void delete_client(std::vector<pollfd> &fds, std::vector<Client> &clients, unsigned int i, Client &client) {
+// void delete_client(std::vector<pollfd> &fds, std::vector<Client> &clients, unsigned int i, Client &client) {
+void delete_client(std::vector<pollfd> &fds, std::vector<Client> &clients, Client &client) {
+	// std::vector<Client>::iterator it = std::find(clients.begin(), clients.end(), client); // PQP TAVA FATANDO INCLUIR A BIBLIOTECA <algorithm> POR ISSO TAVA DANDO ERRO NA COMPILACAO
+	unsigned int i = std::find(clients.begin(), clients.end(), client) - clients.begin() + 1;
+
 	std::cout << "Conexao encerrada do ip " << inet_ntoa(clients[i - 1].client.sin_addr) << " na porta " << ntohs(clients[i - 1].client.sin_port) << std::endl;
-	// fds.erase(fds.begin() + i);
-	// clients[i - 1].close_client();
-	// clients.erase(clients.begin() + i - 1);
+	fds.erase(fds.begin() + i);
+	clients[i - 1].close_client();
+	clients.erase(clients.begin() + i - 1);
 
 
-	std::vector<Client>::iterator it = std::find(clients.begin(), clients.end(), client); // PQP TAVA FATANDO INCLUIR A BIBLIOTECA <algorithm> POR ISSO TAVA DANDO ERRO NA COMPILACAO
 	// if (client == client)
 	// 	std::cout << "foi" << std::endl;
 
-	// int index = it - clients.begin();
-	// std::cout << "index: " << index << " i: " << i << std::endl;
+	// int index = it - clients.begin(); // TEM Q SOMAR 1
 
-	// fds.erase(std::find(fds.begin(), fds.end(), client.pfd)); // A CLASSE TEM O OPERADOR == DEFINIDO?? VOU TER Q FAZER O OPERADOR DE ==
-	clients[std::find(clients.begin(), clients.end(), client.pfd.fd) - clients.begin()].close_client();
-	clients.erase(std::find(clients.begin(), clients.end(), client.pfd.fd));
+	// std::cout << "index: " << index << " i: " << i << std::endl;
+	// if (client.pfd == client.pfd)
+	// std::cout << "teste" << std::endl;
+	// std::cout << "i: " << i << " it: " << (it - clients.begin() + 1) << std::endl;
+
+
+	// fds.erase(std::find(fds.begin(), fds.end(), client.pfd) + 1); // A CLASSE TEM O OPERADOR == DEFINIDO?? VOU TER Q FAZER O OPERADOR DE ==
+	// clients[std::find(clients.begin(), clients.end(), client.pfd.fd) - clients.begin()].close_client();
+	// clients.erase(std::find(clients.begin(), clients.end(), client.pfd.fd));
 
 
 	// std::vector<int> teste;
@@ -68,11 +79,11 @@ void delete_client(std::vector<pollfd> &fds, std::vector<Client> &clients, unsig
 	// std::cout << "teste: " << *it << std::endl;
 
 
-(void)fds;
-(void)clients;
-(void)i;
-(void)client;
-(void)it;
+// (void)fds;
+// (void)clients;
+// (void)i;
+// (void)client;
+// (void)it;
 }
 
 /// @brief FUNCAO Q ENCAMINHA COMO O BUFFER RECEBIDO POR UM CLIENTE ESPECIFICO VAI SER TRATADO
