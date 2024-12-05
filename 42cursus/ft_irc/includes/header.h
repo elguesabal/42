@@ -21,12 +21,6 @@
 
 extern int server_socket;
 
-
-// bool operator == (const pollfd &fd1, const pollfd &fd2) {
-// 	return (fd1.fd == fd2.fd);
-// }
-
-
 // ./src/verification.cpp
 void validation(int argc, char **argv);
 
@@ -38,12 +32,10 @@ void listener(Server server);
 void ctrlC(int signal);
 
 // ./src/client.cpp
-// Client new_client(void); // IMPLEMENTEI ESSA FUNCAO NO CONSTRUTOR DA CLASSE Client(void)
 void new_client(std::vector<pollfd> &fds, std::vector<Client> &clients, int server_socket);
-// void delete_client(std::vector<pollfd> &fds, std::vector<Client> &clients, unsigned int i, Client &client);
 void delete_client(std::vector<pollfd> &fds, std::vector<Client> &clients, Client &client);
-void new_buffer(Server &server, Client &client, std::vector<pollfd> &fds, std::string buffer);
-// bool authentication(Client &client);
+void new_buffer(Server &server, std::vector<Client> &clients, Client &client, std::vector<pollfd> &fds, std::string buffer);
+void authentication(std::vector<Client> &clients, Client &client, std::vector<pollfd> &fds, std::string &buffer, std::string &password);
 
 // ./src/password.cpp
 int authPassword(int client_socket, char *passwordServer);

@@ -37,6 +37,9 @@
 
 
 void ctrlC(int signal) { // POR ENQUANTO ASSIM
+	// NAO ESTOU FECHANDO OS CLIENTS
+
+
 	if (signal == SIGINT) {
 		close(server_socket);
 		exit(0);

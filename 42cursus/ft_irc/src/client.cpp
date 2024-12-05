@@ -1,27 +1,5 @@
 #include "header.h"
 
-/// @brief ESPERA E CRIA NOVOS CLIENTES
-/// @return RETORNA OS DADOS DE UM NOVO CLIENTE
-// Client new_client(void) {
-// 	int new_socket;
-// 	struct sockaddr_in client_address;
-// 	socklen_t client_address_len = sizeof(client_address);
-
-// 	new_socket = accept(server_socket, (struct sockaddr *)&client_address, &client_address_len);
-// 	if (new_socket == -1) {
-// 		std::cerr << "Erro ao aceitar conexão" << std::endl;
-// 		close(server_socket);
-// 		exit(-1);
-// 	} else {
-// 		std::cout << "Conexao aceita do ip: " << inet_ntoa(client_address.sin_addr) << " na porta " << ntohs(client_address.sin_port) << std::endl;
-// 	}
-
-// 	struct pollfd pfd;
-// 	pfd.fd = new_socket;
-// 	pfd.events = POLLIN;
-// 	return (Client(new_socket, client_address, pfd));
-// }
-
 /// @brief CRIA UM NOVO CLIENTE E SALVA DENTRO DAS DUAS PILHAS
 /// @param fds PILHA RESPONSAVEL POR TODOS OS FDS ABERTOS (INCLUINDO O PRIMEIRO Q E O SOCKET DO SERVIDOR)
 /// @param clients PILHA RESPONSALVEL POR TODOS OS CLIENTES (CADA POSICAO E UMA CLASSE CONTENDO TODAS AS INFORMACOES DO CLIENTE)
@@ -34,75 +12,31 @@ void new_client(std::vector<pollfd> &fds, std::vector<Client> &clients, int serv
 	// VOU TER Q ALOCAR MEMORIA DINAMICAMENTE PARA NAO FICAR CLIENTES Q JA DESCONECTARAM SALVO NA MEMORIA RAM
 }
 
-// bool operator == (const pollfd &fd1, const pollfd &fd2) {
-// 	std::cout << "testando operador de comparacao" << std::endl;
-// 	return (fd1.fd == fd2.fd);
-// }
-
 /// @brief REMOVE UM CLIENTE CLIENTE DA PILHA DE FD E DA PILHA DE CLIENTES
 /// @param fds PILHA RESPONSAVEL POR TODOS OS FDS ABERTOS (INCLUINDO O PRIMEIRO Q E O SOCKET DO SERVIDOR)
 /// @param clients PILHA RESPONSALVEL POR TODOS OS CLIENTES (CADA POSICAO E UMA CLASSE CONTENDO TODAS AS INFORMACOES DO CLIENTE)
-/// @param i INDICE EM REFERENTE A POSICAO DO CLIENTE EM A SER REMOVIDO
-// void delete_client(std::vector<pollfd> &fds, std::vector<Client> &clients, unsigned int i, Client &client) {
+/// @param client REFERENCIA COM OS DADOS DO CLIENTE PARA COMPARACAO
 void delete_client(std::vector<pollfd> &fds, std::vector<Client> &clients, Client &client) {
-	// std::vector<Client>::iterator it = std::find(clients.begin(), clients.end(), client); // PQP TAVA FATANDO INCLUIR A BIBLIOTECA <algorithm> POR ISSO TAVA DANDO ERRO NA COMPILACAO
 	unsigned int i = std::find(clients.begin(), clients.end(), client) - clients.begin() + 1;
 
 	std::cout << "Conexao encerrada do ip " << inet_ntoa(clients[i - 1].client.sin_addr) << " na porta " << ntohs(clients[i - 1].client.sin_port) << std::endl;
 	fds.erase(fds.begin() + i);
 	clients[i - 1].close_client();
 	clients.erase(clients.begin() + i - 1);
-
-
-	// if (client == client)
-	// 	std::cout << "foi" << std::endl;
-
-	// int index = it - clients.begin(); // TEM Q SOMAR 1
-
-	// std::cout << "index: " << index << " i: " << i << std::endl;
-	// if (client.pfd == client.pfd)
-	// std::cout << "teste" << std::endl;
-	// std::cout << "i: " << i << " it: " << (it - clients.begin() + 1) << std::endl;
-
-
-	// fds.erase(std::find(fds.begin(), fds.end(), client.pfd) + 1); // A CLASSE TEM O OPERADOR == DEFINIDO?? VOU TER Q FAZER O OPERADOR DE ==
-	// clients[std::find(clients.begin(), clients.end(), client.pfd.fd) - clients.begin()].close_client();
-	// clients.erase(std::find(clients.begin(), clients.end(), client.pfd.fd));
-
-
-	// std::vector<int> teste;
-	// teste.push_back(1);
-	// teste.push_back(2);
-	// teste.push_back(3);
-
-	// std::vector<int>::iterator it = std::find(teste.begin(), teste.end(), 2);
-	// std::cout << "teste: " << *it << std::endl;
-
-
-// (void)fds;
-// (void)clients;
-// (void)i;
-// (void)client;
-// (void)it;
 }
 
 /// @brief FUNCAO Q ENCAMINHA COMO O BUFFER RECEBIDO POR UM CLIENTE ESPECIFICO VAI SER TRATADO
+/// @param sever REFERENCIA Q CONTEM AS INFORMACOES DO SERVIDOR
+/// @param clients REFERENCIA Q CONTEM UM ARRAY COM AS INFORMACOES DE TODOS CLIENTES
 /// @param client REFERENCIA Q CONTEM AS INFORMACOES DO CLIENTE
 /// @param fds PILHA RESPONSAVEL POR TODOS OS FDS ABERTOS (INCLUINDO O PRIMEIRO Q E O SOCKET DO SERVIDOR)
-/// @param buffer 
-void new_buffer(Server &server, Client &client, std::vector<pollfd> &fds, std::string buffer) {
+/// @param buffer NOVO CONJUNTO DE DADO RECEBIDO A SER ANALIZADO
+void new_buffer(Server &server, std::vector<Client> &clients, Client &client, std::vector<pollfd> &fds, std::string buffer) {
 	if (client.auth == false) {
-		buffer.erase(buffer.size() - 1);
-		if (buffer == server.password) {
-			client.auth = true;
-			send(client.pfd.fd, "Bem vindo ao servidor!\n", 23, 0);
-		} else {
-			send(client.pfd.fd, "Senha incorreta! Digite novamente: ", 35, 0);
-			// client.password_attempts++;
-			// (client.password_attempts < 3) ? client.password_attempts++ : delete_client(???);
-			// AKI NAO TENHO UM INDICE PARA PASSAR COMO ARGUMENTO ENTAO VOU TER Q FAZER UMA BUSCA delete_client() DENTRO DO ARRAY DE FD
-			// EU POSSO ENVIAR UMA MENSAGEM PARA UM SOCKET EM Q O CLIENTE JA FECHOU A CONEXAO???
-		}
+		authentication(clients, client, fds, buffer, server.password);
+	} else if (client.nickname) {
+		// PROXIMO PASSO
+		// TALVEZ A PROXIMA COISA Q EU FACA SEJA MUDAR A MEMORIA PARA DINAMICA PARA OS CLIENTES
 	} else {
 		for (unsigned int i = 1; i < fds.size(); i++) {
 			if (fds[i].fd != client.pfd.fd) {
@@ -112,6 +46,24 @@ void new_buffer(Server &server, Client &client, std::vector<pollfd> &fds, std::s
 	}
 }
 
-// bool authentication(Client &client) {
-
-// }
+/// @brief FUNCAO Q LIDA COM INSERCAO DE SENHA QUANDO O CLIENTE SE CONECTA
+/// @param clients REFERENCIA Q CONTEM UM ARRAY COM AS INFORMACOES DE TODOS CLIENTES
+/// @param client REFERENCIA Q CONTEM AS INFORMACOES DO CLIENTE
+/// @param fds PILHA RESPONSAVEL POR TODOS OS FDS ABERTOS (INCLUINDO O PRIMEIRO Q E O SOCKET DO SERVIDOR)
+/// @param buffer SENHA PASSADA PELO CLIENTE
+/// @param password SENHA DO SERVIDOR Q DEVE SER COMPARADA COM A DO CLIENTE
+void authentication(std::vector<Client> &clients, Client &client, std::vector<pollfd> &fds, std::string &buffer, std::string &password) {
+	buffer.erase(buffer.size() - 1);
+	if (buffer == password) {
+		client.auth = true;
+		send(client.pfd.fd, "Bem vindo ao servidor!\n", 23, 0);
+	} else {
+		if (client.password_attempts > 1) {
+			send(client.pfd.fd, "Limite de tentativas excedidas. Aguarde e tente novamente mais tarde\n", 69, 0);
+			delete_client(fds, clients, client);
+		} else {
+			send(client.pfd.fd, "Senha incorreta! Digite novamente: ", 35, 0);
+			client.password_attempts++;
+		}
+	}
+}

@@ -11,7 +11,7 @@ Client::Client(int server_socket) {
 	// new_socket = accept(server_socket, (struct sockaddr *)&client_address, &client_address_len);
 	this->pfd.fd = accept(server_socket, (struct sockaddr *)&this->client, &client_address_len);
 	if (this->pfd.fd == -1) {
-		std::cerr << "Erro ao aceitar conexão" << std::endl; // TA CAINDO AKI QUANDO EU FECHO A CONEXAO DE UM CLIENTE QUANDO EU NAO REMOVO O pollfd DO ARRAY DE pollfd
+		std::cerr << "Erro ao aceitar conexão" << std::endl;
 		close(server_socket);
 		exit(-1);
 	}
@@ -30,10 +30,6 @@ Client::Client(int server_socket) {
 	this->auth = false;
 	this->password_attempts = 0;
 }
-
-// Client::Client(int socket, sockaddr_in client, pollfd pfd) : client(client), pfd(pfd) {
-
-// }
 
 Client::~Client(void) {
 	// this->delete_client();

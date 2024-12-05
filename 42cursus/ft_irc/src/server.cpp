@@ -55,9 +55,8 @@ void listener(Server server) {
 					memset(buffer, 0, 1024);
 					ssize_t bytes_received = recv(fds[i].fd, buffer, 99, 0);
 					if (bytes_received > 0) {
-						new_buffer(server, clients[i - 1], fds, buffer);
+						new_buffer(server, clients, clients[i - 1], fds, buffer);
 					} else if (bytes_received == 0) {
-						// delete_client(fds, clients, i, clients[i - 1]);
 						delete_client(fds, clients, clients[i - 1]);
 					} else if (bytes_received < 0) {
 						std::cerr << "Erro ao receber mensagem" << std::endl;

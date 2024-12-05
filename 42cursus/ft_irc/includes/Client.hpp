@@ -7,7 +7,6 @@
 class Client {
 	public:
 		Client(int server_socket);
-		// Client(int socket, sockaddr_in _client, pollfd pfd);
 		~Client(void);
 
 		bool operator == (const Client &client) const;
@@ -23,6 +22,7 @@ class Client {
 		short int password_attempts;
 		// std::string nickname;
 		// std::string name;
+		// std::string channel;
 		// int adm = 0;
 
 	private:
