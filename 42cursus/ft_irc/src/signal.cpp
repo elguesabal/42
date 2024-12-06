@@ -39,9 +39,8 @@
 void ctrlC(int signal) { // POR ENQUANTO ASSIM
 	// NAO ESTOU FECHANDO OS CLIENTS
 
-
 	if (signal == SIGINT) {
-		close(server_socket);
+		// close(server_socket); // POR ENQUANTO ISSO NAO TA SENDO DEFINIDO NO CONSTRUTOR Servidor()
 		exit(0);
 	}
 }

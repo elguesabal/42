@@ -7,7 +7,6 @@ FILE = ./ft_irc.cpp\
 		./src/server.cpp\
 		./src/signal.cpp\
 		./src/client.cpp\
-		./src/password.cpp\
 		./class/Server.cpp\
 		./class/Client.cpp
 RM = rm

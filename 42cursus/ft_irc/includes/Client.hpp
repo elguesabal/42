@@ -1,12 +1,15 @@
 #ifndef	CLIENT_HPP
 #define CLIENT_HPP
 
-#include "header.h"
+// #include "header.h"
+// #include "Server.hpp"
+
+class Server;
 
 // CLASSE CRIADA PARA ARMAZENAR DADOS DO CLIENTE CONECTADO
 class Client {
 	public:
-		Client(int server_socket);
+		Client(Server &server);
 		~Client(void);
 
 		bool operator == (const Client &client) const;
@@ -17,16 +20,12 @@ class Client {
 
 		struct sockaddr_in client;
 		struct pollfd pfd;
-		// unsigned int i; AKI EU COLOCARIA O INDICE DO CLIENTE DENTRO DO VECTOR MAS COMO EU ATUALIZO???
 		bool auth;
 		short int password_attempts;
 		// std::string nickname;
 		// std::string name;
 		// std::string channel;
 		// int adm = 0;
-
-	private:
-
 };
 
 #endif
