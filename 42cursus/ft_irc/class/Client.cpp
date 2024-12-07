@@ -19,19 +19,26 @@ Client::Client(Server &server) {
 
 Client::~Client(void) {
 	// this->delete_client();
+	// std::cout << "testando destrutor" << std::endl; // POR CAUSA DE ESTAR ARMAZENADO EM UM VECTOR C
+
+	// std::cout << "testando o delete" << std::endl;
+	std::cout << "Conexao encerrada do ip " << inet_ntoa(this->client.sin_addr) << " na porta " << ntohs(this->client.sin_port) << std::endl;
+	close(this->pfd.fd);
 }
 
 bool Client::operator == (const Client &client) const {
 	return (this->pfd.fd == client.pfd.fd); // SERA Q VERIFICAR APENAS POR UM IDENTIFICADOR UNICO BASTA???
 }
 
-void Client::close_client(void) {
-	if (this->pfd.fd != -1) {
-		// std::cout << "fechando o fd" << std::endl;
-		close(this->pfd.fd);
-		this->pfd.fd = -1;
-	}
-}
+// void Client::closeClient(void) {
+// 	// if (this->pfd.fd != -1) {
+// 	// 	// std::cout << "fechando o fd" << std::endl;
+// 	// 	close(this->pfd.fd);
+// 	// 	this->pfd.fd = -1;
+// 	// }
+
+// 	close(this->pfd.fd);
+// }
 
 std::string Client::ip(void) const {
 	return ("vampeta");

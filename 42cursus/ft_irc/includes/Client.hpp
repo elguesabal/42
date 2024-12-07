@@ -14,7 +14,7 @@ class Client {
 
 		bool operator == (const Client &client) const;
 
-		void close_client(void);
+		// void closeClient(void); // COMECEI A USAR UM ARRAI DE PONTEIROS DE CLIENTES E AGR DESATIVEI ISSO
 		std::string ip(void) const;
 		unsigned short port(void) const;
 

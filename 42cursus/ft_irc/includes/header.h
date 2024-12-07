@@ -27,12 +27,12 @@ void ctrlC(int signal);
 
 // ./src/server.cpp
 // void init_server(int port, char *password); // A TAREFA DESSA FUNCAO FOI PASSADA PARA O CONSTRUTOR Server
-void listener(Server &server);
+// void listener(Server &server); // ESSA FUNCAO VIROU UM METODO DA CLASSE Server
 
 // ./src/client.cpp
 // void new_client(Server &server); // ESSA FUNCAO VIROU METODO DA CLASSE Server
-// void delete_client(Server &server, Client &client);
-void new_buffer(Server &server, Client &client);
-void authentication(Server &server, Client &client);
+// void delete_client(Server &server, Client &client); // ESSA FUNCAO VIROU METODO DA CLASSE Server
+// void new_buffer(Server &server, Client &client); // ESSA FUNCAO VIROU UM METODO DA CLASSE Server
+// void authentication(Server &server, Client &client); // ESSA FUNCAO VIROU UM METODO DA CLASSE Server
 
 #endif
