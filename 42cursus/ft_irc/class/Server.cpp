@@ -5,7 +5,6 @@
 /// @param password SENHA Q O SERVIDOR ADOTARA
 Server::Server(int port, char *password) {
 	this->pfd.fd = socket(AF_INET, SOCK_STREAM, 0);
-	// server_socket = this->pfd.fd;
 	if (this->pfd.fd == -1) {
 		std::cerr << "Erro ao criar o socket" << std::endl;
 		exit(1);
@@ -46,7 +45,6 @@ void Server::listener(void) {
 			std::cout << "erro no poll" << std::endl;
 			exit(1);
 		} else if (this->fds[0].revents & POLLIN) {
-			// new_client(server);
 			this->newClient();
 		} else {
 			for (unsigned int i = 1; i < this->fds.size(); i++) {
@@ -55,10 +53,8 @@ void Server::listener(void) {
 					ssize_t bytes_received = recv(this->fds[i].fd, this->bufferChar, 99, 0);
 					this->bufferStr = this->bufferChar;
 					if (bytes_received > 0) {
-						// new_buffer(*this, this->clients[i - 1]);
 						this->newBuffer(this->clients[i - 1]);
 					} else if (bytes_received == 0) {
-						// delete_client(server, server.clients[i - 1]);
 						this->deleteClient(this->clients[i - 1]);
 					} else if (bytes_received < 0) {
 						std::cerr << "Erro ao receber mensagem" << std::endl;
@@ -72,11 +68,8 @@ void Server::listener(void) {
 
 /// @brief CRIA UM NOVO CLIENTE E SALVA O FD NO VECTOR DE FDS E O CLIENTE NO VECTOR DE CLIENTES
 void Server::newClient(void) {
-    // Client newClient(*this);
-	// this->fds.push_back(newClient.pfd);
-	// this->clients.push_back(newClient);
-
     Client *newClient = new Client(*this);
+
 	this->fds.push_back(newClient->pfd);
 	this->clients.push_back(newClient);
 }
@@ -85,9 +78,7 @@ void Server::newClient(void) {
 void Server::deleteClient(Client *client) {
 	unsigned int i = std::find(this->clients.begin(), this->clients.end(), client) - this->clients.begin() + 1;
 
-	// std::cout << "Conexao encerrada do ip " << inet_ntoa(this->clients[i - 1]->client.sin_addr) << " na porta " << ntohs(this->clients[i - 1]->client.sin_port) << std::endl; // AGR ISSO ESTA SENDO FEITO NO DESTRUTOR DO CLIENTE
 	this->fds.erase(this->fds.begin() + i);
-	// this->clients[i - 1]->closeClient(); // std::vector<Client *> clients; VIROU ARRAY DE PONTEIROS
 	delete this->clients[i - 1];
 	this->clients.erase(this->clients.begin() + i - 1);
 }
@@ -96,7 +87,6 @@ void Server::deleteClient(Client *client) {
 /// @param client REFERENCIA Q CONTEM AS INFORMACOES DO CLIENTE
 void Server::newBuffer(Client *client) {
 	if (client->auth == false) {
-		// authentication(*this, client);
 		this->authentication(client);
 	} else {
 		for (unsigned int i = 1; i < this->fds.size(); i++) {
@@ -108,7 +98,7 @@ void Server::newBuffer(Client *client) {
 
 	// else if (client.nickname) {
 	// 	// PROXIMO PASSO
-	// 	// TALVEZ A PROXIMA COISA Q EU FACA SEJA MUDAR A MEMORIA PARA DINAMICA PARA OS CLIENTES
+	// 	// TALVEZ A PROXIMA COISA Q EU FACA SEJA MUDAR A MEMORIA PARA DINAMICA PARA OS CLIENTES // FEITO
 	// } 
 }
 
@@ -122,7 +112,6 @@ void Server::authentication(Client *client) {
 	} else {
 		if (client->password_attempts > 1) {
 			send(client->pfd.fd, "Limite de tentativas excedidas. Aguarde e tente novamente mais tarde\n", 69, 0);
-			// delete_client(server, client);
 			this->deleteClient(client);
 		} else {
 			send(client->pfd.fd, "Senha incorreta! Digite novamente: ", 35, 0);

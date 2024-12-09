@@ -1,11 +1,8 @@
 #ifndef	SERVER_HPP
 #define SERVER_HPP
 
-// #include "Client.hpp"
-
 class Client;
 
-// CLASSE CRIADA PARA ARMAZENAR DADOS DO SERVIDOR
 class Server {
 	public:
 		Server(int port, char *password);
