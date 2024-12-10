@@ -86,15 +86,22 @@ void Server::deleteClient(Client *client) {
 /// @brief FUNCAO Q ENCAMINHA COMO O BUFFER RECEBIDO POR UM CLIENTE ESPECIFICO VAI SER TRATADO
 /// @param client REFERENCIA Q CONTEM AS INFORMACOES DO CLIENTE
 void Server::newBuffer(Client *client) {
-	if (client->auth == false) {
-		this->authentication(client);
-	} else {
-		for (unsigned int i = 1; i < this->fds.size(); i++) {
-			if (this->fds[i].fd != client->pfd.fd) {
-				send(this->fds[i].fd, this->bufferStr.c_str(), this->bufferStr.size(), 0);
-			}
-		}
-	}
+	// if (client->auth == false) { // OS CLIENTES IRC NAO FUNCIONAM ASSIM
+	// 	this->authentication(client);
+	// }
+	
+	// if () {
+	// } else {
+	// 	for (unsigned int i = 1; i < this->fds.size(); i++) {
+	// 		if (this->fds[i].fd != client->pfd.fd) {
+	// 			send(this->fds[i].fd, this->bufferStr.c_str(), this->bufferStr.size(), 0);
+	// 		}
+	// 	}
+	// }
+	send(client->pfd.fd, "teste\n", 6, 0);
+	std::string message(this->bufferStr); // OLHAR A ULTIMA CONVERSA COM O GPT
+	std::cout << "teste: " << message << std::endl;
+
 
 	// else if (client.nickname) {
 	// 	// PROXIMO PASSO

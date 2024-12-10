@@ -16,7 +16,7 @@ class Client {
 		struct sockaddr_in client;
 		struct pollfd pfd;
 		bool auth;
-		short int password_attempts;
+		short int password_attempts; // CLIENTES IRC NAO TEM NUMERO DE TENTATIVAS (EU ACHO)
 		// std::string nickname;
 		// std::string name;
 		// std::string channel;

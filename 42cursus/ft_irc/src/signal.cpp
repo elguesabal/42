@@ -41,6 +41,7 @@ void ctrlC(int signal) { // POR ENQUANTO ASSIM
 
 	if (signal == SIGINT) {
 		// close(server_socket); // POR ENQUANTO ISSO NAO TA SENDO DEFINIDO NO CONSTRUTOR Servidor()
+		std::cout << std::endl << "Fechando servidor..." << std::endl;
 		exit(0);
 	}
 }
