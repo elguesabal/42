@@ -22,16 +22,3 @@ Client::~Client(void) {
 	std::cout << "Conexao encerrada do ip " << inet_ntoa(this->client.sin_addr) << " na porta " << ntohs(this->client.sin_port) << std::endl;
 	close(this->pfd.fd);
 }
-
-/// @brief RESPONSAVEL POR COMPARAR DOIS CLIENTES
-// bool Client::operator == (const Client &client) const { // EU SO PRECISAVA DE IMPLEMENTAR == QUANDO EU DEFINIA std::vector<Client> clients;
-// 	return (this->pfd.fd == client.pfd.fd);
-// }
-
-std::string Client::ip(void) const {
-	return ("vampeta");
-}
-
-unsigned short Client::port(void) const {
-	return (5);
-}

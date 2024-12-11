@@ -14,6 +14,8 @@ class Server {
 		void newBuffer(Client *client);
 		void authentication(Client *client);
 
+		std::string getIp(void) const;
+
 		struct sockaddr_in server;
 		struct pollfd pfd;
 		std::vector<pollfd> fds;
@@ -21,6 +23,7 @@ class Server {
 		std::string password;
 		char bufferChar[1024];
 		std::string bufferStr;
+		std::vector<std::string> bufferStrs;
 };
 
 #endif

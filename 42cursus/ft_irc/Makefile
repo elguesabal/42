@@ -5,8 +5,11 @@ NAME = ircserv
 FILE = ./ft_irc.cpp\
 		./src/verification.cpp\
 		./src/signal.cpp\
+		./src/utils.cpp\
 		./class/Server.cpp\
-		./class/Client.cpp
+		./class/getServer.cpp\
+		./class/Client.cpp\
+		./class/getClient.cpp
 RM = rm
 
 all: $(NAME)

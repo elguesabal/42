@@ -7,12 +7,13 @@
 #include <vector>
 #include <csignal>
 #include <algorithm>
-// #include <unistd.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <netdb.h>
 #include <arpa/inet.h>
 #include <fcntl.h>
 #include <poll.h>
+#include <sstream>
 
 #include "Server.hpp"
 #include "Client.hpp"
@@ -24,6 +25,9 @@ void validation(int argc, char **argv);
 
 // ./src/signal.cpp
 void ctrlC(int signal);
+
+// ./src/utils.cpp
+void splitMessage(Server &server);
 
 // ./src/server.cpp
 // void init_server(int port, char *password); // A TAREFA DESSA FUNCAO FOI PASSADA PARA O CONSTRUTOR Server
