@@ -50,10 +50,7 @@ void Server::listener(void) {
 			for (unsigned int i = 1; i < this->fds.size(); i++) {
 				if (this->fds[i].revents & POLLIN) {
 					memset(this->bufferChar, 0, 1024);
-					ssize_t bytes_received = recv(this->fds[i].fd, this->bufferChar, 99, 0);
-					this->bufferStr = this->bufferChar;
-					splitMessage(*this);
-					// this->splitMessage();
+					ssize_t bytes_received = recv(this->fds[i].fd, this->bufferChar, 1024, 0);
 					if (bytes_received > 0) {
 						this->newBuffer(this->clients[i - 1]);
 					} else if (bytes_received == 0) {
@@ -98,20 +95,33 @@ void Server::newBuffer(Client *client) {
 	// 	}
 	// }
 
-	if (this->bufferStr == "CAP LS 302\r\n") {
-		std::string res = ":" + this->getIp() + " CAP * LS\r\n";
-		send(client->getFd(), res.c_str(), res.size(), 0);
-	} else if (this->bufferStrs.size() == 3) { // FALTA MAIS VERIFICACOES
-		authentication(client);
-	} else {
-		// send(client->getFd(), "/JOIN aaa\r\n", 11, 0);
+	// this->bufferStr = this->bufferChar;
+	splitMessage(*this);
+	// this->splitMessage();
+
+	for (unsigned int i = 0; i < this->bufferStrs.size(); i++) {
+		this->bufferStr = this->bufferStrs[i]; // AKI EU TO SEMPRE ATUALIZANDO this->bufferStr PARA NAO PRECISAR FICAR PASSANDO COMO PARAMETRO PQ NAO FAZER COM INDECE E CLIENTE?
+
+		if (this->bufferStr == "CAP LS 302\r\n") { // this->bufferStr NAO RECEBE MAIS \r POR CAUSA DE splitMessage();
+			std::string res = ":" + this->getIp() + " CAP * LS\r\n";
+			send(client->getFd(), res.c_str(), res.size(), 0);
+		} else if (this->bufferStr.find("PASS ") == 0) {
+			// std::cout << "verificar a senha" << std::endl;
+			this->PASS(client);
+		} else {
+			// send(client->getFd(), "/JOIN aaa\r\n", 11, 0);
+		}
 	}
+
+	//  else if (this->bufferStrs.size() == 3) { // FALTA MAIS VERIFICACOES
+	// 		authentication(client);
+	// }
 	// TENHO Q VER COMO VAI FICAR COM A POSSIBILIDADE DE TER MAIS DE UM COMANDO NA MESMA COMUNICACAO (USAR UM VECTOR COM STRINGS)
 }
 
 /// @brief FUNCAO Q LIDA COM A VALIDACAO DO PASS NICK E USER
 /// @param client REFERENCIA Q CONTEM AS INFORMACOES DO CLIENTE
-void Server::authentication(Client *client) {
+void Server::authentication(Client *client) { // ESSA FUNCAO VAI MORRER PARA NASCER PASS() NICK() E USER()
 	// this->bufferStr.erase(this->bufferStr.size() - 1);
 	// if (this->bufferStr == this->password) {
 	// 	client->auth = true;
@@ -133,3 +143,28 @@ void Server::authentication(Client *client) {
 		this->deleteClient(client);
 	}
 }
+
+/// @brief FUNCAO Q LIDA COM A VALIDACAO DA SENHA
+/// @param client REFERENCIA Q CONTEM AS INFORMACOES DO CLIENTE
+void Server::PASS(Client *client) {
+	if (this->bufferStr != ("PASS " + this->password)) { // AKI EU CONSEGUI O RESULTADO CORRETO POREM ACREDITO Q VOU TER Q REFATORAR O CODIGO PARA PROCESSAR OS COMANDOS SEPARADAMENTE
+		std::string res = ":" + this->getIp() + " 464 * :Senha errada\r\n";
+		send(client->getFd(), res.c_str(), res.size(), 0);
+		this->deleteClient(client);
+	}
+}
+
+
+
+
+
+
+
+/// @brief FUNCAO DE TESTE
+/// @param signal SINAL RECEBIDO
+// static void Server::teste(int signal) {
+// 	if (signal == SIGINT) {
+// 		std::cout << std::endl << "Fechando servidor...................." << std::endl;
+// 		exit(0);
+// 	}
+// }

@@ -8,6 +8,7 @@ int main(int argc, char **argv) {
 	validation(argc, argv);
 	Server server(std::atoi(argv[1]), argv[2]);
 	std::signal(SIGINT, ctrlC); // AKI AINDA NAO SEI COMO TRATAR
+	// std::signal(SIGINT, server.teste); // EU PODIA PASSAR UMA FUNCAO DE DENTRO DE Server // NAO DEU CERTO
 	server.listener();
 	return (0);
 }

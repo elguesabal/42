@@ -16,6 +16,8 @@ class Server {
 
 		std::string getIp(void) const;
 
+		void PASS(Client *client);
+
 		struct sockaddr_in server;
 		struct pollfd pfd;
 		std::vector<pollfd> fds;
@@ -24,6 +26,11 @@ class Server {
 		char bufferChar[1024];
 		std::string bufferStr;
 		std::vector<std::string> bufferStrs;
+
+
+
+
+		// static void teste(int signal);
 };
 
 #endif
