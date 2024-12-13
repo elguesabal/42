@@ -13,8 +13,8 @@ Client::Client(Server &server) {
 	std::cout << "Conexao aceita do ip " << inet_ntoa(this->client.sin_addr) << " na porta " << ntohs(this->client.sin_port) << std::endl;
 	// send(this->pfd.fd, "Digite a senha: ", 16, 0); // OS CLIENTES IRC NAO FUNCIONAM ASSIM
 	this->pfd.events = POLLIN;
-	this->auth = false;
-	this->password_attempts = 0;
+	// this->auth = false;
+	// this->password_attempts = 0;
 }
 
 /// @brief RESPONSAVEL POR FECHAR O FD DO CLIENTE

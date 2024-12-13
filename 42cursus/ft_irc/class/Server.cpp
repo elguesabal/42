@@ -53,6 +53,7 @@ void Server::listener(void) {
 					ssize_t bytes_received = recv(this->fds[i].fd, this->bufferChar, 99, 0);
 					this->bufferStr = this->bufferChar;
 					splitMessage(*this);
+					// this->splitMessage();
 					if (bytes_received > 0) {
 						this->newBuffer(this->clients[i - 1]);
 					} else if (bytes_received == 0) {
@@ -97,52 +98,38 @@ void Server::newBuffer(Client *client) {
 	// 	}
 	// }
 
-	// send(client->pfd.fd, "teste\n", 6, 0);
-	// std::cout << "teste: " << this->bufferStr << std::endl;
-	// std::cout << "tamanho: " << this->bufferStrs.size() << " primeiro elemento: " << this->bufferStrs[0] << std::endl;
-
-	// send(client->pfd.fd, this->bufferChar, strlen(this->bufferChar), 0);
-
-// std::cout << "teste fd: " << client->getFd() << std::endl;
-// std::cout << "teste ip: " << client->getIp() << std::endl;
-// std::cout << "teste port: " << client->getPort() << std::endl;
-// send(client->pfd.fd, "aaaaaaaaaa", 5, 0);
 	if (this->bufferStr == "CAP LS 302\r\n") {
-		std::string res = ":" + this->getIp() + " CAP * LS";
+		std::string res = ":" + this->getIp() + " CAP * LS\r\n";
 		send(client->getFd(), res.c_str(), res.size(), 0);
+	} else if (this->bufferStrs.size() == 3) { // FALTA MAIS VERIFICACOES
+		authentication(client);
 	} else {
-// send(client->getFd(), this->bufferStr.c_str(), this->bufferStr.size(), 0); // PQ ISSO FUNCIONA?
-std::string a = "/aaaaaaaaaaa";
-send(client->getFd(), a.c_str(), a.size(), 0); // SE ISSO NAO FUNCIONA?????
+		// send(client->getFd(), "/JOIN aaa\r\n", 11, 0);
 	}
 	// TENHO Q VER COMO VAI FICAR COM A POSSIBILIDADE DE TER MAIS DE UM COMANDO NA MESMA COMUNICACAO (USAR UM VECTOR COM STRINGS)
-
-	// for (unsigned int i = 1; i < this->fds.size(); i++) {
-	// 	// if (this->fds[i].fd != client->pfd.fd) {
-	// 	// 	send(this->fds[i].fd, this->bufferStr.c_str(), this->bufferStr.size(), 0);
-	// 	// }
-	// 	// std::cout << "testando i: " << i << std::endl;
-	// 	std::cout << this->bufferStr << std::endl;
-	// 	send(this->fds[i].fd, this->bufferStr.c_str(), this->bufferStr.size(), 0);
-	// }
-	// send(client->getFd(), this->bufferStr.c_str(), this->bufferStr.size(), 0);
-// (void)client;
 }
 
-/// @brief FUNCAO Q LIDA COM INSERCAO DE SENHA QUANDO O CLIENTE SE CONECTA
+/// @brief FUNCAO Q LIDA COM A VALIDACAO DO PASS NICK E USER
 /// @param client REFERENCIA Q CONTEM AS INFORMACOES DO CLIENTE
 void Server::authentication(Client *client) {
-	this->bufferStr.erase(this->bufferStr.size() - 1);
-	if (this->bufferStr == this->password) {
-		client->auth = true;
-		send(client->pfd.fd, "Bem vindo ao servidor!\n", 23, 0);
-	} else {
-		if (client->password_attempts > 1) {
-			send(client->pfd.fd, "Limite de tentativas excedidas. Aguarde e tente novamente mais tarde\n", 69, 0);
-			this->deleteClient(client);
-		} else {
-			send(client->pfd.fd, "Senha incorreta! Digite novamente: ", 35, 0);
-			client->password_attempts++;
-		}
+	// this->bufferStr.erase(this->bufferStr.size() - 1);
+	// if (this->bufferStr == this->password) {
+	// 	client->auth = true;
+	// 	send(client->pfd.fd, "Bem vindo ao servidor!\n", 23, 0);
+	// } else {
+	// 	if (client->password_attempts > 1) {
+	// 		send(client->pfd.fd, "Limite de tentativas excedidas. Aguarde e tente novamente mais tarde\n", 69, 0);
+	// 		this->deleteClient(client);
+	// 	} else {
+	// 		send(client->pfd.fd, "Senha incorreta! Digite novamente: ", 35, 0);
+	// 		client->password_attempts++;
+	// 	}
+	// }
+
+
+	if (this->bufferStrs[0] != "PASS a") { // AKI EU CONSEGUI O RESULTADO CORRETO POREM ACREDITO Q VOU TER Q REFATORAR O CODIGO PARA PROCESSAR OS COMANDOS SEPARADAMENTE
+		std::string res = ":" + this->getIp() + " 464 * :Senha errada\r\n";
+		send(client->getFd(), res.c_str(), res.size(), 0);
+		this->deleteClient(client);
 	}
 }
