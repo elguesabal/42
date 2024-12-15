@@ -22,6 +22,8 @@ class Server {
 		struct pollfd pfd;
 		std::vector<pollfd> fds;
 		std::vector<Client *> clients;
+		Client *client; //
+		unsigned short int index; //
 		std::string password;
 		char bufferChar[1024];
 		std::string bufferStr;

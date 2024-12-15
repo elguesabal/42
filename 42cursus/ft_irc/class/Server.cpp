@@ -30,6 +30,8 @@ Server::Server(int port, char *password) {
 	this->pfd.events = POLLIN;
 	this->fds.push_back(this->pfd);
 	this->password = password;
+	this->client = NULL;
+	this->index = 0;
 	std::cout << "Servidor iniciado na porta: " << port << std::endl << "Senha: " << password << std::endl << std::endl;
 }
 
@@ -42,19 +44,24 @@ void Server::listener(void) {
 	while (true) {
 		int ret = poll(this->fds.data(), this->fds.size(), -1);
 		if (ret == -1) {
-			std::cout << "erro no poll" << std::endl;
+			std::cout << "Erro no poll" << std::endl;
 			exit(1);
 		} else if (this->fds[0].revents & POLLIN) {
 			this->newClient();
 		} else {
 			for (unsigned int i = 1; i < this->fds.size(); i++) {
 				if (this->fds[i].revents & POLLIN) {
+					this->index = i; // AKI EU ATUALIZO O index DA CLASSE Server
+					this->client = this->clients[i - 1]; // AKI EU ATUALIZO O cliente DA CLASSE Server
 					memset(this->bufferChar, 0, 1024);
 					ssize_t bytes_received = recv(this->fds[i].fd, this->bufferChar, 1024, 0);
 					if (bytes_received > 0) {
-						this->newBuffer(this->clients[i - 1]);
+						// this->newBuffer(this->clients[i - 1]); // TESTANDO this->client
+						this->newBuffer(this->client);
+						// std::cout << "nao deu erro no index -> " << this->index << std::endl;
 					} else if (bytes_received == 0) {
-						this->deleteClient(this->clients[i - 1]);
+						// this->deleteClient(this->clients[i - 1]);
+						this->deleteClient(this->client); // TESTANDO this->client
 					} else if (bytes_received < 0) {
 						std::cerr << "Erro ao receber mensagem" << std::endl;
 					}
@@ -98,6 +105,7 @@ void Server::newBuffer(Client *client) {
 	// this->bufferStr = this->bufferChar;
 	splitMessage(*this);
 	// this->splitMessage();
+	std::cout << "ue cade??" << std::endl;
 
 	for (unsigned int i = 0; i < this->bufferStrs.size(); i++) {
 		this->bufferStr = this->bufferStrs[i]; // AKI EU TO SEMPRE ATUALIZANDO this->bufferStr PARA NAO PRECISAR FICAR PASSANDO COMO PARAMETRO PQ NAO FAZER COM INDECE E CLIENTE?
@@ -108,8 +116,13 @@ void Server::newBuffer(Client *client) {
 		} else if (this->bufferStr.find("PASS ") == 0) {
 			// std::cout << "verificar a senha" << std::endl;
 			this->PASS(client);
+		} else if (this->bufferStr.find("NICK ") == 0) {
+			std::cout << "caiu no nick" << std::endl;
+		} else if (this->bufferStr.find("USER ") == 0) {
+			std::cout << "caiu no user" << std::endl;
 		} else {
 			// send(client->getFd(), "/JOIN aaa\r\n", 11, 0);
+			std::cout << "caiu no else" << std::endl;
 		}
 	}
 
