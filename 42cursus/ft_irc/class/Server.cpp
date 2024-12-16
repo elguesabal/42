@@ -102,10 +102,12 @@ void Server::newBuffer(Client *client) {
 	// 	}
 	// }
 
+
 	// this->bufferStr = this->bufferChar;
 	splitMessage(*this);
 	// this->splitMessage();
 	std::cout << "ue cade??" << std::endl;
+
 
 	for (unsigned int i = 0; i < this->bufferStrs.size(); i++) {
 		this->bufferStr = this->bufferStrs[i]; // AKI EU TO SEMPRE ATUALIZANDO this->bufferStr PARA NAO PRECISAR FICAR PASSANDO COMO PARAMETRO PQ NAO FAZER COM INDECE E CLIENTE?
