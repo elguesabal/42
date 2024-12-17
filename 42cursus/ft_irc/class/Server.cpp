@@ -30,13 +30,35 @@ Server::Server(int port, char *password) {
 	this->pfd.events = POLLIN;
 	this->fds.push_back(this->pfd);
 	this->password = password;
-	this->client = NULL;
-	this->index = 0;
+	// this->client = NULL; // NAO PRECISO INICIALIZAR PQ SEMPRE VAI SER ATUALIZADO AO RECEBER UMA NOVA MENSAGEM
+	// this->index = 0; // NAO PRECISO INICIALIZAR PQ SEMPRE VAI SER ATUALIZADO AO RECEBER UMA NOVA MENSAGEM
 	std::cout << "Servidor iniciado na porta: " << port << std::endl << "Senha: " << password << std::endl << std::endl;
 }
 
 Server::~Server(void) {
 	// close(this->pfd.fd); SE EU USO CTRL+C ESSA BAGACA NAO E CHAMADA
+}
+
+/// @brief CRIA UM NOVO CLIENTE E SALVA O FD NO VECTOR DE FDS E O CLIENTE NO VECTOR DE CLIENTES
+void Server::newClient(void) {
+	Client *newClient = new Client(*this);
+
+	this->fds.push_back(newClient->pfd);
+	this->clients.push_back(newClient);
+}
+
+/// @brief REMOVE UM CLIENTE DO FD NO VECTOR DE FDS E O CLIENTE NO VECTOR DE CLIENTES
+void Server::deleteClient(void) {
+	// unsigned int i = std::find(this->clients.begin(), this->clients.end(), this->client) - this->clients.begin() + 1;
+	// this->fds.erase(this->fds.begin() + i);
+	// delete this->clients[i - 1];
+	// this->clients.erase(this->clients.begin() + i - 1);
+	// NAO PRECISO MAIS CRIAR UM INDICE i CALCULANDO USANDO find() PQ ESTOU SALVANDO DENTRO DE this->index
+
+	this->fds.erase(this->fds.begin() + this->index);
+	this->nicks.erase(this->client->nick); // REMOVE O NICK DA LISTA DE NICKS EM USO
+	delete this->client;
+	this->clients.erase(this->clients.begin() + this->index - 1);
 }
 
 /// @brief METODO Q COMECA A MONITORAR TODOS OS FDS USANDO poll() E GERENCIA QUAL O DESTINO DO DADO RECEBIDO (SE E UM NOVO CLIENTE, UM CLIENTE DESCONECTANDO)
@@ -56,12 +78,9 @@ void Server::listener(void) {
 					memset(this->bufferChar, 0, 1024);
 					ssize_t bytes_received = recv(this->fds[i].fd, this->bufferChar, 1024, 0);
 					if (bytes_received > 0) {
-						// this->newBuffer(this->clients[i - 1]); // TESTANDO this->client
-						this->newBuffer(this->client);
-						// std::cout << "nao deu erro no index -> " << this->index << std::endl;
+						this->newBuffer();
 					} else if (bytes_received == 0) {
-						// this->deleteClient(this->clients[i - 1]);
-						this->deleteClient(this->client); // TESTANDO this->client
+						this->deleteClient();
 					} else if (bytes_received < 0) {
 						std::cerr << "Erro ao receber mensagem" << std::endl;
 					}
@@ -72,114 +91,54 @@ void Server::listener(void) {
 	}
 }
 
-/// @brief CRIA UM NOVO CLIENTE E SALVA O FD NO VECTOR DE FDS E O CLIENTE NO VECTOR DE CLIENTES
-void Server::newClient(void) {
-    Client *newClient = new Client(*this);
-
-	this->fds.push_back(newClient->pfd);
-	this->clients.push_back(newClient);
-}
-
-/// @brief REMOVE UM CLIENTE DO FD NO VECTOR DE FDS E O CLIENTE NO VECTOR DE CLIENTES
-void Server::deleteClient(Client *client) {
-	unsigned int i = std::find(this->clients.begin(), this->clients.end(), client) - this->clients.begin() + 1;
-
-	this->fds.erase(this->fds.begin() + i);
-	delete this->clients[i - 1];
-	this->clients.erase(this->clients.begin() + i - 1);
-}
-
 /// @brief FUNCAO Q ENCAMINHA COMO O BUFFER RECEBIDO POR UM CLIENTE ESPECIFICO VAI SER TRATADO
-/// @param client REFERENCIA Q CONTEM AS INFORMACOES DO CLIENTE
-void Server::newBuffer(Client *client) {
-	// if (client->auth == false) { // OS CLIENTES IRC NAO FUNCIONAM ASSIM
-	// 	this->authentication(client);
-	// } else {
-	// 	for (unsigned int i = 1; i < this->fds.size(); i++) {
-	// 		if (this->fds[i].fd != client->pfd.fd) {
-	// 			send(this->fds[i].fd, this->bufferStr.c_str(), this->bufferStr.size(), 0);
-	// 		}
-	// 	}
-	// }
-
-
-	// this->bufferStr = this->bufferChar;
+void Server::newBuffer(void) {
+	this->bufferStr = this->bufferChar;
 	splitMessage(*this);
-	// this->splitMessage();
-	std::cout << "ue cade??" << std::endl;
-
 
 	for (unsigned int i = 0; i < this->bufferStrs.size(); i++) {
 		this->bufferStr = this->bufferStrs[i]; // AKI EU TO SEMPRE ATUALIZANDO this->bufferStr PARA NAO PRECISAR FICAR PASSANDO COMO PARAMETRO PQ NAO FAZER COM INDECE E CLIENTE?
 
-		if (this->bufferStr == "CAP LS 302\r\n") { // this->bufferStr NAO RECEBE MAIS \r POR CAUSA DE splitMessage();
-			std::string res = ":" + this->getIp() + " CAP * LS\r\n";
-			send(client->getFd(), res.c_str(), res.size(), 0);
+		if (this->bufferStr == "CAP LS 302") { // O CLIENTE MANDA UM "CAP END" ENTAO AINDA NAO VOU PROCURAR APENAS POR CAP
+			this->CAP();
 		} else if (this->bufferStr.find("PASS ") == 0) {
-			// std::cout << "verificar a senha" << std::endl;
-			this->PASS(client);
+			this->PASS(); // BELEZA EU MANDO UMA MENSAGEM DE SENHA ERRADA E EXCLUO O CLIENTE E FECHO O FD POREM AINDA EXECUTO OS COMANDOS NICK E USER Q VEM JUNTO
 		} else if (this->bufferStr.find("NICK ") == 0) {
-			std::cout << "caiu no nick" << std::endl;
+			this->NICK(); // PAREI AKI
 		} else if (this->bufferStr.find("USER ") == 0) {
 			std::cout << "caiu no user" << std::endl;
 		} else {
 			// send(client->getFd(), "/JOIN aaa\r\n", 11, 0);
 			std::cout << "caiu no else" << std::endl;
+			// std::cout << "caiu no else: " << this->bufferStr << " i: " << i << std::endl;
 		}
 	}
-
-	//  else if (this->bufferStrs.size() == 3) { // FALTA MAIS VERIFICACOES
-	// 		authentication(client);
-	// }
-	// TENHO Q VER COMO VAI FICAR COM A POSSIBILIDADE DE TER MAIS DE UM COMANDO NA MESMA COMUNICACAO (USAR UM VECTOR COM STRINGS)
 }
 
-/// @brief FUNCAO Q LIDA COM A VALIDACAO DO PASS NICK E USER
-/// @param client REFERENCIA Q CONTEM AS INFORMACOES DO CLIENTE
-void Server::authentication(Client *client) { // ESSA FUNCAO VAI MORRER PARA NASCER PASS() NICK() E USER()
-	// this->bufferStr.erase(this->bufferStr.size() - 1);
-	// if (this->bufferStr == this->password) {
-	// 	client->auth = true;
-	// 	send(client->pfd.fd, "Bem vindo ao servidor!\n", 23, 0);
-	// } else {
-	// 	if (client->password_attempts > 1) {
-	// 		send(client->pfd.fd, "Limite de tentativas excedidas. Aguarde e tente novamente mais tarde\n", 69, 0);
-	// 		this->deleteClient(client);
-	// 	} else {
-	// 		send(client->pfd.fd, "Senha incorreta! Digite novamente: ", 35, 0);
-	// 		client->password_attempts++;
-	// 	}
-	// }
-
-
-	if (this->bufferStrs[0] != "PASS a") { // AKI EU CONSEGUI O RESULTADO CORRETO POREM ACREDITO Q VOU TER Q REFATORAR O CODIGO PARA PROCESSAR OS COMANDOS SEPARADAMENTE
-		std::string res = ":" + this->getIp() + " 464 * :Senha errada\r\n";
-		send(client->getFd(), res.c_str(), res.size(), 0);
-		this->deleteClient(client);
-	}
+/// @brief FUNCAO Q RESPONDE AO COMANDO "CAP"
+void Server::CAP(void) {
+	std::string res = ":" + this->getIp() + " CAP * LS\r\n";
+	send(this->client->getFd(), res.c_str(), res.size(), 0);
 }
 
 /// @brief FUNCAO Q LIDA COM A VALIDACAO DA SENHA
-/// @param client REFERENCIA Q CONTEM AS INFORMACOES DO CLIENTE
-void Server::PASS(Client *client) {
-	if (this->bufferStr != ("PASS " + this->password)) { // AKI EU CONSEGUI O RESULTADO CORRETO POREM ACREDITO Q VOU TER Q REFATORAR O CODIGO PARA PROCESSAR OS COMANDOS SEPARADAMENTE
+void Server::PASS(void) {
+	if (this->bufferStr.substr(5) != this->password) {
 		std::string res = ":" + this->getIp() + " 464 * :Senha errada\r\n";
-		send(client->getFd(), res.c_str(), res.size(), 0);
-		this->deleteClient(client);
+		send(this->client->getFd(), res.c_str(), res.size(), 0);
+		this->deleteClient();
+		this->bufferStrs.clear(); // INPEDE Q OS COMANDO NICK E USER SEJAM AXECUTADOS MESMO COM O CLIENTE FECHADO
 	}
 }
 
-
-
-
-
-
-
-/// @brief FUNCAO DE TESTE
-/// @param signal SINAL RECEBIDO
-// static void Server::teste(int signal) {
-// 	if (signal == SIGINT) {
-// 		std::cout << std::endl << "Fechando servidor...................." << std::endl;
-// 		exit(0);
-// 	}
-// }
+/// @brief FUNCAO RESPONSAVEL POR VERIFICAR SE O NICK ESTA DISPONIVEL SALVAR
+void Server::NICK(void) {
+	if (this->nicks.find(this->bufferStr.substr(5)) != this->nicks.end()) {
+		std::cout << "nick em uso" << std::endl;
+		// AINDA FALTA MANDAR A RESPOSTA PRO CLIENTE Q JA ESTA EM USO
+	} else {
+		std::cout << "nick livre" << std::endl;
+		this->nicks.insert(this->bufferStr.substr(5));
+		this->client->nick = this->bufferStr.substr(5);
+	}
+}

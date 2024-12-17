@@ -8,31 +8,29 @@ class Server {
 		Server(int port, char *password);
 		~Server(void);
 
-		void listener(void);
 		void newClient(void);
-		void deleteClient(Client *client);
-		void newBuffer(Client *client);
-		void authentication(Client *client);
+		void deleteClient(void);
+		void listener(void);
+		void newBuffer(void);
+
 
 		std::string getIp(void) const;
 
-		void PASS(Client *client);
+		void CAP(void);
+		void PASS(void);
+		void NICK(void);
 
 		struct sockaddr_in server;
 		struct pollfd pfd;
 		std::vector<pollfd> fds;
 		std::vector<Client *> clients;
-		Client *client; //
-		unsigned short int index; //
+		Client *client;
+		unsigned short index;
 		std::string password;
 		char bufferChar[1024];
 		std::string bufferStr;
 		std::vector<std::string> bufferStrs;
-
-
-
-
-		// static void teste(int signal);
+		std::set<std::string> nicks;
 };
 
 #endif
