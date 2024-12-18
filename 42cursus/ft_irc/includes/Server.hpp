@@ -19,18 +19,19 @@ class Server {
 		void CAP(void);
 		void PASS(void);
 		void NICK(void);
+		void USER(void);
 
 		struct sockaddr_in server;
 		struct pollfd pfd;
 		std::vector<pollfd> fds;
 		std::vector<Client *> clients;
+		std::map<std::string, Client *> nickClient;
 		Client *client;
 		unsigned short index;
 		std::string password;
 		char bufferChar[1024];
 		std::string bufferStr;
 		std::vector<std::string> bufferStrs;
-		std::set<std::string> nicks;
 };
 
 #endif

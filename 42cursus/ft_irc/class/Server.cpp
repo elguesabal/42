@@ -30,8 +30,6 @@ Server::Server(int port, char *password) {
 	this->pfd.events = POLLIN;
 	this->fds.push_back(this->pfd);
 	this->password = password;
-	// this->client = NULL; // NAO PRECISO INICIALIZAR PQ SEMPRE VAI SER ATUALIZADO AO RECEBER UMA NOVA MENSAGEM
-	// this->index = 0; // NAO PRECISO INICIALIZAR PQ SEMPRE VAI SER ATUALIZADO AO RECEBER UMA NOVA MENSAGEM
 	std::cout << "Servidor iniciado na porta: " << port << std::endl << "Senha: " << password << std::endl << std::endl;
 }
 
@@ -49,14 +47,8 @@ void Server::newClient(void) {
 
 /// @brief REMOVE UM CLIENTE DO FD NO VECTOR DE FDS E O CLIENTE NO VECTOR DE CLIENTES
 void Server::deleteClient(void) {
-	// unsigned int i = std::find(this->clients.begin(), this->clients.end(), this->client) - this->clients.begin() + 1;
-	// this->fds.erase(this->fds.begin() + i);
-	// delete this->clients[i - 1];
-	// this->clients.erase(this->clients.begin() + i - 1);
-	// NAO PRECISO MAIS CRIAR UM INDICE i CALCULANDO USANDO find() PQ ESTOU SALVANDO DENTRO DE this->index
-
 	this->fds.erase(this->fds.begin() + this->index);
-	this->nicks.erase(this->client->nick); // REMOVE O NICK DA LISTA DE NICKS EM USO
+	this->nickClient.erase(this->client->nick); // REMOVE O NICK DA LISTA DE NICKS EM USO
 	delete this->client;
 	this->clients.erase(this->clients.begin() + this->index - 1);
 }
@@ -73,8 +65,8 @@ void Server::listener(void) {
 		} else {
 			for (unsigned int i = 1; i < this->fds.size(); i++) {
 				if (this->fds[i].revents & POLLIN) {
-					this->index = i; // AKI EU ATUALIZO O index DA CLASSE Server
-					this->client = this->clients[i - 1]; // AKI EU ATUALIZO O cliente DA CLASSE Server
+					this->index = i;
+					this->client = this->clients[i - 1];
 					memset(this->bufferChar, 0, 1024);
 					ssize_t bytes_received = recv(this->fds[i].fd, this->bufferChar, 1024, 0);
 					if (bytes_received > 0) {
@@ -101,15 +93,15 @@ void Server::newBuffer(void) {
 
 		if (this->bufferStr == "CAP LS 302") { // O CLIENTE MANDA UM "CAP END" ENTAO AINDA NAO VOU PROCURAR APENAS POR CAP
 			this->CAP();
-		} else if (this->bufferStr.find("PASS ") == 0) {
+		} else if (this->bufferStr.find("PASS") == 0) {
 			this->PASS(); // BELEZA EU MANDO UMA MENSAGEM DE SENHA ERRADA E EXCLUO O CLIENTE E FECHO O FD POREM AINDA EXECUTO OS COMANDOS NICK E USER Q VEM JUNTO
-		} else if (this->bufferStr.find("NICK ") == 0) {
-			this->NICK(); // PAREI AKI
-		} else if (this->bufferStr.find("USER ") == 0) {
-			std::cout << "caiu no user" << std::endl;
+		} else if (this->bufferStr.find("NICK") == 0) {
+			this->NICK();
+		} else if (this->bufferStr.find("USER") == 0) {
+			this->USER();
 		} else {
 			// send(client->getFd(), "/JOIN aaa\r\n", 11, 0);
-			std::cout << "caiu no else" << std::endl;
+			// std::cout << "caiu no else" << std::endl;
 			// std::cout << "caiu no else: " << this->bufferStr << " i: " << i << std::endl;
 		}
 	}
@@ -123,22 +115,42 @@ void Server::CAP(void) {
 
 /// @brief FUNCAO Q LIDA COM A VALIDACAO DA SENHA
 void Server::PASS(void) {
-	if (this->bufferStr.substr(5) != this->password) {
-		std::string res = ":" + this->getIp() + " 464 * :Senha errada\r\n";
+	if (this->client->auth == true) {
+		std::string res = ":" + this->getIp() + " " + ERR_ALREADYREGISTRED + " " + this->client->nick + " :Comando não autorizado (já registrado)\r\n"; // Unauthorized command (already registered)
+		send(this->client->getFd(), res.c_str(), res.size(), 0);
+	} else if (this->bufferStr.substr(5) != this->password) {
+		std::string res = ":" + this->getIp() + " " + ERR_PASSWDMISMATCH + " * :Senha incorreta\r\n"; // Password incorrect
 		send(this->client->getFd(), res.c_str(), res.size(), 0);
 		this->deleteClient();
 		this->bufferStrs.clear(); // INPEDE Q OS COMANDO NICK E USER SEJAM AXECUTADOS MESMO COM O CLIENTE FECHADO
+	} else {
+		this->client->auth = true;
 	}
 }
 
 /// @brief FUNCAO RESPONSAVEL POR VERIFICAR SE O NICK ESTA DISPONIVEL SALVAR
 void Server::NICK(void) {
-	if (this->nicks.find(this->bufferStr.substr(5)) != this->nicks.end()) {
-		std::cout << "nick em uso" << std::endl;
-		// AINDA FALTA MANDAR A RESPOSTA PRO CLIENTE Q JA ESTA EM USO
+	if (this->bufferStr.substr(5) == "") {
+		// std::cout << "nao veio o nick" << std::endl;
+		std::string res = ":" + this->getIp() + " " + ERR_NONICKNAMEGIVEN + " * :Nenhum apelido fornecido\r\n"; // No nickname given
+		std::cout << res << std::endl;
+		send(this->client->getFd(), res.c_str(), res.size(), 0);
+	} else if (this->nickClient.find(this->bufferStr.substr(5)) != this->nickClient.end()) {
+		// std::cout << "nick em uso" << std::endl;
+		std::string res = ":" + this->getIp() + " " + ERR_NICKNAMEINUSE + " * " + this->bufferStr.substr(5) + " :O apelido já está em uso\r\n"; // Nickname is already in use
+		send(this->client->getFd(), res.c_str(), res.size(), 0);
 	} else {
-		std::cout << "nick livre" << std::endl;
-		this->nicks.insert(this->bufferStr.substr(5));
+		// std::cout << "nick livre" << std::endl;
+		this->nickClient[this->bufferStr.substr(5)] = this->client;
 		this->client->nick = this->bufferStr.substr(5);
 	}
+
+
+
+	// VERIFICA REGRAS PARA SENHA COMO NOME RESERVADOS E CARACTERES ESPECIAIS
+}
+
+/// @brief FUNCAO Q SALVA O USER
+void Server::USER(void) {
+	std::cout << "caiu no user" << std::endl;
 }

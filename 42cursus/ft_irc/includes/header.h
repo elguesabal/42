@@ -8,7 +8,7 @@
 #include <csignal>
 #include <algorithm>
 #include <sstream>
-#include <set>
+#include <map>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
@@ -16,6 +16,7 @@
 #include <fcntl.h>
 #include <poll.h>
 
+#include "macros.h"
 #include "Server.hpp"
 #include "Client.hpp"
 
