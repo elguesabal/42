@@ -1,6 +1,6 @@
 #include "header.h"
 
-/// @brief FUNCAO Q BUSCA O IP DO SERVIDOR
+/// @brief METODO Q BUSCA O IP DO SERVIDOR
 /// @return RETORNA O IP DO SERVIDOR
 std::string Server::getIp(void) const {
 	// char hostname[1024];
