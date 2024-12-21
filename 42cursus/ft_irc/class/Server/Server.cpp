@@ -78,13 +78,13 @@ void Server::listener(void) {
 					this->index = i;
 					this->client = this->clients[i - 1];
 					memset(this->buffer, 0, 512);
-					ssize_t bytes_received = recv(this->fds[i].fd, this->buffer, 1024, 0);
+					ssize_t bytes_received = recv(this->fds[i].fd, this->buffer, 1024, 0); // TRATAR \n SOLTO
 					if (bytes_received > 0) {
 						this->newBuffer();
 					} else if (bytes_received == 0) {
 						this->deleteClient();
 					} else if (bytes_received < 0) {
-						std::cerr << "Erro ao receber mensagem" << std::endl;
+						std::cout << "Erro ao receber mensagem" << std::endl;
 					}
 					break;
 				}
@@ -96,6 +96,10 @@ void Server::listener(void) {
 /// @brief METODO Q ENCAMINHA COMO O BUFFER RECEBIDO POR UM CLIENTE ESPECIFICO VAI SER TRATADO
 void Server::newBuffer(void) {
 	this->cmd = this->buffer;
+// if () {
+// 	this->resClient();
+// 	this->deleteClient();
+// }
 	this->splitCmds();
 
 	for (unsigned int i = 0; i < this->cmds.size(); i++) {

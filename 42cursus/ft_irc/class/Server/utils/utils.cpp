@@ -1,5 +1,18 @@
 #include "header.h"
 
+bool hasInvalidNewline(std::string str) {
+	size_t pos = 0;
+
+	while ((pos = str.find('\n', pos)) != std::string::npos) {
+		if (pos == 0 || str[pos - 1] != '\r') {
+			return true; // Encontrou um "\n" sem "\r" antes dele
+		}
+		++pos; // Avançar para procurar o próximo "\n"
+	}
+
+	return false; // Não encontrou nenhum "\n" inválido
+}
+
 /// @brief METODO Q SPLITA VARIOS COMANDOS USANDO '\n', REMOVE TODOS OS \r E ARMAZENA O RESULTADO DENTRO DE server.cmds
 void Server::splitCmds(void) {
 	this->cmd.erase(std::remove(this->cmd.begin(), this->cmd.end(), '\r'), this->cmd.end()); // REMOVE TODOS OS \r
@@ -23,10 +36,14 @@ void Server::splitCmd(void) {
 	std::string line;
 
 	while(std::getline(stream, line, ' ')) {
+		if (line[0] == ':') {
+			line.erase(0, 1);
+			std::string lastLine;
+			std::getline(stream, lastLine);
+			line += (lastLine.empty()) ? "" : " " + lastLine;
+		}
 		this->argsCmd.push_back(line);
 	}
-
-	// std::cout << "usando splitComand: '" << this->cmd << "'" << std::endl;
 }
 
 /// @brief METODO PASSA TODOS OS CARACTERES PARA MAIUSCULO
