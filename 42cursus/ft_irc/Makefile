@@ -6,7 +6,7 @@ FILE = ./ft_irc.cpp\
 		./src/verification.cpp\
 		./src/signal.cpp\
 		./class/Server/Server.cpp\
-		./class/Server/commandsServer.cpp\
+		./class/Server/cmdsServer.cpp\
 		./class/Server/getServer.cpp\
 		./class/Server/utils/nick.cpp\
 		./class/Server/utils/utils.cpp\

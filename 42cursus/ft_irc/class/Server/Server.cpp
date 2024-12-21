@@ -30,7 +30,7 @@ Server::Server(int port, char *password) {
 	this->pfd.events = POLLIN;
 	this->fds.push_back(this->pfd);
 	this->password = password;
-	this->addCommands();
+	this->addCmds();
 	std::cout << "Servidor iniciado na porta: " << port << std::endl << "Senha: " << password << std::endl << std::endl;
 }
 
@@ -39,11 +39,11 @@ Server::~Server(void) {
 	// close(this->pfd.fd); SE EU USO CTRL+C ESSA BAGACA NAO E CHAMADA
 }
 
-void Server::addCommands(void) {
-	this->commands["CAP"] = &Server::CAP; // O CLIENTE MANDA UM "CAP END" ALEM DE "CAP LS 302"
-	this->commands["PASS"] = &Server::PASS;
-	this->commands["NICK"] = &Server::NICK;
-	this->commands["USER"] = &Server::USER;
+void Server::addCmds(void) {
+	this->serverCommands["CAP"] = &Server::CAP; // O CLIENTE MANDA UM "CAP END" ALEM DE "CAP LS 302"
+	this->serverCommands["PASS"] = &Server::PASS;
+	this->serverCommands["NICK"] = &Server::NICK;
+	this->serverCommands["USER"] = &Server::USER;
 }
 
 /// @brief CRIA UM NOVO CLIENTE E SALVA O FD NO VECTOR DE FDS E O CLIENTE NO VECTOR DE CLIENTES
@@ -57,7 +57,8 @@ void Server::newClient(void) {
 /// @brief REMOVE UM CLIENTE DO FD NO VECTOR DE FDS E O CLIENTE NO VECTOR DE CLIENTES
 void Server::deleteClient(void) {
 	this->fds.erase(this->fds.begin() + this->index);
-	this->nickClient.erase(this->client->nick); // REMOVE O NICK DA LISTA DE NICKS EM USO
+	this->nickClient.erase(this->client->nick);
+	this->cmds.clear(); // DELETA O RESTO DE COMANDOS Q O CLIENTE PODE TER
 	delete this->client;
 	this->clients.erase(this->clients.begin() + this->index - 1);
 }
@@ -76,8 +77,8 @@ void Server::listener(void) {
 				if (this->fds[i].revents & POLLIN) {
 					this->index = i;
 					this->client = this->clients[i - 1];
-					memset(this->bufferChar, 0, 1024);
-					ssize_t bytes_received = recv(this->fds[i].fd, this->bufferChar, 1024, 0);
+					memset(this->buffer, 0, 512);
+					ssize_t bytes_received = recv(this->fds[i].fd, this->buffer, 1024, 0);
 					if (bytes_received > 0) {
 						this->newBuffer();
 					} else if (bytes_received == 0) {
@@ -94,31 +95,23 @@ void Server::listener(void) {
 
 /// @brief METODO Q ENCAMINHA COMO O BUFFER RECEBIDO POR UM CLIENTE ESPECIFICO VAI SER TRATADO
 void Server::newBuffer(void) {
-	this->bufferStr = this->bufferChar;
-	this->splitMessage();
+	this->cmd = this->buffer;
+	this->splitCmds();
 
-	for (unsigned int i = 0; i < this->bufferStrs.size(); i++) {
-		this->bufferStr = this->bufferStrs[i]; // AKI EU TO SEMPRE ATUALIZANDO this->bufferStr PARA NAO PRECISAR FICAR PASSANDO COMO PARAMETRO PQ NAO FAZER COM INDECE E CLIENTE?
+	for (unsigned int i = 0; i < this->cmds.size(); i++) {
+		this->cmd = this->cmds[i];
+		this->splitCmd();
 
-		// if (this->bufferStr == "CAP LS 302") { // O CLIENTE MANDA UM "CAP END" ENTAO AINDA NAO VOU PROCURAR APENAS POR CAP
-		// 	this->CAP();
-		// } else if (this->bufferStr.find("PASS") == 0) {
-		// 	this->PASS(); // BELEZA EU MANDO UMA MENSAGEM DE SENHA ERRADA E EXCLUO O CLIENTE E FECHO O FD POREM AINDA EXECUTO OS COMANDOS NICK E USER Q VEM JUNTO
-		// } else if (this->bufferStr.find("NICK") == 0) {
-		// 	this->NICK();
-		// } else if (this->bufferStr.find("USER") == 0) {
-		// 	this->USER();
-		// } else {
-		// 	// send(client->getFd(), "/JOIN aaa\r\n", 11, 0);
-		// 	// std::cout << "caiu no else" << std::endl;
-		// 	// std::cout << "caiu no else: " << this->bufferStr << " i: " << i << std::endl;
-		// }
-
-		// TO QUERENDO TIRAR ESSE EMARANHADO DE IF E ELSE POR UM std::map
-		if (this->commands.find(this->bufferStr.substr(0, this->bufferStr.find(' '))) != this->commands.end()) {
-			(this->*commands[this->bufferStr.substr(0, this->bufferStr.find(' '))])();
+		if (this->serverCommands.find(this->cmd.substr(0, this->cmd.find(' '))) != this->serverCommands.end()) {
+			(this->*serverCommands[this->cmd.substr(0, this->cmd.find(' '))])();
 		} else {
-			std::cout << "comando nao encontrado: " << this->bufferStr << std::endl;
+			std::cout << "comando nao encontrado: " << this->cmd << std::endl;
 		}
 	}
+}
+
+/// @brief RESPONDE UM CLIENTE DE FORMA SIMPLES
+void Server::resClient(std::string res) {
+	res += "\r\n";
+	send(this->client->getFd(), res.c_str(), res.size(), 0);
 }

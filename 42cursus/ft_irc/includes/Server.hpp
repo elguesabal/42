@@ -8,11 +8,13 @@ class Server {
 		Server(int port, char *password);
 		~Server(void);
 
-		void addCommands(void);
+		void addCmds(void);
 		void newClient(void);
 		void deleteClient(void);
 		void listener(void);
 		void newBuffer(void);
+
+		void resClient(std::string res);
 
 		std::string getIp(void) const;
 
@@ -24,13 +26,14 @@ class Server {
 		bool nickInvalid(std::string &nick);
 		bool nickInUse(std::string &nick);
 
-		void splitMessage(void);
+		void splitCmds(void);
+		void splitCmd(void);
 		std::string toUpper(std::string &str);
 
 		struct sockaddr_in server;
 		struct pollfd pfd;
 		std::string password;
-		std::map<std::string, void (Server::*)()> commands;
+		std::map<std::string, void (Server::*)()> serverCommands;
 
 		std::vector<pollfd> fds;
 		std::vector<Client *> clients;
@@ -38,9 +41,10 @@ class Server {
 
 		Client *client;
 		unsigned short index;
-		char bufferChar[1024];
-		std::string bufferStr;
-		std::vector<std::string> bufferStrs;
+		char buffer[512];
+		std::vector<std::string> cmds;
+		std::string cmd;
+		std::vector<std::string> argsCmd;
 };
 
 #endif

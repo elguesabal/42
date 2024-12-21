@@ -14,9 +14,11 @@ class Client {
 
 		struct sockaddr_in client;
 		struct pollfd pfd;
-		bool auth;
+		bool authPass;
+		bool authNick;
+		bool authUser;
 		std::string nick;
-		// std::string user;
+		std::string user;
 };
 
 #endif

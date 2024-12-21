@@ -12,7 +12,7 @@ bool Server::nickInvalid(std::string &nick) {
 		}
 	}
 
-	if (this->commands.find(nick) != this->commands.end()) {
+	if (this->serverCommands.find(nick) != this->serverCommands.end()) {
 		return (true);
 	}
 
@@ -30,7 +30,7 @@ bool Server::nickInUse(std::string &nick) {
 	std::string nickUpper = Server::toUpper(nick);
 	for (unsigned int i = 0; i < this->clients.size(); i++) {
 		if (nickUpper == Server::toUpper(this->clients[i]->nick) && this->client != this->clients[i]) {
-			return (true);
+			return (true); // DEVO IGNORAR O CLIENTE CASO ELE TENTE ALTERAR O NICK PARA O PROPRIO NICK??
 		}
 	}
 

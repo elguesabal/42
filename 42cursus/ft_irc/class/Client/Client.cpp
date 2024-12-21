@@ -12,7 +12,10 @@ Client::Client(Server &server) {
 	}
 	std::cout << "Conexao aceita do ip " << inet_ntoa(this->client.sin_addr) << " na porta " << ntohs(this->client.sin_port) << std::endl;
 	this->pfd.events = POLLIN;
-	this->auth = false;
+	this->authPass = false;
+	this->authNick = false;
+	this->authUser = false;
+	this->nick = "*";
 }
 
 /// @brief RESPONSAVEL POR FECHAR O FD DO CLIENTE
