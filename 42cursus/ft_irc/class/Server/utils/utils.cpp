@@ -1,16 +1,31 @@
 #include "header.h"
 
-bool hasInvalidNewline(std::string str) {
-	size_t pos = 0;
-
-	while ((pos = str.find('\n', pos)) != std::string::npos) {
-		if (pos == 0 || str[pos - 1] != '\r') {
-			return true; // Encontrou um "\n" sem "\r" antes dele
-		}
-		++pos; // Avançar para procurar o próximo "\n"
+/// @brief VERIFICA SE OUVE QUEBRA DO PROTOCOLO IRC
+/// @brief VERIFICA SE O FIM DA TRANSMISSAO TERMINA COM "\r\n"
+/// @brief VERIFICA APENAS SE EXISTE "\n" SEM "\r"
+bool Server::invalidLine(void) {
+	if (this->cmd.size() < 2 || this->cmd[this->cmd.size() - 2] != '\r' || this->cmd[this->cmd.size() - 1] != '\n') {
+		return (true); // PQ RAIOS CORE DUMPED???? // TALVELZ EU NAO ATUALIZEI O BUFFER AINDA
 	}
 
-	return false; // Não encontrou nenhum "\n" inválido
+// std::cout << "chegou aki" << std::endl;
+
+	// for (unsigned int i = 0; (i = this->cmd.find('\n', i)) != std::string::npos; ++i) {
+	// 	if (i == 0 || this->cmd[i - 1] != '\r') {
+	// 		return (true);
+	// 	}
+	// }
+
+
+	for (unsigned int i = 0; i < this->cmd.size(); i++) { // PAREI NESSA POHA PQ Q TA DANDO CORE DUMPED
+		if (this->cmd[i - 1] != '\r') {
+			return true;
+		}
+	}
+
+// std::cout << "chegou aki" << std::endl;
+
+	return (false);
 }
 
 /// @brief METODO Q SPLITA VARIOS COMANDOS USANDO '\n', REMOVE TODOS OS \r E ARMAZENA O RESULTADO DENTRO DE server.cmds

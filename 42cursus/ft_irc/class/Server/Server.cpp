@@ -36,7 +36,7 @@ Server::Server(int port, char *password) {
 
 /// @brief DESTRUTOR DA CLASSE
 Server::~Server(void) {
-	// close(this->pfd.fd); SE EU USO CTRL+C ESSA BAGACA NAO E CHAMADA
+
 }
 
 void Server::addCmds(void) {
@@ -58,14 +58,14 @@ void Server::newClient(void) {
 void Server::deleteClient(void) {
 	this->fds.erase(this->fds.begin() + this->index);
 	this->nickClient.erase(this->client->nick);
-	this->cmds.clear(); // DELETA O RESTO DE COMANDOS Q O CLIENTE PODE TER
+	this->cmds.clear();
 	delete this->client;
 	this->clients.erase(this->clients.begin() + this->index - 1);
 }
 
 /// @brief METODO Q COMECA A MONITORAR TODOS OS FDS USANDO poll() E GERENCIA QUAL O DESTINO DO DADO RECEBIDO (SE E UM NOVO CLIENTE, UM CLIENTE DESCONECTANDO)
 void Server::listener(void) {
-	while (true) {
+	while (true) { // ACHO Q DA BOM USAR GOTO (POSSO ORGANIZAR MELHOR O CODIGO)
 		int ret = poll(this->fds.data(), this->fds.size(), -1);
 		if (ret == -1) {
 			std::cout << "Erro no poll" << std::endl;
@@ -96,10 +96,12 @@ void Server::listener(void) {
 /// @brief METODO Q ENCAMINHA COMO O BUFFER RECEBIDO POR UM CLIENTE ESPECIFICO VAI SER TRATADO
 void Server::newBuffer(void) {
 	this->cmd = this->buffer;
-// if () {
-// 	this->resClient();
-// 	this->deleteClient();
-// }
+	if (this->invalidLine()) {
+// std::cout << "veio isso: '" << this->cmd << "'" << std::endl;
+		this->resClient("Quebra do protocolo IRC...");
+		this->deleteClient();
+		return ;
+	}
 	this->splitCmds();
 
 	for (unsigned int i = 0; i < this->cmds.size(); i++) {

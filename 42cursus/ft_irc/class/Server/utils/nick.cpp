@@ -1,6 +1,6 @@
 #include "header.h"
 
-/// @brief VERIFICA SE HA ALGUM CARACTER PROIBIDO NO NICK
+/// @brief VERIFICA SE HA ALGUM CARACTER PROIBIDO NO NICK OU SE COINCIDEM COM ALGUM COMANDO
 /// @param nick NICK A SER ANALIZADO
 /// @return RETORNA TRUE CASO HA ALGUM NICK PROIBIDO E FALSE CASO NAO
 bool Server::nickInvalid(std::string &nick) {
@@ -23,16 +23,12 @@ bool Server::nickInvalid(std::string &nick) {
 /// @param nick NICK A SER ANALIZADO
 /// @return RETORNA TRUE CASO O NICK ESTEJA EM USO E FALSE CASO NAO (RETORNA FALSE CASO O PROPRIO USUARIO ESTEJA REDEFININDO PARA SEU PROPRIO NICK)
 bool Server::nickInUse(std::string &nick) {
-	// if (this->nickClient.find(nick) != this->nickClient.end()) {
-	// 	return (true);
-	// }
-
 	std::string nickUpper = Server::toUpper(nick);
+
 	for (unsigned int i = 0; i < this->clients.size(); i++) {
 		if (nickUpper == Server::toUpper(this->clients[i]->nick) && this->client != this->clients[i]) {
 			return (true); // DEVO IGNORAR O CLIENTE CASO ELE TENTE ALTERAR O NICK PARA O PROPRIO NICK??
 		}
 	}
-
 	return (false);
 }

@@ -26,8 +26,4 @@ void validation(int argc, char **argv);
 // ./src/signal.cpp
 void ctrlC(int signal);
 
-// ./src/utils.cpp
-void splitMessage(Server &server);
-bool nickInvalid(std::string &nick, std::map<std::string, void (Server::*)()> &commands);
-
 #endif

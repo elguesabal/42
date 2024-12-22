@@ -8,6 +8,7 @@ class Client {
 		Client(Server &server);
 		~Client(void);
 
+		// ./class/Client/Client.cpp
 		unsigned short getFd(void) const;
 		std::string getIp(void) const;
 		unsigned short getPort(void) const;
