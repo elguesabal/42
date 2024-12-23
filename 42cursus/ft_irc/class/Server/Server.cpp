@@ -65,30 +65,63 @@ void Server::deleteClient(void) {
 
 /// @brief METODO Q COMECA A MONITORAR TODOS OS FDS USANDO poll() E GERENCIA QUAL O DESTINO DO DADO RECEBIDO (SE E UM NOVO CLIENTE, UM CLIENTE DESCONECTANDO)
 void Server::listener(void) {
-	while (true) { // ACHO Q DA BOM USAR GOTO (POSSO ORGANIZAR MELHOR O CODIGO)
+	// while (true) { // ACHO Q DA BOM USAR GOTO (POSSO ORGANIZAR MELHOR O CODIGO)
+	// 	int ret = poll(this->fds.data(), this->fds.size(), -1);
+	// 	if (ret == -1) {
+	// 		std::cout << "Erro no poll" << std::endl;
+	// 		exit(1);
+	// 	} else if (this->fds[0].revents & POLLIN) {
+	// 		this->newClient();
+	// 	} else {
+	// 		for (unsigned int i = 1; i < this->fds.size(); i++) {
+	// 			if (this->fds[i].revents & POLLIN) {
+	// 				this->index = i;
+	// 				this->client = this->clients[i - 1];
+	// 				memset(this->buffer, 0, 512);
+	// 				ssize_t bytes_received = recv(this->fds[i].fd, this->buffer, 1024, 0); // TRATAR \n SOLTO
+	// 				if (bytes_received > 0) {
+	// 					this->newBuffer();
+	// 				} else if (bytes_received == 0) {
+	// 					this->deleteClient();
+	// 				} else if (bytes_received < 0) {
+	// 					std::cout << "Erro ao receber mensagem" << std::endl;
+	// 				}
+	// 				break;
+	// 			}
+	// 		}
+	// 	}
+	// }
+
+
+	// USANDO O COMANDO GOTO
+	newComand:
 		int ret = poll(this->fds.data(), this->fds.size(), -1);
-		if (ret == -1) {
-			std::cout << "Erro no poll" << std::endl;
-			exit(1);
-		} else if (this->fds[0].revents & POLLIN) {
-			this->newClient();
-		} else {
-			for (unsigned int i = 1; i < this->fds.size(); i++) {
-				if (this->fds[i].revents & POLLIN) {
-					this->index = i;
-					this->client = this->clients[i - 1];
-					memset(this->buffer, 0, 512);
-					ssize_t bytes_received = recv(this->fds[i].fd, this->buffer, 1024, 0); // TRATAR \n SOLTO
-					if (bytes_received > 0) {
-						this->newBuffer();
-					} else if (bytes_received == 0) {
-						this->deleteClient();
-					} else if (bytes_received < 0) {
-						std::cout << "Erro ao receber mensagem" << std::endl;
-					}
-					break;
-				}
+
+	if (ret != -1) {
+		std::cout << "Erro no poll" << std::endl;
+		// exit(1);
+		return ; // ASSIM EU POSSO FAZER UM LOOP REINICIANDO O SERVIDOR
+	}
+
+	if (this->fds[0].revents & POLLIN) {
+		this->newClient();
+		goto newComand;
+	}
+
+	for (unsigned int i = 1; i < this->fds.size(); i++) {
+		if (this->fds[i].revents & POLLIN) {
+			this->index = i;
+			this->client = this->clients[i - 1];
+			memset(this->buffer, 0, 512);
+			ssize_t bytes_received = recv(this->fds[i].fd, this->buffer, 1024, 0); // TRATAR \n SOLTO
+			if (bytes_received > 0) {
+				this->newBuffer();
+			} else if (bytes_received == 0) {
+				this->deleteClient();
+			} else if (bytes_received < 0) {
+				std::cout << "Erro ao receber mensagem" << std::endl;
 			}
+			goto newComand;
 		}
 	}
 }
@@ -97,7 +130,6 @@ void Server::listener(void) {
 void Server::newBuffer(void) {
 	this->cmd = this->buffer;
 	if (this->invalidLine()) {
-// std::cout << "veio isso: '" << this->cmd << "'" << std::endl;
 		this->resClient("Quebra do protocolo IRC...");
 		this->deleteClient();
 		return ;

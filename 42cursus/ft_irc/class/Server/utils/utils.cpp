@@ -5,25 +5,16 @@
 /// @brief VERIFICA APENAS SE EXISTE "\n" SEM "\r"
 bool Server::invalidLine(void) {
 	if (this->cmd.size() < 2 || this->cmd[this->cmd.size() - 2] != '\r' || this->cmd[this->cmd.size() - 1] != '\n') {
-		return (true); // PQ RAIOS CORE DUMPED???? // TALVELZ EU NAO ATUALIZEI O BUFFER AINDA
+		return (true);
 	}
 
-// std::cout << "chegou aki" << std::endl;
-
-	// for (unsigned int i = 0; (i = this->cmd.find('\n', i)) != std::string::npos; ++i) {
-	// 	if (i == 0 || this->cmd[i - 1] != '\r') {
-	// 		return (true);
-	// 	}
-	// }
-
-
-	for (unsigned int i = 0; i < this->cmd.size(); i++) { // PAREI NESSA POHA PQ Q TA DANDO CORE DUMPED
-		if (this->cmd[i - 1] != '\r') {
-			return true;
-		}
+	for (unsigned int i = 1; i < this->cmd.size(); i++) {
+        if (this->cmd[i] == '\n') {
+            if (i == 0 || this->cmd[i - 1] != '\r') {
+                return (true);
+            }
+        }
 	}
-
-// std::cout << "chegou aki" << std::endl;
 
 	return (false);
 }
