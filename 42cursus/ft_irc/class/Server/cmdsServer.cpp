@@ -66,8 +66,14 @@ void Server::USER(void) {
 	} else if (this->argsCmd.size() < 5) {
 		this->resClient(":" + this->getIp() + " " + ERR_NEEDMOREPARAMS + " " + this->client->nick + " USER :Parâmetros insuficientes"); // Not enough parameters
 	} else {
+		this->client->user = this->argsCmd[1];
 		this->client->authUser = true;
 
 		// AKI EU VERIFICO E DOU BOAS VINDAS COM MENSAGEM 001 002 E 003??
+		// TA FALTANDO UM IF VERIFICANDO SE OS 3 FORAM AUTENTICADOS
+// :<servidor> 001 <apelido> :Welcome to the Internet Relay Network <nome_do_cliente>!<usuario>@<host>
+		this->resClient(":" + this->getIp() + " 001 " + this->client->nick + " :Welcome to the Internet Relay Network " + this->client->nick + "!" + this->client->user + "@" + this->client->getIp());
+
+// 002
 	}
 }

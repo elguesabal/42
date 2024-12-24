@@ -95,11 +95,12 @@ void Server::listener(void) {
 
 	// USANDO O COMANDO GOTO
 	newComand:
-		int ret = poll(this->fds.data(), this->fds.size(), -1);
+	int ret = poll(this->fds.data(), this->fds.size(), -1);
 
-	if (ret != -1) {
+	if (ret == -1) {
 		std::cout << "Erro no poll" << std::endl;
 		// exit(1);
+		close(this->pfd.fd); // TENHO Q ESTUDAR MAIS PARA ENTENDER QUANDO FECHAR E DEVO CRIAR UM METODO PARA DAR FREE NA MEMORIA DOS CLIENTES // SERA Q EXISTE ALGUM PROTOCOLO Q FALA SOBRE REINICIAR O SERVIDOR???
 		return ; // ASSIM EU POSSO FAZER UM LOOP REINICIANDO O SERVIDOR
 	}
 
