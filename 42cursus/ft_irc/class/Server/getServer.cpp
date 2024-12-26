@@ -27,6 +27,6 @@ std::string Server::getIp(void) const {
 	// return std::string(ip);
 
 	// return ("192.168.137.155"); // NAO CONSEGI PEGAR O IP DO PROPRIO SERVIDOR ENTAO TO FZND ISSO PRA TENTAR DPS
-	// return ("127.0.0.1"); // LOCALHOST
-	return ("192.168.137.163");
+	return ("127.0.0.1"); // LOCALHOST
+	// return ("192.168.137.163");
 }

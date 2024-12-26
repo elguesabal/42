@@ -77,3 +77,8 @@ void Server::USER(void) {
 // 002
 	}
 }
+
+/// @brief 
+void Server::QUIT(void) {
+	std::cout << "comando QUIT" << std::endl;
+}

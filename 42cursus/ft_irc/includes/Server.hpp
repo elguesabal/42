@@ -26,6 +26,7 @@ class Server {
 		void PASS(void);
 		void NICK(void);
 		void USER(void);
+		void QUIT(void);
 
 		// ./class/Server/utils/nick.cpp
 		bool nickInvalid(std::string &nick);

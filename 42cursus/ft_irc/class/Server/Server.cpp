@@ -40,10 +40,11 @@ Server::~Server(void) {
 }
 
 void Server::addCmds(void) {
-	this->serverCommands["CAP"] = &Server::CAP; // O CLIENTE MANDA UM "CAP END" ALEM DE "CAP LS 302"
+	this->serverCommands["CAP"] = &Server::CAP;
 	this->serverCommands["PASS"] = &Server::PASS;
 	this->serverCommands["NICK"] = &Server::NICK;
 	this->serverCommands["USER"] = &Server::USER;
+	this->serverCommands["QUIT"] = &Server::QUIT;
 }
 
 /// @brief CRIA UM NOVO CLIENTE E SALVA O FD NO VECTOR DE FDS E O CLIENTE NO VECTOR DE CLIENTES
@@ -130,11 +131,11 @@ void Server::listener(void) {
 /// @brief METODO Q ENCAMINHA COMO O BUFFER RECEBIDO POR UM CLIENTE ESPECIFICO VAI SER TRATADO
 void Server::newBuffer(void) {
 	this->cmd = this->buffer;
-	if (this->invalidLine()) {
-		this->resClient("Quebra do protocolo IRC...");
-		this->deleteClient();
-		return ;
-	}
+	// if (this->invalidLine()) {
+	// 	this->resClient("Quebra do protocolo IRC...");
+	// 	this->deleteClient();
+	// 	return ;
+	// }
 	this->splitCmds();
 
 	for (unsigned int i = 0; i < this->cmds.size(); i++) {
