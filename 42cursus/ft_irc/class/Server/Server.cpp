@@ -131,11 +131,11 @@ void Server::listener(void) {
 /// @brief METODO Q ENCAMINHA COMO O BUFFER RECEBIDO POR UM CLIENTE ESPECIFICO VAI SER TRATADO
 void Server::newBuffer(void) {
 	this->cmd = this->buffer;
-	// if (this->invalidLine()) {
-	// 	this->resClient("Quebra do protocolo IRC...");
-	// 	this->deleteClient();
-	// 	return ;
-	// }
+	if (this->invalidLine()) {
+		this->resClient("Quebra do protocolo IRC...");
+		this->deleteClient();
+		return ;
+	}
 	this->splitCmds();
 
 	for (unsigned int i = 0; i < this->cmds.size(); i++) {
@@ -146,6 +146,7 @@ void Server::newBuffer(void) {
 			(this->*serverCommands[this->cmd.substr(0, this->cmd.find(' '))])();
 		} else {
 			std::cout << "comando nao encontrado: " << this->cmd << std::endl;
+			// this->resClient("testeeeeeeeeeeeeee");
 		}
 	}
 }

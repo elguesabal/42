@@ -71,10 +71,15 @@ void Server::USER(void) {
 
 		// AKI EU VERIFICO E DOU BOAS VINDAS COM MENSAGEM 001 002 E 003??
 		// TA FALTANDO UM IF VERIFICANDO SE OS 3 FORAM AUTENTICADOS
-// :<servidor> 001 <apelido> :Welcome to the Internet Relay Network <nome_do_cliente>!<usuario>@<host>
-		this->resClient(":" + this->getIp() + " 001 " + this->client->nick + " :Welcome to the Internet Relay Network " + this->client->nick + "!" + this->client->user + "@" + this->client->getIp());
 
-// 002
+// :<servidor> 001 <apelido> :Welcome to the Internet Relay Network <nome_do_cliente>!<usuario>@<host>
+		this->resClient(":" + this->getIp() + " 001 " + this->client->nick + " :Bem-vindo ao servidor ft_irc, " + this->client->nick + "!" + this->client->user + "@" + this->client->getIp());
+
+// :<servidor> 002 <apelido> :Your host is <servidor>, running version <versao>
+		this->resClient(":" + this->getIp() + " 002 " + this->client->nick + " :O host do servidor é " + this->getIp() + ", rodando na versão 42");
+
+// :<servidor> 003 <apelido> :This server was created <data_hora>
+		this->resClient(":" + this->getIp() + " 003 " + this->client->nick + " :This server was created Wed Dec 20 2024 at 15:00:00 GMT");
 	}
 }
 
