@@ -20,6 +20,8 @@ class Server {
 
 		// ./class/Server/getServer.cpp
 		std::string getIp(void) const;
+		std::string getDate(void) const;
+		std::string getTime(void) const;
 
 		// ./class/Server/cmdsServer.cpp
 		void CAP(void);
@@ -43,6 +45,7 @@ class Server {
 		struct pollfd pfd;
 		std::string password;
 		std::map<std::string, void (Server::*)()> serverCommands;
+		std::tm *time;
 
 		// INFORMACOES DOS CLIENTES
 		std::vector<pollfd> fds;

@@ -31,12 +31,15 @@ Server::Server(int port, char *password) {
 	this->fds.push_back(this->pfd);
 	this->password = password;
 	this->addCmds();
-	std::cout << "Servidor iniciado na porta: " << port << std::endl << "Senha: " << password << std::endl << std::endl;
+	std::time_t currentTime = std::time(0);
+	this->time = std::localtime(&currentTime);
+	std::cout << "Servidor iniciado na porta " << port << " as " << this->getTime() << " do dia " << this->getDate() << std::endl << "Senha: " << password << std::endl << std::endl;
 }
 
 /// @brief DESTRUTOR DA CLASSE
 Server::~Server(void) {
-
+	// LIBERAR A MEMORIA DO PONTEIRO time
+	// PRECISO DELETAR TODOS OS CLIENTES
 }
 
 void Server::addCmds(void) {

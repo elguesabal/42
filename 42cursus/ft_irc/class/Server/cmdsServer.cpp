@@ -59,7 +59,8 @@ void Server::NICK(void) {
 
 /// @brief O COMANDO "USER" SO DEVE SER RECEBIDO UMA VEZ NA AUTENTICACAO E QUALQUER OUTRA TENTATIVA DESTE COMANDO SERA RESPONDIDO COM ":<servidor> 462 <nick> :Comando não autorizado (já registrado)"
 /// @brief SE ESTIVER FALTANDO PARAMETROS RESPONDE COM ":<servidor> 461 <nick> USER :Parâmetros insuficientes"
-/// @brief ???
+/// @brief CASO NAO TENHA SIDO RESPONDIDO COM NENHUMA DAS 2 OPCOES ACIMA APENAS SALVAR O user ATRIBUI true PARA authuser
+/// @brief INDEPENDENTE DAS OUTRAS OPCOES ACIMA SE AS 3 VARIAVEIS authPass, authNick E authUser FOREM true RESPONDE COM AS MENSAGENS 001, 002 E 003
 void Server::USER(void) {
 	if (this->client->authUser == true) {
 		this->resClient(":" + this->getIp() + " " + ERR_ALREADYREGISTRED + " " + this->client->nick + " :Comando não autorizado (já registrado)"); // Unauthorized command (already registered)
@@ -68,22 +69,21 @@ void Server::USER(void) {
 	} else {
 		this->client->user = this->argsCmd[1];
 		this->client->authUser = true;
+	}
 
-		// AKI EU VERIFICO E DOU BOAS VINDAS COM MENSAGEM 001 002 E 003??
-		// TA FALTANDO UM IF VERIFICANDO SE OS 3 FORAM AUTENTICADOS
-
-// :<servidor> 001 <apelido> :Welcome to the Internet Relay Network <nome_do_cliente>!<usuario>@<host>
+	if (this->client->authPass && this->client->authNick && this->client->authUser) {
 		this->resClient(":" + this->getIp() + " 001 " + this->client->nick + " :Bem-vindo ao servidor ft_irc, " + this->client->nick + "!" + this->client->user + "@" + this->client->getIp());
-
-// :<servidor> 002 <apelido> :Your host is <servidor>, running version <versao>
 		this->resClient(":" + this->getIp() + " 002 " + this->client->nick + " :O host do servidor é " + this->getIp() + ", rodando na versão 42");
-
-// :<servidor> 003 <apelido> :This server was created <data_hora>
-		this->resClient(":" + this->getIp() + " 003 " + this->client->nick + " :This server was created Wed Dec 20 2024 at 15:00:00 GMT");
+		this->resClient(":" + this->getIp() + " 003 " + this->client->nick + " :Este servidor foi criado dia " + this->getDate() + " às " + this->getTime());
 	}
 }
 
 /// @brief 
 void Server::QUIT(void) {
-	std::cout << "comando QUIT" << std::endl;
+	// std::cout << "comando QUIT" << std::endl;
+
+
+	this->deleteClient();
+
+	// O SERVIDOR DEVE MANDAR MENSAGEM PARA TODOS OS CANAIS NOTIFICANDO A SAIDA
 }
