@@ -1,5 +1,11 @@
 #include "header.h"
 
+/// @brief PEGA O FD DO SERVIDOR
+/// @return RETORNA O FD DO SERVIDOR
+int Server::getFd(void) const {
+	return (this->pfd.fd);
+}
+
 /// @brief METODO Q BUSCA O IP DO SERVIDOR
 /// @return RETORNA O IP DO SERVIDOR
 std::string Server::getIp(void) const {

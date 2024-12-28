@@ -55,6 +55,10 @@ void Server::NICK(void) {
 		this->client->nick = this->argsCmd[1];
 		this->client->authNick = true;
 	}
+
+	if (this->client->auth == false && this->client->authPass && this->client->authNick && this->client->authUser) {
+		this->authentication();
+	}
 }
 
 /// @brief O COMANDO "USER" SO DEVE SER RECEBIDO UMA VEZ NA AUTENTICACAO E QUALQUER OUTRA TENTATIVA DESTE COMANDO SERA RESPONDIDO COM ":<servidor> 462 <nick> :Comando não autorizado (já registrado)"
@@ -71,19 +75,13 @@ void Server::USER(void) {
 		this->client->authUser = true;
 	}
 
-	if (this->client->authPass && this->client->authNick && this->client->authUser) {
-		this->resClient(":" + this->getIp() + " 001 " + this->client->nick + " :Bem-vindo ao servidor ft_irc, " + this->client->nick + "!" + this->client->user + "@" + this->client->getIp());
-		this->resClient(":" + this->getIp() + " 002 " + this->client->nick + " :O host do servidor é " + this->getIp() + ", rodando na versão 42");
-		this->resClient(":" + this->getIp() + " 003 " + this->client->nick + " :Este servidor foi criado dia " + this->getDate() + " às " + this->getTime());
+	if (this->client->auth == false && this->client->authPass && this->client->authNick && this->client->authUser) {
+		this->authentication();
 	}
 }
 
 /// @brief 
 void Server::QUIT(void) {
-	// std::cout << "comando QUIT" << std::endl;
-
-
 	this->deleteClient();
-
 	// O SERVIDOR DEVE MANDAR MENSAGEM PARA TODOS OS CANAIS NOTIFICANDO A SAIDA
 }

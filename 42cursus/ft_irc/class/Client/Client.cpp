@@ -15,6 +15,7 @@ Client::Client(Server &server) {
 	this->authPass = false;
 	this->authNick = false;
 	this->authUser = false;
+	this->auth = false;
 	this->nick = "*";
 }
 

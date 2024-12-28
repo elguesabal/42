@@ -18,6 +18,7 @@ class Client {
 		bool authPass;
 		bool authNick;
 		bool authUser;
+		bool auth;
 		std::string nick;
 		std::string user;
 };

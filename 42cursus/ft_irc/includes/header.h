@@ -22,6 +22,8 @@
 #include "Server.hpp"
 #include "Client.hpp"
 
+extern bool shutdownServer;
+
 // ./src/verification.cpp
 void validation(int argc, char **argv);
 

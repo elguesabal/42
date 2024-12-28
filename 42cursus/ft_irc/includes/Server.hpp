@@ -19,6 +19,7 @@ class Server {
 		void resClient(std::string res);
 
 		// ./class/Server/getServer.cpp
+		int getFd(void) const;
 		std::string getIp(void) const;
 		std::string getDate(void) const;
 		std::string getTime(void) const;
@@ -39,6 +40,7 @@ class Server {
 		void splitCmds(void);
 		void splitCmd(void);
 		std::string toUpper(std::string &str);
+		void authentication(void);
 
 		// INFORMACOES DO SERVIDOR
 		struct sockaddr_in server;
@@ -54,8 +56,7 @@ class Server {
 
 		// INFORMACOES DA ATUAL TRANSMISSAO
 		Client *client;
-		unsigned short index;
-		char buffer[513];
+		char buffer[512];
 		std::vector<std::string> cmds;
 		std::string cmd;
 		std::vector<std::string> argsCmd;
