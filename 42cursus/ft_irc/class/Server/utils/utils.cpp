@@ -65,9 +65,12 @@ std::string Server::toUpper(std::string &str) {
 	return (ret);
 }
 
+/// @brief VERIFICA SE O CLIENTE AUTENTICOU O PASS NICK E USER E ESTA PRONTO PARA RECEBER AS MENSGENS 001 002 E 003
 void Server::authentication(void) {
-	this->resClient(":" + this->getIp() + " 001 " + this->client->nick + " :Bem-vindo ao servidor ft_irc, " + this->client->nick + "!" + this->client->user + "@" + this->client->getIp());
-	this->resClient(":" + this->getIp() + " 002 " + this->client->nick + " :O host do servidor é " + this->getIp() + ", rodando na versão 42");
-	this->resClient(":" + this->getIp() + " 003 " + this->client->nick + " :Este servidor foi criado dia " + this->getDate() + " às " + this->getTime());
-	this->client->auth = true;
+	if (this->client->auth == false && this->client->authPass && this->client->authNick && this->client->authUser) {
+		this->resClient(":" + this->getIp() + " 001 " + this->client->nick + " :Bem-vindo ao servidor ft_irc, " + this->client->nick + "!" + this->client->user + "@" + this->client->getIp());
+		this->resClient(":" + this->getIp() + " 002 " + this->client->nick + " :O host do servidor é " + this->getIp() + ", rodando na versão 42");
+		this->resClient(":" + this->getIp() + " 003 " + this->client->nick + " :Este servidor foi criado dia " + this->getDate() + " às " + this->getTime());
+		this->client->auth = true;
+	}
 }

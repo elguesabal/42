@@ -30,6 +30,7 @@ class Server {
 		void NICK(void);
 		void USER(void);
 		void QUIT(void);
+		void PING(void);
 
 		// ./class/Server/utils/nick.cpp
 		bool nickInvalid(std::string &nick);

@@ -56,9 +56,7 @@ void Server::NICK(void) {
 		this->client->authNick = true;
 	}
 
-	if (this->client->auth == false && this->client->authPass && this->client->authNick && this->client->authUser) {
-		this->authentication();
-	}
+	this->authentication();
 }
 
 /// @brief O COMANDO "USER" SO DEVE SER RECEBIDO UMA VEZ NA AUTENTICACAO E QUALQUER OUTRA TENTATIVA DESTE COMANDO SERA RESPONDIDO COM ":<servidor> 462 <nick> :Comando não autorizado (já registrado)"
@@ -75,13 +73,26 @@ void Server::USER(void) {
 		this->client->authUser = true;
 	}
 
-	if (this->client->auth == false && this->client->authPass && this->client->authNick && this->client->authUser) {
-		this->authentication();
-	}
+	this->authentication();
 }
 
 /// @brief 
 void Server::QUIT(void) {
 	this->deleteClient();
 	// O SERVIDOR DEVE MANDAR MENSAGEM PARA TODOS OS CANAIS NOTIFICANDO A SAIDA
+}
+
+/// @brief PING COM MENOS DE 2 ARGUMENTOS E RESPONDIDO COM ":<servidor> 409 <cliente> :Nenhuma origem especificada"
+/// @brief CASO O PING SEJA BEM SUCEDIDO RESPONDE COM "PONG <token>"
+void Server::PING(void) {
+	if (this->client->auth == false) {
+		return ;
+	}
+
+	if (this->argsCmd.size() < 2) {
+		this->resClient(":" + this->getIp() + " " + ERR_NOORIGIN + " " + this->client->nick + " :Nenhuma origem especificada"); // No origin specified
+		return ;
+	}
+
+	this->resClient("PONG :" + this->argsCmd[1]);
 }

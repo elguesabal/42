@@ -58,6 +58,7 @@ void Server::addCmds(void) {
 	this->serverCommands["NICK"] = &Server::NICK;
 	this->serverCommands["USER"] = &Server::USER;
 	this->serverCommands["QUIT"] = &Server::QUIT;
+	this->serverCommands["PING"] = &Server::PING;
 }
 
 /// @brief CRIA UM NOVO CLIENTE E SALVA O FD NO VECTOR DE FDS E O CLIENTE NO VECTOR DE CLIENTES
@@ -131,7 +132,8 @@ void Server::newBuffer(void) {
 		if (this->serverCommands.find(this->cmd.substr(0, this->cmd.find(' '))) != this->serverCommands.end()) {
 			(this->*serverCommands[this->cmd.substr(0, this->cmd.find(' '))])();
 		} else {
-			std::cout << "comando nao encontrado: " << this->cmd << std::endl;
+			std::cout << "comando nao encontrado: '" << this->cmd << "'" << std::endl;
+			this->resClient(":" + this->getIp() + " " + ERR_UNKNOWNCOMMAND + " " + this->client->nick + " " + this->argsCmd[0] + " :Comando desconhecido");
 		}
 	}
 }
