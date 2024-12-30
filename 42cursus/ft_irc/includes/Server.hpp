@@ -55,6 +55,9 @@ class Server {
 		std::vector<Client *> clients;
 		std::map<std::string, Client *> nickClient;
 
+		// INFORMACOES DOS CANAIS
+		// std::vector<std::string> channels;
+
 		// INFORMACOES DA ATUAL TRANSMISSAO
 		Client *client;
 		char buffer[512];
