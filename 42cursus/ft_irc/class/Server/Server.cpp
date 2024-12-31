@@ -54,11 +54,13 @@ Server::~Server(void) {
 /// @brief ADICIONA TODOS OS COMANDOS DISPONIVEIS NO SERVIDOR
 void Server::addCmds(void) {
 	this->serverCommands["CAP"] = &Server::CAP;
-	this->serverCommands["PASS"] = &Server::PASS;
 	this->serverCommands["NICK"] = &Server::NICK;
-	this->serverCommands["USER"] = &Server::USER;
-	this->serverCommands["QUIT"] = &Server::QUIT;
+	this->serverCommands["PASS"] = &Server::PASS;
 	this->serverCommands["PING"] = &Server::PING;
+	this->serverCommands["QUIT"] = &Server::QUIT;
+	this->serverCommands["USER"] = &Server::USER;
+
+	this->serverCommands["PRIVMSG"] = &Server::PRIVMSG;
 }
 
 /// @brief CRIA UM NOVO CLIENTE E SALVA O FD NO VECTOR DE FDS E O CLIENTE NO VECTOR DE CLIENTES
@@ -139,7 +141,16 @@ void Server::newBuffer(void) {
 }
 
 /// @brief RESPONDE UM CLIENTE DE FORMA SIMPLES
+/// @param res RESPOSTA JA PRONTO PARA SER ENVIADA PARA O CLIENTE
 void Server::resClient(std::string res) {
 	res += "\r\n";
 	send(this->client->getFd(), res.c_str(), res.size(), 0);
+}
+
+/// @brief MANDA UMA MENSAGEM PARA OUTRO CLIENTE
+/// @param res MENSAGEM JA PRONTO PARA SER ENVIADA PARA O CLIENTE
+/// @param receiver INFORMACOES DO CLIENTE Q VAI RECEBER A MENSAGEM
+void Server::sendClient(std::string res, Client *receiver) {
+	res += "\r\n";
+	send(receiver->getFd(), res.c_str(), res.size(), 0);
 }

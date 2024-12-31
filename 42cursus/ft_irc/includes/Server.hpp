@@ -17,6 +17,7 @@ class Server {
 
 		// ./class/Server/Server.cpp // POR ENQUANTO AKI (FUTURAMENTE DEVO CRIAR UM ARQUIVO SO PARA RESPOSTAS DE CLIENTES CANAIS MENSAGENS PRIVADAS E ETC)
 		void resClient(std::string res);
+		void sendClient(std::string res, Client *receiver);
 
 		// ./class/Server/getServer.cpp
 		int getFd(void) const;
@@ -26,11 +27,13 @@ class Server {
 
 		// ./class/Server/cmdsServer.cpp
 		void CAP(void);
-		void PASS(void);
 		void NICK(void);
-		void USER(void);
-		void QUIT(void);
+		void PASS(void);
 		void PING(void);
+		void QUIT(void);
+		void USER(void);
+
+		void PRIVMSG(void);
 
 		// ./class/Server/utils/nick.cpp
 		bool nickInvalid(std::string &nick);

@@ -10,24 +10,6 @@ void Server::CAP(void) {
 	}
 }
 
-/// @brief CLIENTE TENTANDO AUTENTICAR A SENHA NOVAMENTE RESPONDE COM ":<servidor> 462 <nick> :Comando não autorizado (já registrado)"
-/// @brief CLIENTE MANDOU APENAS O COMANDO "PASS" SEM A SENHA RESPONDE COM ":<servidor> 464 <nick> :Senha necessária" E FECHA A CONEXAO
-/// @brief SENHA ERRADA RESPONDE COM ":<servidor> 464 <nick> :Senha incorreta" E FECHA A CONEXAO
-/// @brief VALIDA A SENHA DO CLIENTE E NAO RESPONDE
-void Server::PASS(void) {
-	if (this->client->authPass == true) {
-		this->resClient(":" + this->getIp() + " " + ERR_ALREADYREGISTRED + " " + this->client->nick + " :Comando não autorizado (já registrado)"); // Unauthorized command (already registered)
-	} else if (this->argsCmd.size() < 2) {
-		this->resClient(":" + this->getIp() + " " + ERR_PASSWDMISMATCH + " * :Senha necessária"); // Password required
-		this->deleteClient();
-	} else if (this->argsCmd[1] != this->password) {
-		this->resClient(":" + this->getIp() + " " + ERR_PASSWDMISMATCH + " * :Senha incorreta"); // Password incorrect
-		this->deleteClient();
-	} else {
-		this->client->authPass = true;
-	}
-}
-
 /// @brief SE O COMANDO "NICK" FOR RECEBIDO SEM O COMANDO "PASS" ANTERIORMENTE REPONDE COM ":<servidor> 464 <nick> :Senha necessária" E FECHA A CONEXAO
 /// @brief COMANDO "NICK" ENVIADO SEM NENHUM ARGUMENTO RESPONDE COM ":<servidor> 431 <nick> :Nenhum nick fornecido"
 /// @brief CASO O NICK CONTENHA UM CARACTER PROIBIDO RESPONDE COM ":<servidor> 431 <nick> :Nick inválido"
@@ -59,6 +41,48 @@ void Server::NICK(void) {
 	this->authentication();
 }
 
+/// @brief CLIENTE TENTANDO AUTENTICAR A SENHA NOVAMENTE RESPONDE COM ":<servidor> 462 <nick> :Comando não autorizado (já registrado)"
+/// @brief CLIENTE MANDOU APENAS O COMANDO "PASS" SEM A SENHA RESPONDE COM ":<servidor> 464 <nick> :Senha necessária" E FECHA A CONEXAO
+/// @brief SENHA ERRADA RESPONDE COM ":<servidor> 464 <nick> :Senha incorreta" E FECHA A CONEXAO
+/// @brief VALIDA A SENHA DO CLIENTE E NAO RESPONDE
+void Server::PASS(void) {
+	if (this->client->authPass == true) {
+		this->resClient(":" + this->getIp() + " " + ERR_ALREADYREGISTRED + " " + this->client->nick + " :Comando não autorizado (já registrado)"); // Unauthorized command (already registered)
+	} else if (this->argsCmd.size() < 2) {
+		this->resClient(":" + this->getIp() + " " + ERR_PASSWDMISMATCH + " * :Senha necessária"); // Password required
+		this->deleteClient();
+	} else if (this->argsCmd[1] != this->password) {
+		this->resClient(":" + this->getIp() + " " + ERR_PASSWDMISMATCH + " * :Senha incorreta"); // Password incorrect
+		this->deleteClient();
+	} else {
+		this->client->authPass = true;
+	}
+}
+
+/// @brief PING COM MENOS DE 2 ARGUMENTOS E RESPONDIDO COM ":<servidor> 409 <cliente> :Nenhuma origem especificada"
+/// @brief CASO O PING SEJA BEM SUCEDIDO RESPONDE COM "PONG <token>"
+void Server::PING(void) {
+	if (this->client->auth == false) {
+		return ;
+	}
+
+	if (this->argsCmd.size() < 2) {
+		this->resClient(":" + this->getIp() + " " + ERR_NOORIGIN + " " + this->client->nick + " :Nenhuma origem especificada"); // No origin specified
+		return ;
+	}
+
+// std::cout << "comando: '" << this->cmd << "'" << std::endl;
+// std::cout << "respondido com: '" << "PONG :" << this->argsCmd[1] << "'" << std::endl;
+
+	this->resClient("PONG :" + this->argsCmd[1]);
+}
+
+/// @brief 
+void Server::QUIT(void) {
+	this->deleteClient();
+	// O SERVIDOR DEVE MANDAR MENSAGEM PARA TODOS OS CANAIS NOTIFICANDO A SAIDA
+}
+
 /// @brief O COMANDO "USER" SO DEVE SER RECEBIDO UMA VEZ NA AUTENTICACAO E QUALQUER OUTRA TENTATIVA DESTE COMANDO SERA RESPONDIDO COM ":<servidor> 462 <nick> :Comando não autorizado (já registrado)"
 /// @brief SE ESTIVER FALTANDO PARAMETROS RESPONDE COM ":<servidor> 461 <nick> USER :Parâmetros insuficientes"
 /// @brief CASO NAO TENHA SIDO RESPONDIDO COM NENHUMA DAS 2 OPCOES ACIMA APENAS SALVAR O user ATRIBUI true PARA authuser
@@ -76,23 +100,14 @@ void Server::USER(void) {
 	this->authentication();
 }
 
-/// @brief 
-void Server::QUIT(void) {
-	this->deleteClient();
-	// O SERVIDOR DEVE MANDAR MENSAGEM PARA TODOS OS CANAIS NOTIFICANDO A SAIDA
-}
+void Server::PRIVMSG(void) {
+// std::cout << "teste comando PRIVMSG: '" << this->cmd << "'" << std::endl;
 
-/// @brief PING COM MENOS DE 2 ARGUMENTOS E RESPONDIDO COM ":<servidor> 409 <cliente> :Nenhuma origem especificada"
-/// @brief CASO O PING SEJA BEM SUCEDIDO RESPONDE COM "PONG <token>"
-void Server::PING(void) {
-	if (this->client->auth == false) {
-		return ;
-	}
+	// VERIFICAR A QUANTIDADE DE ARGUMENTOS
+	// VERIFICAR SE O NICK E VALIDO
+	// VERIFICAR CASO O USUARIO NAO EXISTA
+	// RESUMINDO FALTA COISA PRA KRLH
 
-	if (this->argsCmd.size() < 2) {
-		this->resClient(":" + this->getIp() + " " + ERR_NOORIGIN + " " + this->client->nick + " :Nenhuma origem especificada"); // No origin specified
-		return ;
-	}
-
-	this->resClient("PONG :" + this->argsCmd[1]);
+	// :A!user@host PRIVMSG B :Hello, how are you?
+	this->sendClient(":" + this->client->nick + "!" + this->client->user + "@" + this->client->getIp() + " PRIVMSG " + this->argsCmd[1] + " :" + this->argsCmd[2], nickClient[this->argsCmd[1]]);
 }

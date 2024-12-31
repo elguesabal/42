@@ -2,7 +2,7 @@
 
 /// @brief METODO Q BUSCA O FD DO CLIENTE
 /// @return RETORNA O FD DO CLIENTE
-unsigned short Client::getFd(void) const {
+int Client::getFd(void) const {
 	return (this->pfd.fd);
 }
 
