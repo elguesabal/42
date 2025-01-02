@@ -100,18 +100,28 @@ void Server::USER(void) {
 	this->authentication();
 }
 
+/// @brief CLIENTE NAO AUTENTICADO RECEBE A RESPOSTA DE ERRO ":<servidor> 451 <comando> :Você não se registrou"
+/// @brief SE TIVER UM NUMERO DE ARGUMENTOS DIFERENTE DE 3 RESPONDE COM O ERRO ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
 void Server::PRIVMSG(void) {
 std::cout << "teste comando PRIVMSG: '" << this->cmd << "'" << std::endl;
 
+	// VERIFICAR SE ESTA AUTENTICADO
+	if (this->client->auth == false) {
+		this->resClient(":" + this->getIp() + " " + ERR_NOTREGISTERED + " PRIVMSG :Você não se registrou"); // You have not registered
+		return ;
+	}
+
 	// VERIFICAR A QUANTIDADE DE ARGUMENTOS
-	if (this->argsCmd.size() != 3) {			 // PAREI AKI E PRECISO ACHAR UM JEITO DE TESTAR ISSA VERIFICACAO MELHOR
-// :<servidor> 461 A PRIVMSG :Not enough parameters
-// std::string teste = ":" + this->getIp() + " " + ERR_NEEDMOREPARAMS + this->client->nick + " PRIVMSG :Parâmetros insuficientes";
-// std::cout << "resposta: '" << teste << "'" << std::endl;
+	if (this->argsCmd.size() != 3) {
 		this->resClient(":" + this->getIp() + " " + ERR_NEEDMOREPARAMS + this->client->nick + " PRIVMSG :Parâmetros insuficientes"); // Not enough parameters
+		return ;
 	}
 
 	// VERIFICAR SE O NICK E VALIDO
+	if (this->nickInvalid(this->argsCmd[1]) == true) {
+		std::cout << "nick invalido" << std::endl;
+		return ;
+	}
 	// VERIFICAR CASO O USUARIO NAO EXISTA
 	// RESUMINDO FALTA COISA PRA KRLH
 
