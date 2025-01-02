@@ -101,9 +101,16 @@ void Server::USER(void) {
 }
 
 void Server::PRIVMSG(void) {
-// std::cout << "teste comando PRIVMSG: '" << this->cmd << "'" << std::endl;
+std::cout << "teste comando PRIVMSG: '" << this->cmd << "'" << std::endl;
 
 	// VERIFICAR A QUANTIDADE DE ARGUMENTOS
+	if (this->argsCmd.size() != 3) {			 // PAREI AKI E PRECISO ACHAR UM JEITO DE TESTAR ISSA VERIFICACAO MELHOR
+// :<servidor> 461 A PRIVMSG :Not enough parameters
+// std::string teste = ":" + this->getIp() + " " + ERR_NEEDMOREPARAMS + this->client->nick + " PRIVMSG :Parâmetros insuficientes";
+// std::cout << "resposta: '" << teste << "'" << std::endl;
+		this->resClient(":" + this->getIp() + " " + ERR_NEEDMOREPARAMS + this->client->nick + " PRIVMSG :Parâmetros insuficientes"); // Not enough parameters
+	}
+
 	// VERIFICAR SE O NICK E VALIDO
 	// VERIFICAR CASO O USUARIO NAO EXISTA
 	// RESUMINDO FALTA COISA PRA KRLH
