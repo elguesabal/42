@@ -97,13 +97,15 @@ void Server::USER(void) {
 		this->client->authUser = true;
 	}
 
-	this->authentication();
+	this->authentication(); // EXISTE MENSAGEM 004????
 }
 
 /// @brief CLIENTE NAO AUTENTICADO RECEBE A RESPOSTA DE ERRO ":<servidor> 451 <comando> :Você não se registrou"
 /// @brief SE TIVER UM NUMERO DE ARGUMENTOS DIFERENTE DE 3 RESPONDE COM O ERRO ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
+/// @brief CASO O NICK SEJA INVALIDO OU NAO EXISTE O SERVIDOR RESPONDE COM ":<servidor> 401 <enviador> <destinatário> :Nick/canal não existe"
+/// @brief CASO PASSAR POR TODAS AS VERIFICACOES ACIMA RESPONDE O CLIENTE DO NICK CITADO COM "????"
 void Server::PRIVMSG(void) {
-std::cout << "teste comando PRIVMSG: '" << this->cmd << "'" << std::endl;
+// std::cout << "teste comando PRIVMSG: '" << this->cmd << "'" << std::endl;
 
 	// VERIFICAR SE ESTA AUTENTICADO
 	if (this->client->auth == false) {
@@ -118,12 +120,15 @@ std::cout << "teste comando PRIVMSG: '" << this->cmd << "'" << std::endl;
 	}
 
 	// VERIFICAR SE O NICK E VALIDO
-	if (this->nickInvalid(this->argsCmd[1]) == true) {
-		std::cout << "nick invalido" << std::endl;
+	// VERIFICAR CASO O USUARIO NAO EXISTA
+	if (this->nickInvalid(this->argsCmd[1]) == true || this->nickClient[this->argsCmd[1]] == NULL) {
+		this->resClient(":" + this->getIp() + " " + ERR_NOSUCHNICK + " " + this->client->nick + " " + this->argsCmd[1] + " :Nick/canal não existe"); // No such nick/channel
 		return ;
 	}
-	// VERIFICAR CASO O USUARIO NAO EXISTA
-	// RESUMINDO FALTA COISA PRA KRLH
+
+
+	// RESUMIR ESSA FUNCAO A IF E ELSE
+
 
 	// :A!user@host PRIVMSG B :Hello, how are you?
 	this->sendClient(":" + this->client->nick + "!" + this->client->user + "@" + this->client->getIp() + " PRIVMSG " + this->argsCmd[1] + " :" + this->argsCmd[2], nickClient[this->argsCmd[1]]);
