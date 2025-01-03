@@ -4,7 +4,7 @@ bool shutdownServer = false;
 
 int main(int argc, char **argv) {
 // std::cout.setf(std::ios::unitbuf); // COM ISSO EU CONSIGO PRINTAR ALGO SEM DEPENDER DE \n
-	validation(argc, argv);
+	::validation(argc, argv);
 	std::signal(SIGINT, ctrlC);
 
 	restartServer:

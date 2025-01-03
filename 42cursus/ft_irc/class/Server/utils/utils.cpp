@@ -65,12 +65,30 @@ std::string Server::toUpper(std::string &str) {
 	return (ret);
 }
 
-/// @brief VERIFICA SE O CLIENTE AUTENTICOU O PASS NICK E USER E ESTA PRONTO PARA RECEBER AS MENSGENS 001 002 E 003
+/// @brief VERIFICA SE O CLIENTE AUTENTICOU O PASS NICK E USER E ESTA PRONTO PARA RECEBER AS MENSGENS 001 002 003 004 E A MENSAGEM MOTD
+/// @brief CASO ACONTECA O UM ERRO AO ABRIR O ARQUIVO MOTD RESPONDE COM ":<servidor> 422 <nick> :O arquivo MOTD está faltando" E NAO ENVIA MAIS NADA
 void Server::authentication(void) {
-	if (this->client->auth == false && this->client->authPass && this->client->authNick && this->client->authUser) {
-		this->resClient(":" + this->getIp() + " 001 " + this->client->nick + " :Bem-vindo ao servidor ft_irc, " + this->client->nick + "!" + this->client->user + "@" + this->client->getIp());
-		this->resClient(":" + this->getIp() + " 002 " + this->client->nick + " :O host do servidor é " + this->getIp() + ", rodando na versão 42");
-		this->resClient(":" + this->getIp() + " 003 " + this->client->nick + " :Este servidor foi criado dia " + this->getDate() + " às " + this->getTime());
-		this->client->auth = true;
+	if (this->client->auth == true || this->client->authPass == false || this->client->authNick == false || this->client->authUser == false) {
+		return ;
 	}
+
+	this->client->auth = true;
+
+	this->resClient(":" + this->getIp() + " 001 " + this->client->nick + " :Bem-vindo ao servidor ft_irc, " + this->client->nick + "!" + this->client->user + "@" + this->client->getIp());
+	this->resClient(":" + this->getIp() + " 002 " + this->client->nick + " :O host do servidor é " + this->getIp() + ", rodando na versão 42");
+	this->resClient(":" + this->getIp() + " 003 " + this->client->nick + " :Este servidor foi criado dia " + this->getDate() + " às " + this->getTime());
+	this->resClient(":" + this->getIp() + " 004 " + this->client->nick + " ft_irc 42 it kol");
+
+	std::ifstream file("./MOTD/pikachu.motd");
+	if (!file.is_open()) {
+		this->resClient(":" + this->getIp() + " " + ERR_NOMOTD + " " + this->client->nick + " :O arquivo MOTD está faltando"); // MOTD File is missing
+		return ;
+	}
+	std::string line;
+	this->resClient(":" + this->getIp() + " " + RPL_MOTDSTART + " " + this->client->nick + " :⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡ Bem vindo ao servidor ft_irc ⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡");
+	while (std::getline(file, line)) {
+		this->resClient(":" + this->getIp() + " " + RPL_MOTD + " " + this->client->nick + " :" + line);
+	}
+	this->resClient(":" + this->getIp() + " " + RPL_ENDOFMOTD + " " + this->client->nick + ":- ⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡");
+	file.close();
 }

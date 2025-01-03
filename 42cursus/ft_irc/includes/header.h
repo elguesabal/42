@@ -11,6 +11,7 @@
 #include <map>
 #include <ctime>
 #include <iomanip>
+#include <fstream>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
