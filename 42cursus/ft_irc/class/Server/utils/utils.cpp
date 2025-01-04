@@ -74,21 +74,21 @@ void Server::authentication(void) {
 
 	this->client->auth = true;
 
-	this->resClient(":" + this->getIp() + " 001 " + this->client->nick + " :Bem-vindo ao servidor ft_irc, " + this->client->nick + "!" + this->client->user + "@" + this->client->getIp());
-	this->resClient(":" + this->getIp() + " 002 " + this->client->nick + " :O host do servidor é " + this->getIp() + ", rodando na versão 42");
-	this->resClient(":" + this->getIp() + " 003 " + this->client->nick + " :Este servidor foi criado dia " + this->getDate() + " às " + this->getTime());
-	this->resClient(":" + this->getIp() + " 004 " + this->client->nick + " ft_irc 42 it kol");
+	this->resClient(":" + this->getIp() + " " + RPL_WELCOME + " " + this->client->nick + " :Bem-vindo ao servidor ft_irc, " + this->client->nick + "!" + this->client->user + "@" + this->client->getIp());
+	this->resClient(":" + this->getIp() + " " + RPL_YOURHOST + " " + this->client->nick + " :O host do servidor é " + this->getIp() + ", rodando na versão 42");
+	this->resClient(":" + this->getIp() + " " + RPL_CREATED + " " + this->client->nick + " :Este servidor foi criado dia " + this->getDate() + " às " + this->getTime());
+	this->resClient(":" + this->getIp() + " " + RPL_MYINFO + " " + this->client->nick + " ft_irc 42 it kol");
 
-	std::ifstream file("./MOTD/pikachu.motd");
+	std::ifstream file("./MOTD/ft_irc.motd");
 	if (!file.is_open()) {
 		this->resClient(":" + this->getIp() + " " + ERR_NOMOTD + " " + this->client->nick + " :O arquivo MOTD está faltando"); // MOTD File is missing
 		return ;
 	}
 	std::string line;
-	this->resClient(":" + this->getIp() + " " + RPL_MOTDSTART + " " + this->client->nick + " :⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡ Bem vindo ao servidor ft_irc ⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡");
+	this->resClient(":" + this->getIp() + " " + RPL_MOTDSTART + " " + this->client->nick + " :");
 	while (std::getline(file, line)) {
 		this->resClient(":" + this->getIp() + " " + RPL_MOTD + " " + this->client->nick + " :" + line);
 	}
-	this->resClient(":" + this->getIp() + " " + RPL_ENDOFMOTD + " " + this->client->nick + ":- ⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡");
+	this->resClient(":" + this->getIp() + " " + RPL_ENDOFMOTD + " " + this->client->nick + ":");
 	file.close();
 }

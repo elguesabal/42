@@ -28,7 +28,7 @@ void Server::NICK(void) {
 		// std::cout << "nick em uso" << std::endl;
 		this->resClient(":" + this->getIp() + " " + ERR_NICKNAMEINUSE + " " + this->client->nick + " " + this->argsCmd[1] + " :O nick já está em uso"); // Nickname is already in use
 	} else if (this->client->authNick == true) {
-		this->resClient(":" + this->client->nick + " NICK :" + this->argsCmd[1]);
+		this->resClient(":" + this->client->nick + " NICK :" + this->argsCmd[1]); // ACHO Q ERA PRA TER O PREFIXO ":<servidor>"?? ACHO Q ESSA MENSAGEM E UMA EXCECAO
 		this->nickClient.erase(this->client->nick);
 		this->nickClient[this->argsCmd[1]] = this->client;
 		this->client->nick = this->argsCmd[1];
@@ -63,18 +63,12 @@ void Server::PASS(void) {
 /// @brief CASO O PING SEJA BEM SUCEDIDO RESPONDE COM "PONG <token>"
 void Server::PING(void) {
 	if (this->client->auth == false) {
-		return ;
-	}
 
-	if (this->argsCmd.size() < 2) {
+	} else if (this->argsCmd.size() < 2) {
 		this->resClient(":" + this->getIp() + " " + ERR_NOORIGIN + " " + this->client->nick + " :Nenhuma origem especificada"); // No origin specified
-		return ;
+	} else {
+		this->resClient(":" + this->getIp() + " PONG ft_irc :" + this->argsCmd[1]);
 	}
-
-std::cout << "veio esse comando ping: '" << this->cmd << "'" << std::endl;
-// std::cout << "respondido com: '" << "PONG :" << this->argsCmd[1] << "'" << std::endl;
-
-	this->resClient("PONG :" + this->argsCmd[1]);
 }
 
 /// @brief 
@@ -101,13 +95,16 @@ void Server::USER(void) {
 }
 
 /// @brief CLIENTE NAO AUTENTICADO RECEBE A RESPOSTA DE ERRO ":<servidor> 451 <comando> :Você não se registrou"
+/// @brief CASO NAO ENCONTRE O CARACTER ":" NO COMANDO RESPONDE COM ":<servidor> 412 <nick> :Nenhum texto para enviar"
 /// @brief SE TIVER UM NUMERO DE ARGUMENTOS DIFERENTE DE 3 RESPONDE COM O ERRO ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
 /// @brief CASO O NICK SEJA INVALIDO OU NAO EXISTE O SERVIDOR RESPONDE COM ":<servidor> 401 <enviador> <destinatário> :Nick/canal não existe"
-/// @brief CASO PASSAR POR TODAS AS VERIFICACOES ACIMA RESPONDE O CLIENTE DO NICK CITADO COM "????"
+/// @brief CASO PASSAR POR TODAS AS VERIFICACOES ACIMA REDIRECIONA A MENSAGEM PARA O NICK DESTINARARIO E NAO RESPONDE O REMETENTE
 void Server::PRIVMSG(void) {
 	if (this->client->auth == false) {
 		this->resClient(":" + this->getIp() + " " + ERR_NOTREGISTERED + " PRIVMSG :Você não se registrou"); // You have not registered
-	} else if (this->argsCmd.size() != 3) { // 412 ERR_NOTEXTTOSEND FAZ OQ COM ESSA MACRO????
+	} else if (this->cmd.find(":") == std::string::npos || this->cmd.find(":") == this->cmd.size()) {
+		this->resClient(":" + this->getIp() + " " + ERR_NOTEXTTOSEND + " " + this->client->nick + " :Nenhum texto para enviar"); // No text to send
+	} else if (this->argsCmd.size() != 3) {
 		this->resClient(":" + this->getIp() + " " + ERR_NEEDMOREPARAMS + this->client->nick + " PRIVMSG :Parâmetros insuficientes"); // Not enough parameters
 	} else if (this->nickInvalid(this->argsCmd[1]) == true || this->nickClient[this->argsCmd[1]] == NULL) {
 		this->resClient(":" + this->getIp() + " " + ERR_NOSUCHNICK + " " + this->client->nick + " " + this->argsCmd[1] + " :Nick/canal não existe"); // No such nick/channel

@@ -4,7 +4,7 @@
 /// @param nick NICK A SER ANALIZADO
 /// @return RETORNA TRUE CASO HA ALGUM NICK PROIBIDO E FALSE CASO NAO
 bool Server::nickInvalid(std::string &nick) {
-	std::string charInvalid = " \r\n;@!*,";
+	std::string charInvalid = " \r\n:;@!*,";
 
 	for (unsigned short i = 0; i < charInvalid.size(); i++) {
 		if (nick.find(charInvalid[i]) != std::string::npos) {
