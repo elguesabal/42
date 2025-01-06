@@ -15,7 +15,7 @@ class Server {
 		void listener(void);
 		void newBuffer(void);
 
-		// ./class/Server/Server.cpp // POR ENQUANTO AKI (FUTURAMENTE DEVO CRIAR UM ARQUIVO SO PARA RESPOSTAS DE CLIENTES CANAIS MENSAGENS PRIVADAS E ETC)
+		// ./class/Server/Server.cpp // POR ENQUANTO AKI (FUTURAMENTE DEVO CRIAR UM ARQUIVO SO PARA RESPOSTAS DE CLIENTES/CANAIS MENSAGENS PRIVADAS E ETC)
 		void resClient(std::string res);
 		void sendClient(std::string res, Client *receiver);
 
@@ -26,14 +26,15 @@ class Server {
 		std::string getTime(void) const;
 
 		// ./class/Server/cmdsServer.cpp
+		void asciiArt(void);
 		void CAP(void);
+		void luana(void);
 		void NICK(void);
 		void PASS(void);
 		void PING(void);
+		void PRIVMSG(void);
 		void QUIT(void);
 		void USER(void);
-
-		void PRIVMSG(void);
 
 		// ./class/Server/utils/nick.cpp
 		bool nickInvalid(std::string &nick);

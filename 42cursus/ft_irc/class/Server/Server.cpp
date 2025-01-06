@@ -53,14 +53,15 @@ Server::~Server(void) {
 
 /// @brief ADICIONA TODOS OS COMANDOS DISPONIVEIS NO SERVIDOR
 void Server::addCmds(void) {
+	this->serverCommands["ascii-art"] = &Server::asciiArt;
 	this->serverCommands["CAP"] = &Server::CAP;
+	this->serverCommands["luana"] = &Server::luana;
 	this->serverCommands["NICK"] = &Server::NICK;
 	this->serverCommands["PASS"] = &Server::PASS;
 	this->serverCommands["PING"] = &Server::PING;
+	this->serverCommands["PRIVMSG"] = &Server::PRIVMSG;
 	this->serverCommands["QUIT"] = &Server::QUIT;
 	this->serverCommands["USER"] = &Server::USER;
-
-	this->serverCommands["PRIVMSG"] = &Server::PRIVMSG;
 }
 
 /// @brief CRIA UM NOVO CLIENTE E SALVA O FD NO VECTOR DE FDS E O CLIENTE NO VECTOR DE CLIENTES

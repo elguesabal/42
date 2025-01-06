@@ -79,7 +79,7 @@ void Server::authentication(void) {
 	this->resClient(":" + this->getIp() + " " + RPL_CREATED + " " + this->client->nick + " :Este servidor foi criado dia " + this->getDate() + " às " + this->getTime());
 	this->resClient(":" + this->getIp() + " " + RPL_MYINFO + " " + this->client->nick + " ft_irc 42 it kol");
 
-	std::ifstream file("./MOTD/ft_irc.motd");
+	std::ifstream file("./ascii-art/ft_irc.motd");
 	if (!file.is_open()) {
 		this->resClient(":" + this->getIp() + " " + ERR_NOMOTD + " " + this->client->nick + " :O arquivo MOTD está faltando"); // MOTD File is missing
 		return ;

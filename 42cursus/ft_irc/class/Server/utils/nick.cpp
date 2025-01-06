@@ -21,13 +21,13 @@ bool Server::nickInvalid(std::string &nick) {
 
 /// @brief VERIFICA SE O NICK ESTA EM USO
 /// @param nick NICK A SER ANALIZADO
-/// @return RETORNA TRUE CASO O NICK ESTEJA EM USO E FALSE CASO NAO (RETORNA FALSE CASO O PROPRIO USUARIO ESTEJA REDEFININDO PARA SEU PROPRIO NICK)
+/// @return RETORNA TRUE CASO O NICK ESTEJA EM USO E FALSE CASO NAO
 bool Server::nickInUse(std::string &nick) {
 	std::string nickUpper = Server::toUpper(nick);
 
 	for (unsigned int i = 0; i < this->clients.size(); i++) {
-		if (nickUpper == Server::toUpper(this->clients[i]->nick) && this->client != this->clients[i]) {
-			return (true); // DEVO IGNORAR O CLIENTE CASO ELE TENTE ALTERAR O NICK PARA O PROPRIO NICK??
+		if (nickUpper == Server::toUpper(this->clients[i]->nick)) {
+			return (true);
 		}
 	}
 	return (false);
