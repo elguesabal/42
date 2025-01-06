@@ -5,11 +5,11 @@ class Client;
 
 class Server {
 	public:
-		Server(int port, char *password);
+		Server(char *port, char *password);
 		~Server(void);
 
 		// ./class/Server/Server.cpp
-		void addCmds(void);
+		// void addCmds(void); // VIROU void setCmds(void);
 		void newClient(void);
 		void deleteClient(void);
 		void listener(void);
@@ -24,6 +24,15 @@ class Server {
 		std::string getIp(void) const;
 		std::string getDate(void) const;
 		std::string getTime(void) const;
+
+		// ./class/Server/setServer.cpp
+		void setPassword(char *password);
+		void setPfd(void);
+		void setPort(char *port);
+		void setServer(char *port);
+		void setFds(void);
+		void setCmds(void);
+		void setTime(void);
 
 		// ./class/Server/cmdsServer.cpp
 		void asciiArt(void);

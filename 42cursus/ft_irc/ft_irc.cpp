@@ -4,11 +4,14 @@ bool shutdownServer = false;
 
 int main(int argc, char **argv) {
 // std::cout.setf(std::ios::unitbuf); // COM ISSO EU CONSIGO PRINTAR ALGO SEM DEPENDER DE \n
-	::validation(argc, argv);
+	if (argc != 3) {
+		std::cout << "Numero de argumentos invalido" << std::endl;
+		return (0);
+	}
 	std::signal(SIGINT, ctrlC);
 
 	restartServer:
-	Server *server = new Server(std::atoi(argv[1]), argv[2]);
+	Server *server = new Server(argv[1], argv[2]);
 	if (shutdownServer == false) {
 		server->listener();
 	}

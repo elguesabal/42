@@ -12,6 +12,7 @@
 #include <ctime>
 #include <iomanip>
 #include <fstream>
+#include <stdexcept>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
@@ -26,7 +27,7 @@
 extern bool shutdownServer;
 
 // ./src/verification.cpp
-void validation(int argc, char **argv);
+// void validation(int argc, char **argv);
 
 // ./src/signal.cpp
 void ctrlC(int signal);

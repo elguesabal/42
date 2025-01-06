@@ -4,10 +4,10 @@
 /// @param sever REFERENCIA Q CONTEM AS INFORMACOES DO SERVIDOR
 Client::Client(Server &server) {
 	socklen_t client_address_len = sizeof(this->client);
-	this->pfd.fd = accept(server.pfd.fd, (struct sockaddr *)&this->client, &client_address_len);
-	if (this->pfd.fd == -1) {
+	this->pfd.fd = accept(server.getFd(), (struct sockaddr *)&this->client, &client_address_len);
+	if (this->getFd() == -1) {
 		std::cerr << "Erro ao aceitar conexão" << std::endl;
-		close(server.pfd.fd);
+		close(server.getFd());
 		exit(-1);
 	}
 	std::cout << "Conexao aceita do ip " << inet_ntoa(this->client.sin_addr) << " na porta " << ntohs(this->client.sin_port) << std::endl;
@@ -22,5 +22,5 @@ Client::Client(Server &server) {
 /// @brief RESPONSAVEL POR FECHAR O FD DO CLIENTE
 Client::~Client(void) {
 	std::cout << "Conexao encerrada do ip " << inet_ntoa(this->client.sin_addr) << " na porta " << ntohs(this->client.sin_port) << std::endl;
-	close(this->pfd.fd);
+	close(this->getFd());
 }

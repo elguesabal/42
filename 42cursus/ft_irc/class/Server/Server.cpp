@@ -3,40 +3,20 @@
 /// @brief CONSTRUTOR Q INICIALIZA O SERVIDOR
 /// @param port PORTA EM Q O SERVIDOR ESTARA ABERTO
 /// @param password SENHA Q O SERVIDOR ADOTARA
-Server::Server(int port, char *password) {
-	this->pfd.fd = socket(AF_INET, SOCK_STREAM, 0);
-	if (this->pfd.fd == -1) {
-		std::cout << "Erro ao criar o socket" << std::endl;
+Server::Server(char *port, char *password) {
+	try {
+		this->setPassword(password);
+		this->setPfd();
+		this->setPort(port);
+		this->setServer(port);
+		this->setFds();
+		this->setCmds();
+		this->setTime();
+		std::cout << "Servidor iniciado na porta " << port << " as " << this->getTime() << " do dia " << this->getDate() << std::endl << "Senha: " << password << std::endl << std::endl;
+	} catch (const std::exception &error) {
 		shutdownServer = true;
-		return ;
+		std::cout << "\033[31mError:\033[0m " << error.what() << std::endl;
 	}
-	int opt = 1;
-	if (setsockopt(this->pfd.fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) == -1) {
-		std::cout << "Erro ao definir opção de socket" << std::endl;
-		shutdownServer = true;
-		return ;
-	}
-	this->server.sin_family = AF_INET;
-	this->server.sin_addr.s_addr = INADDR_ANY;
-	this->server.sin_port = htons(port);
-	if (bind(this->pfd.fd, (struct sockaddr *)&this->server, sizeof(this->server)) == -1) {
-		std::cout << "Erro ao associar o socket ao endereço e porta" << std::endl;
-		shutdownServer = true;
-		return ;
-	}
-	if (listen(this->pfd.fd, 5)) {
-		std::cout << "Erro ao colocar o socket em modo de escuta" << std::endl;
-		shutdownServer = true;
-		return ;
-	}
-	fcntl(this->pfd.fd, F_SETFL, O_NONBLOCK);
-	this->pfd.events = POLLIN;
-	this->fds.push_back(this->pfd);
-	this->password = password;
-	this->addCmds();
-	std::time_t currentTime = std::time(0);
-	this->time = std::localtime(&currentTime);
-	std::cout << "Servidor iniciado na porta " << port << " as " << this->getTime() << " do dia " << this->getDate() << std::endl << "Senha: " << password << std::endl << std::endl;
 }
 
 /// @brief DESTRUTOR DA CLASSE Q LIBERA A MEMORIA ALOCADA DINAMICAMENTE DE TODOS OS CLIENTES
@@ -49,19 +29,6 @@ Server::~Server(void) {
 	if (this->getFd() != -1) {
 		close(this->getFd());
 	}
-}
-
-/// @brief ADICIONA TODOS OS COMANDOS DISPONIVEIS NO SERVIDOR
-void Server::addCmds(void) {
-	this->serverCommands["ascii-art"] = &Server::asciiArt;
-	this->serverCommands["CAP"] = &Server::CAP;
-	this->serverCommands["luana"] = &Server::luana;
-	this->serverCommands["NICK"] = &Server::NICK;
-	this->serverCommands["PASS"] = &Server::PASS;
-	this->serverCommands["PING"] = &Server::PING;
-	this->serverCommands["PRIVMSG"] = &Server::PRIVMSG;
-	this->serverCommands["QUIT"] = &Server::QUIT;
-	this->serverCommands["USER"] = &Server::USER;
 }
 
 /// @brief CRIA UM NOVO CLIENTE E SALVA O FD NO VECTOR DE FDS E O CLIENTE NO VECTOR DE CLIENTES
