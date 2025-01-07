@@ -23,6 +23,7 @@
 #include "macros.h"
 #include "Server.hpp"
 #include "Client.hpp"
+#include "Channel.hpp"
 
 extern bool shutdownServer;
 

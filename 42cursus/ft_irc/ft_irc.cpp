@@ -10,15 +10,18 @@ int main(int argc, char **argv) {
 	}
 	std::signal(SIGINT, ctrlC);
 
+	Server *server;
 	restartServer:
-	Server *server = new Server(argv[1], argv[2]);
-	if (shutdownServer == false) {
+	try {
+		server = new Server(argv[1], argv[2]);
 		server->listener();
-	}
-	delete server;
-	if (shutdownServer == false) {
-		std::cout << "reiniciando servidor..." << std::endl << std::endl;
-		goto restartServer;
+	} catch (const std::exception &error) {
+		delete server;
+		std::cout << "\033[31mError:\033[0m " << error.what() << std::endl;
+		if (shutdownServer == false) {
+			std::cout << "reiniciando servidor..." << std::endl << std::endl;
+			goto restartServer;
+		}
 	}
 	return (0);
 }

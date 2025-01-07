@@ -15,7 +15,10 @@ Server::Server(char *port, char *password) {
 		std::cout << "Servidor iniciado na porta " << port << " as " << this->getTime() << " do dia " << this->getDate() << std::endl << "Senha: " << password << std::endl << std::endl;
 	} catch (const std::exception &error) {
 		shutdownServer = true;
-		std::cout << "\033[31mError:\033[0m " << error.what() << std::endl;
+		if (this->getFd() != -1) {
+			close(this->getFd());
+		}
+		throw ;
 	}
 }
 
@@ -33,10 +36,14 @@ Server::~Server(void) {
 
 /// @brief CRIA UM NOVO CLIENTE E SALVA O FD NO VECTOR DE FDS E O CLIENTE NO VECTOR DE CLIENTES
 void Server::newClient(void) {
-	Client *newClient = new Client(*this);
+	try {
+		Client *newClient = new Client(*this);
 
-	this->fds.push_back(newClient->pfd);
-	this->clients.push_back(newClient);
+		this->fds.push_back(newClient->pfd);
+		this->clients.push_back(newClient);
+	} catch (const std::exception &error) {
+		std::cout << "\033[33mWarning:\033[0m " << error.what() << std::endl;
+	}
 }
 
 /// @brief REMOVE UM CLIENTE DO FD NO VECTOR DE FDS E O CLIENTE NO VECTOR DE CLIENTES ALEM DE FECHAR O FD DO CLIENTE
@@ -57,10 +64,9 @@ void Server::listener(void) {
 
 	if (ret == -1) {
 		if (shutdownServer == false) {
-			std::cout << "Erro no poll" << std::endl;
+			throw std::runtime_error("Erro no poll");
 		}
-		close(this->pfd.fd);
-		return ;
+		throw std::runtime_error("SIGINT recebido");
 	}
 
 	if (this->fds[0].revents & POLLIN) {
@@ -78,7 +84,7 @@ void Server::listener(void) {
 			} else if (bytes_received == 0) {
 				this->deleteClient();
 			} else if (bytes_received < 0) {
-				std::cout << "Erro ao receber mensagem" << std::endl;
+				std::cout << "\033[33mWarning:\033[0m Erro ao receber mensagem" << std::endl;
 			}
 			goto newComand;
 		}
@@ -102,7 +108,7 @@ void Server::newBuffer(void) {
 		if (this->serverCommands.find(this->cmd.substr(0, this->cmd.find(' '))) != this->serverCommands.end()) {
 			(this->*serverCommands[this->cmd.substr(0, this->cmd.find(' '))])();
 		} else {
-			std::cout << "comando nao encontrado: '" << this->cmd << "'" << std::endl;
+			std::cout << "\033[33mWarning comando nao encontrado:\033[0m '" << this->cmd << "'" << std::endl;
 			this->resClient(":" + this->getIp() + " " + ERR_UNKNOWNCOMMAND + " " + this->client->nick + " " + this->argsCmd[0] + " :Comando desconhecido");
 		}
 	}

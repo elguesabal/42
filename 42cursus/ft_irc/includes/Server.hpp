@@ -2,6 +2,7 @@
 #define SERVER_HPP
 
 class Client;
+class Channel;
 
 class Server {
 	public:
@@ -9,7 +10,6 @@ class Server {
 		~Server(void);
 
 		// ./class/Server/Server.cpp
-		// void addCmds(void); // VIROU void setCmds(void);
 		void newClient(void);
 		void deleteClient(void);
 		void listener(void);

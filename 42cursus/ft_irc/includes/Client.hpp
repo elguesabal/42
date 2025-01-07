@@ -8,10 +8,13 @@ class Client {
 		Client(Server &server);
 		~Client(void);
 
-		// ./class/Client/Client.cpp
+		// ./class/Client/getClient.cpp
 		int getFd(void) const;
 		std::string getIp(void) const;
 		unsigned short getPort(void) const;
+
+		// ./class/Client/setClient.cpp
+		void setPfd(Server &server);
 
 		struct sockaddr_in client;
 		struct pollfd pfd;

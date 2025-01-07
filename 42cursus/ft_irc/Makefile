@@ -11,7 +11,9 @@ FILE = ./ft_irc.cpp\
 		./class/Server/utils/nick.cpp\
 		./class/Server/utils/utils.cpp\
 		./class/Client/Client.cpp\
-		./class/Client/getClient.cpp
+		./class/Client/getClient.cpp\
+		./class/Client/setClient.cpp\
+		./class/Channel/Channel.cpp
 RM = rm
 
 all: $(NAME)
