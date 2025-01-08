@@ -108,7 +108,7 @@ void Server::newBuffer(void) {
 		if (this->serverCommands.find(this->cmd.substr(0, this->cmd.find(' '))) != this->serverCommands.end()) {
 			(this->*serverCommands[this->cmd.substr(0, this->cmd.find(' '))])();
 		} else {
-			std::cout << "\033[33mWarning comando nao encontrado:\033[0m '" << this->cmd << "'" << std::endl;
+			std::cout << "\033[33mWarning:\033[0m comando nao encontrado -> '" << this->cmd << "'" << std::endl;
 			this->resClient(":" + this->getIp() + " " + ERR_UNKNOWNCOMMAND + " " + this->client->nick + " " + this->argsCmd[0] + " :Comando desconhecido");
 		}
 	}

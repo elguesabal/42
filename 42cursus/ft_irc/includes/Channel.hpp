@@ -13,9 +13,7 @@ class Channel {
 		bool o;
 		bool l;
 
-		// // Construtor para facilitar a inicialização
-		// Endereco(const std::string& r, int n, const std::string& c)
-		//     : rua(r), numero(n), cidade(c) {}
+		ClientChanell(Client *client);
 	};
 
 	public:
