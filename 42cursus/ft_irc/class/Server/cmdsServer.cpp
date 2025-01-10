@@ -152,3 +152,10 @@ void Server::USER(void) {
 
 	this->authentication();
 }
+
+
+
+
+void Server::JOIN(void) {
+	std::cout << "\033[33mWarning:\033[0m '" << this->cmd << "'" << std::endl;
+}

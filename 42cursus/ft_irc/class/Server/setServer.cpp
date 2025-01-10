@@ -73,6 +73,8 @@ void Server::setCmds(void) {
 	this->serverCommands["PRIVMSG"] = &Server::PRIVMSG;
 	this->serverCommands["QUIT"] = &Server::QUIT;
 	this->serverCommands["USER"] = &Server::USER;
+
+	this->serverCommands["JOIN"] = &Server::JOIN;
 }
 
 /// @brief SALVA A DATA DE INICIO DO SERVIDOR

@@ -45,6 +45,8 @@ class Server {
 		void QUIT(void);
 		void USER(void);
 
+		void JOIN(void);
+
 		// ./class/Server/utils/nick.cpp
 		bool nickInvalid(std::string &nick);
 		bool nickInUse(std::string &nick);
