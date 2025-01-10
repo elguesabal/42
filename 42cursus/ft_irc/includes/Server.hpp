@@ -71,7 +71,8 @@ class Server {
 		std::map<std::string, Client *> nickClient;
 
 		// INFORMACOES DOS CANAIS
-		// std::vector<std::string> channels;
+		// std::vector<Channel> channels;
+		std::map<std::string, Channel> channels;
 
 		// INFORMACOES DA ATUAL TRANSMISSAO
 		Client *client;

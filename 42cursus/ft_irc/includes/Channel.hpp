@@ -17,7 +17,8 @@ class Channel {
 	};
 
 	public:
-		Channel(void);
+		Channel(void) {} // ISSO NAO PERMITE Q O std::map CRIE CANAIS VAZIOS E OCUPE MEMORIA??
+		Channel(std::string &name);
 		~Channel(void);
 
 		std::string name;

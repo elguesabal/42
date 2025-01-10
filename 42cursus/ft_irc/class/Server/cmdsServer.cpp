@@ -157,5 +157,19 @@ void Server::USER(void) {
 
 
 void Server::JOIN(void) {
-	std::cout << "\033[33mWarning:\033[0m '" << this->cmd << "'" << std::endl;
+	// std::cout << "\033[33mWarning:\033[0m '" << this->cmd << "'" << std::endl;
+std::cout << "tamanho" << this->channels.size() << std::endl;
+
+	if (this->argsCmd.size() < 2) {
+std::cout << "faltando argumentos" << std::endl;
+	} else if (this->channels[this->argsCmd[1]] == NULL) { // NAO ESTOU LIDANDO COM PONTEIROS IGUAL NO CLIENTE ENTAO NAO TEM CHANCE DE RETORNAR NULL
+// PAREI AKIIIIIIIIIIIIIIIIIIIII
+	// } else if (this->channels.find(this->argsCmd[1]) == this->channels.end()) {
+	// } else if (this->channels.count(this->argsCmd[1]) == 0) {
+std::cout << "canal criado" << std::endl;
+		this->channels[this->argsCmd[1]] = Channel(this->argsCmd[1]);
+	} else {
+std::cout << "entrando no canal" << std::endl;
+		// this
+	}
 }

@@ -4,10 +4,10 @@ Channel::ClientChanell::ClientChanell(Client *client) : client(client), i(false)
     // this->client = ;
 }
 
-Channel::Channel(void) {
+Channel::Channel(std::string &name) {
     // std::cout << "construtor chamado" << std::endl;
 
-    this->name = "nome do canal"; // PAREI AKI
+    this->name = name; // PAREI AKI
 }
 
 Channel::~Channel(void) {
