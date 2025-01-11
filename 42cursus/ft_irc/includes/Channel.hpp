@@ -7,9 +7,9 @@ class Channel {
 
 	struct ClientChanell {
 		Client *client;
-		bool i;
-		bool t;
-		bool k;
+		// bool i;
+		// bool t; // ESSES 3 NAO DEVERIAM PERTENCER AO CANAL??
+		// bool k;
 		bool o;
 		bool l;
 
@@ -23,6 +23,12 @@ class Channel {
 
 		std::string name;
 		std::vector<ClientChanell> clients;
+
+
+
+		bool i;
+		bool t;
+		bool k;
 };
 
 #endif

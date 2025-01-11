@@ -155,17 +155,17 @@ void Server::USER(void) {
 
 
 
-
-void Server::JOIN(void) {
+/// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 RESPONDE COM O ERRO ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
+/// @brief 
+void Server::JOIN(void) { // DEVO IMPLEMENTAR O SISTEMA DE BANIMENTO DE CANAL? // O canal está no modo de convite somente (+i) e o cliente não foi convidado.???
 	// std::cout << "\033[33mWarning:\033[0m '" << this->cmd << "'" << std::endl;
 std::cout << "tamanho" << this->channels.size() << std::endl;
 
 	if (this->argsCmd.size() < 2) {
-std::cout << "faltando argumentos" << std::endl;
-	} else if (this->channels[this->argsCmd[1]] == NULL) { // NAO ESTOU LIDANDO COM PONTEIROS IGUAL NO CLIENTE ENTAO NAO TEM CHANCE DE RETORNAR NULL
-// PAREI AKIIIIIIIIIIIIIIIIIIIII
-	// } else if (this->channels.find(this->argsCmd[1]) == this->channels.end()) {
-	// } else if (this->channels.count(this->argsCmd[1]) == 0) {
+// std::cout << "faltando argumentos" << std::endl;
+// :<servidor> 461 <apelido> JOIN :Not enough parameters
+	this->resClient(":" + this->getIp() + " " + ERR_NEEDMOREPARAMS + this->client->nick + " JOIN :Parâmetros insuficientes"); // Not enough parameters
+	} else if (this->channels.count(this->argsCmd[1]) == 0) {
 std::cout << "canal criado" << std::endl;
 		this->channels[this->argsCmd[1]] = Channel(this->argsCmd[1]);
 	} else {
