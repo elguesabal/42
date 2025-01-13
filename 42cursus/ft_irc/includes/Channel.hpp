@@ -3,15 +3,13 @@
 
 class Client;
 
+// i t k o l
+
 class Channel {
 
 	struct ClientChanell {
 		Client *client;
-		// bool i;
-		// bool t; // ESSES 3 NAO DEVERIAM PERTENCER AO CANAL??
-		// bool k;
 		bool o;
-		bool l;
 
 		ClientChanell(Client *client);
 	};
@@ -21,14 +19,22 @@ class Channel {
 		Channel(std::string &name);
 		~Channel(void);
 
+		unsigned int size(void) const;
+
 		std::string name;
 		std::vector<ClientChanell> clients;
-
-
 
 		bool i;
 		bool t;
 		bool k;
+		bool l;
+
+		std::string topic;
+		std::string password;
+		unsigned int limit;
+
+
+		// CRIAR UMA FUNCAO Q CALCULA O TAMANHO DO CANAL OU CRIAR UMA VARIAVEL Q SALVA O TAMANHO DO CANAL???
 };
 
 #endif
