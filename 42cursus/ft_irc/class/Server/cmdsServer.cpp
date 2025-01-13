@@ -168,6 +168,10 @@ std::cout << "tamanho" << this->channels.size() << std::endl;
 	} else if (this->channels.count(this->argsCmd[1]) == 0) {
 std::cout << "canal criado" << std::endl;
 		this->channels[this->argsCmd[1]] = Channel(this->argsCmd[1]);
+	} else if (this->channels[this->argsCmd[1]].size() == this->channels[this->argsCmd[1]].l) { // VERIFICAR SE ESSA LOGICA ESTA CORRETA
+std::cout << "canal cheio" << std::endl;
+// :<servidor> 471 <apelido> <canal> :Cannot join channel (+l)
+		// this->resClient();
 	} else {
 std::cout << "entrando no canal" << std::endl;
 		// this
