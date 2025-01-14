@@ -51,6 +51,10 @@ class Server {
 		bool nickInvalid(std::string &nick);
 		bool nickInUse(std::string &nick);
 
+		// ./class/Server/utils/join.cpp
+		void creatChannel(void);
+		void joinChannel(void);
+
 		// ./class/Server/utils/utils.cpp
 		bool invalidLine(void);
 		void splitCmds(void);
@@ -72,7 +76,7 @@ class Server {
 
 		// INFORMACOES DOS CANAIS
 		// std::vector<Channel> channels;
-		std::map<std::string, Channel> channels;
+		std::map<std::string, Channel *> channels;
 
 		// INFORMACOES DA ATUAL TRANSMISSAO
 		Client *client;

@@ -1,20 +1,24 @@
 #include "header.h"
 
-// Channel::ClientChanell::ClientChanell(Client *client) : client(client), i(false), t(false), k(false), o(false), l(false) {
+/// @brief 
 Channel::ClientChanell::ClientChanell(Client *client) : client(client), o(false) {
-    // this->client = ;
+
 }
 
-Channel::Channel(std::string &name) {
-    // std::cout << "construtor chamado" << std::endl;
+/// @brief 
+Channel::Channel(std::string &name, Client *creator) : name(name), topic("") {
+	// this->name = name;
 
-    this->name = name; // PAREI AKI
+	this->clients.push_back(ClientChanell(creator));
+	this->clients[0].o = true;
 }
 
+/// @brief 
 Channel::~Channel(void) {
 
 }
 
-unsigned int Channel::size(void) const {
-    return (this->clients.size());
+/// @brief 
+void Channel::addClient(Client *client) {
+	this->clients.push_back(ClientChanell(client));
 }

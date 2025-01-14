@@ -159,21 +159,19 @@ void Server::USER(void) {
 /// @brief 
 void Server::JOIN(void) { // DEVO IMPLEMENTAR O SISTEMA DE BANIMENTO DE CANAL? // O canal está no modo de convite somente (+i) e o cliente não foi convidado.???
 	// std::cout << "\033[33mWarning:\033[0m '" << this->cmd << "'" << std::endl;
-std::cout << "tamanho" << this->channels.size() << std::endl;
+// std::cout << "tamanho: " << this->channels.size() << std::endl;
 
 	if (this->argsCmd.size() < 2) {
 // std::cout << "faltando argumentos" << std::endl;
 // :<servidor> 461 <apelido> JOIN :Not enough parameters
 	this->resClient(":" + this->getIp() + " " + ERR_NEEDMOREPARAMS + this->client->nick + " JOIN :Parâmetros insuficientes"); // Not enough parameters
 	} else if (this->channels.count(this->argsCmd[1]) == 0) {
-std::cout << "canal criado" << std::endl;
-		this->channels[this->argsCmd[1]] = Channel(this->argsCmd[1]);
-	} else if (this->channels[this->argsCmd[1]].l == true && this->channels[this->argsCmd[1]].size() >= this->channels[this->argsCmd[1]].limit) { // VERIFICAR SE ESSA LOGICA ESTA CORRETA
+		this->creatChannel();
+	} else if (this->channels[this->argsCmd[1]]->l == true && this->channels[this->argsCmd[1]]->size() >= this->channels[this->argsCmd[1]]->limit) { // VERIFICAR SE ESSA LOGICA ESTA CORRETA
 std::cout << "canal cheio" << std::endl;
 // :<servidor> 471 <apelido> <canal> :Cannot join channel (+l)
 		// this->resClient();
 	} else {
-std::cout << "entrando no canal" << std::endl;
-		// this
+		this->joinChannel();
 	}
 }

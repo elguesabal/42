@@ -15,10 +15,13 @@ class Channel {
 	};
 
 	public:
-		Channel(void) {} // ISSO NAO PERMITE Q O std::map CRIE CANAIS VAZIOS E OCUPE MEMORIA??
-		Channel(std::string &name);
+		// Channel(void) {} // ISSO NAO PERMITE Q O std::map CRIE CANAIS VAZIOS E OCUPE MEMORIA??
+		Channel(std::string &name, Client *creator);
 		~Channel(void);
 
+		void addClient(Client *client);
+
+		// ./class/Channel/utils/utils.cpp
 		unsigned int size(void) const;
 
 		std::string name;
