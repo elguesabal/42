@@ -6,9 +6,7 @@ Channel::ClientChanell::ClientChanell(Client *client) : client(client), o(false)
 }
 
 /// @brief 
-Channel::Channel(std::string &name, Client *creator) : name(name), topic("") {
-	// this->name = name;
-
+Channel::Channel(std::string &name, Client *creator) : name(name), i(false), t(false), k(false), l(false), topic("") {
 	this->clients.push_back(ClientChanell(creator));
 	this->clients[0].o = true;
 }

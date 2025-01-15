@@ -114,8 +114,9 @@ void Server::PING(void) {
 /// @brief CLIENTE NAO AUTENTICADO RECEBE A RESPOSTA DE ERRO ":<servidor> 451 <comando> :Você não se registrou"
 /// @brief CASO NAO ENCONTRE O CARACTER ":" NO COMANDO RESPONDE COM ":<servidor> 412 <nick> :Nenhum texto para enviar"
 /// @brief SE TIVER UM NUMERO DE ARGUMENTOS DIFERENTE DE 3 RESPONDE COM O ERRO ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
-/// @brief CASO O NICK SEJA INVALIDO OU NAO EXISTE O SERVIDOR RESPONDE COM ":<servidor> 401 <enviador> <destinatário> :Nick/canal não existe"
-/// @brief CASO PASSAR POR TODAS AS VERIFICACOES ACIMA REDIRECIONA A MENSAGEM PARA O NICK DESTINARARIO E NAO RESPONDE O REMETENTE
+/// @brief CASO O NICK NAO RETORNE NULL AO SER USADO COMO CHAVE DENTRO DE "this->nickClient" REDIRECIONA A MENSAGEM PARA O NICK DESTINARARIO E NAO RESPONDE O REMETENTE ":<apelido>!<usuario>@<host> PRIVMSG <apelido> :<mensagem>"
+/// @brief CASO O NICK NAO RETORNE NULL AO SER USADO COMO CHAVE DENTRO DE "this->channel" REDIRECIONA A MENSAGEM PARA OS MEMBROS DO CANAL ":<apelido>!<usuario>@<host> PRIVMSG <canal> :<mensagem>" (NAO ENVIA A SI MESMO)
+/// @brief CASO O NICK PASSE POR TODAS AS VERIFICACOES ELE NAO EXISTE E O SERVIDOR RESPONDE COM ":<servidor> 401 <enviador> <destinatário> :Nick/canal não existe"
 void Server::PRIVMSG(void) {
 	if (this->client->auth == false) {
 		this->resClient(":" + this->getIp() + " " + ERR_NOTREGISTERED + " PRIVMSG :Você não se registrou"); // You have not registered
@@ -123,10 +124,12 @@ void Server::PRIVMSG(void) {
 		this->resClient(":" + this->getIp() + " " + ERR_NOTEXTTOSEND + " " + this->client->nick + " :Nenhum texto para enviar"); // No text to send
 	} else if (this->argsCmd.size() != 3) {
 		this->resClient(":" + this->getIp() + " " + ERR_NEEDMOREPARAMS + this->client->nick + " PRIVMSG :Parâmetros insuficientes"); // Not enough parameters
-	} else if (this->nickInvalid(this->argsCmd[1]) == true || this->nickClient[this->argsCmd[1]] == NULL) {
-		this->resClient(":" + this->getIp() + " " + ERR_NOSUCHNICK + " " + this->client->nick + " " + this->argsCmd[1] + " :Nick/canal não existe"); // No such nick/channel
+	} else if (this->nickClient[this->argsCmd[1]] != NULL) {
+		this->sendClient(":" + this->client->nick + "!" + this->client->user + "@" + this->client->getIp() + " PRIVMSG " + this->argsCmd[1] + " :" + this->argsCmd[2], this->nickClient[this->argsCmd[1]]);
+	} else if (this->channels[this->argsCmd[1]] != NULL) {
+		this->sendChannel(":" + this->client->nick + "!" + this->client->user + "@" + this->client->getIp() + " PRIVMSG " + this->argsCmd[1] + " :" + this->argsCmd[2], this->channels[this->argsCmd[1]]);
 	} else {
-		this->sendClient(":" + this->client->nick + "!" + this->client->user + "@" + this->client->getIp() + " PRIVMSG " + this->argsCmd[1] + " :" + this->argsCmd[2], nickClient[this->argsCmd[1]]);
+		this->resClient(":" + this->getIp() + " " + ERR_NOSUCHNICK + " " + this->client->nick + " " + this->argsCmd[1] + " :Nick/canal não existe"); // No such nick/channel
 	}
 }
 
@@ -162,13 +165,12 @@ void Server::JOIN(void) { // DEVO IMPLEMENTAR O SISTEMA DE BANIMENTO DE CANAL? /
 // std::cout << "tamanho: " << this->channels.size() << std::endl;
 
 	if (this->argsCmd.size() < 2) {
-// std::cout << "faltando argumentos" << std::endl;
 // :<servidor> 461 <apelido> JOIN :Not enough parameters
-	this->resClient(":" + this->getIp() + " " + ERR_NEEDMOREPARAMS + this->client->nick + " JOIN :Parâmetros insuficientes"); // Not enough parameters
+		this->resClient(":" + this->getIp() + " " + ERR_NEEDMOREPARAMS + this->client->nick + " JOIN :Parâmetros insuficientes"); // Not enough parameters
 	} else if (this->channels.count(this->argsCmd[1]) == 0) {
 		this->creatChannel();
 	} else if (this->channels[this->argsCmd[1]]->l == true && this->channels[this->argsCmd[1]]->size() >= this->channels[this->argsCmd[1]]->limit) { // VERIFICAR SE ESSA LOGICA ESTA CORRETA
-std::cout << "canal cheio" << std::endl;
+// std::cout << "canal cheio" << std::endl;
 // :<servidor> 471 <apelido> <canal> :Cannot join channel (+l)
 		// this->resClient();
 	} else {
