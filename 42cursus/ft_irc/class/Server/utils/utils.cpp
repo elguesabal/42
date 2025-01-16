@@ -55,13 +55,12 @@ void Server::splitCmd(void) {
 /// @brief METODO PASSA TODOS OS CARACTERES PARA MAIUSCULO
 /// @return RETORNA UMA NOVA STRING EM MAIUSCULO
 std::string Server::toUpper(std::string &str) {
-	char ret[str.size() + 1];
+	std::string ret;
 
 	for (unsigned int i = 0; i < str.size(); i++) {
-		ret[i] = ((str[i] >= 'a' && str[i] <= 'z') ? str[i] - 32 : str[i]);
+		ret += ((str[i] >= 'a' && str[i] <= 'z') ? str[i] - 32 : str[i]);
 	}
-	ret[str.size()] = '\0';
-
+	ret += '\0';
 	return (ret);
 }
 
