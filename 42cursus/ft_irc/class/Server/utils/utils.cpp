@@ -19,6 +19,18 @@ bool Server::invalidLine(void) {
 	return (false);
 }
 
+/// @brief FUNCAO SPLIT Q SEPARA A STRING POR UM DELIMITADOR
+std::vector<std::string> Server::split(std::string &str, char delimiter) {
+	std::string token;
+	std::istringstream tokenStream(str);
+	std::vector<std::string> result;
+
+	while (std::getline(tokenStream, token, delimiter)) {
+		result.push_back(token);
+	}
+	return (result);
+}
+
 /// @brief METODO Q SPLITA VARIOS COMANDOS USANDO '\n', REMOVE TODOS OS \r E ARMAZENA O RESULTADO DENTRO DE server.cmds
 void Server::splitCmds(void) {
 	this->cmd.erase(std::remove(this->cmd.begin(), this->cmd.end(), '\r'), this->cmd.end()); // REMOVE TODOS OS \r
@@ -50,6 +62,22 @@ void Server::splitCmd(void) {
 		}
 		this->argsCmd.push_back(line);
 	}
+}
+
+/// @brief VERIFICA SE HA ALGUM CARACTER PROIBIDO OU SE COINCIDEM COM ALGUM COMANDO
+/// @param nickChannel NICK OU CANAL A SER ANALIZADO
+/// @param charInvalid CARACTERES INVALIDOS
+/// @return RETORNA TRUE CASO HA ALGUM CARACTER PROIBIDO E FALSE CASO NAO
+bool Server::nickChannelInvalid(std::string &nickChannel, std::string charInvalid) {
+	for (unsigned short i = 0; i < charInvalid.size(); i++) {
+		if (nickChannel.find(charInvalid[i]) != std::string::npos) {
+			return (true);
+		}
+	}
+	if (this->serverCommands.find(nickChannel) != this->serverCommands.end()) {
+		return (true);
+	}
+	return (false);
 }
 
 /// @brief METODO PASSA TODOS OS CARACTERES PARA MAIUSCULO

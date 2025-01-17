@@ -61,7 +61,7 @@ void Server::NICK(void) {
 		this->deleteClient();
 	} else if (this->argsCmd.size() < 2) {
 		this->resClient(":" + this->getIp() + " " + ERR_NONICKNAMEGIVEN + " * :Nenhum nick fornecido"); // No nickname 
-	} else if (this->nickInvalid(this->argsCmd[1])) {
+	} else if (this->nickChannelInvalid(this->argsCmd[1], " \r\n:;@!*,#")) {
 		this->resClient(":" + this->getIp() + " " + ERR_ERRONEUSNICKNAME " " + this->client->nick + " " + this->argsCmd[1] + " :Nick inválido"); // Erroneous nickname
 	} else if (this->client->nick == this->argsCmd[1]) {
 
@@ -77,7 +77,6 @@ void Server::NICK(void) {
 		this->client->nick = this->argsCmd[1];
 		this->client->authNick = true;
 	}
-
 	this->authentication();
 }
 
@@ -152,28 +151,48 @@ void Server::USER(void) {
 		this->client->user = this->argsCmd[1];
 		this->client->authUser = true;
 	}
-
 	this->authentication();
 }
 
 
 
-/// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 RESPONDE COM O ERRO ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
-/// @brief 
-void Server::JOIN(void) { // DEVO IMPLEMENTAR O SISTEMA DE BANIMENTO DE CANAL? // O canal está no modo de convite somente (+i) e o cliente não foi convidado.???
-	// std::cout << "\033[33mWarning:\033[0m '" << this->cmd << "'" << std::endl;
-// std::cout << "tamanho: " << this->channels.size() << std::endl;
 
-	if (this->argsCmd.size() < 2) {
+
+
+/// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 RESPONDE COM O ERRO ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
+/// @brief SE NAO OUVER UM CANAL COM O NOME CORRESPONDENTE CRIA UM NOVO CANAL ADICIONANDO O CLIENTE COMO OPERADOR
+/// @brief CASO O CANAL NAO COMECE COM '#' OU CONTENHA CARACTERES INVALIDOS RESPONDE COM ":<servidor> 403 <apelido> <canal> :Nenhum canal desse tipo"
+/// @brief 
+/// @brief SE NENHUMA DAS OPCOES ACIMA ACONTECER E PQ O CLIENTE VAI SER ADICIONADO EM UM CANAL JA EXISTENTE
+void Server::JOIN(void) {
+	// std::cout << "\033[33mWarning:\033[0m '" << this->cmd << "'" << std::endl;
+
+	std::vector<std::string> channel = this->split(this->argsCmd[1], ',');
+	std::vector<std::string> password = (this->argsCmd.size() < 3 ? std::vector<std::string>() : this->split(this->argsCmd[2], ','));
+
+	for (unsigned int i = 0; i < channel.size(); i++) {
+		// std::cout << "channel[" << i << "]: '" << channel[i] << "'" << std::endl;
+		// if (i < password.size()) {
+		// 	std::cout << "password[" << i << "]: '" << password[i] << "'" << std::endl;
+		// }
+
+		if (this->argsCmd.size() < 2) {
 // :<servidor> 461 <apelido> JOIN :Not enough parameters
-		this->resClient(":" + this->getIp() + " " + ERR_NEEDMOREPARAMS + this->client->nick + " JOIN :Parâmetros insuficientes"); // Not enough parameters
-	} else if (this->channels.count(this->argsCmd[1]) == 0) {
-		this->creatChannel();
-	} else if (this->channels[this->argsCmd[1]]->l == true && this->channels[this->argsCmd[1]]->size() >= this->channels[this->argsCmd[1]]->limit) { // VERIFICAR SE ESSA LOGICA ESTA CORRETA
+			this->resClient(":" + this->getIp() + " " + ERR_NEEDMOREPARAMS + this->client->nick + " JOIN :Parâmetros insuficientes"); // Not enough parameters
+		} else if (channel[i][0] != '#' || this->nickChannelInvalid(channel[i], " \r\n:;@!*,")) {
+// :<servidor> 403 <apelido> <canal> :No such channel
+			this->resClient(":" + this->getIp() + " " + ERR_NOSUCHCHANNEL + " " + this->client->nick + " " + channel[i] + " :Nenhum canal desse tipo"); // No such channel
+		} else if (this->channels.count(channel[i]) == 0) {
+			this->creatChannel(channel[i]);
+		} else if (this->channels[channel[i]]->l == true && this->channels[channel[i]]->size() >= this->channels[channel[i]]->limit) { // VERIFICAR SE ESSA LOGICA ESTA CORRETA
 // std::cout << "canal cheio" << std::endl;
 // :<servidor> 471 <apelido> <canal> :Cannot join channel (+l)
-		// this->resClient();
-	} else {
-		this->joinChannel();
+			// this->resClient();
+		} else {
+			this->joinChannel(channel[i], password[i]);
+		}
 	}
 }
+
+			// A ULTIMA COISA Q EU FIZ FOI VERIFICAR NOME DE CANAL INVALIDO E PREFIXO
+			// ACHO Q A PROXIMA COISA Q PODE SER FEITA E A IMPLEMENTACAO DA SENHA (AINDA FALTA VERIFICAR A SENHA QUANDO ENTRAR EM UM CANAL)

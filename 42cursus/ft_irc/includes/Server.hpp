@@ -49,17 +49,18 @@ class Server {
 		void JOIN(void);
 
 		// ./class/Server/utils/nick.cpp
-		bool nickInvalid(std::string &nick);
 		bool nickInUse(std::string &nick);
 
 		// ./class/Server/utils/join.cpp
-		void creatChannel(void);
-		void joinChannel(void);
+		void creatChannel(std::string &channel);
+		void joinChannel(std::string &channel, std::string &password);
 
 		// ./class/Server/utils/utils.cpp
 		bool invalidLine(void);
+		std::vector<std::string> split(std::string &str, char delimiter);
 		void splitCmds(void);
 		void splitCmd(void);
+		bool nickChannelInvalid(std::string &nickChannel, std::string charInvalid);
 		std::string toUpper(std::string &str);
 		void authentication(void);
 
@@ -76,7 +77,6 @@ class Server {
 		std::map<std::string, Client *> nickClient;
 
 		// INFORMACOES DOS CANAIS
-		// std::vector<Channel> channels;
 		std::map<std::string, Channel *> channels;
 
 		// INFORMACOES DA ATUAL TRANSMISSAO
