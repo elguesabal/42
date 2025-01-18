@@ -6,6 +6,7 @@
 /// @brief RESPOSTA COM O TOPICO -> ":<servidor> 331 <apelido> <canal> :Nenhum tópico está definido" OU ":<servidor> 332 <apelido> <canal> :<tópico>"
 /// @brief RESPOSTA COM A LISTA DE USUARIOS -> ":<servidor> 353 <apelido> = #meucanal :@<apelido>"
 /// @brief RESPOSTA DE FIM DE LISTA -> ":<servidor> 366 <apelido> #meucanal :Fim da lista de nomes"
+/// @brief INFORMA Q O MODO TOPICO ESTA ATIVO COM A RESPOSTA ":<servidor> MODE <canal> <modo>"
 void Server::creatChannel(std::string &channel) {
 	this->channels[channel] = new Channel(channel, this->client);
 
@@ -21,6 +22,9 @@ void Server::creatChannel(std::string &channel) {
 
 // :<servidor> 366 <apelido> #meucanal :End of NAMES list.
 	this->resClient(":" + this->getIp() + " " + RPL_ENDOFNAMES + " " + this->client->nick + " " + channel + " :Fim da lista de nomes"); // End of NAMES list
+
+// :<servidor> MODE <canal> <modos>
+	this->resClient(":" + this->getIp() + " MODE " + channel + " +t");
 }
 
 /// @brief ADICIONA O CLIENTE COMO MEMBRO A UM CANAL JA EXISTE

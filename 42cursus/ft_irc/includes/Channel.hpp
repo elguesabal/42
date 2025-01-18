@@ -21,7 +21,6 @@ class Channel {
 
 		// ./class/Channel/Channel.cpp
 		void newMember(Client *client);
-		bool isOperator(std::string &client); // DEVERIA ESTAR AKI???
 
 		// ./class/Channel/utils/utils.cpp
 		unsigned int size(void) const;

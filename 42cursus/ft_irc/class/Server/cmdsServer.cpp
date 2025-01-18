@@ -114,6 +114,7 @@ void Server::PING(void) {
 /// @brief CASO NAO ENCONTRE O CARACTER ":" NO COMANDO RESPONDE COM ":<servidor> 412 <nick> :Nenhum texto para enviar"
 /// @brief SE TIVER UM NUMERO DE ARGUMENTOS DIFERENTE DE 3 RESPONDE COM O ERRO ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
 /// @brief CASO O NICK NAO RETORNE NULL AO SER USADO COMO CHAVE DENTRO DE "this->nickClient" REDIRECIONA A MENSAGEM PARA O NICK DESTINARARIO E NAO RESPONDE O REMETENTE ":<apelido>!<usuario>@<host> PRIVMSG <apelido> :<mensagem>"
+/// @brief CAOS O CLIENTE TENTE MANDAR MENSAGEM EM UM CANAL Q ELE NAO E MEMBRO RESPONDE COM ":<servidor> 404 <apelido> <canal> :Você não participa deste canal"
 /// @brief CASO O NICK NAO RETORNE NULL AO SER USADO COMO CHAVE DENTRO DE "this->channel" REDIRECIONA A MENSAGEM PARA OS MEMBROS DO CANAL ":<apelido>!<usuario>@<host> PRIVMSG <canal> :<mensagem>" (NAO ENVIA A SI MESMO)
 /// @brief CASO O NICK PASSE POR TODAS AS VERIFICACOES ELE NAO EXISTE E O SERVIDOR RESPONDE COM ":<servidor> 401 <enviador> <destinatário> :Nick/canal não existe"
 void Server::PRIVMSG(void) {
@@ -125,6 +126,8 @@ void Server::PRIVMSG(void) {
 		this->resClient(":" + this->getIp() + " " + ERR_NEEDMOREPARAMS + this->client->nick + " PRIVMSG :Parâmetros insuficientes"); // Not enough parameters
 	} else if (this->nickClient[this->argsCmd[1]] != NULL) {
 		this->sendClient(":" + this->client->nick + "!" + this->client->user + "@" + this->client->getIp() + " PRIVMSG " + this->argsCmd[1] + " :" + this->argsCmd[2], this->nickClient[this->argsCmd[1]]);
+	} else if (this->channels[this->argsCmd[1]] != NULL && this->channels[this->argsCmd[1]]->nickClient[this->client->nick] == NULL) {
+		this->resClient(":" + this->getIp() + " " + ERR_CANNOTSENDTOCHAN + " " + this->client->nick + " " + this->argsCmd[1] + " :Você não participa deste canal"); // Cannot send to channel
 	} else if (this->channels[this->argsCmd[1]] != NULL) {
 		this->sendChannel(":" + this->client->nick + "!" + this->client->user + "@" + this->client->getIp() + " PRIVMSG " + this->argsCmd[1] + " :" + this->argsCmd[2], this->channels[this->argsCmd[1]]);
 	} else {
@@ -194,23 +197,49 @@ void Server::JOIN(void) {
 }
 
 /// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 OU O SEGUNDO ESTEJA VAZIO RESPONDE COM ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
-/// @brief SE CANAL NAO EXISTE RESPONDE COM "??????"
+/// @brief SE CANAL NAO EXISTE RESPONDE COM ":<servidor> 403 <apelido> <canal> :Canal inexistente"
+/// @brief SE O MANDA APENAS O NOME DO CANAL O SERVIDOR RESPONDE APENAS COM OS MODOS DO CANAL ":<servidor> 324 <apelido> <canal> <modos do canal>"
+/// @brief SE O CANAL EXISTE MAS O CLIENTE NAO ESTA DENTRO DELE RESPONDE COM ":<servidor> 442 <apelido> <canal> :Você não está nesse canal"
 /// @brief SE O CLIENTE NAO FOR UM OPERADOR RESPONDE COM ":<servidor> 482 <apelido> <canal> :Você não é um operador de canal"
+/// @brief SE O TERCEIRO ARGUMENTO NAO COMECAR COM "+" OU "-" RESPONDE COM O ERRO ":<servidor> 501 <apelido> <canal> :Bandeira MODE desconhecida"
+/// @brief SE O TERCEIRO ARGUMENDO TIVER UM TAMANHO DIFERENTE DE 2 RESPONDE COM ERRO ":<servidor> 471 <apelido> <canal> :Modo desconhecido"
 void Server::MODE(void) {
 	// std::cout << "chegou esse comando: '" << this->cmd << "'" << "\tthis->argsCmd.size(): '" << this->argsCmd.size() << "'" << std::endl;
 
-	if (this->argsCmd.size() < 2 || this->argsCmd[1] == "") {
+	std::string host = this->getIp();
+	std::string nick = this->client->nick;
+	std::string channel = this->argsCmd[1];
+	std::string mode = (this->argsCmd.size() > 2 ? this->argsCmd[2] : "");
+
+	if (this->argsCmd.size() < 2 || channel == "") {
 // :<servidor> 461 <apelido> MODE :Not enough parameters
-		this->resClient(":" + this->getIp() + " " + ERR_NEEDMOREPARAMS + this->client->nick + " MODE :Parâmetros insuficientes"); // Not enough parameters
-	} else if (this->channels[this->argsCmd[1]] == NULL) {
-std::cout << "canal nao existe" << std::endl;
-			// TENHO Q PROCURAR UMA RESPOSTA PRA ISSO				// PROXIMO Q IREI FAZER
-	} else if (this->channels[this->argsCmd[1]]->isOperator(this->client->nick)) {
+		this->resClient(":" + host + " " + ERR_NEEDMOREPARAMS + nick + " MODE :Parâmetros insuficientes"); // Not enough parameters
+	} else if (this->channels[channel] == NULL) {
+// :<servidor> 403 <apelido> <canal> :No such channel
+		this->resClient(":" + host + " " + ERR_NOSUCHCHANNEL + " " + nick + " " + channel + " :Canal inexistente"); // No such channel
+	} else if (this->argsCmd.size() == 2) {
+// :<servidor> 324 <apelido> <canal> <modos do canal>
+		this->resClient(":" + host + " " + RPL_CHANNELMODEIS + " " + nick + " " + channel + " " + "+t");
+	} else if (this->channels[channel]->nickClient[nick] == NULL) {
+// :<servidor> 442 <apelido> <canal> :You're not on that channel
+		this->resClient(":" + host + " " + ERR_NOTONCHANNEL + " " + nick + " " + channel + " :Você não está nesse canal"); // You're not on that channel
+	} else if (this->channels[channel]->nickClient[nick]->o == false) {
 // :<servidor> 482 <apelido> <canal> :You're not channel operator
-		this->resClient(":" + this->getIp() + " " + ERR_CHANOPRIVSNEEDED + " " + this->client->nick + " " + this->argsCmd[1] + " :Você não é um operador de canal");
+		this->resClient(":" + host + " " + ERR_CHANOPRIVSNEEDED + " " + nick + " " + channel + " :Você não é um operador de canal");
+	} else if (mode[0] != '-' && mode[0] != '+') {
+// :<servidor> 501 <apelido> <canal> :Unknown MODE flag
+		this->resClient(":" + host + " " + ERR_UMODEUNKNOWNFLAG + " " + nick + " " + channel + " :Bandeira MODE desconhecida");
+	} else if (mode.size() != 2 || (mode[1] != 'i' && mode[1] != 't' && mode[1] != 'k' && mode[1] != 'l')) {
+// :<servidor> 471 <apelido> <canal> :Unknown mode
+		this->resClient(":" + host + " " + ERR_UNKNOWNMODE + " " + nick + " " + channel + " :Modo desconhecido");
 	}
 }
 
+
+		// A ULTIMA COISA Q EU FIZ FOI VERIFICAR O ARGUMENTO DO MODO SE ESTA CORRETO (AINDA TEM MAIS COISA PRA FAZER NO COMANDO MODE)
+
+
+// i t k o l
 
 // MODE #meucanal +i
 //				   ^
