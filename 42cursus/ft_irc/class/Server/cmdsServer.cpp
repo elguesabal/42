@@ -61,14 +61,14 @@ void Server::NICK(void) {
 		this->deleteClient();
 	} else if (this->argsCmd.size() < 2) {
 		this->resClient(":" + this->getIp() + " " + ERR_NONICKNAMEGIVEN + " * :Nenhum nick fornecido"); // No nickname 
-	} else if (this->nickChannelInvalid(this->argsCmd[1], " \r\n:;@!*,#")) {
+	} else if (this->nickChannelInvalid(this->argsCmd[1], " \r\n:;@!*,+-=#&")) {
 		this->resClient(":" + this->getIp() + " " + ERR_ERRONEUSNICKNAME " " + this->client->nick + " " + this->argsCmd[1] + " :Nick inválido"); // Erroneous nickname
 	} else if (this->client->nick == this->argsCmd[1]) {
 
 	} else if (this->nickInUse(this->argsCmd[1])) {
 		this->resClient(":" + this->getIp() + " " + ERR_NICKNAMEINUSE + " " + this->client->nick + " " + this->argsCmd[1] + " :O nick já está em uso"); // Nickname is already in use
 	} else if (this->client->authNick == true) {
-		this->resClient(":" + this->client->nick + " NICK :" + this->argsCmd[1]); // ACHO Q ERA PRA TER O PREFIXO ":<servidor>"?? ACHO Q ESSA MENSAGEM E UMA EXCECAO
+		this->resClient(":" + this->client->nick + " NICK :" + this->argsCmd[1]);
 		this->nickClient.erase(this->client->nick);
 		this->nickClient[this->argsCmd[1]] = this->client;
 		this->client->nick = this->argsCmd[1];
@@ -179,7 +179,7 @@ void Server::JOIN(void) {
 		if (this->argsCmd.size() < 2) {
 // :<servidor> 461 <apelido> JOIN :Not enough parameters
 			this->resClient(":" + this->getIp() + " " + ERR_NEEDMOREPARAMS + this->client->nick + " JOIN :Parâmetros insuficientes"); // Not enough parameters
-		} else if (channel[i][0] != '#' || this->nickChannelInvalid(channel[i], " \r\n:;@!*,")) {
+		} else if (channel[i][0] != '#' || this->nickChannelInvalid(channel[i], " \r\n:;@!*,+-=")) {
 // :<servidor> 403 <apelido> <canal> :No such channel
 			this->resClient(":" + this->getIp() + " " + ERR_NOSUCHCHANNEL + " " + this->client->nick + " " + channel[i] + " :Nenhum canal desse tipo"); // No such channel
 		} else if (this->channels.count(channel[i]) == 0) {
@@ -187,12 +187,33 @@ void Server::JOIN(void) {
 		} else if (this->channels[channel[i]]->l == true && this->channels[channel[i]]->size() >= this->channels[channel[i]]->limit) { // VERIFICAR SE ESSA LOGICA ESTA CORRETA
 // std::cout << "canal cheio" << std::endl;
 // :<servidor> 471 <apelido> <canal> :Cannot join channel (+l)
-			// this->resClient();
 		} else {
 			this->joinChannel(channel[i], password[i]);
 		}
 	}
 }
 
-			// A ULTIMA COISA Q EU FIZ FOI VERIFICAR NOME DE CANAL INVALIDO E PREFIXO
-			// ACHO Q A PROXIMA COISA Q PODE SER FEITA E A IMPLEMENTACAO DA SENHA (AINDA FALTA VERIFICAR A SENHA QUANDO ENTRAR EM UM CANAL)
+/// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 OU O SEGUNDO ESTEJA VAZIO RESPONDE COM ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
+/// @brief SE CANAL NAO EXISTE RESPONDE COM "??????"
+/// @brief SE O CLIENTE NAO FOR UM OPERADOR RESPONDE COM ":<servidor> 482 <apelido> <canal> :Você não é um operador de canal"
+void Server::MODE(void) {
+	// std::cout << "chegou esse comando: '" << this->cmd << "'" << "\tthis->argsCmd.size(): '" << this->argsCmd.size() << "'" << std::endl;
+
+	if (this->argsCmd.size() < 2 || this->argsCmd[1] == "") {
+// :<servidor> 461 <apelido> MODE :Not enough parameters
+		this->resClient(":" + this->getIp() + " " + ERR_NEEDMOREPARAMS + this->client->nick + " MODE :Parâmetros insuficientes"); // Not enough parameters
+	} else if (this->channels[this->argsCmd[1]] == NULL) {
+std::cout << "canal nao existe" << std::endl;
+			// TENHO Q PROCURAR UMA RESPOSTA PRA ISSO				// PROXIMO Q IREI FAZER
+	} else if (this->channels[this->argsCmd[1]]->isOperator(this->client->nick)) {
+// :<servidor> 482 <apelido> <canal> :You're not channel operator
+		this->resClient(":" + this->getIp() + " " + ERR_CHANOPRIVSNEEDED + " " + this->client->nick + " " + this->argsCmd[1] + " :Você não é um operador de canal");
+	}
+}
+
+
+// MODE #meucanal +i
+//				   ^
+//				   |
+//				   |
+//	ESSE ARGUMENTO SEMPRE SERA UM MODO

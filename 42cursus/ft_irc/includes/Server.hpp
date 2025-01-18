@@ -47,6 +47,7 @@ class Server {
 		void USER(void);
 
 		void JOIN(void);
+		void MODE(void);
 
 		// ./class/Server/utils/nick.cpp
 		bool nickInUse(std::string &nick);

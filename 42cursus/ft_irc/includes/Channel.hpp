@@ -16,22 +16,26 @@ class Channel {
 
 	public:
 		// Channel(void) {} // ISSO NAO PERMITE Q O std::map CRIE CANAIS VAZIOS E OCUPE MEMORIA??
-		Channel(std::string &name, Client *creator);
+		Channel(std::string &name, Client *client);
 		~Channel(void);
 
-		void addClient(Client *client);
+		// ./class/Channel/Channel.cpp
+		void newMember(Client *client);
+		bool isOperator(std::string &client); // DEVERIA ESTAR AKI???
 
 		// ./class/Channel/utils/utils.cpp
 		unsigned int size(void) const;
 
-		std::string name;
-		std::vector<ClientChanell> clients;
+		std::string name; // TIRAR ISSO PQ ACHO Q NAO VAI SER UTIL
+		std::vector<ClientChanell *> clients;
+		std::map<std::string, ClientChanell *> nickClient;
 
 		bool i;
 		bool t;
 		bool k;
 		bool l;
 
+		std::vector<std::string> operators;
 		std::string topic;
 		std::string password;
 		unsigned int limit;

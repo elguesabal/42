@@ -15,6 +15,7 @@ FILE = ./ft_irc.cpp\
 		./class/Client/getClient.cpp\
 		./class/Client/setClient.cpp\
 		./class/Channel/Channel.cpp\
+		./class/Channel/getChannel.cpp\
 		./class/Channel/utils/utils.cpp
 RM = rm
 

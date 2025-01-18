@@ -114,6 +114,9 @@ void Server::newBuffer(void) {
 	}
 }
 
+
+
+
 /// @brief RESPONDE UM CLIENTE DE FORMA SIMPLES
 /// @param res RESPOSTA JA PRONTO PARA SER ENVIADA PARA O CLIENTE
 void Server::resClient(std::string res) {
@@ -134,8 +137,8 @@ void Server::sendClient(std::string res, Client *receiver) {
 void Server::sendChannel(std::string res, Channel *channel) {
 	res += "\r\n";
 	for (unsigned int i = 0; i < channel->clients.size(); i++) {
-		if (this->client != channel->clients[i].client) {
-			this->sendClient(res, channel->clients[i].client);
+		if (this->client != channel->clients[i]->client) {
+			this->sendClient(res, channel->clients[i]->client);
 		}
 	}
 }

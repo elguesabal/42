@@ -33,7 +33,7 @@ void Server::creatChannel(std::string &channel) {
 void Server::joinChannel(std::string &channel, std::string &password) {
 (void)password; // AINDA NAO IMPLEMENTEI SENHA NO CANAL
 
-	this->channels[channel]->addClient(this->client);
+	this->channels[channel]->newMember(this->client);
 
 // :<apelido>!<usuario>@<host> JOIN <canal>
 	this->sendChannel(":" + this->client->nick + "!" + this->client->user + "@" + this->getIp() + " JOIN " + channel, this->channels[channel]);
@@ -49,8 +49,8 @@ void Server::joinChannel(std::string &channel, std::string &password) {
 	for (unsigned int i = 0; i < this->channels[channel]->clients.size(); i++) {
 		clients = "";
 		for (unsigned int j = 0; j < 10 && i < this->channels[channel]->clients.size(); j++) {
-			clients += (this->channels[channel]->clients[i].o == true ? "@" : "");
-			clients += this->channels[channel]->clients[i].client->nick + " ";
+			clients += (this->channels[channel]->clients[i]->o == true ? "@" : "");
+			clients += this->channels[channel]->clients[i]->client->nick + " ";
 			i++;
 		}
 		i--;
