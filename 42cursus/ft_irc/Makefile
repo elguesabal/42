@@ -10,6 +10,7 @@ FILE = ./ft_irc.cpp\
 		./class/Server/setServer.cpp\
 		./class/Server/utils/nick.cpp\
 		./class/Server/utils/join.cpp\
+		./class/Server/utils/mode.cpp\
 		./class/Server/utils/utils.cpp\
 		./class/Client/Client.cpp\
 		./class/Client/getClient.cpp\

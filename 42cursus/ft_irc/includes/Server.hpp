@@ -18,6 +18,7 @@ class Server {
 		// ./class/Server/Server.cpp // POR ENQUANTO AKI (FUTURAMENTE DEVO CRIAR UM ARQUIVO SO PARA RESPOSTAS DE CLIENTES/CANAIS MENSAGENS PRIVADAS E ETC)
 		void resClient(std::string res);
 		void sendClient(std::string res, Client *receiver);
+		void resChannel(std::string res, Channel *channel);
 		void sendChannel(std::string res, Channel *channel);
 
 		// ./class/Server/getServer.cpp
@@ -55,6 +56,10 @@ class Server {
 		// ./class/Server/utils/join.cpp
 		void creatChannel(std::string &channel);
 		void joinChannel(std::string &channel, std::string &password);
+
+		// ./class/Server/utils/mode.cpp
+		void o(std::string &channel, bool mode, std::string nick);
+		void k(std::string &channel, bool mode, std::string password);
 
 		// ./class/Server/utils/utils.cpp
 		bool invalidLine(void);

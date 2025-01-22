@@ -124,11 +124,11 @@ void Server::PRIVMSG(void) {
 		this->resClient(":" + this->getIp() + " " + ERR_NOTEXTTOSEND + " " + this->client->nick + " :Nenhum texto para enviar"); // No text to send
 	} else if (this->argsCmd.size() != 3) {
 		this->resClient(":" + this->getIp() + " " + ERR_NEEDMOREPARAMS + this->client->nick + " PRIVMSG :Parâmetros insuficientes"); // Not enough parameters
-	} else if (this->nickClient[this->argsCmd[1]] != NULL) {
+	} else if (this->nickClient.count(this->argsCmd[1]) == 1) {
 		this->sendClient(":" + this->client->nick + "!" + this->client->user + "@" + this->client->getIp() + " PRIVMSG " + this->argsCmd[1] + " :" + this->argsCmd[2], this->nickClient[this->argsCmd[1]]);
-	} else if (this->channels[this->argsCmd[1]] != NULL && this->channels[this->argsCmd[1]]->nickClient[this->client->nick] == NULL) {
+	} else if (this->channels.count(this->argsCmd[1]) == 1 && this->channels[this->argsCmd[1]]->nickClient.count(this->client->nick) == 0) {
 		this->resClient(":" + this->getIp() + " " + ERR_CANNOTSENDTOCHAN + " " + this->client->nick + " " + this->argsCmd[1] + " :Você não participa deste canal"); // Cannot send to channel
-	} else if (this->channels[this->argsCmd[1]] != NULL) {
+	} else if (this->channels.count(this->argsCmd[1]) == 1) {
 		this->sendChannel(":" + this->client->nick + "!" + this->client->user + "@" + this->client->getIp() + " PRIVMSG " + this->argsCmd[1] + " :" + this->argsCmd[2], this->channels[this->argsCmd[1]]);
 	} else {
 		this->resClient(":" + this->getIp() + " " + ERR_NOSUCHNICK + " " + this->client->nick + " " + this->argsCmd[1] + " :Nick/canal não existe"); // No such nick/channel
@@ -205,6 +205,7 @@ void Server::JOIN(void) {
 /// @brief SE O TERCEIRO ARGUMENDO TIVER UM TAMANHO DIFERENTE DE 2 RESPONDE COM ERRO ":<servidor> 471 <apelido> <canal> :Modo desconhecido"
 void Server::MODE(void) {
 	// std::cout << "chegou esse comando: '" << this->cmd << "'" << "\tthis->argsCmd.size(): '" << this->argsCmd.size() << "'" << std::endl;
+// std::cout << "comando: '" << this->cmd << "'" << std::endl;
 
 	std::string host = this->getIp();
 	std::string nick = this->client->nick;
@@ -214,13 +215,13 @@ void Server::MODE(void) {
 	if (this->argsCmd.size() < 2 || channel == "") {
 // :<servidor> 461 <apelido> MODE :Not enough parameters
 		this->resClient(":" + host + " " + ERR_NEEDMOREPARAMS + nick + " MODE :Parâmetros insuficientes"); // Not enough parameters
-	} else if (this->channels[channel] == NULL) {
+	} else if (this->channels.count(channel) == 0) {
 // :<servidor> 403 <apelido> <canal> :No such channel
 		this->resClient(":" + host + " " + ERR_NOSUCHCHANNEL + " " + nick + " " + channel + " :Canal inexistente"); // No such channel
 	} else if (this->argsCmd.size() == 2) {
 // :<servidor> 324 <apelido> <canal> <modos do canal>
 		this->resClient(":" + host + " " + RPL_CHANNELMODEIS + " " + nick + " " + channel + " " + "+t");
-	} else if (this->channels[channel]->nickClient[nick] == NULL) {
+	} else if (this->channels[channel]->nickClient.count(nick) == 0) {
 // :<servidor> 442 <apelido> <canal> :You're not on that channel
 		this->resClient(":" + host + " " + ERR_NOTONCHANNEL + " " + nick + " " + channel + " :Você não está nesse canal"); // You're not on that channel
 	} else if (this->channels[channel]->nickClient[nick]->o == false) {
@@ -229,20 +230,20 @@ void Server::MODE(void) {
 	} else if (mode[0] != '-' && mode[0] != '+') {
 // :<servidor> 501 <apelido> <canal> :Unknown MODE flag
 		this->resClient(":" + host + " " + ERR_UMODEUNKNOWNFLAG + " " + nick + " " + channel + " :Bandeira MODE desconhecida");
-	} else if (mode.size() != 2 || (mode[1] != 'i' && mode[1] != 't' && mode[1] != 'k' && mode[1] != 'l')) {
+	} else if (mode.size() != 2 || (mode[1] != 'i' && mode[1] != 't' && mode[1] != 'k' && mode[1] != 'o' && mode[1] != 'l')) {
 // :<servidor> 471 <apelido> <canal> :Unknown mode
 		this->resClient(":" + host + " " + ERR_UNKNOWNMODE + " " + nick + " " + channel + " :Modo desconhecido");
+	} else if (mode[1] == 'i') { // ACHO Q EU SO FAREI ESSE QUANDO FIZER O COMANDO LIST
+		
+	} else if (mode[1] == 't') {
+		
+	} else if (mode[1] == 'k') {
+		this->k(channel, (mode[0] == '+' ? true : false), (mode[0] == '+' ? argsCmd[3] : ""));
+	} else if (mode[1] == 'o') { // AKI EU AINDA NAO VERIFIQUEI SE TEM 3 ARGUMENTOS // FALTA VERIFICAR SE O USUARIO EXISTE (E TALVES VERIFICAR SE ELE ESTA NO CANAL)
+		this->o(channel, (mode[0] == '+' ? true : false), (mode[0] == '+' ? argsCmd[3] : ""));
+	} else if (mode[1] == 'l') {
+		
 	}
 }
 
-
-		// A ULTIMA COISA Q EU FIZ FOI VERIFICAR O ARGUMENTO DO MODO SE ESTA CORRETO (AINDA TEM MAIS COISA PRA FAZER NO COMANDO MODE)
-
-
 // i t k o l
-
-// MODE #meucanal +i
-//				   ^
-//				   |
-//				   |
-//	ESSE ARGUMENTO SEMPRE SERA UM MODO
