@@ -55,11 +55,12 @@ class Server {
 
 		// ./class/Server/utils/join.cpp
 		void creatChannel(std::string &channel);
-		void joinChannel(std::string &channel, std::string &password);
+		void joinChannel(std::string &channel);
 
 		// ./class/Server/utils/mode.cpp
 		void o(std::string &channel, bool mode, std::string nick);
 		void k(std::string &channel, bool mode, std::string password);
+		void l(std::string &channel, bool mode, unsigned int limit);
 
 		// ./class/Server/utils/utils.cpp
 		bool invalidLine(void);

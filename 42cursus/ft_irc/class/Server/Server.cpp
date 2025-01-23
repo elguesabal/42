@@ -106,7 +106,11 @@ void Server::newBuffer(void) {
 		this->splitCmd();
 
 		if (this->serverCommands.find(this->cmd.substr(0, this->cmd.find(' '))) != this->serverCommands.end()) {
-			(this->*serverCommands[this->cmd.substr(0, this->cmd.find(' '))])();
+			if (this->client->auth == true || this->argsCmd[0] == "PASS" || this->argsCmd[0] == "NICK" || this->argsCmd[0] == "USER" || this->argsCmd[0] == "QUIT") {
+				(this->*serverCommands[this->cmd.substr(0, this->cmd.find(' '))])();
+			} else {
+				this->resClient(":" + this->getIp() + " " + ERR_NOTREGISTERED + " PRIVMSG :Você não se registrou"); // You have not registered
+			}
 		} else {
 			std::cout << "\033[33mWarning:\033[0m comando nao encontrado -> '" << this->cmd << "'" << std::endl;
 			this->resClient(":" + this->getIp() + " " + ERR_UNKNOWNCOMMAND + " " + this->client->nick + " " + this->argsCmd[0] + " :Comando desconhecido");

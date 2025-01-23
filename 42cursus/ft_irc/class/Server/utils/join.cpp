@@ -36,10 +36,7 @@ void Server::creatChannel(std::string &channel) {
 /// @brief RESPOSTA COM A LISTA DE USUARIOS -> ":<servidor> 353 <apelido> = <canal> :[prefixos]<apelido1> [prefixos]<apelido2> ..."
 /// @brief RESPOSTA DE FIM DE LISTA -> ":<servidor> 366 <apelido> #meucanal :Fim da lista de nomes"
 /// @param channel NOME DO CANAL Q SERA ADICIONADO O NOVO MEMBRO
-/// @param password SENHA DO CANAL
-void Server::joinChannel(std::string &channel, std::string &password) {
-(void)password; // AINDA NAO IMPLEMENTEI SENHA NO CANAL
-
+void Server::joinChannel(std::string &channel) {
 	this->channels[channel]->newMember(this->client);
 
 // :<apelido>!<usuario>@<host> JOIN <canal>

@@ -78,7 +78,7 @@ void Server::NICK(void) {
 		this->client->authNick = true;
 	}
 	this->authentication();
-}
+}					// E SE UM NICK FOR TROCADO COMO FICA OS CANAIS?? VAI BUGAR TUDO SE UM MEMBRO ENTRAR EM UM CANAL E DPS TROCAR DE NICK
 
 /// @brief CLIENTE TENTANDO AUTENTICAR A SENHA NOVAMENTE RESPONDE COM ":<servidor> 462 <nick> :Comando não autorizado (já registrado)"
 /// @brief CLIENTE MANDOU APENAS O COMANDO "PASS" SEM A SENHA RESPONDE COM ":<servidor> 464 <nick> :Senha necessária" E FECHA A CONEXAO
@@ -110,7 +110,6 @@ void Server::PING(void) {
 	}
 }
 
-/// @brief CLIENTE NAO AUTENTICADO RECEBE A RESPOSTA DE ERRO ":<servidor> 451 <comando> :Você não se registrou"
 /// @brief CASO NAO ENCONTRE O CARACTER ":" NO COMANDO RESPONDE COM ":<servidor> 412 <nick> :Nenhum texto para enviar"
 /// @brief SE TIVER UM NUMERO DE ARGUMENTOS DIFERENTE DE 3 RESPONDE COM O ERRO ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
 /// @brief CASO O NICK NAO RETORNE NULL AO SER USADO COMO CHAVE DENTRO DE "this->nickClient" REDIRECIONA A MENSAGEM PARA O NICK DESTINARARIO E NAO RESPONDE O REMETENTE ":<apelido>!<usuario>@<host> PRIVMSG <apelido> :<mensagem>"
@@ -118,9 +117,10 @@ void Server::PING(void) {
 /// @brief CASO O NICK NAO RETORNE NULL AO SER USADO COMO CHAVE DENTRO DE "this->channel" REDIRECIONA A MENSAGEM PARA OS MEMBROS DO CANAL ":<apelido>!<usuario>@<host> PRIVMSG <canal> :<mensagem>" (NAO ENVIA A SI MESMO)
 /// @brief CASO O NICK PASSE POR TODAS AS VERIFICACOES ELE NAO EXISTE E O SERVIDOR RESPONDE COM ":<servidor> 401 <enviador> <destinatário> :Nick/canal não existe"
 void Server::PRIVMSG(void) {
-	if (this->client->auth == false) {
-		this->resClient(":" + this->getIp() + " " + ERR_NOTREGISTERED + " PRIVMSG :Você não se registrou"); // You have not registered
-	} else if (this->cmd.find(":") == std::string::npos || this->cmd.find(":") == this->cmd.size()) {
+	// if (this->client->auth == false) { // ESSA VERIFICACAO PASSOU A SER FEITA DENTRO DA FUNCAO newBuffer()
+	// 	this->resClient(":" + this->getIp() + " " + ERR_NOTREGISTERED + " PRIVMSG :Você não se registrou"); // You have not registered
+	// }
+	if (this->cmd.find(":") == std::string::npos || this->cmd.find(":") == this->cmd.size()) {
 		this->resClient(":" + this->getIp() + " " + ERR_NOTEXTTOSEND + " " + this->client->nick + " :Nenhum texto para enviar"); // No text to send
 	} else if (this->argsCmd.size() != 3) {
 		this->resClient(":" + this->getIp() + " " + ERR_NEEDMOREPARAMS + this->client->nick + " PRIVMSG :Parâmetros insuficientes"); // Not enough parameters
@@ -165,33 +165,46 @@ void Server::USER(void) {
 /// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 RESPONDE COM O ERRO ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
 /// @brief SE NAO OUVER UM CANAL COM O NOME CORRESPONDENTE CRIA UM NOVO CANAL ADICIONANDO O CLIENTE COMO OPERADOR
 /// @brief CASO O CANAL NAO COMECE COM '#' OU CONTENHA CARACTERES INVALIDOS RESPONDE COM ":<servidor> 403 <apelido> <canal> :Nenhum canal desse tipo"
+/// @brief SE O CLIENTE TENTAR ENTRAR EM UM CANAL COM SENHA E FORNECER A SENHA ERRADA OU SEM FORNECER UMA SENHA RESPONDE COM "// :<servidor> 475 <apelido> <canal> :Não é possível entrar no canal (+k)"
 /// @brief 
 /// @brief SE NENHUMA DAS OPCOES ACIMA ACONTECER E PQ O CLIENTE VAI SER ADICIONADO EM UM CANAL JA EXISTENTE
-void Server::JOIN(void) {
+void Server::JOIN(void) {								// MDS UM USUARIO NAO AUTENTICADO ESTA CONSEGUINDO ENTRAR EM CANAIS
 	// std::cout << "\033[33mWarning:\033[0m '" << this->cmd << "'" << std::endl;
 
-	std::vector<std::string> channel = this->split(this->argsCmd[1], ',');
+	std::string host = this->getIp();
+	std::string nick = this->client->nick;
+	std::string channel;
+	std::vector<std::string> channels = this->split(this->argsCmd[1], ',');
 	std::vector<std::string> password = (this->argsCmd.size() < 3 ? std::vector<std::string>() : this->split(this->argsCmd[2], ','));
 
-	for (unsigned int i = 0; i < channel.size(); i++) {
-		// std::cout << "channel[" << i << "]: '" << channel[i] << "'" << std::endl;
+	while (channels.size() > password.size()) {
+		password.push_back("");
+	}
+
+	for (unsigned int i = 0; i < channels.size(); i++) {
+		channel = channels[i];
+		// std::cout << "channels[" << i << "]: '" << channels[i] << "'" << std::endl;
 		// if (i < password.size()) {
 		// 	std::cout << "password[" << i << "]: '" << password[i] << "'" << std::endl;
 		// }
 
 		if (this->argsCmd.size() < 2) {
 // :<servidor> 461 <apelido> JOIN :Not enough parameters
-			this->resClient(":" + this->getIp() + " " + ERR_NEEDMOREPARAMS + this->client->nick + " JOIN :Parâmetros insuficientes"); // Not enough parameters
-		} else if (channel[i][0] != '#' || this->nickChannelInvalid(channel[i], " \r\n:;@!*,+-=")) {
+			this->resClient(":" + host + " " + ERR_NEEDMOREPARAMS + nick + " JOIN :Parâmetros insuficientes"); // Not enough parameters
+		} else if (channel[0] != '#' || this->nickChannelInvalid(channel, " \r\n:;@!*,+-=")) {
 // :<servidor> 403 <apelido> <canal> :No such channel
-			this->resClient(":" + this->getIp() + " " + ERR_NOSUCHCHANNEL + " " + this->client->nick + " " + channel[i] + " :Nenhum canal desse tipo"); // No such channel
-		} else if (this->channels.count(channel[i]) == 0) {
-			this->creatChannel(channel[i]);
-		} else if (this->channels[channel[i]]->l == true && this->channels[channel[i]]->size() >= this->channels[channel[i]]->limit) { // VERIFICAR SE ESSA LOGICA ESTA CORRETA
+			this->resClient(":" + host + " " + ERR_NOSUCHCHANNEL + " " + nick + " " + channel + " :Nenhum canal desse tipo"); // No such channel
+		} else if (this->channels.count(channel) == 0) {
+			this->creatChannel(channel);
+		} else if (this->channels[channel]->k == true && password[i] != this->channels[channel]->password) {
+// :<servidor> 475 <apelido> <canal> :Cannot join channel (+k)
+			this->resClient(":" + host + " " + ERR_BADCHANNELKEY + " " + nick + " " + channel + " :Não é possível entrar no canal (+k)"); // Cannot join channel (+k)
+		} else if (this->channels[channel]->l == true && this->channels[channel]->size() >= this->channels[channel]->limit) { // VERIFICAR SE ESSA LOGICA ESTA CORRETA
 // std::cout << "canal cheio" << std::endl;
 // :<servidor> 471 <apelido> <canal> :Cannot join channel (+l)
+															// O PROXIMO A SER FEITO (COMECAR PELO MODE)
 		} else {
-			this->joinChannel(channel[i], password[i]);
+			this->joinChannel(channel);
 		}
 	}
 }
@@ -238,12 +251,11 @@ void Server::MODE(void) {
 	} else if (mode[1] == 't') {
 		
 	} else if (mode[1] == 'k') {
-		this->k(channel, (mode[0] == '+' ? true : false), (mode[0] == '+' ? argsCmd[3] : ""));
-	} else if (mode[1] == 'o') { // AKI EU AINDA NAO VERIFIQUEI SE TEM 3 ARGUMENTOS // FALTA VERIFICAR SE O USUARIO EXISTE (E TALVES VERIFICAR SE ELE ESTA NO CANAL)
-		this->o(channel, (mode[0] == '+' ? true : false), (mode[0] == '+' ? argsCmd[3] : ""));
+		this->k(channel, (mode[0] == '+' ? true : false), (this->argsCmd.size() < 4 ? "" : argsCmd[3]));
+	} else if (mode[1] == 'o') {
+		this->o(channel, (mode[0] == '+' ? true : false), (this->argsCmd.size() < 4 ? "" : argsCmd[3]));
 	} else if (mode[1] == 'l') {
-		
+															// O PROXIMO A SER FEITO (COMECAR PELO MODE)
+		this->l(channel, (mode[0] == '+' ? true : false), (this->argsCmd.size() < 4 ? 0 : std::atoi(argsCmd[3].c_str())));
 	}
 }
-
-// i t k o l
