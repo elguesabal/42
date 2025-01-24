@@ -21,8 +21,7 @@ void Server::o(std::string &channel, bool mode, std::string nick) {
 	}
 }
 
-
-/// @brief GERENCIA O MODE K ENVIANDO UMA MENSAGEM INFORMANDO A SENHA DEFINIDA (OU INFORMANDO A REMOCAO DA SENHA) ":<apelido>!<usuario>@<host> MODE <canal> <mode> :<senha>"
+/// @brief GERENCIA O MODE k ENVIANDO UMA MENSAGEM INFORMANDO A SENHA DEFINIDA (OU INFORMANDO A REMOCAO DA SENHA) ":<apelido>!<usuario>@<host> MODE <canal> <mode> :<senha>"
 /// @brief SE A SENHA FOR UMA STRING VAZIA RESPONDE COM ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
 /// @param channel NOME DO CANAL Q VAI SER MODIFICADO
 /// @param mode BOOLEAN Q REPRESENTA AS BANDEIRAS MODE + (true) E - (false)
@@ -35,14 +34,23 @@ void Server::k(std::string &channel, bool mode, std::string password) {
 		this->channels[channel]->k = mode;
 		this->channels[channel]->password = (mode ? password : "");
 // :<apelido>!<usuario>@<host> MODE <canal> <mode> :<senha>
-		this->resChannel(":" + this->client->nick + "!" + this->client->user + "@" + this->client->getIp() + " MODE " + channel + " " + (mode ? "+" : "-") + "k" + (mode ? " :" + password : ""), this->channels[channel]);
+		this->resChannel(":" + this->client->nick + "!" + this->client->user + "@" + this->client->getIp() + " MODE " + channel + " " + (mode ? "+" : "-") + "k" + (mode ? " " + password : ""), this->channels[channel]);
 	}
 }
 
-
-void Server::l(std::string &channel, bool mode, unsigned int limit) {
-(void)channel;
-(void)mode;
-(void)limit;
-std::cout << "ainda fazendo nada" << std::endl;
+/// @brief GERENCIA O MODE l ENVIANDO UMA MENSAGEM INFORMANDO QUAL O MAXIMO DE USUARIOS O CANAL ESTA LIMITADO (OU REMOVENDO A LIMITACAO) ":<nickname>!<user>@<host> MODE #canal +l <limite>"
+/// @brief SE O LIMITE NAO FOR INFORMADO RESPONDE COM ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
+/// @param channel NOME DO CANAL Q VAI SER MODIFICADO
+/// @param mode BOOLEAN Q REPRESENTA AS BANDEIRAS MODE + (true) E - (false)
+/// @param password LIMTE DE USUARIO PARA O CANAL (CASO A BANDEIRA DO MODE SEJA +)
+void Server::l(std::string &channel, bool mode, std::string limit) {
+	if (mode == true && limit == "0") {
+// :servidor 461 <apelido> MODE :Not enough parameters
+		this->resClient(":" + this->getIp() + " " + ERR_NEEDMOREPARAMS + " " + this->client->nick + " MODE :Parâmetros insuficientes"); // Not enough parameters
+	} else {
+		this->channels[channel]->l = mode;
+		this->channels[channel]->limit = (mode ? std::atoi(limit.c_str()) : 0);
+// :<nickname>!<user>@<host> MODE #canal +l <limite>
+		this->resChannel(":" + this->client->nick + "!" + this->client->user + "@" + this->client->getIp() + " MODE " + channel + " " + (mode ? "+" : "-") + "l" + (mode ? " " + limit : ""), this->channels[channel]);
+	}
 }

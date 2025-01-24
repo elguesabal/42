@@ -60,7 +60,7 @@ class Server {
 		// ./class/Server/utils/mode.cpp
 		void o(std::string &channel, bool mode, std::string nick);
 		void k(std::string &channel, bool mode, std::string password);
-		void l(std::string &channel, bool mode, unsigned int limit);
+		void l(std::string &channel, bool mode, std::string limit);
 
 		// ./class/Server/utils/utils.cpp
 		bool invalidLine(void);

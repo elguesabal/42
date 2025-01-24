@@ -165,8 +165,8 @@ void Server::USER(void) {
 /// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 RESPONDE COM O ERRO ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
 /// @brief SE NAO OUVER UM CANAL COM O NOME CORRESPONDENTE CRIA UM NOVO CANAL ADICIONANDO O CLIENTE COMO OPERADOR
 /// @brief CASO O CANAL NAO COMECE COM '#' OU CONTENHA CARACTERES INVALIDOS RESPONDE COM ":<servidor> 403 <apelido> <canal> :Nenhum canal desse tipo"
-/// @brief SE O CLIENTE TENTAR ENTRAR EM UM CANAL COM SENHA E FORNECER A SENHA ERRADA OU SEM FORNECER UMA SENHA RESPONDE COM "// :<servidor> 475 <apelido> <canal> :Não é possível entrar no canal (+k)"
-/// @brief 
+/// @brief SE O LIMITE DO CANAL ESTIVER ATIVO E O CANAL JA ESTIVER CHEIO RESPONDE COM ":<servidor> 471 <apelido> <canal> :Não é possível entrar no canal (+l)"
+/// @brief SE O CLIENTE TENTAR ENTRAR EM UM CANAL COM SENHA E FORNECER A SENHA ERRADA OU SEM FORNECER UMA SENHA RESPONDE COM ":<servidor> 475 <apelido> <canal> :Não é possível entrar no canal (+k)"
 /// @brief SE NENHUMA DAS OPCOES ACIMA ACONTECER E PQ O CLIENTE VAI SER ADICIONADO EM UM CANAL JA EXISTENTE
 void Server::JOIN(void) {								// MDS UM USUARIO NAO AUTENTICADO ESTA CONSEGUINDO ENTRAR EM CANAIS
 	// std::cout << "\033[33mWarning:\033[0m '" << this->cmd << "'" << std::endl;
@@ -196,13 +196,12 @@ void Server::JOIN(void) {								// MDS UM USUARIO NAO AUTENTICADO ESTA CONSEGUI
 			this->resClient(":" + host + " " + ERR_NOSUCHCHANNEL + " " + nick + " " + channel + " :Nenhum canal desse tipo"); // No such channel
 		} else if (this->channels.count(channel) == 0) {
 			this->creatChannel(channel);
+		} else if (this->channels[channel]->l == true && this->channels[channel]->size() >= this->channels[channel]->limit) {
+// :<servidor> 471 <apelido> <canal> :Cannot join channel (+l)
+			this->resClient(":" + host + " " + ERR_CHANNELISFULL + " " + nick + " " + channel + " :Não é possível entrar no canal (+l)"); // Cannot join channel (+l)
 		} else if (this->channels[channel]->k == true && password[i] != this->channels[channel]->password) {
 // :<servidor> 475 <apelido> <canal> :Cannot join channel (+k)
 			this->resClient(":" + host + " " + ERR_BADCHANNELKEY + " " + nick + " " + channel + " :Não é possível entrar no canal (+k)"); // Cannot join channel (+k)
-		} else if (this->channels[channel]->l == true && this->channels[channel]->size() >= this->channels[channel]->limit) { // VERIFICAR SE ESSA LOGICA ESTA CORRETA
-// std::cout << "canal cheio" << std::endl;
-// :<servidor> 471 <apelido> <canal> :Cannot join channel (+l)
-															// O PROXIMO A SER FEITO (COMECAR PELO MODE)
 		} else {
 			this->joinChannel(channel);
 		}
@@ -255,7 +254,6 @@ void Server::MODE(void) {
 	} else if (mode[1] == 'o') {
 		this->o(channel, (mode[0] == '+' ? true : false), (this->argsCmd.size() < 4 ? "" : argsCmd[3]));
 	} else if (mode[1] == 'l') {
-															// O PROXIMO A SER FEITO (COMECAR PELO MODE)
-		this->l(channel, (mode[0] == '+' ? true : false), (this->argsCmd.size() < 4 ? 0 : std::atoi(argsCmd[3].c_str())));
+		this->l(channel, (mode[0] == '+' ? true : false), (this->argsCmd.size() < 4 ? "0" : argsCmd[3]));
 	}
 }
