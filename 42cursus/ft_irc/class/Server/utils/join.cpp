@@ -9,13 +9,13 @@
 /// @brief INFORMA Q O MODO TOPICO ESTA ATIVO COM A RESPOSTA ":<servidor> MODE <canal> <modo>"
 /// @param channel NOME DO CANAL Q SERA CRIADO
 void Server::creatChannel(std::string &channel) {
-	this->channels[channel] = new Channel(channel, this->client);
+	this->channels[channel] = new Channel(this->client);
 
 // :<apelido>!<usuario>@<host> JOIN :<canal>
 	this->resClient(":" + this->client->nick + "!" + this->client->user + "@" + this->client->getIp() + " JOIN :" + channel);
 
 // :<servidor> 331 <apelido> <canal> :No topic is set
-// :<servidor> 332 <apelido> <canal> :<tópico do canal ou mensagem vazia>
+// :<servidor> 332 <apelido> <canal> :<tópico do canal>
 	this->resClient(":" + this->getIp() + " " + RPL_NOTOPIC + " " + this->client->nick + " " + channel + " :Nenhum tópico está definido"); // No topic is set
 
 // :<servidor> 353 <apelido> = #meucanal :@<apelido>

@@ -76,6 +76,7 @@ void Server::setCmds(void) {
 
 	this->serverCommands["JOIN"] = &Server::JOIN;
 	this->serverCommands["MODE"] = &Server::MODE;
+	this->serverCommands["TOPIC"] = &Server::TOPIC;
 }
 
 /// @brief SALVA A DATA DE INICIO DO SERVIDOR

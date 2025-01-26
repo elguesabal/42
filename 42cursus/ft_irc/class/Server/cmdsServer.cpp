@@ -210,7 +210,7 @@ void Server::JOIN(void) {								// MDS UM USUARIO NAO AUTENTICADO ESTA CONSEGUI
 
 /// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 OU O SEGUNDO ESTEJA VAZIO RESPONDE COM ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
 /// @brief SE CANAL NAO EXISTE RESPONDE COM ":<servidor> 403 <apelido> <canal> :Canal inexistente"
-/// @brief SE O MANDA APENAS O NOME DO CANAL O SERVIDOR RESPONDE APENAS COM OS MODOS DO CANAL ":<servidor> 324 <apelido> <canal> <modos do canal>"
+/// @brief SE O MANDA APENAS O NOME DO CANAL O SERVIDOR RESPONDE APENAS COM OS MODOS DO CANAL ":<servidor> 324 <apelido> <canal> <modos do canal>" E ":<servidor> 329 <apelido> <canal> <timestamp>"
 /// @brief SE O CANAL EXISTE MAS O CLIENTE NAO ESTA DENTRO DELE RESPONDE COM ":<servidor> 442 <apelido> <canal> :Você não está nesse canal"
 /// @brief SE O CLIENTE NAO FOR UM OPERADOR RESPONDE COM ":<servidor> 482 <apelido> <canal> :Você não é um operador de canal"
 /// @brief SE O TERCEIRO ARGUMENTO NAO COMECAR COM "+" OU "-" RESPONDE COM O ERRO ":<servidor> 501 <apelido> <canal> :Bandeira MODE desconhecida"
@@ -221,7 +221,7 @@ void Server::MODE(void) {
 
 	std::string host = this->getIp();
 	std::string nick = this->client->nick;
-	std::string channel = this->argsCmd[1];
+	std::string channel = (this->argsCmd.size() > 1 ? this->argsCmd[1] : "");
 	std::string mode = (this->argsCmd.size() > 2 ? this->argsCmd[2] : "");
 
 	if (this->argsCmd.size() < 2 || channel == "") {
@@ -232,7 +232,9 @@ void Server::MODE(void) {
 		this->resClient(":" + host + " " + ERR_NOSUCHCHANNEL + " " + nick + " " + channel + " :Canal inexistente"); // No such channel
 	} else if (this->argsCmd.size() == 2) {
 // :<servidor> 324 <apelido> <canal> <modos do canal>
-		this->resClient(":" + host + " " + RPL_CHANNELMODEIS + " " + nick + " " + channel + " " + "+t");
+		this->resClient(":" + host + " " + RPL_CHANNELMODEIS + " " + nick + " " + channel + " " + "+" + (this->channels[channel]->i ? "i" : "") + (this->channels[channel]->t ? "t" : "") + (this->channels[channel]->k ? "k" : "") + (this->channels[channel]->l ? "l" : ""));
+// :<servidor> 329 <apelido> <canal> <timestamp>
+								// TA FALTANDO RESPONDER COM QUANDO O CANAL FOI CRIADO
 	} else if (this->channels[channel]->nickClient.count(nick) == 0) {
 // :<servidor> 442 <apelido> <canal> :You're not on that channel
 		this->resClient(":" + host + " " + ERR_NOTONCHANNEL + " " + nick + " " + channel + " :Você não está nesse canal"); // You're not on that channel
@@ -248,7 +250,7 @@ void Server::MODE(void) {
 	} else if (mode[1] == 'i') { // ACHO Q EU SO FAREI ESSE QUANDO FIZER O COMANDO LIST
 		
 	} else if (mode[1] == 't') {
-		
+		this->t(channel, (mode[0] == '+' ? true : false));
 	} else if (mode[1] == 'k') {
 		this->k(channel, (mode[0] == '+' ? true : false), (this->argsCmd.size() < 4 ? "" : argsCmd[3]));
 	} else if (mode[1] == 'o') {
@@ -256,4 +258,36 @@ void Server::MODE(void) {
 	} else if (mode[1] == 'l') {
 		this->l(channel, (mode[0] == '+' ? true : false), (this->argsCmd.size() < 4 ? "0" : argsCmd[3]));
 	}
+}
+
+/// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 OU O SEGUNDO ESTEJA VAZIO RESPONDE COM ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
+/// @brief SE CANAL NAO EXISTE RESPONDE COM ":<servidor> 403 <apelido> <canal> :Canal inexistente"
+/// @brief 
+void Server::TOPIC(void) {
+std::cout << "comando: '" << this->cmd << "'" << std::endl;
+
+	std::string host = this->getIp();
+	std::string nick = this->client->nick;
+	std::string channel = (this->argsCmd.size() > 1 ? this->argsCmd[1] : "");
+
+	if (this->argsCmd.size() < 2 || channel == "") {
+// :<servidor> 461 <apelido> MODE :Not enough parameters
+		this->resClient(":" + host + " " + ERR_NEEDMOREPARAMS + nick + " MODE :Parâmetros insuficientes"); // Not enough parameters
+	} else if (this->channels.count(channel) == 0) {
+// :<servidor> 403 <apelido> <canal> :No such channel
+		this->resClient(":" + host + " " + ERR_NOSUCHCHANNEL + " " + nick + " " + channel + " :Canal inexistente"); // No such channel
+	} else if (this->argsCmd.size() == 2) {
+// :<servidor> 332 <apelido> <canal> :<tópico do canal>
+// :<servidor> 331 <apelido> <canal> :No topic is set
+		this->resClient(":" + host + " " + (this->channels[channel]->topic != "" ? RPL_TOPIC : RPL_NOTOPIC) + " " + nick + " " + channel + " :" + (this->channels[channel]->topic != "" ? this->channels[channel]->topic : "Nenhum tópico está definido"));
+
+				// PAREI AKI SEM TESTAR POR CAUSA DA TV
+
+	}
+	
+	
+// 	else if (this->argsCmd.size() == 2 && this->channels[channel]->topic == "") {
+// // :<servidor> 331 <apelido> <canal> :No topic is set
+// std::cout << "sem topico" << std::endl;
+// 	}
 }

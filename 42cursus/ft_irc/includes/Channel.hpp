@@ -15,8 +15,7 @@ class Channel {
 	};
 
 	public:
-		// Channel(void) {} // ISSO NAO PERMITE Q O std::map CRIE CANAIS VAZIOS E OCUPE MEMORIA??
-		Channel(std::string &name, Client *client);
+		Channel(Client *client);
 		~Channel(void);
 
 		// ./class/Channel/Channel.cpp
@@ -25,7 +24,6 @@ class Channel {
 		// ./class/Channel/utils/utils.cpp
 		unsigned int size(void) const;
 
-		std::string name; // TIRAR ISSO PQ ACHO Q NAO VAI SER UTIL
 		std::vector<ClientChanell *> clients;
 		std::map<std::string, ClientChanell *> nickClient;
 
@@ -38,9 +36,6 @@ class Channel {
 		std::string topic;
 		std::string password;
 		unsigned int limit;
-
-
-		// CRIAR UMA FUNCAO Q CALCULA O TAMANHO DO CANAL OU CRIAR UMA VARIAVEL Q SALVA O TAMANHO DO CANAL???
 };
 
 #endif

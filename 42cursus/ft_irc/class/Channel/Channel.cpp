@@ -8,7 +8,7 @@ Channel::ClientChanell::ClientChanell(Client *client) : client(client), o(false)
 
 /// @brief CONSTRUTOR DA CLASSE Channel
 /// @param client CLIENTE Q VAI CRIAR O CANAL
-Channel::Channel(std::string &name, Client *client) : name(name), i(false), t(true), k(false), l(false), topic("") {
+Channel::Channel(Client *client) : i(false), t(true), k(false), l(false), topic("") {
 	this->newMember(client);
 	this->clients[0]->o = true;
 	this->operators.push_back(client->nick);

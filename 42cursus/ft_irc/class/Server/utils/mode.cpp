@@ -1,5 +1,31 @@
 #include "header.h"
 
+/// @brief 
+/// @param channel NOME DO CANAL Q VAI SER MODIFICADO
+/// @param mode BOOLEAN Q REPRESENTA AS BANDEIRAS MODE + (true) E - (false)
+void Server::t(std::string &channel, bool mode) {
+	this->channels[channel]->t = mode;
+// :<apelido>!<usuario>@<host> MODE <canal> <mode>
+	this->resChannel(":" + this->client->nick + "!" + this->client->user + "@" + this->client->getIp() + " MODE " + channel + " " + (mode ? "+" : "-") + "t", this->channels[channel]);
+}
+
+/// @brief GERENCIA O MODE k ENVIANDO UMA MENSAGEM INFORMANDO A SENHA DEFINIDA (OU INFORMANDO A REMOCAO DA SENHA) ":<apelido>!<usuario>@<host> MODE <canal> <mode> :<senha>"
+/// @brief SE A SENHA FOR UMA STRING VAZIA RESPONDE COM ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
+/// @param channel NOME DO CANAL Q VAI SER MODIFICADO
+/// @param mode BOOLEAN Q REPRESENTA AS BANDEIRAS MODE + (true) E - (false)
+/// @param password SENHA Q SERA DEFINIDA NO CANAL (CASO A BANDEIRA DO MODE SEJA +)
+void Server::k(std::string &channel, bool mode, std::string password) {
+	if (mode == true && password == "") {
+// :servidor 461 <apelido> MODE :Not enough parameters
+		this->resClient(":" + this->getIp() + " " + ERR_NEEDMOREPARAMS + " " + this->client->nick + " MODE :Parâmetros insuficientes"); // Not enough parameters
+	} else {
+		this->channels[channel]->k = mode;
+		this->channels[channel]->password = (mode ? password : "");
+// :<apelido>!<usuario>@<host> MODE <canal> <mode> :<senha>
+		this->resChannel(":" + this->client->nick + "!" + this->client->user + "@" + this->client->getIp() + " MODE " + channel + " " + (mode ? "+" : "-") + "k" + (mode ? " " + password : ""), this->channels[channel]);
+	}
+}
+
 /// @brief ENVIA UMA MENSAGEM PARA TODOS DO CANAL (INCLUINDO O OPERADOR Q PROMOVEU O MEMBRO) INFORMANDO Q ALGUEM VIROU OPERADOR ":<apelido>!<usuario>@<host> MODE <canal> +o <usuario>"
 /// @brief SE O NICK FOR UMA STRING VAZIA RESPONDE COM ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
 /// @brief CASO O NICK NAO ESTEJA NO CANAL RESPONDE COM ":<servidor> 441 <operador> <usuario> <canal> :Este nick não está no canal"
@@ -18,23 +44,6 @@ void Server::o(std::string &channel, bool mode, std::string nick) {
 		this->channels[channel]->nickClient[nick]->o = mode;
 // :<apelido>!<usuario>@<host> MODE #canal +o usuario
 		this->resChannel(":" + this->client->nick + "!" + this->client->user + "@" + this->client->getIp() + " MODE " + channel + " " + (mode == true ? "+" : "-") + "o " + nick, this->channels[channel]);
-	}
-}
-
-/// @brief GERENCIA O MODE k ENVIANDO UMA MENSAGEM INFORMANDO A SENHA DEFINIDA (OU INFORMANDO A REMOCAO DA SENHA) ":<apelido>!<usuario>@<host> MODE <canal> <mode> :<senha>"
-/// @brief SE A SENHA FOR UMA STRING VAZIA RESPONDE COM ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
-/// @param channel NOME DO CANAL Q VAI SER MODIFICADO
-/// @param mode BOOLEAN Q REPRESENTA AS BANDEIRAS MODE + (true) E - (false)
-/// @param password SENHA Q SERA DEFINIDA NO CANAL (CASO A BANDEIRA DO MODE SEJA +)
-void Server::k(std::string &channel, bool mode, std::string password) {
-	if (mode == true && password == "") {
-// :servidor 461 <apelido> MODE :Not enough parameters
-		this->resClient(":" + this->getIp() + " " + ERR_NEEDMOREPARAMS + " " + this->client->nick + " MODE :Parâmetros insuficientes"); // Not enough parameters
-	} else {
-		this->channels[channel]->k = mode;
-		this->channels[channel]->password = (mode ? password : "");
-// :<apelido>!<usuario>@<host> MODE <canal> <mode> :<senha>
-		this->resChannel(":" + this->client->nick + "!" + this->client->user + "@" + this->client->getIp() + " MODE " + channel + " " + (mode ? "+" : "-") + "k" + (mode ? " " + password : ""), this->channels[channel]);
 	}
 }
 
