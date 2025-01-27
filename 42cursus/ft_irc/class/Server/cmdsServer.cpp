@@ -262,13 +262,16 @@ void Server::MODE(void) {
 
 /// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 OU O SEGUNDO ESTEJA VAZIO RESPONDE COM ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
 /// @brief SE CANAL NAO EXISTE RESPONDE COM ":<servidor> 403 <apelido> <canal> :Canal inexistente"
+/// @brief SE OUVER APENAS 2 ARGUMENTOS RESPONDE COM ":<servidor> 332 <apelido> <canal> :<tópico do canal>" OU ":<servidor> 331 <apelido> <canal> :No topic is set"
+/// @brief 
 /// @brief 
 void Server::TOPIC(void) {
-std::cout << "comando: '" << this->cmd << "'" << std::endl;
+// std::cout << "comando: '" << this->cmd << "'" << std::endl;
 
 	std::string host = this->getIp();
 	std::string nick = this->client->nick;
 	std::string channel = (this->argsCmd.size() > 1 ? this->argsCmd[1] : "");
+	// std::string topic = (this->argsCmd.size() > 2 ? this->argsCmd[2] : "");
 
 	if (this->argsCmd.size() < 2 || channel == "") {
 // :<servidor> 461 <apelido> MODE :Not enough parameters
@@ -279,15 +282,13 @@ std::cout << "comando: '" << this->cmd << "'" << std::endl;
 	} else if (this->argsCmd.size() == 2) {
 // :<servidor> 332 <apelido> <canal> :<tópico do canal>
 // :<servidor> 331 <apelido> <canal> :No topic is set
-		this->resClient(":" + host + " " + (this->channels[channel]->topic != "" ? RPL_TOPIC : RPL_NOTOPIC) + " " + nick + " " + channel + " :" + (this->channels[channel]->topic != "" ? this->channels[channel]->topic : "Nenhum tópico está definido"));
-
-				// PAREI AKI SEM TESTAR POR CAUSA DA TV
-
+		this->resClient(":" + host + " " + (this->channels[channel]->topic != "" ? RPL_TOPIC : RPL_NOTOPIC) + " " + nick + " " + channel + " :" + (this->channels[channel]->topic != "" ? this->channels[channel]->topic : "Nenhum tópico está definido")); // No topic is set
+					// REFATORAR??
 	}
-	
-	
-// 	else if (this->argsCmd.size() == 2 && this->channels[channel]->topic == "") {
-// // :<servidor> 331 <apelido> <canal> :No topic is set
-// std::cout << "sem topico" << std::endl;
+// 	 else if (this->argsCmd.size() == 3 && this->channels[channel]->nickClient.count(nick) == 0) {
+// std::cout << "nao esta no canal" << std::endl;
+// 	} else if (this->argsCmd.size() == 3 && this->channels[channel]->nickClient.count(nick) == 1) {
+// std::cout << "esta no canal" << std::endl;
 // 	}
+				// PAREI AKI MAS TO MEIO PERDIDO (CORINGANDO NO FIM DO PROJETO)
 }
