@@ -168,7 +168,7 @@ void Server::USER(void) {
 /// @brief SE O LIMITE DO CANAL ESTIVER ATIVO E O CANAL JA ESTIVER CHEIO RESPONDE COM ":<servidor> 471 <apelido> <canal> :Não é possível entrar no canal (+l)"
 /// @brief SE O CLIENTE TENTAR ENTRAR EM UM CANAL COM SENHA E FORNECER A SENHA ERRADA OU SEM FORNECER UMA SENHA RESPONDE COM ":<servidor> 475 <apelido> <canal> :Não é possível entrar no canal (+k)"
 /// @brief SE NENHUMA DAS OPCOES ACIMA ACONTECER E PQ O CLIENTE VAI SER ADICIONADO EM UM CANAL JA EXISTENTE
-void Server::JOIN(void) {								// MDS UM USUARIO NAO AUTENTICADO ESTA CONSEGUINDO ENTRAR EM CANAIS
+void Server::JOIN(void) {
 	// std::cout << "\033[33mWarning:\033[0m '" << this->cmd << "'" << std::endl;
 
 	std::string host = this->getIp();
@@ -235,12 +235,13 @@ void Server::MODE(void) {
 		this->resClient(":" + host + " " + RPL_CHANNELMODEIS + " " + nick + " " + channel + " " + "+" + (this->channels[channel]->i ? "i" : "") + (this->channels[channel]->t ? "t" : "") + (this->channels[channel]->k ? "k" : "") + (this->channels[channel]->l ? "l" : ""));
 // :<servidor> 329 <apelido> <canal> <timestamp>
 								// TA FALTANDO RESPONDER COM QUANDO O CANAL FOI CRIADO
+		// VOU FAZER ESSE AMANHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 	} else if (this->channels[channel]->nickClient.count(nick) == 0) {
 // :<servidor> 442 <apelido> <canal> :You're not on that channel
 		this->resClient(":" + host + " " + ERR_NOTONCHANNEL + " " + nick + " " + channel + " :Você não está nesse canal"); // You're not on that channel
 	} else if (this->channels[channel]->nickClient[nick]->o == false) {
 // :<servidor> 482 <apelido> <canal> :You're not channel operator
-		this->resClient(":" + host + " " + ERR_CHANOPRIVSNEEDED + " " + nick + " " + channel + " :Você não é um operador de canal");
+		this->resClient(":" + host + " " + ERR_CHANOPRIVSNEEDED + " " + nick + " " + channel + " :Você não é um operador de canal"); // You're not channel operator
 	} else if (mode[0] != '-' && mode[0] != '+') {
 // :<servidor> 501 <apelido> <canal> :Unknown MODE flag
 		this->resClient(":" + host + " " + ERR_UMODEUNKNOWNFLAG + " " + nick + " " + channel + " :Bandeira MODE desconhecida");
@@ -263,15 +264,14 @@ void Server::MODE(void) {
 /// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 OU O SEGUNDO ESTEJA VAZIO RESPONDE COM ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
 /// @brief SE CANAL NAO EXISTE RESPONDE COM ":<servidor> 403 <apelido> <canal> :Canal inexistente"
 /// @brief SE OUVER APENAS 2 ARGUMENTOS RESPONDE COM ":<servidor> 332 <apelido> <canal> :<tópico do canal>" OU ":<servidor> 331 <apelido> <canal> :No topic is set"
-/// @brief 
-/// @brief 
+/// @brief SE O CLIENTE TENTAR MUDAR O TOPICO E NAO ESTIVER NO CANAL RESPONDE COM ":<servidor> 442 <apelido> <canal> :Você não está nesse canal"
+/// @brief SE O MODO +t ESTIVER ATIVO E UM MEMBRO Q NAO SEJA UM OPERADOR TENTAR MUDAR O TOPICO RESPONDE COM ":<servidor> 482 <apelido> <canal> :Você não é um operador de canal"
+/// @brief SE O TOPICO FOR MUDADO COM SUCESSO RESPONDE COM ":<apelido>!<usuario>@<host> TOPIC <canal> :<tópico>"
 void Server::TOPIC(void) {
-// std::cout << "comando: '" << this->cmd << "'" << std::endl;
-
 	std::string host = this->getIp();
 	std::string nick = this->client->nick;
 	std::string channel = (this->argsCmd.size() > 1 ? this->argsCmd[1] : "");
-	// std::string topic = (this->argsCmd.size() > 2 ? this->argsCmd[2] : "");
+	std::string topic = (this->argsCmd.size() > 2 ? this->argsCmd[2] : "");
 
 	if (this->argsCmd.size() < 2 || channel == "") {
 // :<servidor> 461 <apelido> MODE :Not enough parameters
@@ -279,16 +279,21 @@ void Server::TOPIC(void) {
 	} else if (this->channels.count(channel) == 0) {
 // :<servidor> 403 <apelido> <canal> :No such channel
 		this->resClient(":" + host + " " + ERR_NOSUCHCHANNEL + " " + nick + " " + channel + " :Canal inexistente"); // No such channel
-	} else if (this->argsCmd.size() == 2) {
+	} else if (this->argsCmd.size() < 3) {
 // :<servidor> 332 <apelido> <canal> :<tópico do canal>
 // :<servidor> 331 <apelido> <canal> :No topic is set
 		this->resClient(":" + host + " " + (this->channels[channel]->topic != "" ? RPL_TOPIC : RPL_NOTOPIC) + " " + nick + " " + channel + " :" + (this->channels[channel]->topic != "" ? this->channels[channel]->topic : "Nenhum tópico está definido")); // No topic is set
-					// REFATORAR??
+	} else if (this->channels[channel]->nickClient.count(nick) == 0) {
+// :<servidor> 442 <apelido> <canal> :You're not on that channel
+		this->resClient(":" + host + " " + ERR_NOTONCHANNEL + " " + nick + " " + channel + " :Você não está nesse canal"); // You're not on that channel
+	} else if (this->channels[channel]->t == true && this->channels[channel]->nickClient[nick]->o == false) {
+// :<servidor> 482 <apelido> <canal> :You're not channel operator
+		this->resClient(":" + host + " " + ERR_CHANOPRIVSNEEDED + " " + nick + " " + channel + " :Você não é um operador de canal"); // You're not channel operator
+	} else {
+// :<apelido>!<usuario>@<host> TOPIC <canal> :<tópico>
+		this-> resChannel(":" + nick + "!" + this->client->user + "@" + this->client->getIp() + " TOPIC " + channel + " :" + topic, this->channels[channel]);
 	}
-// 	 else if (this->argsCmd.size() == 3 && this->channels[channel]->nickClient.count(nick) == 0) {
-// std::cout << "nao esta no canal" << std::endl;
-// 	} else if (this->argsCmd.size() == 3 && this->channels[channel]->nickClient.count(nick) == 1) {
-// std::cout << "esta no canal" << std::endl;
-// 	}
-				// PAREI AKI MAS TO MEIO PERDIDO (CORINGANDO NO FIM DO PROJETO)
 }
+
+
+					// VER O COMANDO MODE (FALTOU SALVAR QUANDO O CANAL FOI CRIADO)
