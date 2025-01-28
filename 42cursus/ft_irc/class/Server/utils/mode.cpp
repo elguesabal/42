@@ -1,6 +1,15 @@
 #include "header.h"
 
-/// @brief 
+/// @brief GERENCIA O MODE i ENVIANDO UMA MENSAGEM AO CANAL INFORMANDO SE O MODE i ESTA ESTA HABILITADO OU NAO ":<apelido>!<usuario>@<host> MODE <canal> <mode>"
+/// @param channel NOME DO CANAL Q VAI SER MODIFICADO
+/// @param mode BOOLEAN Q REPRESENTA AS BANDEIRAS MODE + (true) E - (false)
+void Server::i(std::string &channel, bool mode) {
+	this->channels[channel]->i = mode;
+// :<apelido>!<usuario>@<host> MODE <canal> <mode>
+	this->resChannel(":" + this->client->nick + "!" + this->client->user + "@" + this->client->getIp() + " MODE " + channel + " " + (mode ? "+" : "-") + "i", this->channels[channel]);
+}
+
+/// @brief GERENCIA O MODE t ENVIANDO UMA MENSAGEM AO CANAL INFORMANDO SE O MODE t ESTA ESTA HABILITADO OU NAO ":<apelido>!<usuario>@<host> MODE <canal> <mode>"
 /// @param channel NOME DO CANAL Q VAI SER MODIFICADO
 /// @param mode BOOLEAN Q REPRESENTA AS BANDEIRAS MODE + (true) E - (false)
 void Server::t(std::string &channel, bool mode) {

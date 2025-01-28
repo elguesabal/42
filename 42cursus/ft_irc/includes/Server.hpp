@@ -50,6 +50,7 @@ class Server {
 		void JOIN(void);
 		void MODE(void);
 		void TOPIC(void);
+		void LIST(void);
 
 		// ./class/Server/utils/nick.cpp
 		bool nickInUse(std::string &nick);
@@ -59,10 +60,15 @@ class Server {
 		void joinChannel(std::string &channel);
 
 		// ./class/Server/utils/mode.cpp
+		void i(std::string &channel, bool mode);
 		void t(std::string &channel, bool mode);
 		void k(std::string &channel, bool mode, std::string password);
 		void o(std::string &channel, bool mode, std::string nick);
 		void l(std::string &channel, bool mode, std::string limit);
+
+		// ./class/Server/utils/mode.cpp
+		void listChannels(void);
+		void searchChannels(std::vector<std::string> &channels);
 
 		// ./class/Server/utils/utils.cpp
 		bool invalidLine(void);

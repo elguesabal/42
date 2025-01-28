@@ -233,9 +233,6 @@ void Server::MODE(void) {
 	} else if (this->argsCmd.size() == 2) {
 // :<servidor> 324 <apelido> <canal> <modos do canal>
 		this->resClient(":" + host + " " + RPL_CHANNELMODEIS + " " + nick + " " + channel + " " + "+" + (this->channels[channel]->i ? "i" : "") + (this->channels[channel]->t ? "t" : "") + (this->channels[channel]->k ? "k" : "") + (this->channels[channel]->l ? "l" : ""));
-// :<servidor> 329 <apelido> <canal> <timestamp>
-								// TA FALTANDO RESPONDER COM QUANDO O CANAL FOI CRIADO
-		// VOU FAZER ESSE AMANHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 	} else if (this->channels[channel]->nickClient.count(nick) == 0) {
 // :<servidor> 442 <apelido> <canal> :You're not on that channel
 		this->resClient(":" + host + " " + ERR_NOTONCHANNEL + " " + nick + " " + channel + " :Você não está nesse canal"); // You're not on that channel
@@ -248,8 +245,8 @@ void Server::MODE(void) {
 	} else if (mode.size() != 2 || (mode[1] != 'i' && mode[1] != 't' && mode[1] != 'k' && mode[1] != 'o' && mode[1] != 'l')) {
 // :<servidor> 471 <apelido> <canal> :Unknown mode
 		this->resClient(":" + host + " " + ERR_UNKNOWNMODE + " " + nick + " " + channel + " :Modo desconhecido");
-	} else if (mode[1] == 'i') { // ACHO Q EU SO FAREI ESSE QUANDO FIZER O COMANDO LIST
-		
+	} else if (mode[1] == 'i') {
+		this->i(channel, (mode[0] == '+' ? true : false));
 	} else if (mode[1] == 't') {
 		this->t(channel, (mode[0] == '+' ? true : false));
 	} else if (mode[1] == 'k') {
@@ -290,10 +287,23 @@ void Server::TOPIC(void) {
 // :<servidor> 482 <apelido> <canal> :You're not channel operator
 		this->resClient(":" + host + " " + ERR_CHANOPRIVSNEEDED + " " + nick + " " + channel + " :Você não é um operador de canal"); // You're not channel operator
 	} else {
+		this->channels[channel]->topic = topic;
 // :<apelido>!<usuario>@<host> TOPIC <canal> :<tópico>
 		this-> resChannel(":" + nick + "!" + this->client->user + "@" + this->client->getIp() + " TOPIC " + channel + " :" + topic, this->channels[channel]);
 	}
 }
 
+/// @brief GERENCIA O COMANDO LIST SEPARANDO EM UMA BUSCA POR TODOS OS CANAIS OU POR APENAS ALGUNS ESPECIFICOS
+void Server::LIST(void) {
+// std::cout << "comando: '" << this->cmd << "'" << std::endl;
 
-					// VER O COMANDO MODE (FALTOU SALVAR QUANDO O CANAL FOI CRIADO)
+	std::string host = this->getIp();
+	std::string nick = this->client->nick;
+	std::vector<std::string> channels = (this->argsCmd.size() < 2 ? std::vector<std::string>() : this->split(this->argsCmd[1], ','));
+
+	if (this->argsCmd.size() < 2) {
+		this->listChannels();
+	} else {
+		this->searchChannels(channels);
+	}
+}							// VERIFICAR COMO O SERVIDOR MOSTRA O CANAL COM SENHA (ACHEI Q TINHA ACABADO ESSE COMANDO MAS NAO ACABEI)
