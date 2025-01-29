@@ -4,22 +4,20 @@
 /// @brief SE O PARAMETRO INFORMADO NAO CORRESPONDER A UM ARQUIVO MANDA UMA MENSAGEM "Ascii art não encontrada"
 /// @brief CASO NAO SEJA NENHUMA DAS OPCOES ACIMA E OCORRA TUDO CORRETAMENTE ENVIA O CONTEUDO DO ARQUIVO UMA LINHA DE CADA VEZ
 void Server::asciiArt(void) {
+	std::string path = "./ascii-art/" + (this->argsCmd.size() > 1 ? this->argsCmd[1] : "");
+	std::ifstream file(path.c_str());
+
 	if (this->argsCmd.size() < 2) {
 		this->resClient(":" + this->getIp() + " " + ERR_NEEDMOREPARAMS + this->client->nick + " PRIVMSG :Parâmetros insuficientes"); // Not enough parameters
-		return ;
-	}
-
-	std::string path = "./ascii-art/" + this->argsCmd[1];
-	std::ifstream file(path.c_str());
-	if (!file.is_open()) {
+	} else if (!file.is_open()) {
 		this->resClient(":" + this->getIp() + " NOTICE " + this->client->nick + " :Ascii art não encontrada");
-		return ;
+	} else {
+		std::string line;
+		while (std::getline(file, line)) {
+			this->resClient(":" + this->getIp() + " NOTICE " + this->client->nick + " :" + line);
+		}
+		file.close();
 	}
-	std::string line;
-	while (std::getline(file, line)) {
-		this->resClient(":" + this->getIp() + " NOTICE " + this->client->nick + " :" + line);
-	}
-	file.close();
 }
 
 /// @brief COMANDO DE NEGOCIACAO DE CAPACIDADES "CAP LS 302" RESPONDE COM ":<servidor> CAP <nick> LS :"
@@ -30,6 +28,50 @@ void Server::CAP(void) {
 		this->resClient(":" + this->getIp() + " CAP * ACK :ascii-art");
 	} else if (this->cmd == "CAP END") {
 
+	}
+}
+
+/// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 RESPONDE COM O ERRO ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
+/// @brief SE NAO OUVER UM CANAL COM O NOME CORRESPONDENTE CRIA UM NOVO CANAL ADICIONANDO O CLIENTE COMO OPERADOR
+/// @brief CASO O CANAL NAO COMECE COM '#' OU CONTENHA CARACTERES INVALIDOS RESPONDE COM ":<servidor> 403 <apelido> <canal> :Nenhum canal desse tipo"
+/// @brief SE O LIMITE DO CANAL ESTIVER ATIVO E O CANAL JA ESTIVER CHEIO RESPONDE COM ":<servidor> 471 <apelido> <canal> :Não é possível entrar no canal (+l)"
+/// @brief SE O CLIENTE TENTAR ENTRAR EM UM CANAL COM SENHA E FORNECER A SENHA ERRADA OU SEM FORNECER UMA SENHA RESPONDE COM ":<servidor> 475 <apelido> <canal> :Não é possível entrar no canal (+k)"
+/// @brief SE NENHUMA DAS OPCOES ACIMA ACONTECER E PQ O CLIENTE VAI SER ADICIONADO EM UM CANAL JA EXISTENTE
+void Server::JOIN(void) {
+	std::string host = this->getIp();
+	std::string nick = this->client->nick;
+	std::string channel;
+	std::vector<std::string> channels = this->split(this->argsCmd[1], ',');
+	std::vector<std::string> password = (this->argsCmd.size() < 3 ? std::vector<std::string>() : this->split(this->argsCmd[2], ','));
+
+	while (channels.size() > password.size()) {
+		password.push_back("");
+	}
+
+	for (unsigned int i = 0; i < channels.size(); i++) {
+		channel = channels[i];
+		if (this->argsCmd.size() < 2) {
+			this->resClient(":" + host + " " + ERR_NEEDMOREPARAMS + nick + " JOIN :Parâmetros insuficientes"); // Not enough parameters
+		} else if (channel[0] != '#' || this->nickChannelInvalid(channel, " \r\n:;@!*,+-=")) {
+			this->resClient(":" + host + " " + ERR_NOSUCHCHANNEL + " " + nick + " " + channel + " :Nenhum canal desse tipo"); // No such channel
+		} else if (this->channels.count(channel) == 0) {
+			this->creatChannel(channel); // VOU CRIAR UM vector DENTRO DO CLIENTE Q VAI GUARDAR TODOS OS CANAIS
+		} else if (this->channels[channel]->l == true && this->channels[channel]->size() >= this->channels[channel]->limit) {
+			this->resClient(":" + host + " " + ERR_CHANNELISFULL + " " + nick + " " + channel + " :Não é possível entrar no canal (+l)"); // Cannot join channel (+l)
+		} else if (this->channels[channel]->k == true && password[i] != this->channels[channel]->password) {
+			this->resClient(":" + host + " " + ERR_BADCHANNELKEY + " " + nick + " " + channel + " :Não é possível entrar no canal (+k)"); // Cannot join channel (+k)
+		} else {
+			this->joinChannel(channel); // VOU CRIAR UM vector DENTRO DO CLIENTE Q VAI GUARDAR TODOS OS CANAIS
+		}
+	}
+}
+
+/// @brief GERENCIA O COMANDO LIST SEPARANDO EM UMA BUSCA POR TODOS OS CANAIS OU POR APENAS ALGUNS ESPECIFICOS
+void Server::LIST(void) {
+	if (this->argsCmd.size() < 2) {
+		this->listChannels();
+	} else {
+		this->searchChannels(this->split(this->argsCmd[1], ','));
 	}
 }
 
@@ -48,37 +90,83 @@ void Server::luana(void) {
 	file.close();
 }
 
-/// @brief SE O COMANDO "NICK" FOR RECEBIDO SEM O COMANDO "PASS" ANTERIORMENTE REPONDE COM ":<servidor> 464 <nick> :Senha necessária" E FECHA A CONEXAO
+/// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 OU O SEGUNDO ESTEJA VAZIO RESPONDE COM ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
+/// @brief SE CANAL NAO EXISTE RESPONDE COM ":<servidor> 403 <apelido> <canal> :Canal inexistente"
+/// @brief SE O MANDA APENAS O NOME DO CANAL O SERVIDOR RESPONDE APENAS COM OS MODOS DO CANAL ":<servidor> 324 <apelido> <canal> <modos do canal>" E ":<servidor> 329 <apelido> <canal> <timestamp>"
+/// @brief SE O CANAL EXISTE MAS O CLIENTE NAO ESTA DENTRO DELE RESPONDE COM ":<servidor> 442 <apelido> <canal> :Você não está nesse canal"
+/// @brief SE O CLIENTE NAO FOR UM OPERADOR RESPONDE COM ":<servidor> 482 <apelido> <canal> :Você não é um operador de canal"
+/// @brief SE O TERCEIRO ARGUMENTO NAO COMECAR COM "+" OU "-" RESPONDE COM O ERRO ":<servidor> 501 <apelido> <canal> :Bandeira MODE desconhecida"
+/// @brief SE O TERCEIRO ARGUMENDO TIVER UM TAMANHO DIFERENTE DE 2 RESPONDE COM ERRO ":<servidor> 471 <apelido> <canal> :Modo desconhecido"
+void Server::MODE(void) {
+	std::string host = this->getIp();
+	std::string nick = this->client->nick;
+	std::string channel = (this->argsCmd.size() > 1 ? this->argsCmd[1] : "");
+	std::string mode = (this->argsCmd.size() > 2 ? this->argsCmd[2] : "");
+
+	if (this->argsCmd.size() < 2 || channel == "") {
+		this->resClient(":" + host + " " + ERR_NEEDMOREPARAMS + nick + " MODE :Parâmetros insuficientes"); // Not enough parameters
+	} else if (this->channels.count(channel) == 0) {
+		this->resClient(":" + host + " " + ERR_NOSUCHCHANNEL + " " + nick + " " + channel + " :Canal inexistente"); // No such channel
+	} else if (this->argsCmd.size() == 2) {
+		this->resClient(":" + host + " " + RPL_CHANNELMODEIS + " " + nick + " " + channel + " " + "+" + (this->channels[channel]->i ? "i" : "") + (this->channels[channel]->t ? "t" : "") + (this->channels[channel]->k ? "k" : "") + (this->channels[channel]->l ? "l" : ""));
+	} else if (this->channels[channel]->nickClient.count(nick) == 0) {
+		this->resClient(":" + host + " " + ERR_NOTONCHANNEL + " " + nick + " " + channel + " :Você não está nesse canal"); // You're not on that channel
+	} else if (this->channels[channel]->nickClient[nick]->o == false) {
+		this->resClient(":" + host + " " + ERR_CHANOPRIVSNEEDED + " " + nick + " " + channel + " :Você não é um operador de canal"); // You're not channel operator
+	} else if (mode[0] != '-' && mode[0] != '+') {
+		this->resClient(":" + host + " " + ERR_UMODEUNKNOWNFLAG + " " + nick + " " + channel + " :Bandeira MODE desconhecida");
+	} else if (mode.size() != 2 || (mode[1] != 'i' && mode[1] != 't' && mode[1] != 'k' && mode[1] != 'o' && mode[1] != 'l')) {
+		this->resClient(":" + host + " " + ERR_UNKNOWNMODE + " " + nick + " " + channel + " :Modo desconhecido");
+	} else if (mode[1] == 'i') {
+		this->i(channel, (mode[0] == '+' ? true : false));
+	} else if (mode[1] == 't') {
+		this->t(channel, (mode[0] == '+' ? true : false));
+	} else if (mode[1] == 'k') {
+		this->k(channel, (mode[0] == '+' ? true : false), (this->argsCmd.size() < 4 ? "" : argsCmd[3]));
+	} else if (mode[1] == 'o') {
+		this->o(channel, (mode[0] == '+' ? true : false), (this->argsCmd.size() < 4 ? "" : argsCmd[3]));
+	} else if (mode[1] == 'l') {
+		this->l(channel, (mode[0] == '+' ? true : false), (this->argsCmd.size() < 4 ? "0" : argsCmd[3]));
+	}
+}
+
+/// @brief SE O COMANDO "NICK" FOR RECEBIDO SEM O COMANDO "PASS" ANTERIORMENTE CHAMA A FUNCAO "this->unauthPass();"
 /// @brief COMANDO "NICK" ENVIADO SEM NENHUM ARGUMENTO RESPONDE COM ":<servidor> 431 <nick> :Nenhum nick fornecido"
 /// @brief CASO O NICK CONTENHA UM CARACTER PROIBIDO RESPONDE COM ":<servidor> 431 <nick> :Nick inválido"
 /// @brief NAO RESPONDE NADA SE O CLINTE TENTAR MUDAR O NICK PARA SEU PROPRIO NICK
 /// @brief CASO O NICK JA ESTE EM USO RESPONDE COM ":<servidor> 433 <nick> :O nick já está em uso"
-/// @brief TROCA DE NICK COM USUARIO JA AUTENTICADO RESPONDE COM ":<antigoNick> NICK :<novoNick>"
-/// @brief INSERCAO DE NICK EM CLIENTE NAO AUTENTICADO NAO TEM RESPOSTA (AGUARDA RESPOSTA DE BOASS VINDAS)
+/// @brief TROCA DE NICK COM USUARIO JA AUTENTICADO RESPONDE COM ":<antigo nick> NICK :<novo nick>"
+/// @brief ATRIBUICAO DE NICK EM CLIENTE CHAMA A FUNCAO "this->assignNick();" (AGUARDA RESPOSTA DE BOAS VINDAS)
 void Server::NICK(void) {
-	if (this->client->authPass == false) {
-		this->resClient(":" + this->getIp() + " " + ERR_PASSWDMISMATCH + " * :Senha necessária"); // Password required
-		this->deleteClient();
-	} else if (this->argsCmd.size() < 2) {
-		this->resClient(":" + this->getIp() + " " + ERR_NONICKNAMEGIVEN + " * :Nenhum nick fornecido"); // No nickname 
-	} else if (this->nickChannelInvalid(this->argsCmd[1], " \r\n:;@!*,+-=#&")) {
-		this->resClient(":" + this->getIp() + " " + ERR_ERRONEUSNICKNAME " " + this->client->nick + " " + this->argsCmd[1] + " :Nick inválido"); // Erroneous nickname
-	} else if (this->client->nick == this->argsCmd[1]) {
+	std::string host = this->getIp();
+	std::string nick = this->client->nick;
+	std::string newNick = (this->argsCmd.size() > 1 ? this->argsCmd[1] : "");
 
-	} else if (this->nickInUse(this->argsCmd[1])) {
-		this->resClient(":" + this->getIp() + " " + ERR_NICKNAMEINUSE + " " + this->client->nick + " " + this->argsCmd[1] + " :O nick já está em uso"); // Nickname is already in use
+	if (this->client->authPass == false) {
+		this->unauthPass();
+		return ;
+	} else if (this->argsCmd.size() < 2) {
+		this->resClient(":" + host + " " + ERR_NONICKNAMEGIVEN + " * :Nenhum nick fornecido"); // No nickname 
+	} else if (this->nickChannelInvalid(newNick, " \r\n:;@!*,+-=#&")) {
+		this->resClient(":" + host + " " + ERR_ERRONEUSNICKNAME " " + nick + " " + newNick + " :Nick inválido"); // Erroneous nickname
+	} else if (nick == newNick) {
+
+	} else if (this->nickInUse(newNick)) {
+		this->resClient(":" + this->getIp() + " " + ERR_NICKNAMEINUSE + " " + nick + " " + newNick + " :O nick já está em uso"); // Nickname is already in use
 	} else if (this->client->authNick == true) {
-		this->resClient(":" + this->client->nick + " NICK :" + this->argsCmd[1]);
-		this->nickClient.erase(this->client->nick);
-		this->nickClient[this->argsCmd[1]] = this->client;
-		this->client->nick = this->argsCmd[1];
+		this->swapNick();
 	} else {
-		this->nickClient[this->argsCmd[1]] = this->client;
-		this->client->nick = this->argsCmd[1];
-		this->client->authNick = true;
+		this->assignNick();
 	}
 	this->authentication();
 }					// E SE UM NICK FOR TROCADO COMO FICA OS CANAIS?? VAI BUGAR TUDO SE UM MEMBRO ENTRAR EM UM CANAL E DPS TROCAR DE NICK
+
+/// @brief 
+void Server::PART(void) {
+std::cout << "comando: '" << this->cmd << "'" << std::endl;
+
+
+}
 
 /// @brief CLIENTE TENTANDO AUTENTICAR A SENHA NOVAMENTE RESPONDE COM ":<servidor> 462 <nick> :Comando não autorizado (já registrado)"
 /// @brief CLIENTE MANDOU APENAS O COMANDO "PASS" SEM A SENHA RESPONDE COM ":<servidor> 464 <nick> :Senha necessária" E FECHA A CONEXAO
@@ -101,9 +189,7 @@ void Server::PASS(void) {
 /// @brief PING COM MENOS DE 2 ARGUMENTOS E RESPONDIDO COM ":<servidor> 409 <cliente> :Nenhuma origem especificada"
 /// @brief CASO O PING SEJA BEM SUCEDIDO RESPONDE COM "PONG <token>"
 void Server::PING(void) {
-	if (this->client->auth == false) {
-
-	} else if (this->argsCmd.size() < 2) {
+	if (this->argsCmd.size() < 2) {
 		this->resClient(":" + this->getIp() + " " + ERR_NOORIGIN + " " + this->client->nick + " :Nenhuma origem especificada"); // No origin specified
 	} else {
 		this->resClient(":" + this->getIp() + " PONG ft_irc :" + this->argsCmd[1]);
@@ -117,9 +203,6 @@ void Server::PING(void) {
 /// @brief CASO O NICK NAO RETORNE NULL AO SER USADO COMO CHAVE DENTRO DE "this->channel" REDIRECIONA A MENSAGEM PARA OS MEMBROS DO CANAL ":<apelido>!<usuario>@<host> PRIVMSG <canal> :<mensagem>" (NAO ENVIA A SI MESMO)
 /// @brief CASO O NICK PASSE POR TODAS AS VERIFICACOES ELE NAO EXISTE E O SERVIDOR RESPONDE COM ":<servidor> 401 <enviador> <destinatário> :Nick/canal não existe"
 void Server::PRIVMSG(void) {
-	// if (this->client->auth == false) { // ESSA VERIFICACAO PASSOU A SER FEITA DENTRO DA FUNCAO newBuffer()
-	// 	this->resClient(":" + this->getIp() + " " + ERR_NOTREGISTERED + " PRIVMSG :Você não se registrou"); // You have not registered
-	// }
 	if (this->cmd.find(":") == std::string::npos || this->cmd.find(":") == this->cmd.size()) {
 		this->resClient(":" + this->getIp() + " " + ERR_NOTEXTTOSEND + " " + this->client->nick + " :Nenhum texto para enviar"); // No text to send
 	} else if (this->argsCmd.size() != 3) {
@@ -141,6 +224,34 @@ void Server::QUIT(void) {
 	// O SERVIDOR DEVE MANDAR MENSAGEM PARA TODOS OS CANAIS NOTIFICANDO A SAIDA
 }
 
+/// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 OU O SEGUNDO ESTEJA VAZIO RESPONDE COM ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
+/// @brief SE CANAL NAO EXISTE RESPONDE COM ":<servidor> 403 <apelido> <canal> :Canal inexistente"
+/// @brief SE OUVER APENAS 2 ARGUMENTOS RESPONDE COM ":<servidor> 332 <apelido> <canal> :<tópico do canal>" OU ":<servidor> 331 <apelido> <canal> :No topic is set"
+/// @brief SE O CLIENTE TENTAR MUDAR O TOPICO E NAO ESTIVER NO CANAL RESPONDE COM ":<servidor> 442 <apelido> <canal> :Você não está nesse canal"
+/// @brief SE O MODO +t ESTIVER ATIVO E UM MEMBRO Q NAO SEJA UM OPERADOR TENTAR MUDAR O TOPICO RESPONDE COM ":<servidor> 482 <apelido> <canal> :Você não é um operador de canal"
+/// @brief SE O TOPICO FOR MUDADO COM SUCESSO RESPONDE COM ":<apelido>!<usuario>@<host> TOPIC <canal> :<tópico>"
+void Server::TOPIC(void) {
+	std::string host = this->getIp();
+	std::string nick = this->client->nick;
+	std::string channel = (this->argsCmd.size() > 1 ? this->argsCmd[1] : "");
+	std::string topic = (this->argsCmd.size() > 2 ? this->argsCmd[2] : "");
+
+	if (this->argsCmd.size() < 2 || channel == "") {
+		this->resClient(":" + host + " " + ERR_NEEDMOREPARAMS + nick + " MODE :Parâmetros insuficientes"); // Not enough parameters
+	} else if (this->channels.count(channel) == 0) {
+		this->resClient(":" + host + " " + ERR_NOSUCHCHANNEL + " " + nick + " " + channel + " :Canal inexistente"); // No such channel
+	} else if (this->argsCmd.size() < 3) {
+		this->resClient(":" + host + " " + (this->channels[channel]->topic != "" ? RPL_TOPIC : RPL_NOTOPIC) + " " + nick + " " + channel + " :" + (this->channels[channel]->topic != "" ? this->channels[channel]->topic : "Nenhum tópico está definido")); // No topic is set
+	} else if (this->channels[channel]->nickClient.count(nick) == 0) {
+		this->resClient(":" + host + " " + ERR_NOTONCHANNEL + " " + nick + " " + channel + " :Você não está nesse canal"); // You're not on that channel
+	} else if (this->channels[channel]->t == true && this->channels[channel]->nickClient[nick]->o == false) {
+		this->resClient(":" + host + " " + ERR_CHANOPRIVSNEEDED + " " + nick + " " + channel + " :Você não é um operador de canal"); // You're not channel operator
+	} else {
+		this->channels[channel]->topic = topic;
+		this-> resChannel(":" + nick + "!" + this->client->user + "@" + this->client->getIp() + " TOPIC " + channel + " :" + topic, this->channels[channel]);
+	}
+}
+
 /// @brief O COMANDO "USER" SO DEVE SER RECEBIDO UMA VEZ NA AUTENTICACAO E QUALQUER OUTRA TENTATIVA DESTE COMANDO SERA RESPONDIDO COM ":<servidor> 462 <nick> :Comando não autorizado (já registrado)"
 /// @brief SE ESTIVER FALTANDO PARAMETROS RESPONDE COM ":<servidor> 461 <nick> USER :Parâmetros insuficientes"
 /// @brief CASO NAO TENHA SIDO RESPONDIDO COM NENHUMA DAS 2 OPCOES ACIMA APENAS SALVAR O user ATRIBUI true PARA authuser
@@ -156,154 +267,3 @@ void Server::USER(void) {
 	}
 	this->authentication();
 }
-
-
-
-
-
-
-/// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 RESPONDE COM O ERRO ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
-/// @brief SE NAO OUVER UM CANAL COM O NOME CORRESPONDENTE CRIA UM NOVO CANAL ADICIONANDO O CLIENTE COMO OPERADOR
-/// @brief CASO O CANAL NAO COMECE COM '#' OU CONTENHA CARACTERES INVALIDOS RESPONDE COM ":<servidor> 403 <apelido> <canal> :Nenhum canal desse tipo"
-/// @brief SE O LIMITE DO CANAL ESTIVER ATIVO E O CANAL JA ESTIVER CHEIO RESPONDE COM ":<servidor> 471 <apelido> <canal> :Não é possível entrar no canal (+l)"
-/// @brief SE O CLIENTE TENTAR ENTRAR EM UM CANAL COM SENHA E FORNECER A SENHA ERRADA OU SEM FORNECER UMA SENHA RESPONDE COM ":<servidor> 475 <apelido> <canal> :Não é possível entrar no canal (+k)"
-/// @brief SE NENHUMA DAS OPCOES ACIMA ACONTECER E PQ O CLIENTE VAI SER ADICIONADO EM UM CANAL JA EXISTENTE
-void Server::JOIN(void) {
-	// std::cout << "\033[33mWarning:\033[0m '" << this->cmd << "'" << std::endl;
-
-	std::string host = this->getIp();
-	std::string nick = this->client->nick;
-	std::string channel;
-	std::vector<std::string> channels = this->split(this->argsCmd[1], ',');
-	std::vector<std::string> password = (this->argsCmd.size() < 3 ? std::vector<std::string>() : this->split(this->argsCmd[2], ','));
-
-	while (channels.size() > password.size()) {
-		password.push_back("");
-	}
-
-	for (unsigned int i = 0; i < channels.size(); i++) {
-		channel = channels[i];
-		// std::cout << "channels[" << i << "]: '" << channels[i] << "'" << std::endl;
-		// if (i < password.size()) {
-		// 	std::cout << "password[" << i << "]: '" << password[i] << "'" << std::endl;
-		// }
-
-		if (this->argsCmd.size() < 2) {
-// :<servidor> 461 <apelido> JOIN :Not enough parameters
-			this->resClient(":" + host + " " + ERR_NEEDMOREPARAMS + nick + " JOIN :Parâmetros insuficientes"); // Not enough parameters
-		} else if (channel[0] != '#' || this->nickChannelInvalid(channel, " \r\n:;@!*,+-=")) {
-// :<servidor> 403 <apelido> <canal> :No such channel
-			this->resClient(":" + host + " " + ERR_NOSUCHCHANNEL + " " + nick + " " + channel + " :Nenhum canal desse tipo"); // No such channel
-		} else if (this->channels.count(channel) == 0) {
-			this->creatChannel(channel);
-		} else if (this->channels[channel]->l == true && this->channels[channel]->size() >= this->channels[channel]->limit) {
-// :<servidor> 471 <apelido> <canal> :Cannot join channel (+l)
-			this->resClient(":" + host + " " + ERR_CHANNELISFULL + " " + nick + " " + channel + " :Não é possível entrar no canal (+l)"); // Cannot join channel (+l)
-		} else if (this->channels[channel]->k == true && password[i] != this->channels[channel]->password) {
-// :<servidor> 475 <apelido> <canal> :Cannot join channel (+k)
-			this->resClient(":" + host + " " + ERR_BADCHANNELKEY + " " + nick + " " + channel + " :Não é possível entrar no canal (+k)"); // Cannot join channel (+k)
-		} else {
-			this->joinChannel(channel);
-		}
-	}
-}
-
-/// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 OU O SEGUNDO ESTEJA VAZIO RESPONDE COM ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
-/// @brief SE CANAL NAO EXISTE RESPONDE COM ":<servidor> 403 <apelido> <canal> :Canal inexistente"
-/// @brief SE O MANDA APENAS O NOME DO CANAL O SERVIDOR RESPONDE APENAS COM OS MODOS DO CANAL ":<servidor> 324 <apelido> <canal> <modos do canal>" E ":<servidor> 329 <apelido> <canal> <timestamp>"
-/// @brief SE O CANAL EXISTE MAS O CLIENTE NAO ESTA DENTRO DELE RESPONDE COM ":<servidor> 442 <apelido> <canal> :Você não está nesse canal"
-/// @brief SE O CLIENTE NAO FOR UM OPERADOR RESPONDE COM ":<servidor> 482 <apelido> <canal> :Você não é um operador de canal"
-/// @brief SE O TERCEIRO ARGUMENTO NAO COMECAR COM "+" OU "-" RESPONDE COM O ERRO ":<servidor> 501 <apelido> <canal> :Bandeira MODE desconhecida"
-/// @brief SE O TERCEIRO ARGUMENDO TIVER UM TAMANHO DIFERENTE DE 2 RESPONDE COM ERRO ":<servidor> 471 <apelido> <canal> :Modo desconhecido"
-void Server::MODE(void) {
-	// std::cout << "chegou esse comando: '" << this->cmd << "'" << "\tthis->argsCmd.size(): '" << this->argsCmd.size() << "'" << std::endl;
-// std::cout << "comando: '" << this->cmd << "'" << std::endl;
-
-	std::string host = this->getIp();
-	std::string nick = this->client->nick;
-	std::string channel = (this->argsCmd.size() > 1 ? this->argsCmd[1] : "");
-	std::string mode = (this->argsCmd.size() > 2 ? this->argsCmd[2] : "");
-
-	if (this->argsCmd.size() < 2 || channel == "") {
-// :<servidor> 461 <apelido> MODE :Not enough parameters
-		this->resClient(":" + host + " " + ERR_NEEDMOREPARAMS + nick + " MODE :Parâmetros insuficientes"); // Not enough parameters
-	} else if (this->channels.count(channel) == 0) {
-// :<servidor> 403 <apelido> <canal> :No such channel
-		this->resClient(":" + host + " " + ERR_NOSUCHCHANNEL + " " + nick + " " + channel + " :Canal inexistente"); // No such channel
-	} else if (this->argsCmd.size() == 2) {
-// :<servidor> 324 <apelido> <canal> <modos do canal>
-		this->resClient(":" + host + " " + RPL_CHANNELMODEIS + " " + nick + " " + channel + " " + "+" + (this->channels[channel]->i ? "i" : "") + (this->channels[channel]->t ? "t" : "") + (this->channels[channel]->k ? "k" : "") + (this->channels[channel]->l ? "l" : ""));
-	} else if (this->channels[channel]->nickClient.count(nick) == 0) {
-// :<servidor> 442 <apelido> <canal> :You're not on that channel
-		this->resClient(":" + host + " " + ERR_NOTONCHANNEL + " " + nick + " " + channel + " :Você não está nesse canal"); // You're not on that channel
-	} else if (this->channels[channel]->nickClient[nick]->o == false) {
-// :<servidor> 482 <apelido> <canal> :You're not channel operator
-		this->resClient(":" + host + " " + ERR_CHANOPRIVSNEEDED + " " + nick + " " + channel + " :Você não é um operador de canal"); // You're not channel operator
-	} else if (mode[0] != '-' && mode[0] != '+') {
-// :<servidor> 501 <apelido> <canal> :Unknown MODE flag
-		this->resClient(":" + host + " " + ERR_UMODEUNKNOWNFLAG + " " + nick + " " + channel + " :Bandeira MODE desconhecida");
-	} else if (mode.size() != 2 || (mode[1] != 'i' && mode[1] != 't' && mode[1] != 'k' && mode[1] != 'o' && mode[1] != 'l')) {
-// :<servidor> 471 <apelido> <canal> :Unknown mode
-		this->resClient(":" + host + " " + ERR_UNKNOWNMODE + " " + nick + " " + channel + " :Modo desconhecido");
-	} else if (mode[1] == 'i') {
-		this->i(channel, (mode[0] == '+' ? true : false));
-	} else if (mode[1] == 't') {
-		this->t(channel, (mode[0] == '+' ? true : false));
-	} else if (mode[1] == 'k') {
-		this->k(channel, (mode[0] == '+' ? true : false), (this->argsCmd.size() < 4 ? "" : argsCmd[3]));
-	} else if (mode[1] == 'o') {
-		this->o(channel, (mode[0] == '+' ? true : false), (this->argsCmd.size() < 4 ? "" : argsCmd[3]));
-	} else if (mode[1] == 'l') {
-		this->l(channel, (mode[0] == '+' ? true : false), (this->argsCmd.size() < 4 ? "0" : argsCmd[3]));
-	}
-}
-
-/// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 OU O SEGUNDO ESTEJA VAZIO RESPONDE COM ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
-/// @brief SE CANAL NAO EXISTE RESPONDE COM ":<servidor> 403 <apelido> <canal> :Canal inexistente"
-/// @brief SE OUVER APENAS 2 ARGUMENTOS RESPONDE COM ":<servidor> 332 <apelido> <canal> :<tópico do canal>" OU ":<servidor> 331 <apelido> <canal> :No topic is set"
-/// @brief SE O CLIENTE TENTAR MUDAR O TOPICO E NAO ESTIVER NO CANAL RESPONDE COM ":<servidor> 442 <apelido> <canal> :Você não está nesse canal"
-/// @brief SE O MODO +t ESTIVER ATIVO E UM MEMBRO Q NAO SEJA UM OPERADOR TENTAR MUDAR O TOPICO RESPONDE COM ":<servidor> 482 <apelido> <canal> :Você não é um operador de canal"
-/// @brief SE O TOPICO FOR MUDADO COM SUCESSO RESPONDE COM ":<apelido>!<usuario>@<host> TOPIC <canal> :<tópico>"
-void Server::TOPIC(void) {
-	std::string host = this->getIp();
-	std::string nick = this->client->nick;
-	std::string channel = (this->argsCmd.size() > 1 ? this->argsCmd[1] : "");
-	std::string topic = (this->argsCmd.size() > 2 ? this->argsCmd[2] : "");
-
-	if (this->argsCmd.size() < 2 || channel == "") {
-// :<servidor> 461 <apelido> MODE :Not enough parameters
-		this->resClient(":" + host + " " + ERR_NEEDMOREPARAMS + nick + " MODE :Parâmetros insuficientes"); // Not enough parameters
-	} else if (this->channels.count(channel) == 0) {
-// :<servidor> 403 <apelido> <canal> :No such channel
-		this->resClient(":" + host + " " + ERR_NOSUCHCHANNEL + " " + nick + " " + channel + " :Canal inexistente"); // No such channel
-	} else if (this->argsCmd.size() < 3) {
-// :<servidor> 332 <apelido> <canal> :<tópico do canal>
-// :<servidor> 331 <apelido> <canal> :No topic is set
-		this->resClient(":" + host + " " + (this->channels[channel]->topic != "" ? RPL_TOPIC : RPL_NOTOPIC) + " " + nick + " " + channel + " :" + (this->channels[channel]->topic != "" ? this->channels[channel]->topic : "Nenhum tópico está definido")); // No topic is set
-	} else if (this->channels[channel]->nickClient.count(nick) == 0) {
-// :<servidor> 442 <apelido> <canal> :You're not on that channel
-		this->resClient(":" + host + " " + ERR_NOTONCHANNEL + " " + nick + " " + channel + " :Você não está nesse canal"); // You're not on that channel
-	} else if (this->channels[channel]->t == true && this->channels[channel]->nickClient[nick]->o == false) {
-// :<servidor> 482 <apelido> <canal> :You're not channel operator
-		this->resClient(":" + host + " " + ERR_CHANOPRIVSNEEDED + " " + nick + " " + channel + " :Você não é um operador de canal"); // You're not channel operator
-	} else {
-		this->channels[channel]->topic = topic;
-// :<apelido>!<usuario>@<host> TOPIC <canal> :<tópico>
-		this-> resChannel(":" + nick + "!" + this->client->user + "@" + this->client->getIp() + " TOPIC " + channel + " :" + topic, this->channels[channel]);
-	}
-}
-
-/// @brief GERENCIA O COMANDO LIST SEPARANDO EM UMA BUSCA POR TODOS OS CANAIS OU POR APENAS ALGUNS ESPECIFICOS
-void Server::LIST(void) {
-// std::cout << "comando: '" << this->cmd << "'" << std::endl;
-
-	std::string host = this->getIp();
-	std::string nick = this->client->nick;
-	std::vector<std::string> channels = (this->argsCmd.size() < 2 ? std::vector<std::string>() : this->split(this->argsCmd[1], ','));
-
-	if (this->argsCmd.size() < 2) {
-		this->listChannels();
-	} else {
-		this->searchChannels(channels);
-	}
-}							// VERIFICAR COMO O SERVIDOR MOSTRA O CANAL COM SENHA (ACHEI Q TINHA ACABADO ESSE COMANDO MAS NAO ACABEI)

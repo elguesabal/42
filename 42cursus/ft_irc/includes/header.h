@@ -27,9 +27,6 @@
 
 extern bool shutdownServer;
 
-// ./src/verification.cpp
-// void validation(int argc, char **argv);
-
 // ./src/signal.cpp
 void ctrlC(int signal);
 

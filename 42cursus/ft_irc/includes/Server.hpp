@@ -15,7 +15,7 @@ class Server {
 		void listener(void);
 		void newBuffer(void);
 
-		// ./class/Server/Server.cpp // POR ENQUANTO AKI (FUTURAMENTE DEVO CRIAR UM ARQUIVO SO PARA RESPOSTAS DE CLIENTES/CANAIS MENSAGENS PRIVADAS E ETC)
+		// ./class/Server/comm.cpp
 		void resClient(std::string res);
 		void sendClient(std::string res, Client *receiver);
 		void resChannel(std::string res, Channel *channel);
@@ -39,21 +39,24 @@ class Server {
 		// ./class/Server/cmdsServer.cpp
 		void asciiArt(void);
 		void CAP(void);
+		void JOIN(void);
+		void LIST(void);
 		void luana(void);
+		void MODE(void);
 		void NICK(void);
+		void PART(void);
 		void PASS(void);
 		void PING(void);
 		void PRIVMSG(void);
 		void QUIT(void);
-		void USER(void);
-
-		void JOIN(void);
-		void MODE(void);
 		void TOPIC(void);
-		void LIST(void);
+		void USER(void);
 
 		// ./class/Server/utils/nick.cpp
 		bool nickInUse(std::string &nick);
+		void unauthPass(void);
+		void swapNick(void);
+		void assignNick(void);
 
 		// ./class/Server/utils/join.cpp
 		void creatChannel(std::string &channel);
@@ -68,7 +71,7 @@ class Server {
 
 		// ./class/Server/utils/mode.cpp
 		void listChannels(void);
-		void searchChannels(std::vector<std::string> &channels);
+		void searchChannels(std::vector<std::string> channels);
 
 		// ./class/Server/utils/utils.cpp
 		bool invalidLine(void);

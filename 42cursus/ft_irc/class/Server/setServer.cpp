@@ -66,18 +66,18 @@ void Server::setFds(void) {
 void Server::setCmds(void) {
 	this->serverCommands["ascii-art"] = &Server::asciiArt;
 	this->serverCommands["CAP"] = &Server::CAP;
+	this->serverCommands["JOIN"] = &Server::JOIN;
+	this->serverCommands["LIST"] = &Server::LIST;
 	this->serverCommands["luana"] = &Server::luana;
+	this->serverCommands["MODE"] = &Server::MODE;
 	this->serverCommands["NICK"] = &Server::NICK;
+	this->serverCommands["PART"] = &Server::PART;
 	this->serverCommands["PASS"] = &Server::PASS;
 	this->serverCommands["PING"] = &Server::PING;
 	this->serverCommands["PRIVMSG"] = &Server::PRIVMSG;
 	this->serverCommands["QUIT"] = &Server::QUIT;
-	this->serverCommands["USER"] = &Server::USER;
-
-	this->serverCommands["JOIN"] = &Server::JOIN;
-	this->serverCommands["MODE"] = &Server::MODE;
 	this->serverCommands["TOPIC"] = &Server::TOPIC;
-	this->serverCommands["LIST"] = &Server::LIST;
+	this->serverCommands["USER"] = &Server::USER;
 }
 
 /// @brief SALVA A DATA DE INICIO DO SERVIDOR

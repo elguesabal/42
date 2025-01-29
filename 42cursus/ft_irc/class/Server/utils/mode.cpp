@@ -5,7 +5,6 @@
 /// @param mode BOOLEAN Q REPRESENTA AS BANDEIRAS MODE + (true) E - (false)
 void Server::i(std::string &channel, bool mode) {
 	this->channels[channel]->i = mode;
-// :<apelido>!<usuario>@<host> MODE <canal> <mode>
 	this->resChannel(":" + this->client->nick + "!" + this->client->user + "@" + this->client->getIp() + " MODE " + channel + " " + (mode ? "+" : "-") + "i", this->channels[channel]);
 }
 
@@ -14,7 +13,6 @@ void Server::i(std::string &channel, bool mode) {
 /// @param mode BOOLEAN Q REPRESENTA AS BANDEIRAS MODE + (true) E - (false)
 void Server::t(std::string &channel, bool mode) {
 	this->channels[channel]->t = mode;
-// :<apelido>!<usuario>@<host> MODE <canal> <mode>
 	this->resChannel(":" + this->client->nick + "!" + this->client->user + "@" + this->client->getIp() + " MODE " + channel + " " + (mode ? "+" : "-") + "t", this->channels[channel]);
 }
 
@@ -25,12 +23,10 @@ void Server::t(std::string &channel, bool mode) {
 /// @param password SENHA Q SERA DEFINIDA NO CANAL (CASO A BANDEIRA DO MODE SEJA +)
 void Server::k(std::string &channel, bool mode, std::string password) {
 	if (mode == true && password == "") {
-// :servidor 461 <apelido> MODE :Not enough parameters
 		this->resClient(":" + this->getIp() + " " + ERR_NEEDMOREPARAMS + " " + this->client->nick + " MODE :Parâmetros insuficientes"); // Not enough parameters
 	} else {
 		this->channels[channel]->k = mode;
 		this->channels[channel]->password = (mode ? password : "");
-// :<apelido>!<usuario>@<host> MODE <canal> <mode> :<senha>
 		this->resChannel(":" + this->client->nick + "!" + this->client->user + "@" + this->client->getIp() + " MODE " + channel + " " + (mode ? "+" : "-") + "k" + (mode ? " " + password : ""), this->channels[channel]);
 	}
 }
@@ -44,14 +40,11 @@ void Server::k(std::string &channel, bool mode, std::string password) {
 /// @param nick NICK DO USUARIO Q VAI GANHAR OU PEDER O STATUS DE OPERADOR
 void Server::o(std::string &channel, bool mode, std::string nick) {
 	if (nick == "") {
-// :<servidor> 461 <apelido> MODE :Not enough parameters
 		this->resClient(":" + this->getIp() + " " + ERR_NEEDMOREPARAMS + " " + this->client->nick + " MODE :Parâmetros insuficientes"); // Not enough parameters
 	} else if (this->channels[channel]->nickClient.count(nick) == 0) {
-// :<servidor> 441 <operador> <usuario> <canal> :They aren't on that channel
 		this->resClient(":" + this->getIp() + " " + ERR_USERNOTINCHANNEL + " " + this->client->nick + " " + nick + " " + channel + " :Este nick não está no canal"); // They aren't on that channel
 	} else {
 		this->channels[channel]->nickClient[nick]->o = mode;
-// :<apelido>!<usuario>@<host> MODE #canal +o usuario
 		this->resChannel(":" + this->client->nick + "!" + this->client->user + "@" + this->client->getIp() + " MODE " + channel + " " + (mode == true ? "+" : "-") + "o " + nick, this->channels[channel]);
 	}
 }
@@ -63,12 +56,10 @@ void Server::o(std::string &channel, bool mode, std::string nick) {
 /// @param password LIMTE DE USUARIO PARA O CANAL (CASO A BANDEIRA DO MODE SEJA +)
 void Server::l(std::string &channel, bool mode, std::string limit) {
 	if (mode == true && limit == "0") {
-// :servidor 461 <apelido> MODE :Not enough parameters
 		this->resClient(":" + this->getIp() + " " + ERR_NEEDMOREPARAMS + " " + this->client->nick + " MODE :Parâmetros insuficientes"); // Not enough parameters
 	} else {
 		this->channels[channel]->l = mode;
 		this->channels[channel]->limit = (mode ? std::atoi(limit.c_str()) : 0);
-// :<nickname>!<user>@<host> MODE #canal +l <limite>
 		this->resChannel(":" + this->client->nick + "!" + this->client->user + "@" + this->client->getIp() + " MODE " + channel + " " + (mode ? "+" : "-") + "l" + (mode ? " " + limit : ""), this->channels[channel]);
 	}
 }

@@ -5,6 +5,7 @@ NAME = ircserv
 FILE = ./ft_irc.cpp\
 		./src/signal.cpp\
 		./class/Server/Server.cpp\
+		./class/Server/comm.cpp\
 		./class/Server/cmdsServer.cpp\
 		./class/Server/getServer.cpp\
 		./class/Server/setServer.cpp\

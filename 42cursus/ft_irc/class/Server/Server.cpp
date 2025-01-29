@@ -51,7 +51,11 @@ void Server::deleteClient(void) {
 	unsigned int i = std::find(this->clients.begin(), this->clients.end(), client) - this->clients.begin() + 1;
 
 	this->fds.erase(this->fds.begin() + i);
-	this->nickClient.erase(this->client->nick);
+	this->nickClient.erase(this->client->nick); // AKI NAO DEVERIA TER UM ERRO CASO O NICK NAO EXISTA?????
+	// if (this->nickClient.count(this->client->nick) == 1) {
+	// 	this->nickClient.erase(this->client->nick);
+	// }
+// std::cout << "chegou aki" << std::endl;
 	this->cmds.clear();
 	delete this->client;
 	this->clients.erase(this->clients.begin() + i - 1);
@@ -106,7 +110,7 @@ void Server::newBuffer(void) {
 		this->splitCmd();
 
 		if (this->serverCommands.find(this->cmd.substr(0, this->cmd.find(' '))) != this->serverCommands.end()) {
-			if (this->client->auth == true || this->argsCmd[0] == "PASS" || this->argsCmd[0] == "NICK" || this->argsCmd[0] == "USER" || this->argsCmd[0] == "QUIT") {
+			if (this->client->auth == true || this->argsCmd[0] == "CAP" || this->argsCmd[0] == "PASS" || this->argsCmd[0] == "NICK" || this->argsCmd[0] == "USER" || this->argsCmd[0] == "QUIT") {
 				(this->*serverCommands[this->cmd.substr(0, this->cmd.find(' '))])();
 			} else {
 				this->resClient(":" + this->getIp() + " " + ERR_NOTREGISTERED + " PRIVMSG :Você não se registrou"); // You have not registered
@@ -114,44 +118,6 @@ void Server::newBuffer(void) {
 		} else {
 			std::cout << "\033[33mWarning:\033[0m comando nao encontrado -> '" << this->cmd << "'" << std::endl;
 			this->resClient(":" + this->getIp() + " " + ERR_UNKNOWNCOMMAND + " " + this->client->nick + " " + this->argsCmd[0] + " :Comando desconhecido");
-		}
-	}
-}
-
-
-
-
-/// @brief RESPONDE UM CLIENTE DE FORMA SIMPLES
-/// @param res RESPOSTA JA PRONTO PARA SER ENVIADA PARA O CLIENTE
-void Server::resClient(std::string res) {
-	res += "\r\n";
-	send(this->client->getFd(), res.c_str(), res.size(), 0);
-}
-
-/// @brief MANDA UMA MENSAGEM PARA OUTRO CLIENTE
-/// @param res MENSAGEM JA PRONTA PARA SER ENVIADA PARA O CLIENTE
-/// @param receiver INFORMACOES DO CLIENTE Q VAI RECEBER A MENSAGEM
-void Server::sendClient(std::string res, Client *receiver) {
-	res += "\r\n";
-	send(receiver->getFd(), res.c_str(), res.size(), 0);
-}
-
-/// @brief MANDA UMA MENSAGEM PARA UM CANAL
-/// @param res MENSAGEM JA PRONTA PARA SER ENVIADA PARA O CANAL
-void Server::resChannel(std::string res, Channel *channel) {
-	res += "\r\n";
-	for (unsigned int i = 0; i < channel->clients.size(); i++) {
-		this->sendClient(res, channel->clients[i]->client);
-	}
-}
-
-/// @brief MANDA UMA MENSAGEM PARA UM CANAL (EXCETO PARA SI MESMO)
-/// @param res MENSAGEM JA PRONTA PARA SER ENVIADA PARA O CANAL
-void Server::sendChannel(std::string res, Channel *channel) {
-	res += "\r\n";
-	for (unsigned int i = 0; i < channel->clients.size(); i++) {
-		if (this->client != channel->clients[i]->client) {
-			this->sendClient(res, channel->clients[i]->client);
 		}
 	}
 }
