@@ -15,7 +15,9 @@ class Client {
 
 		// ./class/Client/setClient.cpp
 		void setPfd(Server &server);
+		void setNick(std::string &nick);
 
+		// INFORMACOES DOS CLIENTES
 		struct sockaddr_in client;
 		struct pollfd pfd;
 		bool authPass;
@@ -25,7 +27,8 @@ class Client {
 		std::string nick;
 		std::string user;
 
-		// std::vector<Channel *> channels; // VOU CRIAR UM vector DENTRO DO CLIENTE Q VAI GUARDAR TODOS OS CANAIS
+		// INFORMACOES DOS CANAIS
+		std::vector<Channel *> channels;
 };
 
 #endif

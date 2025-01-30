@@ -11,7 +11,6 @@ Channel::ClientChanell::ClientChanell(Client *client) : client(client), o(false)
 Channel::Channel(Client *client) : i(false), t(true), k(false), l(false), topic("") {
 	this->newMember(client);
 	this->clients[0]->o = true;
-	this->operators.push_back(client->nick);
 }
 
 /// @brief DESTRUTOR DA CLASSE
@@ -27,6 +26,7 @@ void Channel::newMember(Client *client) {
 
 		this->clients.push_back(newClient);
 		this->nickClient[client->nick] = newClient;
+		client->channels.push_back(this);
 	} catch (const std::exception &error) {
 		throw ;
 	}

@@ -69,9 +69,12 @@ class Server {
 		void o(std::string &channel, bool mode, std::string nick);
 		void l(std::string &channel, bool mode, std::string limit);
 
-		// ./class/Server/utils/mode.cpp
+		// ./class/Server/utils/list.cpp
 		void listChannels(void);
 		void searchChannels(std::vector<std::string> channels);
+
+		// ./class/Server/utils/part.cpp
+		void exitChannel(std::string &channel);
 
 		// ./class/Server/utils/utils.cpp
 		bool invalidLine(void);

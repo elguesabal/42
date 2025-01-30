@@ -7,3 +7,13 @@ void ctrlC(int signal) {
 		shutdownServer = true;
 	}
 }
+
+
+
+
+// AKI EU PODERIA FAZER UMA CLASSE SIGNAL COM UMA FUNCAO PARA USO EXTERNO E UMA VARIAVEL DE CONTROLE?
+// class Signal {
+// 	public:
+// 		void signal(int signal);
+// 		bool shutdownServer;
+// };

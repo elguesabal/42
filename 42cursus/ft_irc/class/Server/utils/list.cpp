@@ -23,6 +23,7 @@ void Server::listChannels(void) {
 /// @brief ENVIA O CABECALHO ":<servidor> 321 <apelido> Channel :Users  Name" (CAIU EM DESUSO MAS DECIDI DEIXAR)
 /// @brief ENVIA AS INFORMACOES DE CADA CANAL EXISTENTE COM A MENSAGEM ":<servidor> 322 <apelido> <canal> <número de usuários> :<modos> <tópico>"
 /// @brief ENVIA A INFORMACAO Q A LISTA TERMINOU ":<servidor> 323 <apelido> :End of /LIST"
+/// @param channels NOMES DOS CANAIS A SEREM CONSULTADOS
 void Server::searchChannels(std::vector<std::string> channels) {
 	std::string host = this->getIp();
 	std::string nick = this->client->nick;

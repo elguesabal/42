@@ -33,6 +33,7 @@ void Server::CAP(void) {
 
 /// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 RESPONDE COM O ERRO ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
 /// @brief SE NAO OUVER UM CANAL COM O NOME CORRESPONDENTE CRIA UM NOVO CANAL ADICIONANDO O CLIENTE COMO OPERADOR
+/// @brief SE O USUARIO TENTAR ENTRAR EM UM CANAL Q ELE JA ESTEJA RESPONDE COM ":<servidor> 443 <apelido> <canal> :Já está no canal"
 /// @brief CASO O CANAL NAO COMECE COM '#' OU CONTENHA CARACTERES INVALIDOS RESPONDE COM ":<servidor> 403 <apelido> <canal> :Nenhum canal desse tipo"
 /// @brief SE O LIMITE DO CANAL ESTIVER ATIVO E O CANAL JA ESTIVER CHEIO RESPONDE COM ":<servidor> 471 <apelido> <canal> :Não é possível entrar no canal (+l)"
 /// @brief SE O CLIENTE TENTAR ENTRAR EM UM CANAL COM SENHA E FORNECER A SENHA ERRADA OU SEM FORNECER UMA SENHA RESPONDE COM ":<servidor> 475 <apelido> <canal> :Não é possível entrar no canal (+k)"
@@ -40,9 +41,14 @@ void Server::CAP(void) {
 void Server::JOIN(void) {
 	std::string host = this->getIp();
 	std::string nick = this->client->nick;
-	std::string channel;
-	std::vector<std::string> channels = this->split(this->argsCmd[1], ',');
+	std::vector<std::string> channels = (this->argsCmd.size() < 2 ? std::vector<std::string>() : this->split(this->argsCmd[1], ','));
 	std::vector<std::string> password = (this->argsCmd.size() < 3 ? std::vector<std::string>() : this->split(this->argsCmd[2], ','));
+	std::string channel;
+
+	if (this->argsCmd.size() < 2) {
+		this->resClient(":" + host + " " + ERR_NEEDMOREPARAMS + nick + " JOIN :Parâmetros insuficientes"); // Not enough parameters
+		return ;
+	}
 
 	while (channels.size() > password.size()) {
 		password.push_back("");
@@ -50,18 +56,18 @@ void Server::JOIN(void) {
 
 	for (unsigned int i = 0; i < channels.size(); i++) {
 		channel = channels[i];
-		if (this->argsCmd.size() < 2) {
-			this->resClient(":" + host + " " + ERR_NEEDMOREPARAMS + nick + " JOIN :Parâmetros insuficientes"); // Not enough parameters
-		} else if (channel[0] != '#' || this->nickChannelInvalid(channel, " \r\n:;@!*,+-=")) {
+		if (channel[0] != '#' || this->nickChannelInvalid(channel, " \r\n:;@!*,+-=")) {
 			this->resClient(":" + host + " " + ERR_NOSUCHCHANNEL + " " + nick + " " + channel + " :Nenhum canal desse tipo"); // No such channel
+		} else if (this->channels.count(channel) == 1 && this->channels[channel]->nickClient.count(nick) == 1) {
+			this->resClient(":" + host + " " + ERR_USERONCHANNEL + " " + nick + " " + channel + " :Já está no canal");
 		} else if (this->channels.count(channel) == 0) {
-			this->creatChannel(channel); // VOU CRIAR UM vector DENTRO DO CLIENTE Q VAI GUARDAR TODOS OS CANAIS
+			this->creatChannel(channel);
 		} else if (this->channels[channel]->l == true && this->channels[channel]->size() >= this->channels[channel]->limit) {
 			this->resClient(":" + host + " " + ERR_CHANNELISFULL + " " + nick + " " + channel + " :Não é possível entrar no canal (+l)"); // Cannot join channel (+l)
 		} else if (this->channels[channel]->k == true && password[i] != this->channels[channel]->password) {
 			this->resClient(":" + host + " " + ERR_BADCHANNELKEY + " " + nick + " " + channel + " :Não é possível entrar no canal (+k)"); // Cannot join channel (+k)
 		} else {
-			this->joinChannel(channel); // VOU CRIAR UM vector DENTRO DO CLIENTE Q VAI GUARDAR TODOS OS CANAIS
+			this->joinChannel(channel);
 		}
 	}
 }
@@ -159,13 +165,32 @@ void Server::NICK(void) {
 		this->assignNick();
 	}
 	this->authentication();
-}					// E SE UM NICK FOR TROCADO COMO FICA OS CANAIS?? VAI BUGAR TUDO SE UM MEMBRO ENTRAR EM UM CANAL E DPS TROCAR DE NICK
+}
 
-/// @brief 
+/// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 OU O SEGUNDO ESTEJA VAZIO RESPONDE COM ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
+/// @brief SE CANAL NAO EXISTE RESPONDE COM ":<servidor> 403 <apelido> <canal> :Canal inexistente"
+/// @brief SE O CANAL EXISTE MAS O CLIENTE NAO ESTA DENTRO DELE RESPONDE COM ":<servidor> 442 <apelido> <canal> :Você não está nesse canal"
+/// @brief SE OUVER MAIS DE UM ARGUMENTOS CHAMA A FUNCAO "this->exitChannel();"
 void Server::PART(void) {
-std::cout << "comando: '" << this->cmd << "'" << std::endl;
+	std::string host = this->getIp();
+	std::string nick = this->client->nick;
+	std::string channel;
+	std::vector<std::string> channels = (this->argsCmd.size() < 2 ? std::vector<std::string>() : this->split(this->argsCmd[1], ','));
 
+	if (this->argsCmd.size() < 2) {
+		this->resClient(":" + host + " " + ERR_NEEDMOREPARAMS + nick + " MODE :Parâmetros insuficientes"); // Not enough parameters
+	}
 
+	for (unsigned int i = 0; i < channels.size(); i++) {
+		channel = channels[i];
+		if (this->channels.count(channel) == 0) {
+			this->resClient(":" + host + " " + ERR_NOSUCHCHANNEL + " " + nick + " " + channel + " :Canal inexistente"); // No such channel
+		} else if (this->channels[channel]->nickClient.count(nick) == 0) {
+			this->resClient(":" + host + " " + ERR_NOTONCHANNEL + " " + nick + " " + channel + " :Você não está nesse canal"); // You're not on that channel
+		} else {
+			this->exitChannel(channel);
+		}
+	}
 }
 
 /// @brief CLIENTE TENTANDO AUTENTICAR A SENHA NOVAMENTE RESPONDE COM ":<servidor> 462 <nick> :Comando não autorizado (já registrado)"

@@ -21,15 +21,16 @@ void Server::unauthPass(void) {
 }
 
 /// @brief TROCA DE NICK COM USUARIO JA AUTENTICADO RESPONDE COM ":<antigo nick> NICK :<novo nick>"
+/// @brief TBM NOTIFICA OS CANAIS COM A MENSGEM ":<antigo nick>!<usuario>@<host> NICK :<novo nick>"
+/// @brief REMOVE A ANTIGA CHAVE DE "nickClient" E CHAMA A FUNCAO "this->client->setNick()"
 void Server::swapNick(void) {
 	this->resClient(":" + this->client->nick + " NICK :" + this->argsCmd[1]);
+	for (unsigned int i = 0; i < this->client->channels.size(); i++) {
+		this->resChannel(":" + this->client->nick + "!" + this->client->user + "@" + this->client->getIp() + " NICK :" + this->argsCmd[1], this->client->channels[i]);
+	}
 	this->nickClient.erase(this->client->nick);
-
-// TENHO Q TROCAR NOS CANAIS TBM
-	// this->channels; // VOU CRIAR UM vector DENTRO DO CLIENTE Q VAI GUARDAR TODOS OS CANAIS
-
 	this->nickClient[this->argsCmd[1]] = this->client;
-	this->client->nick = this->argsCmd[1];
+	this->client->setNick(this->argsCmd[1]);
 }
 
 /// @brief ATRIBUI O NICK A UM USUARIO Q NUNCA TEVE NICK (NAO AH RESPOSTA IMEDIATA APENAS AGUARDA RESPOSTA DE BOAS VINDAS DENTRO DA FUNCAO "this->authentication();")

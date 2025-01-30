@@ -10,3 +10,14 @@ void Client::setPfd(Server &server) {
 	}
 	this->pfd.events = POLLIN;
 }
+
+/// @brief ATUALIZA O NICK EM TODOS OS CANAIS E NA PROPRIA CLASSE
+void Client::setNick(std::string &nick) {
+	for (unsigned int i = 0; i < this->channels.size(); i++) {
+		this->channels[i]->nickClient[nick] = this->channels[i]->nickClient[this->nick];
+		this->channels[i]->nickClient.erase(this->nick);
+
+		// this->channels[i]->operators; // PQ RAIOS EU TENHO ESSA VARIAVEL SE EU APENAS INICIALISO ELA??????
+	}
+	this->nick = nick;
+}
