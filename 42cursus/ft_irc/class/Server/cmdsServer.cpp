@@ -58,7 +58,7 @@ void Server::JOIN(void) {
 		channel = channels[i];
 		if (channel[0] != '#' || this->nickChannelInvalid(channel, " \r\n:;@!*,+-=")) {
 			this->resClient(":" + host + " " + ERR_NOSUCHCHANNEL + " " + nick + " " + channel + " :Nenhum canal desse tipo"); // No such channel
-		} else if (this->channels.count(channel) == 1 && this->channels[channel]->nickClient.count(nick) == 1) {
+		} else if (this->channels.count(channel) == 1 && this->channels[channel]->clients.count(nick) == 1) {
 			this->resClient(":" + host + " " + ERR_USERONCHANNEL + " " + nick + " " + channel + " :Já está no canal");
 		} else if (this->channels.count(channel) == 0) {
 			this->creatChannel(channel);
@@ -115,9 +115,9 @@ void Server::MODE(void) {
 		this->resClient(":" + host + " " + ERR_NOSUCHCHANNEL + " " + nick + " " + channel + " :Canal inexistente"); // No such channel
 	} else if (this->argsCmd.size() == 2) {
 		this->resClient(":" + host + " " + RPL_CHANNELMODEIS + " " + nick + " " + channel + " " + "+" + (this->channels[channel]->i ? "i" : "") + (this->channels[channel]->t ? "t" : "") + (this->channels[channel]->k ? "k" : "") + (this->channels[channel]->l ? "l" : ""));
-	} else if (this->channels[channel]->nickClient.count(nick) == 0) {
+	} else if (this->channels[channel]->clients.count(nick) == 0) {
 		this->resClient(":" + host + " " + ERR_NOTONCHANNEL + " " + nick + " " + channel + " :Você não está nesse canal"); // You're not on that channel
-	} else if (this->channels[channel]->nickClient[nick]->o == false) {
+	} else if (this->channels[channel]->clients[nick]->o == false) {
 		this->resClient(":" + host + " " + ERR_CHANOPRIVSNEEDED + " " + nick + " " + channel + " :Você não é um operador de canal"); // You're not channel operator
 	} else if (mode[0] != '-' && mode[0] != '+') {
 		this->resClient(":" + host + " " + ERR_UMODEUNKNOWNFLAG + " " + nick + " " + channel + " :Bandeira MODE desconhecida");
@@ -185,7 +185,7 @@ void Server::PART(void) {
 		channel = channels[i];
 		if (this->channels.count(channel) == 0) {
 			this->resClient(":" + host + " " + ERR_NOSUCHCHANNEL + " " + nick + " " + channel + " :Canal inexistente"); // No such channel
-		} else if (this->channels[channel]->nickClient.count(nick) == 0) {
+		} else if (this->channels[channel]->clients.count(nick) == 0) {
 			this->resClient(":" + host + " " + ERR_NOTONCHANNEL + " " + nick + " " + channel + " :Você não está nesse canal"); // You're not on that channel
 		} else {
 			this->exitChannel(channel);
@@ -228,25 +228,29 @@ void Server::PING(void) {
 /// @brief CASO O NICK NAO RETORNE NULL AO SER USADO COMO CHAVE DENTRO DE "this->channel" REDIRECIONA A MENSAGEM PARA OS MEMBROS DO CANAL ":<apelido>!<usuario>@<host> PRIVMSG <canal> :<mensagem>" (NAO ENVIA A SI MESMO)
 /// @brief CASO O NICK PASSE POR TODAS AS VERIFICACOES ELE NAO EXISTE E O SERVIDOR RESPONDE COM ":<servidor> 401 <enviador> <destinatário> :Nick/canal não existe"
 void Server::PRIVMSG(void) {
+	std::string host = this->getIp();
+	std::string nick = this->client->nick;
+	std::string nickChannel = (this->argsCmd.size() > 1 ? this->argsCmd[1] : "");
+	std::string message = (this->argsCmd.size() > 2 ? this->argsCmd[2] : "");
+
 	if (this->cmd.find(":") == std::string::npos || this->cmd.find(":") == this->cmd.size()) {
-		this->resClient(":" + this->getIp() + " " + ERR_NOTEXTTOSEND + " " + this->client->nick + " :Nenhum texto para enviar"); // No text to send
+		this->resClient(":" + host + " " + ERR_NOTEXTTOSEND + " " + nick + " :Nenhum texto para enviar"); // No text to send
 	} else if (this->argsCmd.size() != 3) {
-		this->resClient(":" + this->getIp() + " " + ERR_NEEDMOREPARAMS + this->client->nick + " PRIVMSG :Parâmetros insuficientes"); // Not enough parameters
-	} else if (this->nickClient.count(this->argsCmd[1]) == 1) {
-		this->sendClient(":" + this->client->nick + "!" + this->client->user + "@" + this->client->getIp() + " PRIVMSG " + this->argsCmd[1] + " :" + this->argsCmd[2], this->nickClient[this->argsCmd[1]]);
-	} else if (this->channels.count(this->argsCmd[1]) == 1 && this->channels[this->argsCmd[1]]->nickClient.count(this->client->nick) == 0) {
-		this->resClient(":" + this->getIp() + " " + ERR_CANNOTSENDTOCHAN + " " + this->client->nick + " " + this->argsCmd[1] + " :Você não participa deste canal"); // Cannot send to channel
-	} else if (this->channels.count(this->argsCmd[1]) == 1) {
-		this->sendChannel(":" + this->client->nick + "!" + this->client->user + "@" + this->client->getIp() + " PRIVMSG " + this->argsCmd[1] + " :" + this->argsCmd[2], this->channels[this->argsCmd[1]]);
+		this->resClient(":" + host + " " + ERR_NEEDMOREPARAMS + nick + " PRIVMSG :Parâmetros insuficientes"); // Not enough parameters
+	} else if (this->nickClient.count(nickChannel) == 1) {
+		this->sendClient(":" + nick + "!" + this->client->user + "@" + this->client->getIp() + " PRIVMSG " + nickChannel + " :" + message, this->nickClient[nickChannel]);
+	} else if (this->channels.count(nickChannel) == 1 && this->channels[nickChannel]->clients.count(nick) == 0) {
+		this->resClient(":" + host + " " + ERR_CANNOTSENDTOCHAN + " " + nick + " " + nickChannel + " :Você não participa deste canal"); // Cannot send to channel
+	} else if (this->channels.count(nickChannel) == 1) {
+		this->sendChannel(":" + nick + "!" + this->client->user + "@" + this->client->getIp() + " PRIVMSG " + nickChannel + " :" + message, this->channels[nickChannel]);
 	} else {
-		this->resClient(":" + this->getIp() + " " + ERR_NOSUCHNICK + " " + this->client->nick + " " + this->argsCmd[1] + " :Nick/canal não existe"); // No such nick/channel
+		this->resClient(":" + host + " " + ERR_NOSUCHNICK + " " + nick + " " + nickChannel + " :Nick/canal não existe"); // No such nick/channel
 	}
 }
 
 /// @brief DESCONECTA O CLIENTE (AINDA NAO NOTIFICA OS CANAIS PQ AINDA NAO EMPLEMENTEI)
 void Server::QUIT(void) {
-	this->deleteClient();
-	// O SERVIDOR DEVE MANDAR MENSAGEM PARA TODOS OS CANAIS NOTIFICANDO A SAIDA
+	this->deleteClient(); // PAREI MEXENDO NESSA FUNCAO
 }
 
 /// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 OU O SEGUNDO ESTEJA VAZIO RESPONDE COM ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
@@ -267,9 +271,9 @@ void Server::TOPIC(void) {
 		this->resClient(":" + host + " " + ERR_NOSUCHCHANNEL + " " + nick + " " + channel + " :Canal inexistente"); // No such channel
 	} else if (this->argsCmd.size() < 3) {
 		this->resClient(":" + host + " " + (this->channels[channel]->topic != "" ? RPL_TOPIC : RPL_NOTOPIC) + " " + nick + " " + channel + " :" + (this->channels[channel]->topic != "" ? this->channels[channel]->topic : "Nenhum tópico está definido")); // No topic is set
-	} else if (this->channels[channel]->nickClient.count(nick) == 0) {
+	} else if (this->channels[channel]->clients.count(nick) == 0) {
 		this->resClient(":" + host + " " + ERR_NOTONCHANNEL + " " + nick + " " + channel + " :Você não está nesse canal"); // You're not on that channel
-	} else if (this->channels[channel]->t == true && this->channels[channel]->nickClient[nick]->o == false) {
+	} else if (this->channels[channel]->t == true && this->channels[channel]->clients[nick]->o == false) {
 		this->resClient(":" + host + " " + ERR_CHANOPRIVSNEEDED + " " + nick + " " + channel + " :Você não é um operador de canal"); // You're not channel operator
 	} else {
 		this->channels[channel]->topic = topic;

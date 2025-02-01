@@ -13,11 +13,9 @@ void Client::setPfd(Server &server) {
 
 /// @brief ATUALIZA O NICK EM TODOS OS CANAIS E NA PROPRIA CLASSE
 void Client::setNick(std::string &nick) {
-	for (unsigned int i = 0; i < this->channels.size(); i++) {
-		this->channels[i]->nickClient[nick] = this->channels[i]->nickClient[this->nick];
-		this->channels[i]->nickClient.erase(this->nick);
-
-		// this->channels[i]->operators; // PQ RAIOS EU TENHO ESSA VARIAVEL SE EU APENAS INICIALISO ELA??????
+	for (std::map<std::string, Channel *>::iterator it = this->channels.begin(); it != this->channels.end(); ++it) {
+		it->second->clients[nick] = it->second->clients[this->nick];
+		it->second->clients.erase(this->nick);
 	}
 	this->nick = nick;
 }

@@ -28,7 +28,7 @@ class Client {
 		std::string user;
 
 		// INFORMACOES DOS CANAIS
-		std::vector<Channel *> channels;
+		std::map<std::string, Channel *> channels;
 };
 
 #endif

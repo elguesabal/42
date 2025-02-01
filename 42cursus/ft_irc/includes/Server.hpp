@@ -74,7 +74,7 @@ class Server {
 		void searchChannels(std::vector<std::string> channels);
 
 		// ./class/Server/utils/part.cpp
-		void exitChannel(std::string &channel);
+		// void exitChannel(std::string &channel); // MOVIDO PARA ./class/Server/utils/utils.cpp
 
 		// ./class/Server/utils/utils.cpp
 		bool invalidLine(void);
@@ -84,6 +84,7 @@ class Server {
 		bool nickChannelInvalid(std::string &nickChannel, std::string charInvalid);
 		std::string toUpper(std::string &str);
 		void authentication(void);
+		void exitChannel(std::string channel);
 
 		// INFORMACOES DO SERVIDOR
 		struct sockaddr_in server;

@@ -3,23 +3,20 @@
 
 class Client;
 
-// i t k o l
-
 class Channel {
-
-	struct ClientChanell {
-		Client *client;
-		bool o;
-
-		ClientChanell(Client *client);
-	};
-
 	public:
-		Channel(Client *client);
+		struct ClientChanell {
+			Client *client;
+			bool o;
+
+			ClientChanell(Client *client);
+		};
+
+		Channel(std::string &channel, Client *client);
 		~Channel(void);
 
 		// ./class/Channel/Channel.cpp
-		void newMember(Client *client);
+		void newMember(Client *client, std::string &channel);
 
 		// ./class/Channel/utils/utils.cpp
 		unsigned int size(void) const;
@@ -34,8 +31,7 @@ class Channel {
 		unsigned int limit;
 
 		// INFORMACOES DOS CLIENTES
-		std::vector<ClientChanell *> clients;
-		std::map<std::string, ClientChanell *> nickClient;
+		std::map<std::string, ClientChanell *> clients;
 };
 
 #endif

@@ -50,12 +50,14 @@ void Server::newClient(void) {
 void Server::deleteClient(void) {
 	unsigned int i = std::find(this->clients.begin(), this->clients.end(), client) - this->clients.begin() + 1;
 
+	for (std::map<std::string, Channel *>::iterator it = this->client->channels.begin(); it != this->client->channels.end(); ++it) {
+std::cout << "it->first: '" << it->first << "'" << std::endl;
+		this->exitChannel(it->first); // CHAMAR ESSA FUNCAO QUANDO O CLIENTE ENVIA O COMANDO "QUIT" ESTANDO EM UM CANAL DA CORE DUMPED
+	}	// PAREI AKIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+
 	this->fds.erase(this->fds.begin() + i);
-	this->nickClient.erase(this->client->nick); // AKI NAO DEVERIA TER UM ERRO CASO O NICK NAO EXISTA?????
-	// if (this->nickClient.count(this->client->nick) == 1) {
-	// 	this->nickClient.erase(this->client->nick);
-	// }
-// std::cout << "chegou aki" << std::endl;
+	this->nickClient.erase(this->client->nick);
+
 	this->cmds.clear();
 	delete this->client;
 	this->clients.erase(this->clients.begin() + i - 1);

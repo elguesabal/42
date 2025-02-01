@@ -10,7 +10,6 @@ Client::Client(Server &server) {
 		this->authUser = false;
 		this->auth = false;
 		this->nick = "*";
-// std::cout << "tamanho: " << this->channels.size() << std::endl; // VOU CRIAR UM vector DENTRO DO CLIENTE Q VAI GUARDAR TODOS OS CANAIS
 	} catch (const std::exception &error) {
 		if (this->getFd() != -1) {
 			close(this->getFd());

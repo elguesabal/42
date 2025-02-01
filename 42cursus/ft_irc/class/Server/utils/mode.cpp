@@ -41,10 +41,10 @@ void Server::k(std::string &channel, bool mode, std::string password) {
 void Server::o(std::string &channel, bool mode, std::string nick) {
 	if (nick == "") {
 		this->resClient(":" + this->getIp() + " " + ERR_NEEDMOREPARAMS + " " + this->client->nick + " MODE :Parâmetros insuficientes"); // Not enough parameters
-	} else if (this->channels[channel]->nickClient.count(nick) == 0) {
+	} else if (this->channels[channel]->clients.count(nick) == 0) {
 		this->resClient(":" + this->getIp() + " " + ERR_USERNOTINCHANNEL + " " + this->client->nick + " " + nick + " " + channel + " :Este nick não está no canal"); // They aren't on that channel
 	} else {
-		this->channels[channel]->nickClient[nick]->o = mode;
+		this->channels[channel]->clients[nick]->o = mode;
 		this->resChannel(":" + this->client->nick + "!" + this->client->user + "@" + this->client->getIp() + " MODE " + channel + " " + (mode == true ? "+" : "-") + "o " + nick, this->channels[channel]);
 	}
 }

@@ -25,8 +25,9 @@ void Server::unauthPass(void) {
 /// @brief REMOVE A ANTIGA CHAVE DE "nickClient" E CHAMA A FUNCAO "this->client->setNick()"
 void Server::swapNick(void) {
 	this->resClient(":" + this->client->nick + " NICK :" + this->argsCmd[1]);
-	for (unsigned int i = 0; i < this->client->channels.size(); i++) {
-		this->resChannel(":" + this->client->nick + "!" + this->client->user + "@" + this->client->getIp() + " NICK :" + this->argsCmd[1], this->client->channels[i]);
+
+	for (std::map<std::string, Channel *>::iterator it = this->client->channels.begin(); it != this->client->channels.end(); ++it) {
+		this->resChannel(":" + this->client->nick + "!" + this->client->user + "@" + this->client->getIp() + " NICK :" + this->argsCmd[1], it->second);
 	}
 	this->nickClient.erase(this->client->nick);
 	this->nickClient[this->argsCmd[1]] = this->client;

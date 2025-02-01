@@ -19,8 +19,8 @@ void Server::sendClient(std::string res, Client *receiver) {
 /// @param res MENSAGEM JA PRONTA PARA SER ENVIADA PARA O CANAL
 void Server::resChannel(std::string res, Channel *channel) {
 	res += "\r\n";
-	for (unsigned int i = 0; i < channel->clients.size(); i++) {
-		this->sendClient(res, channel->clients[i]->client);
+	for (std::map<std::string, Channel::ClientChanell *>::iterator it = channel->clients.begin(); it != channel->clients.end(); ++it) {
+		this->sendClient(res, it->second->client);
 	}
 }
 
@@ -28,9 +28,9 @@ void Server::resChannel(std::string res, Channel *channel) {
 /// @param res MENSAGEM JA PRONTA PARA SER ENVIADA PARA O CANAL
 void Server::sendChannel(std::string res, Channel *channel) {
 	res += "\r\n";
-	for (unsigned int i = 0; i < channel->clients.size(); i++) {
-		if (this->client != channel->clients[i]->client) {
-			this->sendClient(res, channel->clients[i]->client);
+	for (std::map<std::string, Channel::ClientChanell *>::iterator it = channel->clients.begin(); it != channel->clients.end(); ++it) {
+		if (this->client != it->second->client) {
+			this->sendClient(res, it->second->client);
 		}
 	}
 }
