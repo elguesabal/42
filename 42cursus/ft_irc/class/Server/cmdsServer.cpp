@@ -250,7 +250,7 @@ void Server::PRIVMSG(void) {
 
 /// @brief DESCONECTA O CLIENTE (AINDA NAO NOTIFICA OS CANAIS PQ AINDA NAO EMPLEMENTEI)
 void Server::QUIT(void) {
-	this->deleteClient(); // PAREI MEXENDO NESSA FUNCAO
+	this->deleteClient();
 }
 
 /// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 OU O SEGUNDO ESTEJA VAZIO RESPONDE COM ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
