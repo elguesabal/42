@@ -55,7 +55,7 @@ std::cout << "it->first: '" << it->first << "'" << std::endl;
 		this->exitChannel(it->first); // CHAMAR ESSA FUNCAO QUANDO O CLIENTE ENVIA O COMANDO "QUIT" ESTANDO EM UM CANAL DA CORE DUMPED
 
 // DENTRO DA FUNCAO "this->exitChannel(it->first);" ESTOU REMOVENDO O ELEMENTO E APAGANDO DE "this->channels;" CASO SEJA O ULTIMO MEMBRO A SAIR
-// ISSO RETIRA UM ELEMENTO DE DENTRO DO MAP E CAUSA UMA DIFERENCA NO it?????
+// ISSO RETIRA UM ELEMENTO DE DENTRO DO MAP E CAUSA UMA DIFERENCA NO it?????????
 	}
 
 	this->fds.erase(this->fds.begin() + i);
