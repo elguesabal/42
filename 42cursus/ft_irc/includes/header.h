@@ -28,6 +28,6 @@
 extern bool shutdownServer;
 
 // ./src/signal.cpp
-void ctrlC(int signal);
+void handler(int signal);
 
 #endif

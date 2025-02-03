@@ -128,6 +128,7 @@ void Server::authentication(void) {
 void Server::exitChannel(std::string channel) {
 	this->resChannel(":" + this->client->nick + "!" + this->client->user + "@" + this->client->getIp() + " PART " + channel + (this->argsCmd.size() > 2 ? " :" + this->argsCmd[2] : ""), this->channels[channel]);
 
+
 // CLIENTE
 // std::map<std::string, Channel *> channels;
 	this->client->channels.erase(channel);

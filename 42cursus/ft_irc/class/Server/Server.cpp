@@ -50,12 +50,9 @@ void Server::newClient(void) {
 void Server::deleteClient(void) {
 	unsigned int i = std::find(this->clients.begin(), this->clients.end(), client) - this->clients.begin() + 1;
 
-	for (std::map<std::string, Channel *>::iterator it = this->client->channels.begin(); it != this->client->channels.end(); ++it) {
-std::cout << "it->first: '" << it->first << "'" << std::endl;
-		this->exitChannel(it->first); // CHAMAR ESSA FUNCAO QUANDO O CLIENTE ENVIA O COMANDO "QUIT" ESTANDO EM UM CANAL DA CORE DUMPED
-
-// DENTRO DA FUNCAO "this->exitChannel(it->first);" ESTOU REMOVENDO O ELEMENTO E APAGANDO DE "this->channels;" CASO SEJA O ULTIMO MEMBRO A SAIR
-// ISSO RETIRA UM ELEMENTO DE DENTRO DO MAP E CAUSA UMA DIFERENCA NO it?????????
+	while (this->client->channels.empty() == false) {
+		std::map<std::string, Channel *>::iterator it = this->client->channels.begin();
+		this->exitChannel(it->first);
 	}
 
 	this->fds.erase(this->fds.begin() + i);
@@ -93,7 +90,11 @@ void Server::listener(void) {
 			} else if (bytes_received == 0) {
 				this->deleteClient();
 			} else if (bytes_received < 0) {
-				std::cout << "\033[33mWarning:\033[0m Erro ao receber mensagem" << std::endl;
+				if (errno == EAGAIN || errno == EWOULDBLOCK) {
+					std::cout << "\033[33mWarning:\033[0m Erro ao receber mensagem" << std::endl;
+				} else {
+					std::cerr << "\033[33mWarning:\033[0m O cliente desconectou antes de ser respondido (" << strerror(errno) << ")" << std::endl;
+				}
 			}
 			goto newComand;
 		}

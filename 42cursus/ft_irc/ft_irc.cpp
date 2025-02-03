@@ -9,7 +9,8 @@ int main(int argc, char **argv) {
 		std::cout << "Numero de argumentos invalido" << std::endl;
 		return (0);
 	}
-	std::signal(SIGINT, ctrlC);
+	std::signal(SIGINT, handler);
+	std::signal(SIGPIPE, handler);
 
 	Server *server;
 	restartServer:
