@@ -72,6 +72,33 @@ void Server::JOIN(void) {
 	}
 }
 
+/// @brief UM OPERADOR PODE USAR ESSE COMANDO PARA EXPULSAR OUTRO MEMBRO (OU A SI MESMO SEGUNDO OUTROS SERVIDORES KKKK)
+/// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 RESPONDE COM ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
+/// @brief SE CANAL NAO EXISTE RESPONDE COM ":<servidor> 403 <apelido> <canal> :Canal inexistente"
+/// @brief SE O CANAL EXISTE MAS O CLIENTE NAO ESTA DENTRO DELE RESPONDE COM ":<servidor> 442 <apelido> <canal> :Você não está nesse canal"
+/// @brief SE O USUARIO A SER KICKADO NAO ESTEJA NO CANAL RESPONDE COM ":<servidor> 441 <operador> <usuario> <canal> :Este nick não está no canal"
+/// @brief 
+void Server::KICK(void) {
+	std::string host = this->getIp();
+	std::string nick = this->client->nick;
+	std::string channel = (this->argsCmd.size() > 1 ? this->argsCmd[1] : "");
+	std::string kickClient = (this->argsCmd.size() > 2 ? this->argsCmd[2] : "");
+
+	if (this->argsCmd.size() < 3) {
+		this->resClient(":" + host + " " + ERR_NEEDMOREPARAMS + nick + " MODE :Parâmetros insuficientes"); // Not enough parameters
+	} else if (this->channels.count(channel) == 0) {
+		this->resClient(":" + host + " " + ERR_NOSUCHCHANNEL + " " + nick + " " + channel + " :Canal inexistente"); // No such channel
+	} else if (this->channels[channel]->clients.count(nick) == 0) {
+		this->resClient(":" + host + " " + ERR_NOTONCHANNEL + " " + nick + " " + channel + " :Você não está nesse canal"); // You're not on that channel
+	} else if (this->channels[channel]->clients[nick]->o == false) {
+		this->resClient(":" + host + " " + ERR_CHANOPRIVSNEEDED + " " + nick + " " + channel + " :Você não é um operador de canal"); // You're not channel operator
+	} else if (this->channels[channel]->clients.count(kickClient) == 0) {
+		this->resClient(":" + host + " " + ERR_USERNOTINCHANNEL + " " + nick + " " + kickClient + " " + channel + " :Este nick não está no canal"); // They aren't on that channel
+	} else {
+std::cout << "kickado" << std::endl; // PAREI AKI (ACHO Q ACABANDO ISSO FALTA SO O CONVITE)
+	}
+}
+
 /// @brief GERENCIA O COMANDO LIST SEPARANDO EM UMA BUSCA POR TODOS OS CANAIS OU POR APENAS ALGUNS ESPECIFICOS
 void Server::LIST(void) {
 	if (this->argsCmd.size() < 2) {
@@ -167,7 +194,7 @@ void Server::NICK(void) {
 	this->authentication();
 }
 
-/// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 OU O SEGUNDO ESTEJA VAZIO RESPONDE COM ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
+/// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 RESPONDE COM ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
 /// @brief SE CANAL NAO EXISTE RESPONDE COM ":<servidor> 403 <apelido> <canal> :Canal inexistente"
 /// @brief SE O CANAL EXISTE MAS O CLIENTE NAO ESTA DENTRO DELE RESPONDE COM ":<servidor> 442 <apelido> <canal> :Você não está nesse canal"
 /// @brief SE OUVER MAIS DE UM ARGUMENTOS CHAMA A FUNCAO "this->exitChannel();"
@@ -295,4 +322,26 @@ void Server::USER(void) {
 		this->client->authUser = true;
 	}
 	this->authentication();
+}
+
+/// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 RESPONDE COM ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
+/// @brief CASO A BUSCA SEJA POR UM CANAL CHAMA A FUNCAO "this->listChannel(search);"
+/// @brief CASO A BUSCA SEJA POR UM USUARIO CHAMA A FUNCAO "this->searchClient(search);"
+/// @brief CASO NAO SEJA UM CANAL NICK OU * RESPONDE COM APENAS ":<servidor> 315 <apelido_solicitante> <argumento> :End of WHO list"
+void Server::WHO(void) {
+	std::string host = this->getIp();
+	std::string nick = this->client->nick;
+	std::string search = (this->argsCmd.size() > 1 ? this->argsCmd[1] : "");
+
+	if (this->argsCmd.size() < 2) {
+		this->resClient(":" + host + " " + ERR_NEEDMOREPARAMS + nick + " MODE :Parâmetros insuficientes"); // Not enough parameters
+	} else if (this->channels.count(search) == 1) {
+		this->listChannel(search);
+	} else if (this->nickClient.count(search) == 1) {
+		this->searchClient(search);
+	} else if (search == "*") {
+		this->listClients();
+	} else {
+		this->resClient(":" + host + " " + RPL_ENDOFWHO + " " + nick + " " + search + " :End of WHO list");
+	}
 }

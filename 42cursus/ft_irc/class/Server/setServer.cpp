@@ -67,6 +67,7 @@ void Server::setCmds(void) {
 	this->serverCommands["ascii-art"] = &Server::asciiArt;
 	this->serverCommands["CAP"] = &Server::CAP;
 	this->serverCommands["JOIN"] = &Server::JOIN;
+	this->serverCommands["KICK"] = &Server::KICK;
 	this->serverCommands["LIST"] = &Server::LIST;
 	this->serverCommands["luana"] = &Server::luana;
 	this->serverCommands["MODE"] = &Server::MODE;
@@ -78,6 +79,7 @@ void Server::setCmds(void) {
 	this->serverCommands["QUIT"] = &Server::QUIT;
 	this->serverCommands["TOPIC"] = &Server::TOPIC;
 	this->serverCommands["USER"] = &Server::USER;
+	this->serverCommands["WHO"] = &Server::WHO;
 }
 
 /// @brief SALVA A DATA DE INICIO DO SERVIDOR

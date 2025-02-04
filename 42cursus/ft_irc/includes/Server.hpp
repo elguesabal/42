@@ -40,6 +40,7 @@ class Server {
 		void asciiArt(void);
 		void CAP(void);
 		void JOIN(void);
+		void KICK(void);
 		void LIST(void);
 		void luana(void);
 		void MODE(void);
@@ -51,6 +52,7 @@ class Server {
 		void QUIT(void);
 		void TOPIC(void);
 		void USER(void);
+		void WHO(void);
 
 		// ./class/Server/utils/nick.cpp
 		bool nickInUse(std::string &nick);
@@ -73,8 +75,10 @@ class Server {
 		void listChannels(void);
 		void searchChannels(std::vector<std::string> channels);
 
-		// ./class/Server/utils/part.cpp
-		// void exitChannel(std::string &channel); // MOVIDO PARA ./class/Server/utils/utils.cpp
+		// ./class/Server/utils/who.cpp
+		void listChannel(std::string &channel);
+		void searchClient(std::string &client);
+		void listClients(void);
 
 		// ./class/Server/utils/utils.cpp
 		bool invalidLine(void);
