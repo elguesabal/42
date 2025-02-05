@@ -1,6 +1,6 @@
 #include "header.h"
 
-/// @brief SE TIVER MENOS DE DOIS PARAMETROS RESPONDE COM ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
+/// @brief SE TIVER MENOS DE DOIS PARAMETROS RESPONDE COM ":<servidor> 461 <comando> PRIVMSG :Parâmetros insuficientes"
 /// @brief SE O PARAMETRO INFORMADO NAO CORRESPONDER A UM ARQUIVO MANDA UMA MENSAGEM "Ascii art não encontrada"
 /// @brief CASO NAO SEJA NENHUMA DAS OPCOES ACIMA E OCORRA TUDO CORRETAMENTE ENVIA O CONTEUDO DO ARQUIVO UMA LINHA DE CADA VEZ
 void Server::asciiArt(void) {
@@ -31,10 +31,44 @@ void Server::CAP(void) {
 	}
 }
 
-/// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 RESPONDE COM O ERRO ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
+/// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 3 RESPONDE COM ":<servidor> 461 <comando> PRIVMSG :Parâmetros insuficientes"
+/// @brief SE O CANAL NAO EXISTE RESPONDE COM ":<servidor> 403 <apelido> <canal> :Canal inexistente"
+/// @brief SE O CANAL EXISTE MAS O CLIENTE NAO ESTA DENTRO DELE RESPONDE COM ":<servidor> 442 <apelido> <canal> :Você não está nesse canal"
+/// @brief SE O CLIENTE NAO FOR UM OPERADOR RESPONDE COM ":<servidor> 482 <apelido> <canal> :Você não é um operador de canal"
+/// @brief SE O NICK CONVIDADO NAO EXISTIR RESPONDE COM ":<servidor> 401 <apelido_convidador> <apelido_convidado> :Nick/canal não existe"
+/// @brief SE O USUARIO TENTAR ENTRAR EM UM CANAL Q ELE JA ESTEJA RESPONDE COM ":<servidor> 443 <apelido> <canal> :Já está no canal"
+/// @brief SE O USUARIO JA FOI CONVIDADO ANTES RESPONDE COM ":<servidor> 443 <apelido_convidador> <apelido_convidado> <canal> :Já está convidado"
+/// @brief CASO NAO SEJA NENHUMA DAS OPCOES ACIMA CHAMA A FUNCAO "this->toInvite(nickInvitation, channel);"
+void Server::INVITE(void) {
+	std::string host = this->getIp();
+	std::string nick = this->client->nick;
+	std::string nickInvitation = (this->argsCmd.size() > 1 ? this->argsCmd[1] : "");
+	std::string channel = (this->argsCmd.size() > 2 ? this->argsCmd[2] : "");
+
+	if (this->argsCmd.size() < 3) {
+		this->resClient(":" + host + " " + ERR_NEEDMOREPARAMS + nick + " INVITE :Parâmetros insuficientes"); // Not enough parameters
+	} else if (this->channels.count(channel) == 0) {
+		this->resClient(":" + host + " " + ERR_NOSUCHCHANNEL + " " + nick + " " + channel + " :Canal inexistente"); // No such channel
+	} else if (this->channels[channel]->clients.count(nick) == 0) {
+		this->resClient(":" + host + " " + ERR_NOTONCHANNEL + " " + nick + " " + channel + " :Você não está nesse canal"); // You're not on that channel
+	} else if (this->channels[channel]->i == true && this->channels[channel]->clients[nick]->o == false) {
+		this->resClient(":" + host + " " + ERR_CHANOPRIVSNEEDED + " " + nick + " " + channel + " :Você não é um operador de canal"); // You're not channel operator
+	} else if (this->nickClient.count(nickInvitation) == 0) {
+		this->resClient(":" + host + " " + ERR_NOSUCHNICK + " " + nick + " " + channel + " :Nick não existe"); // No such nick/channel
+	} else if (this->channels[channel]->clients.count(nickInvitation) == 1) {
+		this->resClient(":" + host + " " + ERR_USERONCHANNEL + " " + nick + " " + channel + " :Já está no canal");
+	} else if (std::find(this->nickClient[nickInvitation]->invite.begin(), this->nickClient[nickInvitation]->invite.end(), channel) != this->nickClient[nickInvitation]->invite.end()) {
+		this->resClient(":" + host + " " + ERR_USERONCHANNEL + " " + nick + " " + channel + " :Já está convidado");
+	} else {
+		this->toInvite(nickInvitation, channel);
+	}
+}
+
+/// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 RESPONDE COM O ERRO ":<servidor> 461 <comando> PRIVMSG :Parâmetros insuficientes"
 /// @brief SE NAO OUVER UM CANAL COM O NOME CORRESPONDENTE CRIA UM NOVO CANAL ADICIONANDO O CLIENTE COMO OPERADOR
 /// @brief SE O USUARIO TENTAR ENTRAR EM UM CANAL Q ELE JA ESTEJA RESPONDE COM ":<servidor> 443 <apelido> <canal> :Já está no canal"
 /// @brief CASO O CANAL NAO COMECE COM '#' OU CONTENHA CARACTERES INVALIDOS RESPONDE COM ":<servidor> 403 <apelido> <canal> :Nenhum canal desse tipo"
+/// @brief SE O CANAL ESTIVER COM O MODE +i ATIVO E O CLIENTE NAO TIVER UM CONVITE RESPONDE COM ":<servidor> 473 <apelido> <canal> :Não é possível entrar no canal (+i)"
 /// @brief SE O LIMITE DO CANAL ESTIVER ATIVO E O CANAL JA ESTIVER CHEIO RESPONDE COM ":<servidor> 471 <apelido> <canal> :Não é possível entrar no canal (+l)"
 /// @brief SE O CLIENTE TENTAR ENTRAR EM UM CANAL COM SENHA E FORNECER A SENHA ERRADA OU SEM FORNECER UMA SENHA RESPONDE COM ":<servidor> 475 <apelido> <canal> :Não é possível entrar no canal (+k)"
 /// @brief SE NENHUMA DAS OPCOES ACIMA ACONTECER E PQ O CLIENTE VAI SER ADICIONADO EM UM CANAL JA EXISTENTE
@@ -59,9 +93,11 @@ void Server::JOIN(void) {
 		if (channel[0] != '#' || this->nickChannelInvalid(channel, " \r\n:;@!*,+-=")) {
 			this->resClient(":" + host + " " + ERR_NOSUCHCHANNEL + " " + nick + " " + channel + " :Nenhum canal desse tipo"); // No such channel
 		} else if (this->channels.count(channel) == 1 && this->channels[channel]->clients.count(nick) == 1) {
-			this->resClient(":" + host + " " + ERR_USERONCHANNEL + " " + nick + " " + channel + " :Já está no canal");
+			this->resClient(":" + host + " " + ERR_USERONCHANNEL + " " + nick + " " + channel + " :Já está no canal"); // Is already invited
 		} else if (this->channels.count(channel) == 0) {
 			this->creatChannel(channel);
+		} else if (this->channels[channel]->i == true && std::find(this->client->invite.begin(), this->client->invite.end(), channel) == this->client->invite.end()) {
+			this->resClient(":" + host + " " + ERR_INVITEONLYCHAN + " " + nick + " " + channel + " :Não é possível entrar no canal (+i)"); // Cannot join channel (+i)
 		} else if (this->channels[channel]->l == true && this->channels[channel]->size() >= this->channels[channel]->limit) {
 			this->resClient(":" + host + " " + ERR_CHANNELISFULL + " " + nick + " " + channel + " :Não é possível entrar no canal (+l)"); // Cannot join channel (+l)
 		} else if (this->channels[channel]->k == true && password[i] != this->channels[channel]->password) {
@@ -73,19 +109,21 @@ void Server::JOIN(void) {
 }
 
 /// @brief UM OPERADOR PODE USAR ESSE COMANDO PARA EXPULSAR OUTRO MEMBRO (OU A SI MESMO SEGUNDO OUTROS SERVIDORES KKKK)
-/// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 RESPONDE COM ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
+/// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 3 RESPONDE COM ":<servidor> 461 <comando> PRIVMSG :Parâmetros insuficientes"
 /// @brief SE CANAL NAO EXISTE RESPONDE COM ":<servidor> 403 <apelido> <canal> :Canal inexistente"
 /// @brief SE O CANAL EXISTE MAS O CLIENTE NAO ESTA DENTRO DELE RESPONDE COM ":<servidor> 442 <apelido> <canal> :Você não está nesse canal"
+/// @brief SE O CLIENTE NAO FOR UM OPERADOR RESPONDE COM ":<servidor> 482 <apelido> <canal> :Você não é um operador de canal"
 /// @brief SE O USUARIO A SER KICKADO NAO ESTEJA NO CANAL RESPONDE COM ":<servidor> 441 <operador> <usuario> <canal> :Este nick não está no canal"
-/// @brief 
+/// @brief CHAMA A FUNCAO "this->removeClient(channel, kickClient, message);"
 void Server::KICK(void) {
 	std::string host = this->getIp();
 	std::string nick = this->client->nick;
 	std::string channel = (this->argsCmd.size() > 1 ? this->argsCmd[1] : "");
 	std::string kickClient = (this->argsCmd.size() > 2 ? this->argsCmd[2] : "");
+	std::string message = (this->argsCmd.size() > 3 ? this->argsCmd[3] : "");
 
 	if (this->argsCmd.size() < 3) {
-		this->resClient(":" + host + " " + ERR_NEEDMOREPARAMS + nick + " MODE :Parâmetros insuficientes"); // Not enough parameters
+		this->resClient(":" + host + " " + ERR_NEEDMOREPARAMS + nick + " KICK :Parâmetros insuficientes"); // Not enough parameters
 	} else if (this->channels.count(channel) == 0) {
 		this->resClient(":" + host + " " + ERR_NOSUCHCHANNEL + " " + nick + " " + channel + " :Canal inexistente"); // No such channel
 	} else if (this->channels[channel]->clients.count(nick) == 0) {
@@ -95,7 +133,7 @@ void Server::KICK(void) {
 	} else if (this->channels[channel]->clients.count(kickClient) == 0) {
 		this->resClient(":" + host + " " + ERR_USERNOTINCHANNEL + " " + nick + " " + kickClient + " " + channel + " :Este nick não está no canal"); // They aren't on that channel
 	} else {
-std::cout << "kickado" << std::endl; // PAREI AKI (ACHO Q ACABANDO ISSO FALTA SO O CONVITE)
+		this->removeClient(channel, kickClient, message);
 	}
 }
 
@@ -123,7 +161,7 @@ void Server::luana(void) {
 	file.close();
 }
 
-/// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 OU O SEGUNDO ESTEJA VAZIO RESPONDE COM ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
+/// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 OU O SEGUNDO ESTEJA VAZIO RESPONDE COM ":<servidor> 461 <comando> PRIVMSG :Parâmetros insuficientes"
 /// @brief SE CANAL NAO EXISTE RESPONDE COM ":<servidor> 403 <apelido> <canal> :Canal inexistente"
 /// @brief SE O MANDA APENAS O NOME DO CANAL O SERVIDOR RESPONDE APENAS COM OS MODOS DO CANAL ":<servidor> 324 <apelido> <canal> <modos do canal>" E ":<servidor> 329 <apelido> <canal> <timestamp>"
 /// @brief SE O CANAL EXISTE MAS O CLIENTE NAO ESTA DENTRO DELE RESPONDE COM ":<servidor> 442 <apelido> <canal> :Você não está nesse canal"
@@ -194,7 +232,7 @@ void Server::NICK(void) {
 	this->authentication();
 }
 
-/// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 RESPONDE COM ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
+/// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 RESPONDE COM ":<servidor> 461 <comando> PRIVMSG :Parâmetros insuficientes"
 /// @brief SE CANAL NAO EXISTE RESPONDE COM ":<servidor> 403 <apelido> <canal> :Canal inexistente"
 /// @brief SE O CANAL EXISTE MAS O CLIENTE NAO ESTA DENTRO DELE RESPONDE COM ":<servidor> 442 <apelido> <canal> :Você não está nesse canal"
 /// @brief SE OUVER MAIS DE UM ARGUMENTOS CHAMA A FUNCAO "this->exitChannel();"
@@ -203,9 +241,10 @@ void Server::PART(void) {
 	std::string nick = this->client->nick;
 	std::string channel;
 	std::vector<std::string> channels = (this->argsCmd.size() < 2 ? std::vector<std::string>() : this->split(this->argsCmd[1], ','));
+	std::string message = (this->argsCmd.size() > 2 ? this->argsCmd[2] : "");
 
 	if (this->argsCmd.size() < 2) {
-		this->resClient(":" + host + " " + ERR_NEEDMOREPARAMS + nick + " MODE :Parâmetros insuficientes"); // Not enough parameters
+		this->resClient(":" + host + " " + ERR_NEEDMOREPARAMS + nick + " PART :Parâmetros insuficientes"); // Not enough parameters
 	}
 
 	for (unsigned int i = 0; i < channels.size(); i++) {
@@ -215,7 +254,7 @@ void Server::PART(void) {
 		} else if (this->channels[channel]->clients.count(nick) == 0) {
 			this->resClient(":" + host + " " + ERR_NOTONCHANNEL + " " + nick + " " + channel + " :Você não está nesse canal"); // You're not on that channel
 		} else {
-			this->exitChannel(channel);
+			this->exitChannel(channel, message);
 		}
 	}
 }
@@ -249,7 +288,7 @@ void Server::PING(void) {
 }
 
 /// @brief CASO NAO ENCONTRE O CARACTER ":" NO COMANDO RESPONDE COM ":<servidor> 412 <nick> :Nenhum texto para enviar"
-/// @brief SE TIVER UM NUMERO DE ARGUMENTOS DIFERENTE DE 3 RESPONDE COM O ERRO ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
+/// @brief SE TIVER UM NUMERO DE ARGUMENTOS DIFERENTE DE 3 RESPONDE COM O ERRO ":<servidor> 461 <comando> PRIVMSG :Parâmetros insuficientes"
 /// @brief CASO O NICK NAO RETORNE NULL AO SER USADO COMO CHAVE DENTRO DE "this->nickClient" REDIRECIONA A MENSAGEM PARA O NICK DESTINARARIO E NAO RESPONDE O REMETENTE ":<apelido>!<usuario>@<host> PRIVMSG <apelido> :<mensagem>"
 /// @brief CAOS O CLIENTE TENTE MANDAR MENSAGEM EM UM CANAL Q ELE NAO E MEMBRO RESPONDE COM ":<servidor> 404 <apelido> <canal> :Você não participa deste canal"
 /// @brief CASO O NICK NAO RETORNE NULL AO SER USADO COMO CHAVE DENTRO DE "this->channel" REDIRECIONA A MENSAGEM PARA OS MEMBROS DO CANAL ":<apelido>!<usuario>@<host> PRIVMSG <canal> :<mensagem>" (NAO ENVIA A SI MESMO)
@@ -280,7 +319,7 @@ void Server::QUIT(void) {
 	this->deleteClient();
 }
 
-/// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 OU O SEGUNDO ESTEJA VAZIO RESPONDE COM ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
+/// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 OU O SEGUNDO ESTEJA VAZIO RESPONDE COM ":<servidor> 461 <comando> PRIVMSG :Parâmetros insuficientes"
 /// @brief SE CANAL NAO EXISTE RESPONDE COM ":<servidor> 403 <apelido> <canal> :Canal inexistente"
 /// @brief SE OUVER APENAS 2 ARGUMENTOS RESPONDE COM ":<servidor> 332 <apelido> <canal> :<tópico do canal>" OU ":<servidor> 331 <apelido> <canal> :No topic is set"
 /// @brief SE O CLIENTE TENTAR MUDAR O TOPICO E NAO ESTIVER NO CANAL RESPONDE COM ":<servidor> 442 <apelido> <canal> :Você não está nesse canal"
@@ -293,7 +332,7 @@ void Server::TOPIC(void) {
 	std::string topic = (this->argsCmd.size() > 2 ? this->argsCmd[2] : "");
 
 	if (this->argsCmd.size() < 2 || channel == "") {
-		this->resClient(":" + host + " " + ERR_NEEDMOREPARAMS + nick + " MODE :Parâmetros insuficientes"); // Not enough parameters
+		this->resClient(":" + host + " " + ERR_NEEDMOREPARAMS + nick + " TOPIC :Parâmetros insuficientes"); // Not enough parameters
 	} else if (this->channels.count(channel) == 0) {
 		this->resClient(":" + host + " " + ERR_NOSUCHCHANNEL + " " + nick + " " + channel + " :Canal inexistente"); // No such channel
 	} else if (this->argsCmd.size() < 3) {
@@ -309,7 +348,7 @@ void Server::TOPIC(void) {
 }
 
 /// @brief O COMANDO "USER" SO DEVE SER RECEBIDO UMA VEZ NA AUTENTICACAO E QUALQUER OUTRA TENTATIVA DESTE COMANDO SERA RESPONDIDO COM ":<servidor> 462 <nick> :Comando não autorizado (já registrado)"
-/// @brief SE ESTIVER FALTANDO PARAMETROS RESPONDE COM ":<servidor> 461 <nick> USER :Parâmetros insuficientes"
+/// @brief SE ESTIVER FALTANDO PARAMETROS RESPONDE COM ":<servidor> 461 <nick> <comando> :Parâmetros insuficientes"
 /// @brief CASO NAO TENHA SIDO RESPONDIDO COM NENHUMA DAS 2 OPCOES ACIMA APENAS SALVAR O user ATRIBUI true PARA authuser
 /// @brief INDEPENDENTE DAS OUTRAS OPCOES ACIMA SE AS 3 VARIAVEIS authPass, authNick E authUser FOREM true RESPONDE COM AS MENSAGENS 001, 002 E 003
 void Server::USER(void) {
@@ -324,7 +363,7 @@ void Server::USER(void) {
 	this->authentication();
 }
 
-/// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 RESPONDE COM ":<servidor> 461 A PRIVMSG :Parâmetros insuficientes"
+/// @brief SE TIVER UM NUMERO DE ARGUMENTOS MENOR Q 2 RESPONDE COM ":<servidor> 461 <comando> PRIVMSG :Parâmetros insuficientes"
 /// @brief CASO A BUSCA SEJA POR UM CANAL CHAMA A FUNCAO "this->listChannel(search);"
 /// @brief CASO A BUSCA SEJA POR UM USUARIO CHAMA A FUNCAO "this->searchClient(search);"
 /// @brief CASO NAO SEJA UM CANAL NICK OU * RESPONDE COM APENAS ":<servidor> 315 <apelido_solicitante> <argumento> :End of WHO list"
@@ -334,7 +373,7 @@ void Server::WHO(void) {
 	std::string search = (this->argsCmd.size() > 1 ? this->argsCmd[1] : "");
 
 	if (this->argsCmd.size() < 2) {
-		this->resClient(":" + host + " " + ERR_NEEDMOREPARAMS + nick + " MODE :Parâmetros insuficientes"); // Not enough parameters
+		this->resClient(":" + host + " " + ERR_NEEDMOREPARAMS + nick + " WHO :Parâmetros insuficientes"); // Not enough parameters
 	} else if (this->channels.count(search) == 1) {
 		this->listChannel(search);
 	} else if (this->nickClient.count(search) == 1) {

@@ -66,6 +66,7 @@ void Server::setFds(void) {
 void Server::setCmds(void) {
 	this->serverCommands["ascii-art"] = &Server::asciiArt;
 	this->serverCommands["CAP"] = &Server::CAP;
+	this->serverCommands["INVITE"] = &Server::INVITE;
 	this->serverCommands["JOIN"] = &Server::JOIN;
 	this->serverCommands["KICK"] = &Server::KICK;
 	this->serverCommands["LIST"] = &Server::LIST;

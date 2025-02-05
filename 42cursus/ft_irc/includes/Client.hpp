@@ -26,6 +26,7 @@ class Client {
 		bool auth;
 		std::string nick;
 		std::string user;
+		std::vector<std::string> invite;
 
 		// INFORMACOES DOS CANAIS
 		std::map<std::string, Channel *> channels;

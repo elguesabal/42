@@ -52,7 +52,7 @@ void Server::deleteClient(void) {
 
 	while (this->client->channels.empty() == false) {
 		std::map<std::string, Channel *>::iterator it = this->client->channels.begin();
-		this->exitChannel(it->first);
+		this->exitChannel(it->first, "Saiu do servidor");
 	}
 
 	this->fds.erase(this->fds.begin() + i);

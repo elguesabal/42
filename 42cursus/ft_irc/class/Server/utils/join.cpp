@@ -35,6 +35,7 @@ void Server::creatChannel(std::string &channel) {
 /// @brief RESPOSTA COM O TOPICO -> ":<servidor> 331 <apelido> <canal> :Nenhum tópico está definido" OU ":<servidor> 332 <apelido> <canal> :<tópico>"
 /// @brief RESPOSTA COM A LISTA DE USUARIOS -> ":<servidor> 353 <apelido> = <canal> :[prefixos]<apelido1> [prefixos]<apelido2> ..."
 /// @brief RESPOSTA DE FIM DE LISTA -> ":<servidor> 366 <apelido> #meucanal :Fim da lista de nomes"
+/// @brief REMOVE O CONVITE DO USUARIO CASO ELE TENHA
 /// @param channel NOME DO CANAL Q SERA ADICIONADO O NOVO MEMBRO
 void Server::joinChannel(std::string &channel) {
 	this->channels[channel]->newMember(this->client, channel);
@@ -63,4 +64,8 @@ void Server::joinChannel(std::string &channel) {
 
 // :<servidor> 366 <apelido> <canal> :End of NAMES list
 	this->resClient(":" + this->getIp() + " " + RPL_ENDOFNAMES + " " + this->client->nick + " " + channel + " :Fim da lista de nomes"); // End of NAMES list
+
+	if (std::find(this->client->invite.begin(), this->client->invite.end(), channel) != this->client->invite.end()) {
+		this->client->invite.erase(std::find(this->client->invite.begin(), this->client->invite.end(), channel));
+	}
 }

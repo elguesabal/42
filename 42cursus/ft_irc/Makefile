@@ -9,10 +9,12 @@ FILE = ./ft_irc.cpp\
 		./class/Server/cmdsServer.cpp\
 		./class/Server/getServer.cpp\
 		./class/Server/setServer.cpp\
-		./class/Server/utils/nick.cpp\
+		./class/Server/utils/invite.cpp\
 		./class/Server/utils/join.cpp\
-		./class/Server/utils/mode.cpp\
+		./class/Server/utils/kick.cpp\
 		./class/Server/utils/list.cpp\
+		./class/Server/utils/mode.cpp\
+		./class/Server/utils/nick.cpp\
 		./class/Server/utils/who.cpp\
 		./class/Server/utils/utils.cpp\
 		./class/Client/Client.cpp\

@@ -39,6 +39,7 @@ class Server {
 		// ./class/Server/cmdsServer.cpp
 		void asciiArt(void);
 		void CAP(void);
+		void INVITE(void);
 		void JOIN(void);
 		void KICK(void);
 		void LIST(void);
@@ -54,15 +55,19 @@ class Server {
 		void USER(void);
 		void WHO(void);
 
-		// ./class/Server/utils/nick.cpp
-		bool nickInUse(std::string &nick);
-		void unauthPass(void);
-		void swapNick(void);
-		void assignNick(void);
+		// ./class/Server/utils/invite.cpp
+		void toInvite(std::string &client, std::string &channel);
 
 		// ./class/Server/utils/join.cpp
 		void creatChannel(std::string &channel);
 		void joinChannel(std::string &channel);
+
+		// ./class/Server/utils/kick.cpp
+		void removeClient(std::string &channel, std::string &client, std::string &message);
+
+		// ./class/Server/utils/list.cpp
+		void listChannels(void);
+		void searchChannels(std::vector<std::string> channels);
 
 		// ./class/Server/utils/mode.cpp
 		void i(std::string &channel, bool mode);
@@ -71,9 +76,11 @@ class Server {
 		void o(std::string &channel, bool mode, std::string nick);
 		void l(std::string &channel, bool mode, std::string limit);
 
-		// ./class/Server/utils/list.cpp
-		void listChannels(void);
-		void searchChannels(std::vector<std::string> channels);
+		// ./class/Server/utils/nick.cpp
+		bool nickInUse(std::string &nick);
+		void unauthPass(void);
+		void swapNick(void);
+		void assignNick(void);
 
 		// ./class/Server/utils/who.cpp
 		void listChannel(std::string &channel);
@@ -88,7 +95,7 @@ class Server {
 		bool nickChannelInvalid(std::string &nickChannel, std::string charInvalid);
 		std::string toUpper(std::string &str);
 		void authentication(void);
-		void exitChannel(std::string channel);
+		void exitChannel(std::string channel, std::string message);
 
 		// INFORMACOES DO SERVIDOR
 		struct sockaddr_in server;
