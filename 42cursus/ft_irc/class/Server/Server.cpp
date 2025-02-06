@@ -28,7 +28,6 @@ Server::~Server(void) {
 		this->client = this->clients.front();
 		this->deleteClient();
 	}
-
 	if (this->getFd() != -1) {
 		close(this->getFd());
 	}
@@ -54,10 +53,8 @@ void Server::deleteClient(void) {
 		std::map<std::string, Channel *>::iterator it = this->client->channels.begin();
 		this->exitChannel(it->first, "Saiu do servidor");
 	}
-
 	this->fds.erase(this->fds.begin() + i);
 	this->nickClient.erase(this->client->nick);
-
 	this->cmds.clear();
 	delete this->client;
 	this->clients.erase(this->clients.begin() + i - 1);
@@ -67,19 +64,16 @@ void Server::deleteClient(void) {
 void Server::listener(void) {
 	newComand:
 	int ret = poll(this->fds.data(), this->fds.size(), -1);
-
 	if (ret == -1) {
 		if (shutdownServer == false) {
 			throw std::runtime_error("Erro no poll");
 		}
 		throw std::runtime_error("SIGINT recebido");
 	}
-
 	if (this->fds[0].revents & POLLIN) {
 		this->newClient();
 		goto newComand;
 	}
-
 	for (unsigned int i = 1; i < this->fds.size(); i++) {
 		if (this->fds[i].revents & POLLIN) {
 			this->client = this->clients[i - 1];
@@ -110,11 +104,9 @@ void Server::newBuffer(void) {
 		return ;
 	}
 	this->splitCmds();
-
 	for (unsigned int i = 0; i < this->cmds.size(); i++) {
 		this->cmd = this->cmds[i];
 		this->splitCmd();
-
 		if (this->serverCommands.find(this->cmd.substr(0, this->cmd.find(' '))) != this->serverCommands.end()) {
 			if (this->client->auth == true || this->argsCmd[0] == "CAP" || this->argsCmd[0] == "PASS" || this->argsCmd[0] == "NICK" || this->argsCmd[0] == "USER" || this->argsCmd[0] == "QUIT") {
 				(this->*serverCommands[this->cmd.substr(0, this->cmd.find(' '))])();

@@ -77,19 +77,16 @@ void Server::JOIN(void) {
 	std::string nick = this->client->nick;
 	std::vector<std::string> channels = (this->argsCmd.size() < 2 ? std::vector<std::string>() : this->split(this->argsCmd[1], ','));
 	std::vector<std::string> password = (this->argsCmd.size() < 3 ? std::vector<std::string>() : this->split(this->argsCmd[2], ','));
-	std::string channel;
 
 	if (this->argsCmd.size() < 2) {
 		this->resClient(":" + host + " " + ERR_NEEDMOREPARAMS + nick + " JOIN :Parâmetros insuficientes"); // Not enough parameters
 		return ;
 	}
-
 	while (channels.size() > password.size()) {
 		password.push_back("");
 	}
-
 	for (unsigned int i = 0; i < channels.size(); i++) {
-		channel = channels[i];
+		std::string channel = channels[i];
 		if (channel[0] != '#' || this->nickChannelInvalid(channel, " \r\n:;@!*,+-=")) {
 			this->resClient(":" + host + " " + ERR_NOSUCHCHANNEL + " " + nick + " " + channel + " :Nenhum canal desse tipo"); // No such channel
 		} else if (this->channels.count(channel) == 1 && this->channels[channel]->clients.count(nick) == 1) {
@@ -239,16 +236,14 @@ void Server::NICK(void) {
 void Server::PART(void) {
 	std::string host = this->getIp();
 	std::string nick = this->client->nick;
-	std::string channel;
 	std::vector<std::string> channels = (this->argsCmd.size() < 2 ? std::vector<std::string>() : this->split(this->argsCmd[1], ','));
 	std::string message = (this->argsCmd.size() > 2 ? this->argsCmd[2] : "");
 
 	if (this->argsCmd.size() < 2) {
 		this->resClient(":" + host + " " + ERR_NEEDMOREPARAMS + nick + " PART :Parâmetros insuficientes"); // Not enough parameters
 	}
-
 	for (unsigned int i = 0; i < channels.size(); i++) {
-		channel = channels[i];
+		std::string channel = channels[i];
 		if (this->channels.count(channel) == 0) {
 			this->resClient(":" + host + " " + ERR_NOSUCHCHANNEL + " " + nick + " " + channel + " :Canal inexistente"); // No such channel
 		} else if (this->channels[channel]->clients.count(nick) == 0) {

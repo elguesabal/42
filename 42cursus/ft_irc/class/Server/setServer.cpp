@@ -42,6 +42,7 @@ void Server::setPort(char *port) {
 /// @param port PORTA EM Q O SERVIDOR ESTARA ABERTO
 void Server::setServer(char *port) {
 	int opt = 1;
+
 	if (setsockopt(this->pfd.fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) == -1) {
 		throw std::runtime_error("Erro ao definir opção de socket");
 	}
@@ -86,5 +87,6 @@ void Server::setCmds(void) {
 /// @brief SALVA A DATA DE INICIO DO SERVIDOR
 void Server::setTime(void) {
 	std::time_t currentTime = std::time(0);
+
 	this->time = std::localtime(&currentTime);
 }

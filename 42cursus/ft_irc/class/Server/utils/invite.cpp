@@ -6,11 +6,7 @@
 /// @param client CLIENTE A SER CONVIDADO
 /// @param channel CANAL O CLIENTE IRA SER CONVIDADO
 void Server::toInvite(std::string &client, std::string &channel) {
-// :<servidor> 341 <apelido_convidador> <apelido_convidado> <canal>	
 	this->resClient(":" + this->getIp() + " " + RPL_INVITING + " " + this->client->nick + " " + client + " " + channel);
-
-// :<apelido_convidador>!<user>@<host> <comando> <apelido_convidado> :<canal>
 	this->sendClient(":" + this->client->nick + "!" + this->client->user + "@" + this->client->getIp() + " INVITE " + client + " :" + channel, this->nickClient[client]);
-
 	this->nickClient[client]->invite.push_back(channel);
 }
