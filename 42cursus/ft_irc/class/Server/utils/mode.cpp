@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mode.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joseanto <joseanto@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/07 13:28:05 by joseanto          #+#    #+#             */
+/*   Updated: 2025/02/07 13:28:06 by joseanto         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "header.h"
 
 /// @brief GERENCIA O MODE i ENVIANDO UMA MENSAGEM AO CANAL INFORMANDO SE O MODE i ESTA ESTA HABILITADO OU NAO ":<apelido>!<usuario>@<host> MODE <canal> <mode>"

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   kick.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joseanto <joseanto@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/07 13:27:58 by joseanto          #+#    #+#             */
+/*   Updated: 2025/02/07 13:27:59 by joseanto         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "header.h"
 
 /// @brief REMOVE O CLIENTE DO CANAL E NOTIFICA TODOS OS MEMBROS COM ":<kicker_apelido>!<user>@<host> KICK <canal> <apelido> :<mensagem>"
