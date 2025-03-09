@@ -1,7 +1,7 @@
 # Born2beroot
 
 - [Sobre o Projeto](#sobre-o-projeto)
-- [Requisitos do Projeto](#requisitos-do-projetos)
+- [Requisitos do Projeto](#requisitos-do-projeto)
 - [Como Configurar](#como-configurar)
 - [Políticas de Segurança](#políticas-de-segurança)
 - [Script de Monitoramento](#script-de-monitoramento)
