@@ -73,8 +73,3 @@ O servidor deve exibir: `Hello, Minitalk!`
 3. A mensagem deve aparecer no terminal onde o servidor está rodando.
 
 ![Image](https://github.com/user-attachments/assets/4e3c99f5-a0e7-43e7-aa96-12b9f4dd924f)
-
----
-
-Este projeto explora conceitos de comunicação entre processos e manipulação de sinais UNIX.
-
