@@ -5,7 +5,7 @@
 - [Funcionalidades](#funcionalidades)
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
 - [Como Compilar e Usar](#como-compilar-e-usar)
-- [Protótipos das Funções](#prototipos-das-funcoes)
+- [Protótipos das Funções](#protótipos-das-funções)
 
 ## Sobre o Projeto
 
@@ -32,8 +32,7 @@ O **Get Next Line** é um projeto que tem como objetivo implementar uma função
 Use um compilador compatível com C:
 
 ```sh
-cc -D BUFFER_SIZE=42 -c get_next_line.c get_next_line_utils.c
-ar rcs libgnl.a get_next_line.o get_next_line_utils.o
+make
 ```
 
 ### Usando em um Programa
