@@ -40,7 +40,7 @@ O programa deve ser executado com os seguintes argumentos:
 
 ### Exemplo de uso
 ```sh
-./philo 5 800 200 200 3
+./philo 3 5000 500 1000 2
 ```
 
 ![Image](https://github.com/user-attachments/assets/d19c124c-c0b0-4714-a378-4a266f7e4c81)
