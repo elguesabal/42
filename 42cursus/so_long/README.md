@@ -53,6 +53,6 @@ so_long/
 ├── so_long.c            # Arquivo contendo função main
 ├── so_long.h            # Arquivo de cabeçalho
 ├── sprites.png          # Sprites do jogo compactadas
-├── README.md            # Este arquivo
+└── README.md            # Este arquivo
 ```
 
