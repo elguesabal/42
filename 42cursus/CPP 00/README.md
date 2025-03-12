@@ -18,8 +18,7 @@ O **CPP 00** é o primeiro. O objetivo principal do projeto é introduzir os con
 Clone o repositório e compile os arquivos:
 
 ```bash
-git clone https://github.com/elguesabal/42.git
-cd 42/42cursus/CPP\ 00/ex00
+cd CPP\ 00/ex00
 make
 ```
 
