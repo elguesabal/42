@@ -2,9 +2,9 @@
 
 - [Sobre](#sobre)
 - [Requisitos](#requisitos)
-- [Instalação](#instalacao)
+- [Instalação](#instalação)
 - [Uso](#uso)
-- [Estrutura do Diretório](#estrutura-do-diretorio)
+- [Estrutura do Diretório](#estrutura-do-diretório)
 
 ## Sobre
 O **CPP 01** é a segunda parte da jornada em C++. Este módulo introduz conceitos fundamentais como alocação de memória, referências, ponteiros e manipuladores de fluxo. Também é abordado o conceito de padrões de programação orientada a objetos e boas práticas ao lidar com memória dinâmica.
