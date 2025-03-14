@@ -1,4 +1,4 @@
-# CPP 05
+# CPP 06
 
 - [Sobre](#sobre)
 - [Requisitos](#requisitos)
@@ -7,7 +7,7 @@
 - [Estrutura do Diretório](#estrutura-do-diretório)
 
 ## Sobre
-O **CPP 05** é um aprofunda conceitos de tratamento de exceções, classes abstratas e polimorfismo em C++. O foco está na manipulação de exceções e no uso de classes abstratas para criar estruturas de código mais robustas e flexíveis.
+O **CPP 06** continua a introdução aos conceitos essenciais do C++. Neste módulo, o foco está na conversão de tipos escalares, tratamento de conversões implícitas e explícitas, além do aprofundamento no uso de `reinterpret_cast`.
 
 ## Requisitos
 - Sistema operacional: Linux ou macOS
@@ -15,10 +15,10 @@ O **CPP 05** é um aprofunda conceitos de tratamento de exceções, classes abst
 - Flags obrigatórias: `-Wall -Wextra -Werror`
 
 ## Instalação
-Entre no diretório do exercício desejado e compile os arquivos:
+Acesse o diretório do exercício e compile os arquivos:
 
 ```bash
-cd CPP\ 05/ex00
+cd CPP\ 06/ex00
 make
 ```
 
@@ -33,11 +33,11 @@ Para rodar os exercícios, execute o binário correspondente após a compilaçã
 ## Estrutura do Diretório
 
 ```
-CPP 05/
+CPP 06/
 ├── ex00/
 ├── ex01/
 ├── ex02/
-└── ex03/
 ```
 
 Cada pasta `exXX/` representa um exercício independente, contendo seus respectivos arquivos fonte e cabeçalho.
+
