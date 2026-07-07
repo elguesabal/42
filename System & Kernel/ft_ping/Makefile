@@ -1,0 +1,37 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: joseanto <joseanto@student.42.rio>         +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2026/07/07 16:33:11 by joseanto          #+#    #+#              #
+#    Updated: 2026/07/07 16:33:11 by joseanto         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+ASSIST = ./assist/
+ARGS = ./args/
+HELP = ./help/
+FILE =	ft_ping.c\
+	$(ASSIST)include_string.c\
+	$(ARGS)info.c\
+	$(HELP)help.c
+CC = cc
+FLAGS = -Wall -Wextra -Werror -o
+NAME = ft_ping
+RM = rm
+
+all: $(NAME)
+
+$(NAME):
+		$(CC) $(FLAGS) $(NAME) $(FILE)
+
+clean:
+		$(RM) $(NAME)
+
+re: clean all
+
+fclean:	clean
+
+.PHONY: all clean re
