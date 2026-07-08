@@ -14,7 +14,6 @@ ASSIST = ./assist/
 ARGS = ./args/
 HELP = ./help/
 FILE =	ft_ping.c\
-	$(ASSIST)include_string.c\
 	$(ARGS)info.c\
 	$(HELP)help.c
 CC = cc

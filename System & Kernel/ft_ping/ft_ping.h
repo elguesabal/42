@@ -17,9 +17,9 @@
 # include <stdlib.h>
 # include <string.h>
 
-#define SUCCESS 0
-#define ERROR 1
-#define USAGE_ERROR 2
+# define SUCCESS 0
+# define ERROR 1
+# define USAGE_ERROR 2
 
 typedef struct s_args
 {
@@ -29,12 +29,13 @@ typedef struct s_args
 }	t_args;
 
 // ./assist/include_string.c
-unsigned int	include_string(char **array, char *str);
 
 // ./args/info.c
-void	info_args(t_args *info, int argc, char **argv);
+void			find_options(t_args *info, char **argv);
+void			find_host(t_args *info, char **argv);
+void			info_args(t_args *info, int argc, char **argv);
 
 // ./help/help.c
-void	help(void);
+void			help(void);
 
 #endif

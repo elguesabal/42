@@ -12,6 +12,83 @@
 
 #include "../ft_ping.h"
 
+/**
+ * @author VAMPETA
+ * @brief PROCURA AS OPCOES DENTRO DOS ARGUMENTOS E MARCA NO STRUCT t_args
+ * @param info ENDERECO DE MEMORIA RESPOSNSAVEL PELAS INFORMACOES DOS ARGUMENTOS
+ * @param argv ARGUMENTOS DO PROGRAMA
+*/
+void	find_options(t_args *info, char **argv)
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	while (argv[i])
+	{
+		if (argv[i][0] != '-')
+		{
+			i++;
+			continue ;
+		}
+		j = 1;
+		while (argv[i][j])
+		{
+			if (argv[i][j] == 'v')
+				info->verbose = 1;
+			else if (argv[i][j] == '?')
+				info->help = 1;
+			else
+			{
+				printf("ft_ping: invalid option -- '%c'\n", argv[i][j]);
+				help();
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+/**
+ * @author VAMPETA
+ * @brief PROCURA O HOST DENTRO DOS ARGUMENTOS E PASSA PARA O STRUCT t_args
+ * @param info ENDERECO DE MEMORIA RESPOSNSAVEL PELAS INFORMACOES DOS ARGUMENTOS
+ * @param argv ARGUMENTOS DO PROGRAMA
+*/
+void	find_host(t_args *info, char **argv)
+{
+	int	i;
+
+	i = 1;
+	while (argv[i])
+	{
+		if (argv[i][0] == '-')
+		{
+			i++;
+			continue ;
+		}
+		if (info->host)
+		{
+			printf("ft_ping: usage error: Invalid argument count\n");
+			exit(USAGE_ERROR);
+		}
+		info->host = argv[i];
+		i++;
+	}
+	if (!info->host && !info->help)
+	{
+		printf("ft_ping: usage error: Destination address required\n");
+		exit(USAGE_ERROR);
+	}
+}
+
+/**
+ * @author VAMPETA
+ * @brief RECEBE OS ARGUMENTOS E ORGANIZA NO PONTEIRO DO STRUCT t_args RECEBIDO
+ * @param info ENDERECO DE MEMORIA RESPOSNSAVEL PELAS INFORMACOES DOS ARGUMENTOS
+ * @param argc NUMERO DE ARGUMENTOS DO PROGRAMA
+ * @param argv ARGUMENTOS DO PROGRAMA
+*/
 void	info_args(t_args *info, int argc, char **argv)
 {
 	info->host = NULL;
@@ -22,13 +99,6 @@ void	info_args(t_args *info, int argc, char **argv)
 		printf("ft_ping: usage error: Destination address required\n");
 		exit(USAGE_ERROR);
 	}
-	if (argc > 3)
-	{
-		printf("ft_ping: usage error: Invalid argument count\n");
-		exit(USAGE_ERROR);
-	}
-	if (include_string(argv, "-?"))
-		info->help = 1;
-	if (include_string(argv, "-v"))
-		info->verbose = 1;
+	find_options(info, argv);
+	find_host(info, argv);
 }

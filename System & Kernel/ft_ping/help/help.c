@@ -12,6 +12,10 @@
 
 #include "../ft_ping.h"
 
+/**
+ * @author VAMPETA
+ * @brief EXECUTA O COMANDO "-?" DO ARGUMENTO DO PROGRAMA
+*/
 void	help(void)
 {
 	printf("\n");
