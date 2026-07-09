@@ -14,10 +14,13 @@
 
 int	main(int argc, char **argv)
 {
-	t_args	info;
+	t_info	info;
 
 	info_args(&info, argc, argv);
 	if (info.help)
 		help();
+	resolve_host(&info);
+	// if (info.ip)
+	// 	printf("%s\n", info.ip);
 	return (SUCCESS);
 }

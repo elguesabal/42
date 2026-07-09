@@ -14,11 +14,11 @@
 
 /**
  * @author VAMPETA
- * @brief PROCURA AS OPCOES DENTRO DOS ARGUMENTOS E MARCA NO STRUCT t_args
- * @param info ENDERECO DE MEMORIA RESPOSNSAVEL PELAS INFORMACOES DOS ARGUMENTOS
+ * @brief PROCURA AS OPCOES DENTRO DOS ARGUMENTOS E MARCA NO STRUCT t_info
+ * @param info ENDERECO DE MEMORIA RESPOSNSAVEL PELAS INFORMACOES DO PROGRAMA
  * @param argv ARGUMENTOS DO PROGRAMA
 */
-void	find_options(t_args *info, char **argv)
+void	find_options(t_info *info, char **argv)
 {
 	int	i;
 	int	j;
@@ -51,11 +51,11 @@ void	find_options(t_args *info, char **argv)
 
 /**
  * @author VAMPETA
- * @brief PROCURA O HOST DENTRO DOS ARGUMENTOS E PASSA PARA O STRUCT t_args
- * @param info ENDERECO DE MEMORIA RESPOSNSAVEL PELAS INFORMACOES DOS ARGUMENTOS
+ * @brief PROCURA O HOST DENTRO DOS ARGUMENTOS E PASSA PARA O STRUCT t_info
+ * @param info ENDERECO DE MEMORIA RESPOSNSAVEL PELAS INFORMACOES DO PROGRAMA
  * @param argv ARGUMENTOS DO PROGRAMA
 */
-void	find_host(t_args *info, char **argv)
+void	find_host(t_info *info, char **argv)
 {
 	int	i;
 
@@ -84,12 +84,12 @@ void	find_host(t_args *info, char **argv)
 
 /**
  * @author VAMPETA
- * @brief RECEBE OS ARGUMENTOS E ORGANIZA NO PONTEIRO DO STRUCT t_args RECEBIDO
- * @param info ENDERECO DE MEMORIA RESPOSNSAVEL PELAS INFORMACOES DOS ARGUMENTOS
+ * @brief RECEBE OS ARGUMENTOS E ORGANIZA NO PONTEIRO DO STRUCT t_info RECEBIDO
+ * @param info ENDERECO DE MEMORIA RESPOSNSAVEL PELAS INFORMACOES DO PROGRAMA
  * @param argc NUMERO DE ARGUMENTOS DO PROGRAMA
  * @param argv ARGUMENTOS DO PROGRAMA
 */
-void	info_args(t_args *info, int argc, char **argv)
+void	info_args(t_info *info, int argc, char **argv)
 {
 	info->host = NULL;
 	info->verbose = 0;

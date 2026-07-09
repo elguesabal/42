@@ -1,8 +1,17 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    test.sh                                            :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: joseanto <joseanto@student.42.rio>         +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2026/07/09 18:12:19 by joseanto          #+#    #+#              #
+#    Updated: 2026/07/09 19:51:33 by joseanto         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 #!/bin/bash
 
-DESTINATION_ADDRESS_REQUIRED="ft_ping: usage error: Destination address required"
-INVALID_OPTION="ft_ping: invalid option --"
-INVALID_ARGUMENT_COUNT="ft_ping: usage error: Invalid argument count"
 HELP="
 Usage
   ping [options] <destination>
@@ -25,17 +34,25 @@ test() {
 	printf "%-30s %s\n" "$command" "$result"
 }
 
-test "./ft_ping" "$DESTINATION_ADDRESS_REQUIRED"
-test "./ft_ping -v" "$DESTINATION_ADDRESS_REQUIRED"
+test "./ft_ping" "ft_ping: usage error: Destination address required"
+test "./ft_ping -v" "ft_ping: usage error: Destination address required"
 test "./ft_ping -?" "$HELP"
 test "./ft_ping -?v" "$HELP"
 test "./ft_ping -v?" "$HELP"
 test "./ft_ping -v -?" "$HELP"
 test "./ft_ping -? -v" "$HELP"
-test "./ft_ping -x" "$INVALID_OPTION 'x'"$'\n'"$HELP"
+test "./ft_ping -x" "ft_ping: invalid option -- 'x'"$'\n'"$HELP"
 # test "./ft_ping google.com" "$"
-test "./ft_ping google.com 42.rio" "$INVALID_ARGUMENT_COUNT"
+test "./ft_ping google.com 42.rio" "ft_ping: usage error: Invalid argument count"
 # test "./ft_ping -v google.com" "$"
 # test "./ft_ping google.com -v" "$"
 test "./ft_ping -?v google.com" "$HELP"
+test "./ft_ping -v? google.com" "$HELP"
 test "./ft_ping google.com -?v" "$HELP"
+test "./ft_ping google.com -v?" "$HELP"
+test "./ft_ping -? -v google.com" "$HELP"
+test "./ft_ping -v -? google.com" "$HELP"
+test "./ft_ping google.com -? -v" "$HELP"
+test "./ft_ping google.com -v -?" "$HELP"
+test "./ft_ping vampeta.br" "ft_ping: vampeta.br: Name or service not known"
+test "./ft_ping vampeta.42" "ft_ping: vampeta.42: Temporary failure in name resolution"

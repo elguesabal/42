@@ -16,26 +16,34 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <sys/types.h>
+# include <sys/socket.h>
+# include <netdb.h>
+# include <arpa/inet.h>
 
 # define SUCCESS 0
 # define ERROR 1
 # define USAGE_ERROR 2
 
-typedef struct s_args
+typedef struct s_info
 {
 	char	*host;
+	char	ip[INET_ADDRSTRLEN];
 	int		verbose;
 	int		help;
-}	t_args;
+}	t_info;
 
 // ./assist/include_string.c
 
-// ./args/info.c
-void			find_options(t_args *info, char **argv);
-void			find_host(t_args *info, char **argv);
-void			info_args(t_args *info, int argc, char **argv);
+// ./info/info.c
+void			find_options(t_info *info, char **argv);
+void			find_host(t_info *info, char **argv);
+void			info_args(t_info *info, int argc, char **argv);
 
 // ./help/help.c
 void			help(void);
+
+// ./resolve/host.c
+void			resolve_host(t_info *info);
 
 #endif

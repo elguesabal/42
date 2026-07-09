@@ -13,9 +13,11 @@
 ASSIST = ./assist/
 ARGS = ./args/
 HELP = ./help/
+RESOLVE = ./resolve/
 FILE =	ft_ping.c\
 	$(ARGS)info.c\
-	$(HELP)help.c
+	$(HELP)help.c\
+	$(RESOLVE)host.c
 CC = cc
 FLAGS = -Wall -Wextra -Werror -o
 NAME = ft_ping
