@@ -14,10 +14,12 @@ ASSIST = ./assist/
 ARGS = ./args/
 HELP = ./help/
 RESOLVE = ./resolve/
+SOCKET = ./socket/
 FILE =	ft_ping.c\
 	$(ARGS)info.c\
 	$(HELP)help.c\
-	$(RESOLVE)host.c
+	$(RESOLVE)host.c\
+	$(SOCKET)socket.c
 CC = cc
 FLAGS = -Wall -Wextra -Werror -o
 NAME = ft_ping

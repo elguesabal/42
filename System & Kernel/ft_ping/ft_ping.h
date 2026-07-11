@@ -46,4 +46,7 @@ void			help(void);
 // ./resolve/host.c
 void			resolve_host(t_info *info);
 
+// ./socket/socket.c
+void			test_socket(void);
+
 #endif
