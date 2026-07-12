@@ -20,7 +20,11 @@
 # include <sys/socket.h>
 # include <netdb.h>
 # include <arpa/inet.h>
+# include <netinet/ip_icmp.h>
+# include <unistd.h>
 
+# define ICMP_PAYLOAD_SIZE 56
+# define ICMP_PACKET_SIZE (sizeof(struct icmphdr) + ICMP_PAYLOAD_SIZE)
 # define SUCCESS 0
 # define ERROR 1
 # define USAGE_ERROR 2
@@ -36,17 +40,23 @@ typedef struct s_info
 // ./assist/include_string.c
 
 // ./info/info.c
-void			find_options(t_info *info, char **argv);
-void			find_host(t_info *info, char **argv);
-void			info_args(t_info *info, int argc, char **argv);
+void		find_options(t_info *info, char **argv);
+void		find_host(t_info *info, char **argv);
+void		info_args(t_info *info, int argc, char **argv);
 
 // ./help/help.c
-void			help(void);
+void		help(void);
 
 // ./resolve/host.c
-void			resolve_host(t_info *info);
+void		resolve_host(t_info *info);
 
 // ./socket/socket.c
-void			test_socket(void);
+void		test_socket(void);
+
+// ./checksum/checksum.c
+uint16_t	checksum(void *data, size_t len);
+
+// ./icmp/icmp.c
+void		build_icmp(char *packet, unsigned int sequence);
 
 #endif

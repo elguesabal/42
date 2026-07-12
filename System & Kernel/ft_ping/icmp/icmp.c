@@ -1,0 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   icmp.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joseanto <joseanto@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/12 17:49:59 by joseanto          #+#    #+#             */
+/*   Updated: 2026/07/12 19:03:42 by joseanto         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../ft_ping.h"
+
+void	build_icmp(char *packet, unsigned int sequence)
+{
+	struct icmphdr	*icmp;
+	char			*payload;
+
+	icmp = (struct icmphdr *)packet;
+	memset(icmp, 0, sizeof(*icmp));
+	icmp->type = ICMP_ECHO;
+	icmp->code = 0;
+	icmp->checksum = 0;
+	icmp->un.echo.id = htons(getpid());
+	icmp->un.echo.sequence = htons(sequence);
+	payload = packet + sizeof(struct icmphdr);
+	memset(payload, 'A', ICMP_PAYLOAD_SIZE);
+	icmp->checksum = checksum(icmp, sizeof(*icmp));
+}

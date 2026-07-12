@@ -15,11 +15,15 @@ ARGS = ./args/
 HELP = ./help/
 RESOLVE = ./resolve/
 SOCKET = ./socket/
+CHECKSUM = ./checksum/
+ICMP = ./icmp/
 FILE =	ft_ping.c\
 	$(ARGS)info.c\
 	$(HELP)help.c\
 	$(RESOLVE)host.c\
-	$(SOCKET)socket.c
+	$(CHECKSUM)checksum.c\
+	$(SOCKET)socket.c\
+	$(ICMP)icmp.c
 CC = cc
 FLAGS = -Wall -Wextra -Werror -o
 NAME = ft_ping
