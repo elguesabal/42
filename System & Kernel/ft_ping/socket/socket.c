@@ -11,14 +11,38 @@
 /* ************************************************************************** */
 
 #include "../ft_ping.h"
+#include <errno.h>
 
-void	test_socket(void)
+/**
+ * @author VAMPETA
+ * @brief CRIA E ARMAZENA O sockfd
+ * @param info ENDERECO DE MEMORIA RESPOSNSAVEL PELAS INFORMACOES DO PROGRAMA
+*/
+void	create_sockfd(t_info *info)
 {
-	int	sockfd;
+	info->sockfd = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP);
+	if (info->sockfd == -1)
+	{
+		printf("ft_ping: socket: Operation not permitted\n");
+		exit(ERROR);
+	}
+}
 
-	sockfd = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP);
-	if (sockfd < 0)
-		printf("Erro ao criar socket\n");
-	else
-		printf("Socket criado\n");
+/**
+ * @author VAMPETA
+ * @brief ENVIA UM PING
+ * @param info ENDERECO DE MEMORIA RESPOSNSAVEL PELAS INFORMACOES DO PROGRAMA
+ * @return RETORNA A MACRO SUCCESS OU ERROR
+*/
+ssize_t	send_ping(t_info *info)
+{
+	ssize_t	bytes;
+
+	bytes = sendto(info->sockfd, info->packet, ICMP_PACKET_SIZE, 0, (struct sockaddr *)&info->addr, sizeof(info->addr));
+	if (bytes < 0)
+	{
+		printf("ft_ping: socket: ??????\n");
+		return (ERROR);
+	}
+	return (SUCCESS);
 }

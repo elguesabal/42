@@ -15,13 +15,15 @@
 int	main(int argc, char **argv)
 {
 	t_info	info;
-	char	packet[ICMP_PACKET_SIZE];
 
 	info_args(&info, argc, argv);
 	if (info.help)
 		help();
 	resolve_host(&info);
-	test_socket();
-	build_icmp(packet, 1);
+	build_icmp(&info, 1);
+	create_sockfd(&info);
+	printf("%li\n", send_ping(&info));
+	printf("%li\n", send_ping(&info));
+	printf("%li\n", send_ping(&info));
 	return (SUCCESS);
 }

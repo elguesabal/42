@@ -14,6 +14,17 @@
 
 /**
  * @author VAMPETA
+ * @brief INICIA A VARIAVEL info LIMPANDO LIXO DE MEMORIA
+ * @param info ENDERECO DE MEMORIA RESPOSNSAVEL PELAS INFORMACOES DO PROGRAMA
+*/
+void	init_info(t_info *info)
+{
+	memset(info, 0, sizeof(*info));
+	info->sockfd = -1;
+}
+
+/**
+ * @author VAMPETA
  * @brief PROCURA AS OPCOES DENTRO DOS ARGUMENTOS E MARCA NO STRUCT t_info
  * @param info ENDERECO DE MEMORIA RESPOSNSAVEL PELAS INFORMACOES DO PROGRAMA
  * @param argv ARGUMENTOS DO PROGRAMA
@@ -91,9 +102,7 @@ void	find_host(t_info *info, char **argv)
 */
 void	info_args(t_info *info, int argc, char **argv)
 {
-	info->host = NULL;
-	info->verbose = 0;
-	info->help = 0;
+	init_info(info);
 	if (argc == 1)
 	{
 		printf("ft_ping: usage error: Destination address required\n");

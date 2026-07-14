@@ -12,6 +12,9 @@
 
 #!/bin/bash
 
+RED="\033[31m"
+GREEN="\033[32m"
+RESET="\033[0m"
 HELP="
 Usage
   ping [options] <destination>
@@ -19,6 +22,7 @@ Usage
 Options:
   <destination>      dns name or ip address
   -v                 verbose output"
+CURRENT_USER=${SUDO_USER:-$USER}
 
 test() {
 	local command="$1"
@@ -27,11 +31,11 @@ test() {
 
 	output=$(eval "$command" 2>&1)
 	if [[ "$output" == "$expected" ]]; then
-		result="OK"
+		result="${GREEN}OK${RESET}"
 	else
-		result="FAIL"
+		result="${RED}FAIL${RESET}"
 	fi
-	printf "%-30s %s\n" "$command" "$result"
+	printf "%-50s %b\n" "$command" "$result"
 }
 
 test "./ft_ping" "ft_ping: usage error: Destination address required"
@@ -58,3 +62,4 @@ test "./ft_ping google.com -v -?" "$HELP"
 test "./ft_ping google.com 42.rio" "ft_ping: usage error: Invalid argument count"
 test "./ft_ping vampeta.br" "ft_ping: vampeta.br: Name or service not known"
 test "./ft_ping vampeta.42" "ft_ping: vampeta.42: Temporary failure in name resolution"
+test "sudo -u $CURRENT_USER ./ft_ping google.com" "ft_ping: socket: Operation not permitted"

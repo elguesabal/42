@@ -14,7 +14,7 @@
 
 /**
  * @author VAMPETA
- * @brief RESOLVE O HOST TRANSFORMANDO ELE EM ENDERECO IP
+ * @brief RESOLVE O HOST TRANSFORMANDO ELE EM ENDERECO IP E SALVANDO ADDR
  * @param info ENDERECO DE MEMORIA RESPOSNSAVEL PELAS INFORMACOES DO PROGRAMA
 */
 void	resolve_host(t_info *info)
@@ -22,7 +22,6 @@ void	resolve_host(t_info *info)
 	struct addrinfo		hints;
 	struct addrinfo		*result;
 	int					status;
-	struct sockaddr_in	*addr;
 
 	memset(&hints, 0, sizeof(hints));
 	hints.ai_family = AF_INET;
@@ -34,8 +33,8 @@ void	resolve_host(t_info *info)
 		printf("ft_ping: %s: %s\n", info->host, gai_strerror(status));
 		return ;
 	}
-	addr = (struct sockaddr_in *)result->ai_addr;
-	if (inet_ntop(AF_INET, &addr->sin_addr, info->ip, sizeof(info->ip)) == NULL)
+	info->addr = *(struct sockaddr_in *)result->ai_addr;
+	if (inet_ntop(AF_INET, &info->addr.sin_addr, info->ip, sizeof(info->ip)) == NULL)
 	{
 		freeaddrinfo(result);
 		exit(1);
