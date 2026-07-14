@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 13:14:58 by joseanto          #+#    #+#             */
-/*   Updated: 2026/07/12 17:41:32 by joseanto         ###   ########.fr       */
+/*   Updated: 2026/07/14 11:32:33 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,5 @@ uint16_t	checksum(void *data, size_t len)
 		sum += *(uint8_t *)ptr;
 	while (sum >> 16)
 		sum = (sum & 0XFFFF) + (sum >> 16);
-	return (uint16_t)(-sum);
+	return ((uint16_t)(-sum));
 }
