@@ -31,10 +31,14 @@ void	resolve_host(t_info *info)
 	if (status != 0)
 	{
 		printf("ft_ping: %s: %s\n", info->host, gai_strerror(status));
-		return ;
+		exit(1);
 	}
 	info->addr = *(struct sockaddr_in *)result->ai_addr;
-	if (inet_ntop(AF_INET, &info->addr.sin_addr, info->ip, sizeof(info->ip)) == NULL)
+	if (inet_ntop(
+			AF_INET,
+			&info->addr.sin_addr,
+			info->ip,
+			sizeof(info->ip)) == NULL)
 	{
 		freeaddrinfo(result);
 		exit(1);

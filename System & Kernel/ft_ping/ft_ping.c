@@ -22,8 +22,7 @@ int	main(int argc, char **argv)
 	resolve_host(&info);
 	build_icmp(&info, 1);
 	create_sockfd(&info);
-	printf("%li\n", send_ping(&info));
-	printf("%li\n", send_ping(&info));
-	printf("%li\n", send_ping(&info));
+	send_ping(&info);
+	receive_ping(&info);
 	return (SUCCESS);
 }

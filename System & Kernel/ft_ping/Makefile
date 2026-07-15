@@ -10,20 +10,15 @@
 #                                                                              #
 # **************************************************************************** #
 
-ASSIST = ./assist/
-ARGS = ./args/
-HELP = ./help/
-RESOLVE = ./resolve/
-SOCKET = ./socket/
-CHECKSUM = ./checksum/
-ICMP = ./icmp/
 FILE =	ft_ping.c\
-	$(ARGS)info.c\
-	$(HELP)help.c\
-	$(RESOLVE)host.c\
-	$(CHECKSUM)checksum.c\
-	$(SOCKET)socket.c\
-	$(ICMP)icmp.c
+	./src/info.c\
+	./src/help.c\
+	./src/host.c\
+	./src/checksum.c\
+	./src/icmp.c\
+	./src/socket.c\
+	./src/send.c\
+	./src/receive.c
 CC = cc
 FLAGS = -Wall -Wextra -Werror -o
 NAME = ft_ping
@@ -40,5 +35,9 @@ clean:
 re: clean all
 
 fclean:	clean
+
+test: $(NAME)
+		chmod +x test.sh
+		sudo bash ./test.sh
 
 .PHONY: all clean re

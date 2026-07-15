@@ -22,9 +22,11 @@
 # include <arpa/inet.h>
 # include <netinet/ip_icmp.h>
 # include <unistd.h>
+# include <errno.h>
 
 # define ICMP_PAYLOAD_SIZE 56
 # define ICMP_PACKET_SIZE 64
+# define RECEIVE_BUFFER_SIZE 1500
 # define SUCCESS 0
 # define ERROR 1
 # define USAGE_ERROR 2
@@ -38,30 +40,37 @@ typedef struct s_info
 	int					help;
 	char				packet[ICMP_PACKET_SIZE];
 	int					sockfd;
+	char				recv_buffer[RECEIVE_BUFFER_SIZE];
+	// int					sequence;
+	// int					lost_packets;
 }	t_info;
 
-// ./assist/include_string.c
-
-// ./info/info.c
+// ./src/info.c
 void		init_info(t_info *info);
 void		find_options(t_info *info, char **argv);
 void		find_host(t_info *info, char **argv);
 void		info_args(t_info *info, int argc, char **argv);
 
-// ./help/help.c
+// ./src/help.c
 void		help(void);
 
-// ./resolve/host.c
+// ./src/host.c
 void		resolve_host(t_info *info);
 
-// ./socket/socket.c
-void		create_sockfd(t_info *info);
-ssize_t		send_ping(t_info *info);
-
-// ./checksum/checksum.c
+// ./src/checksum.c
 uint16_t	checksum(void *data, size_t len);
 
-// ./icmp/icmp.c
+// ./src/icmp.c
 void		build_icmp(t_info *info, unsigned int sequence);
+
+// ./src/socket.c
+void		create_sockfd(t_info *info);
+
+// ./src/send.c
+ssize_t		send_ping(t_info *info);
+
+// ./src/receive.c
+ssize_t		receive_ping(t_info *info);
+void		parse_reply(t_info *info);
 
 #endif
