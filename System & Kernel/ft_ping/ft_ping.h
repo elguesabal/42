@@ -30,6 +30,7 @@
 # define SUCCESS 0
 # define ERROR 1
 # define USAGE_ERROR 2
+# define WAIT 3
 
 typedef struct s_info
 {
@@ -41,8 +42,8 @@ typedef struct s_info
 	char				packet[ICMP_PACKET_SIZE];
 	int					sockfd;
 	char				recv_buffer[RECEIVE_BUFFER_SIZE];
-	// int					sequence;
-	// int					lost_packets;
+	int					sequence;
+	int					lost_packets;
 }	t_info;
 
 // ./src/info.c
@@ -61,7 +62,7 @@ void		resolve_host(t_info *info);
 uint16_t	checksum(void *data, size_t len);
 
 // ./src/icmp.c
-void		build_icmp(t_info *info, unsigned int sequence);
+void		build_icmp(t_info *info);
 
 // ./src/socket.c
 void		create_sockfd(t_info *info);
@@ -70,7 +71,9 @@ void		create_sockfd(t_info *info);
 ssize_t		send_ping(t_info *info);
 
 // ./src/receive.c
-ssize_t		receive_ping(t_info *info);
+int			validate_icmp(t_info *info);
+int			validate_bytes(t_info *info, ssize_t bytes);
+int			receive_ping(t_info *info);
 void		parse_reply(t_info *info);
 
 #endif

@@ -25,4 +25,5 @@ void	create_sockfd(t_info *info)
 		printf("ft_ping: socket: Operation not permitted\n");
 		exit(ERROR);
 	}
+	printf("PING %s (%s) %i(%li) bytes of data.\n", info->host, info->ip, ICMP_PAYLOAD_SIZE, ICMP_PACKET_SIZE + sizeof(struct iphdr));
 }

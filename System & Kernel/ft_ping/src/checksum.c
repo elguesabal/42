@@ -35,5 +35,5 @@ uint16_t	checksum(void *data, size_t len)
 		sum += *(uint8_t *)ptr;
 	while (sum >> 16)
 		sum = (sum & 0XFFFF) + (sum >> 16);
-	return ((uint16_t)(-sum));
+	return ((uint16_t)~sum);
 }

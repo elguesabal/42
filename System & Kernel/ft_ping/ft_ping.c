@@ -20,9 +20,15 @@ int	main(int argc, char **argv)
 	if (info.help)
 		help();
 	resolve_host(&info);
-	build_icmp(&info, 1);
 	create_sockfd(&info);
-	send_ping(&info);
-	receive_ping(&info);
+	while (1)
+	{
+		build_icmp(&info);
+		send_ping(&info);
+		if (receive_ping(&info) == SUCCESS)
+			parse_reply(&info);
+		info.sequence++;
+		sleep(1);
+	}
 	return (SUCCESS);
 }

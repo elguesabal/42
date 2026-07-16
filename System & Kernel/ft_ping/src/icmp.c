@@ -16,9 +16,8 @@
  * @author VAMPETA
  * @brief MONTA O CONTEUDO DE UM PING
  * @param info ENDERECO DE MEMORIA RESPOSNSAVEL PELAS INFORMACOES DO PROGRAMA
- * @param sequence NUMERO DE VEZES QUE O PING FOI ENVIADO
 */
-void	build_icmp(t_info *info, unsigned int sequence)
+void	build_icmp(t_info *info)
 {
 	struct icmphdr	*icmp;
 	char			*payload;
@@ -29,7 +28,7 @@ void	build_icmp(t_info *info, unsigned int sequence)
 	icmp->code = 0;
 	icmp->checksum = 0;
 	icmp->un.echo.id = htons(getpid());
-	icmp->un.echo.sequence = htons(sequence);
+	icmp->un.echo.sequence = htons(info->sequence);
 	payload = info->packet + sizeof(struct icmphdr);
 	memset(payload, 'A', ICMP_PAYLOAD_SIZE);
 	icmp->checksum = checksum(info->packet, ICMP_PACKET_SIZE);
