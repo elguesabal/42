@@ -18,7 +18,9 @@ FILE =	ft_ping.c\
 	./src/icmp.c\
 	./src/socket.c\
 	./src/send.c\
-	./src/receive.c
+	./src/receive.c\
+	./src/signal.c\
+	./src/statistics.c
 CC = cc
 FLAGS = -Wall -Wextra -Werror -o
 NAME = ft_ping

@@ -27,7 +27,7 @@ void	build_icmp(t_info *info)
 	icmp->type = ICMP_ECHO;
 	icmp->code = 0;
 	icmp->checksum = 0;
-	icmp->un.echo.id = htons(getpid());
+	icmp->un.echo.id = htons(info->pid);
 	icmp->un.echo.sequence = htons(info->sequence);
 	payload = info->packet + sizeof(struct icmphdr);
 	memset(payload, 'A', ICMP_PAYLOAD_SIZE);

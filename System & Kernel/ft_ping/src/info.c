@@ -20,8 +20,8 @@
 void	init_info(t_info *info)
 {
 	memset(info, 0, sizeof(*info));
+	info->pid = (getpid() & 0xFFFF);
 	info->sockfd = -1;
-	info->sequence = 1;
 }
 
 /**

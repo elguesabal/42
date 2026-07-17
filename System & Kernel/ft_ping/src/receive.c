@@ -14,6 +14,16 @@
 
 /**
  * @author VAMPETA
+ * @brief PRINTA ERROS DO MODO VERBOSE
+ * @param info ENDERECO DE MEMORIA RESPOSNSAVEL PELAS INFORMACOES DO PROGRAMA
+*/
+void	error_verbose(t_info *info)
+{
+	(void)info;
+}
+
+/**
+ * @author VAMPETA
  * @brief VERIFICA SE O BUFFER RECEBIDO POR recvmsg FOI DESTINADO A ESTE PROGRAMA
  * @param info ENDERECO DE MEMORIA RESPOSNSAVEL PELAS INFORMACOES DO PROGRAMA
  * @return RETORNA A MACRO SUCCESS SE A RESPOSTA FOR PARA ESTE PROGRAMA
@@ -21,18 +31,30 @@
 */
 int	validate_icmp(t_info *info)
 {
-	struct iphdr	*ip;
-	struct icmphdr	*icmp;
+	struct iphdr	*inner_ip;
+	struct icmphdr	*inner_icmp;
 
-	ip = (struct iphdr *)info->recv_buffer;
-	icmp = (struct icmphdr *)(info->recv_buffer + (ip->ihl * 4));
-	if (icmp->type != ICMP_ECHOREPLY)
+	if (info->recv_icmp->type == ICMP_ECHOREPLY)
+	{
+		if (ntohs(info->recv_icmp->un.echo.id) != info->pid)
+			return (WAIT);
+		if (ntohs(info->recv_icmp->un.echo.sequence) != info->sequence)
+			return (WAIT);
+		return (SUCCESS);
+	}
+	if (info->recv_icmp->type == ICMP_DEST_UNREACH || info->recv_icmp->type == ICMP_TIME_EXCEEDED || info->recv_icmp->type == ICMP_PARAMETERPROB)
+	{
+		inner_ip = (struct iphdr *)(info->recv_buffer + (info->recv_ip->ihl * 4) + sizeof(struct icmphdr));
+		inner_icmp = (struct icmphdr *)((char *)inner_ip + (inner_ip->ihl * 4));
+		if (ntohs(inner_icmp->un.echo.id) != info->pid)
+			return (WAIT);
+		if (ntohs(inner_icmp->un.echo.sequence) != info->sequence)
+			return (WAIT);
+		if (info->verbose)
+			error_verbose(info);
 		return (ERROR);
-	if (ntohs(icmp->un.echo.id) != (getpid() & 0xFFFF))
-		return (ERROR);
-	if (ntohs(icmp->un.echo.sequence) != info->sequence)
-		return (ERROR);
-	return (SUCCESS);
+	}
+	return (WAIT);
 }
 
 /**
@@ -46,6 +68,8 @@ int	validate_icmp(t_info *info)
 */
 int	validate_bytes(t_info *info, ssize_t bytes)
 {
+	int	result;
+
 	if (bytes < 0)
 	{
 		if (errno == EAGAIN || errno == EWOULDBLOCK)
@@ -60,8 +84,15 @@ int	validate_bytes(t_info *info, ssize_t bytes)
 		fprintf(stderr, "ft_ping: recvmsg: %s\n", strerror(errno));
 		exit(ERROR);
 	}
-	if (validate_icmp(info) == SUCCESS)
-		return (SUCCESS);
+	if (bytes < sizeof(struct iphdr))
+	    return (WAIT);
+	info->recv_ip = (struct iphdr *)info->recv_buffer;
+	if (bytes < (info->recv_ip->ihl * 4) + sizeof(struct icmphdr))
+		return (WAIT);
+	info->recv_icmp = (struct icmphdr *)(info->recv_buffer + (info->recv_ip->ihl * 4));
+	result = validate_icmp(info);
+	if (result == SUCCESS || result == ERROR)
+		return (result);
 	return (WAIT);
 }
 
@@ -101,15 +132,8 @@ int	receive_ping(t_info *info)
 */
 void	parse_reply(t_info *info)
 {
-	struct iphdr	*ip;
-	struct icmphdr	*icmp;
-
-	ip = (struct iphdr *)info->recv_buffer;
-	icmp = (struct icmphdr *)(info->recv_buffer + (ip->ihl * 4));
-	printf("TTL: %d\n", ip->ttl);
-	printf("TYPE: %d\n", icmp->type);
-	printf("CODE: %d\n", icmp->code);
-	printf("ID: %d\n", ntohs(icmp->un.echo.id));
-	printf("SEQ: %d\n", ntohs(icmp->un.echo.sequence));
-printf("\n\n");
+	printf("%i bytes from %s: ", ICMP_PACKET_SIZE, info->ip);
+	printf("icmp_seq=%i ", ntohs(info->recv_icmp->un.echo.sequence));
+	printf("ttl=%i ", info->recv_ip->ttl);
+	printf("time=?.??? ms\n");
 }

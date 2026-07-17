@@ -34,16 +34,19 @@
 
 typedef struct s_info
 {
+	uint16_t			pid;
 	char				*host;
 	struct sockaddr_in	addr;
 	char				ip[INET_ADDRSTRLEN];
 	int					verbose;
 	int					help;
+	uint16_t			sequence;
+	int					lost_packets;
 	char				packet[ICMP_PACKET_SIZE];
 	int					sockfd;
 	char				recv_buffer[RECEIVE_BUFFER_SIZE];
-	int					sequence;
-	int					lost_packets;
+	struct iphdr		*recv_ip;
+	struct icmphdr		*recv_icmp;
 }	t_info;
 
 // ./src/info.c
@@ -71,9 +74,14 @@ void		create_sockfd(t_info *info);
 ssize_t		send_ping(t_info *info);
 
 // ./src/receive.c
+void		error_verbose(t_info *info);
 int			validate_icmp(t_info *info);
 int			validate_bytes(t_info *info, ssize_t bytes);
 int			receive_ping(t_info *info);
 void		parse_reply(t_info *info);
+
+// ./src/signal.c
+
+// ./src/statistics.c
 
 #endif

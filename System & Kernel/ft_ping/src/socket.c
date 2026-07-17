@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 13:15:19 by joseanto          #+#    #+#             */
-/*   Updated: 2026/07/15 19:06:47 by joseanto         ###   ########.fr       */
+/*   Updated: 2026/07/17 17:52:58 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,8 @@ void	create_sockfd(t_info *info)
 		printf("ft_ping: socket: Operation not permitted\n");
 		exit(ERROR);
 	}
-	printf("PING %s (%s) %i(%li) bytes of data.\n", info->host, info->ip, ICMP_PAYLOAD_SIZE, ICMP_PACKET_SIZE + sizeof(struct iphdr));
+	printf("PING %s (%s): %i data bytes", info->host, info->ip, ICMP_PAYLOAD_SIZE);
+	if (info->verbose)
+		printf(", id 0x%04x = %u", info->pid, info->pid);
+	printf("\n");
 }
