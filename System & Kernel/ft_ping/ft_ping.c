@@ -16,19 +16,24 @@ int	main(int argc, char **argv)
 {
 	t_info	info;
 
+	signal(SIGINT, stop_ping);
 	info_args(&info, argc, argv);
 	if (info.help)
 		help();
 	resolve_host(&info);
 	create_sockfd(&info);
-	while (1)
+	while (!stop_requested())
 	{
 		build_icmp(&info);
 		send_ping(&info);
 		if (receive_ping(&info) == SUCCESS)
-			parse_reply(&info);
+		{
+			update_statistics(&info);
+			print_ping(&info);
+		}
 		info.sequence++;
 		sleep(1);
 	}
+	print_statistics(&info);
 	return (SUCCESS);
 }

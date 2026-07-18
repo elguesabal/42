@@ -19,6 +19,7 @@ FILE =	ft_ping.c\
 	./src/socket.c\
 	./src/send.c\
 	./src/receive.c\
+	./src/print_ping.c\
 	./src/signal.c\
 	./src/statistics.c
 CC = cc

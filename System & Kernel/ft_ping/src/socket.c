@@ -25,7 +25,8 @@ void	create_sockfd(t_info *info)
 		printf("ft_ping: socket: Operation not permitted\n");
 		exit(ERROR);
 	}
-	printf("PING %s (%s): %i data bytes", info->host, info->ip, ICMP_PAYLOAD_SIZE);
+	printf("PING %s (%s): ", info->host, info->ip);
+	printf("%i data bytes", ICMP_PAYLOAD_SIZE);
 	if (info->verbose)
 		printf(", id 0x%04x = %u", info->pid, info->pid);
 	printf("\n");

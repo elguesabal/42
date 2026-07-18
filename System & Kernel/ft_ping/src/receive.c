@@ -26,6 +26,23 @@ void	error_verbose(t_info *info)
  * @author VAMPETA
  * @brief VERIFICA SE O BUFFER RECEBIDO POR recvmsg FOI DESTINADO A ESTE PROGRAMA
  * @param info ENDERECO DE MEMORIA RESPOSNSAVEL PELAS INFORMACOES DO PROGRAMA
+ * @param icmp INFORMACOES DA FUNCAO recvmsg
+ * @return RETORNA A MACRO WAIT SE A RESPOSTA NAO FOR OQUE ESTE PROGRAMA ESPERA
+ * @return RETORNA A MACRO ERROR SE NAO FOR NENHUMA CASO ACIMA
+*/
+int	is_our_echo(t_info *info, struct icmphdr *icmp)
+{
+	if (ntohs(icmp->un.echo.id) != info->pid)
+		return (WAIT);
+	if (ntohs(icmp->un.echo.sequence) != info->sequence)
+		return (WAIT);
+	return (ERROR);
+}
+
+/**
+ * @author VAMPETA
+ * @brief VERIFICA SE O BUFFER RECEBIDO POR recvmsg FOI DESTINADO A ESTE PROGRAMA
+ * @param info ENDERECO DE MEMORIA RESPOSNSAVEL PELAS INFORMACOES DO PROGRAMA
  * @return RETORNA A MACRO SUCCESS SE A RESPOSTA FOR PARA ESTE PROGRAMA
  * @return RETORNA A MACRO ERROR SE A RESPOSTA NAO FOR PARA ESTE PROGRAMA
 */
@@ -36,19 +53,19 @@ int	validate_icmp(t_info *info)
 
 	if (info->recv_icmp->type == ICMP_ECHOREPLY)
 	{
-		if (ntohs(info->recv_icmp->un.echo.id) != info->pid)
-			return (WAIT);
-		if (ntohs(info->recv_icmp->un.echo.sequence) != info->sequence)
+		if (is_our_echo(info, info->recv_icmp) == WAIT)
 			return (WAIT);
 		return (SUCCESS);
 	}
-	if (info->recv_icmp->type == ICMP_DEST_UNREACH || info->recv_icmp->type == ICMP_TIME_EXCEEDED || info->recv_icmp->type == ICMP_PARAMETERPROB)
+	if (info->recv_icmp->type == ICMP_DEST_UNREACH
+		|| info->recv_icmp->type == ICMP_TIME_EXCEEDED
+		|| info->recv_icmp->type == ICMP_PARAMETERPROB)
 	{
-		inner_ip = (struct iphdr *)(info->recv_buffer + (info->recv_ip->ihl * 4) + sizeof(struct icmphdr));
+		inner_ip = (struct iphdr *)(info->recv_buffer
+				+ (info->recv_ip->ihl * 4)
+				+ sizeof(struct icmphdr));
 		inner_icmp = (struct icmphdr *)((char *)inner_ip + (inner_ip->ihl * 4));
-		if (ntohs(inner_icmp->un.echo.id) != info->pid)
-			return (WAIT);
-		if (ntohs(inner_icmp->un.echo.sequence) != info->sequence)
+		if (is_our_echo(info, inner_icmp) == WAIT)
 			return (WAIT);
 		if (info->verbose)
 			error_verbose(info);
@@ -78,18 +95,17 @@ int	validate_bytes(t_info *info, ssize_t bytes)
 			return (ERROR);
 		}
 		if (errno == EINTR)
-		{
-			// SIGNAL
-		}
+			return (ERROR);
 		fprintf(stderr, "ft_ping: recvmsg: %s\n", strerror(errno));
 		exit(ERROR);
 	}
-	if (bytes < sizeof(struct iphdr))
-	    return (WAIT);
-	info->recv_ip = (struct iphdr *)info->recv_buffer;
-	if (bytes < (info->recv_ip->ihl * 4) + sizeof(struct icmphdr))
+	if (bytes < (ssize_t) sizeof(struct iphdr))
 		return (WAIT);
-	info->recv_icmp = (struct icmphdr *)(info->recv_buffer + (info->recv_ip->ihl * 4));
+	info->recv_ip = (struct iphdr *)info->recv_buffer;
+	if (bytes < (ssize_t)((info->recv_ip->ihl * 4) + sizeof(struct icmphdr)))
+		return (WAIT);
+	info->recv_icmp = (struct icmphdr *)(info->recv_buffer
+			+ (info->recv_ip->ihl * 4));
 	result = validate_icmp(info);
 	if (result == SUCCESS || result == ERROR)
 		return (result);
@@ -121,19 +137,10 @@ int	receive_ping(t_info *info)
 	{
 		result = validate_bytes(info, recvmsg(info->sockfd, &msg, 0));
 		if (result != WAIT)
+		{
+			if (result == SUCCESS)
+				gettimeofday(&info->receive_time, NULL);
 			return (result);
+		}
 	}
-}
-
-/**
- * @author VAMPETA
- * @brief INTERPRETA O BUFFER RECEBIDO POR recvmsg
- * @param info ENDERECO DE MEMORIA RESPOSNSAVEL PELAS INFORMACOES DO PROGRAMA
-*/
-void	parse_reply(t_info *info)
-{
-	printf("%i bytes from %s: ", ICMP_PACKET_SIZE, info->ip);
-	printf("icmp_seq=%i ", ntohs(info->recv_icmp->un.echo.sequence));
-	printf("ttl=%i ", info->recv_ip->ttl);
-	printf("time=?.??? ms\n");
 }

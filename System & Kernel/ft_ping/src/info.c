@@ -38,24 +38,22 @@ void	find_options(t_info *info, char **argv)
 	i = 1;
 	while (argv[i])
 	{
-		if (argv[i][0] != '-')
+		if (argv[i][0] == '-')
 		{
-			i++;
-			continue ;
-		}
-		j = 1;
-		while (argv[i][j])
-		{
-			if (argv[i][j] == 'v')
-				info->verbose = 1;
-			else if (argv[i][j] == '?')
-				info->help = 1;
-			else
+			j = 1;
+			while (argv[i][j])
 			{
-				printf("ft_ping: invalid option -- '%c'\n", argv[i][j]);
-				help();
+				if (argv[i][j] == 'v')
+					info->verbose = 1;
+				else if (argv[i][j] == '?')
+					info->help = 1;
+				else
+				{
+					printf("ft_ping: invalid option -- '%c'\n", argv[i][j]);
+					help();
+				}
+				j++;
 			}
-			j++;
 		}
 		i++;
 	}

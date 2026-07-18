@@ -22,6 +22,8 @@ ssize_t	send_ping(t_info *info)
 {
 	ssize_t	bytes;
 
+	gettimeofday(&info->send_time, NULL);
+	info->transmitted++;
 	bytes = sendto(
 			info->sockfd,
 			info->packet,

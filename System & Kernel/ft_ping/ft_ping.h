@@ -23,6 +23,8 @@
 # include <netinet/ip_icmp.h>
 # include <unistd.h>
 # include <errno.h>
+# include <signal.h>
+#include <sys/time.h>
 
 # define ICMP_PAYLOAD_SIZE 56
 # define ICMP_PACKET_SIZE 64
@@ -41,7 +43,15 @@ typedef struct s_info
 	int					verbose;
 	int					help;
 	uint16_t			sequence;
-	int					lost_packets;
+	struct timeval		send_time;
+	struct timeval		receive_time;
+	unsigned int		transmitted;
+	unsigned int		received;
+	unsigned int		lost_packets;
+	double				min_time;
+	double				max_time;
+	double				total_time;
+	double				total_time_square;
 	char				packet[ICMP_PACKET_SIZE];
 	int					sockfd;
 	char				recv_buffer[RECEIVE_BUFFER_SIZE];
@@ -75,13 +85,21 @@ ssize_t		send_ping(t_info *info);
 
 // ./src/receive.c
 void		error_verbose(t_info *info);
+int			is_our_echo(t_info *info, struct icmphdr *icmp);
 int			validate_icmp(t_info *info);
 int			validate_bytes(t_info *info, ssize_t bytes);
 int			receive_ping(t_info *info);
-void		parse_reply(t_info *info);
+
+// ./src/print_ping.c
+double		get_rtt(t_info *info);
+void		print_ping(t_info *info);
 
 // ./src/signal.c
+void		stop_ping(int sig);
+int			stop_requested(void);
 
 // ./src/statistics.c
+void		update_statistics(t_info *info);
+void		print_statistics(t_info *info);
 
 #endif
