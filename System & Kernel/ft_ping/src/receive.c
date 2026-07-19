@@ -137,10 +137,6 @@ int	receive_ping(t_info *info)
 	{
 		result = validate_bytes(info, recvmsg(info->sockfd, &msg, 0));
 		if (result != WAIT)
-		{
-			if (result == SUCCESS)
-				gettimeofday(&info->receive_time, NULL);
 			return (result);
-		}
 	}
 }

@@ -24,7 +24,8 @@
 # include <unistd.h>
 # include <errno.h>
 # include <signal.h>
-#include <sys/time.h>
+# include <sys/time.h>
+# include <math.h>
 
 # define ICMP_PAYLOAD_SIZE 56
 # define ICMP_PACKET_SIZE 64
@@ -79,6 +80,10 @@ void		build_icmp(t_info *info);
 
 // ./src/socket.c
 void		create_sockfd(t_info *info);
+void		close_sockfd(t_info *info);
+
+// ./src/ping.c
+void		start_ping(t_info *info);
 
 // ./src/send.c
 ssize_t		send_ping(t_info *info);

@@ -6,7 +6,7 @@
 /*   By: joseanto <joseanto@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/07 16:30:06 by joseanto          #+#    #+#             */
-/*   Updated: 2026/07/07 16:30:06 by joseanto         ###   ########.fr       */
+/*   Updated: 2026/07/19 16:30:06 by joseanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,8 @@ int	main(int argc, char **argv)
 		help();
 	resolve_host(&info);
 	create_sockfd(&info);
-	while (!stop_requested())
-	{
-		build_icmp(&info);
-		send_ping(&info);
-		if (receive_ping(&info) == SUCCESS)
-		{
-			update_statistics(&info);
-			print_ping(&info);
-		}
-		info.sequence++;
-		sleep(1);
-	}
+	start_ping(&info);
+	close_sockfd(&info);
 	print_statistics(&info);
 	return (SUCCESS);
 }

@@ -17,11 +17,13 @@ FILE =	ft_ping.c\
 	./src/checksum.c\
 	./src/icmp.c\
 	./src/socket.c\
+	./src/ping.c\
 	./src/send.c\
 	./src/receive.c\
 	./src/print_ping.c\
 	./src/signal.c\
 	./src/statistics.c
+LIBS = -lm
 CC = cc
 FLAGS = -Wall -Wextra -Werror -o
 NAME = ft_ping
@@ -30,7 +32,7 @@ RM = rm
 all: $(NAME)
 
 $(NAME):
-		$(CC) $(FLAGS) $(NAME) $(FILE)
+		$(CC) $(FLAGS) $(NAME) $(FILE) $(LIBS)
 
 clean:
 		$(RM) $(NAME)

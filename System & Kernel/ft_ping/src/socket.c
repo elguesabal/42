@@ -31,3 +31,13 @@ void	create_sockfd(t_info *info)
 		printf(", id 0x%04x = %u", info->pid, info->pid);
 	printf("\n");
 }
+
+/**
+ * @author VAMPETA
+ * @brief FUNCAO QUE FECHA O FD DO SOCKET
+ * @param info ENDERECO DE MEMORIA RESPOSNSAVEL PELAS INFORMACOES DO PROGRAMA
+*/
+void	close_sockfd(t_info *info)
+{
+	close(info->sockfd);
+}
